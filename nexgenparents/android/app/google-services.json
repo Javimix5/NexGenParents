@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "932380773717",
+    "project_id": "nexgen-parents",
+    "storage_bucket": "nexgen-parents.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:932380773717:android:a0799e82f016db5773b3dc",
+        "android_client_info": {
+          "package_name": "com.company.nexgenparents"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEYvrVyrj8JfvAepzXA2pO0LFOs2sbcCs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,294 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../providers/auth_provider.dart';
+import '../../config/app_config.dart';
+import '../home/home_screen.dart';
+
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
+
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+  bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _handleRegister() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+
+    final success = await authProvider.signUp(
+      email: _emailController.text.trim(),
+      password: _passwordController.text,
+      displayName: _nameController.text.trim(),
+    );
+
+    if (success && mounted) {
+      // Registro exitoso - navegar a pantalla principal
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => const HomeScreen()),
+      );
+    } else if (mounted) {
+      // Mostrar error
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(authProvider.errorMessage ?? 'Error al registrarse'),
+          backgroundColor: AppConfig.errorColor,
+        ),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppConfig.backgroundColor,
+      appBar: AppBar(
+        title: Text('Crear cuenta'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+      ),
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.all(AppConfig.paddingLarge),
+            child: Consumer<AuthProvider>(
+              builder: (context, authProvider, child) {
+                return Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      // Icono
+                      Icon(
+                        Icons.person_add_rounded,
+                        size: 80,
+                        color: AppConfig.primaryColor,
+                      ),
+                      SizedBox(height: AppConfig.paddingMedium),
+                      
+                      // Título
+                      Text(
+                        'Registro de Padres',
+                        style: Theme.of(context).textTheme.displayLarge,
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: AppConfig.paddingSmall),
+                      
+                      // Subtítulo
+                      Text(
+                        'Crea tu cuenta para acceder a todas las funciones',
+                        style: Theme.of(context).textTheme.bodyMedium,
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: AppConfig.paddingLarge * 2),
+                      
+                      // Campo Nombre
+                      TextFormField(
+                        controller: _nameController,
+                        textCapitalization: TextCapitalization.words,
+                        decoration: InputDecoration(
+                          labelText: 'Nombre completo',
+                          hintText: 'Tu nombre',
+                          prefixIcon: Icon(Icons.person_outline),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Por favor, introduce tu nombre';
+                          }
+                          if (value.length < 3) {
+                            return 'El nombre debe tener al menos 3 caracteres';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: AppConfig.paddingMedium),
+                      
+                      // Campo Email
+                      TextFormField(
+                        controller: _emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: InputDecoration(
+                          labelText: 'Correo electrónico',
+                          hintText: 'ejemplo@correo.com',
+                          prefixIcon: Icon(Icons.email_outlined),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Por favor, introduce tu correo';
+                          }
+                          if (!value.contains('@') || !value.contains('.')) {
+                            return 'Introduce un correo válido';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: AppConfig.paddingMedium),
+                      
+                      // Campo Contraseña
+                      TextFormField(
+                        controller: _passwordController,
+                        obscureText: _obscurePassword,
+                        decoration: InputDecoration(
+                          labelText: 'Contraseña',
+                          hintText: 'Mínimo 6 caracteres',
+                          prefixIcon: Icon(Icons.lock_outline),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _obscurePassword
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _obscurePassword = !_obscurePassword;
+                              });
+                            },
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Por favor, introduce una contraseña';
+                          }
+                          if (value.length < 6) {
+                            return 'La contraseña debe tener al menos 6 caracteres';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: AppConfig.paddingMedium),
+                      
+                      // Campo Confirmar Contraseña
+                      TextFormField(
+                        controller: _confirmPasswordController,
+                        obscureText: _obscureConfirmPassword,
+                        decoration: InputDecoration(
+                          labelText: 'Confirmar contraseña',
+                          hintText: 'Repite la contraseña',
+                          prefixIcon: Icon(Icons.lock_outline),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _obscureConfirmPassword
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _obscureConfirmPassword = !_obscureConfirmPassword;
+                              });
+                            },
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Por favor, confirma tu contraseña';
+                          }
+                          if (value != _passwordController.text) {
+                            return 'Las contraseñas no coinciden';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: AppConfig.paddingLarge),
+                      
+                      // Información adicional
+                      Container(
+                        padding: EdgeInsets.all(AppConfig.paddingMedium),
+                        decoration: BoxDecoration(
+                          color: AppConfig.primaryColor.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(
+                            AppConfig.borderRadiusMedium,
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.info_outline,
+                              color: AppConfig.primaryColor,
+                            ),
+                            SizedBox(width: AppConfig.paddingSmall),
+                            Expanded(
+                              child: Text(
+                                'Tu información será utilizada únicamente para mejorar tu experiencia en la app',
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: AppConfig.paddingLarge),
+                      
+                      // Botón de Registro
+                      ElevatedButton(
+                        onPressed: authProvider.isLoading ? null : _handleRegister,
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.symmetric(
+                            vertical: AppConfig.paddingMedium,
+                          ),
+                        ),
+                        child: authProvider.isLoading
+                            ? SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    Colors.white,
+                                  ),
+                                ),
+                              )
+                            : Text(
+                                'Crear cuenta',
+                                style: TextStyle(fontSize: AppConfig.fontSizeBody),
+                              ),
+                      ),
+                      SizedBox(height: AppConfig.paddingMedium),
+                      
+                      // Enlace a Login
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            '¿Ya tienes cuenta? ',
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: Text(
+                              'Inicia sesión',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
