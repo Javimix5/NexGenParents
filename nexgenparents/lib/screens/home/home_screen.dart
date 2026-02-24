@@ -6,6 +6,8 @@ import '../../providers/games_provider.dart';
 import '../../config/app_config.dart';
 import '../dictionary/dictionary_list_screen.dart';
 import '../dictionary/propose_term_screen.dart';
+import '../dictionary/my_proposed_terms_screen.dart';
+import '../dictionary/moderation_screen.dart';
 import '../games/games_search_screen.dart';
 import '../auth/login_screen.dart';
 import '../parental_guides/parental_guides_list_screen.dart';
@@ -40,13 +42,75 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text(AppConfig.appName),
         actions: [
-          IconButton(
-            icon: Icon(Icons.account_circle),
-            onPressed: () {
-              _showProfileMenu(context);
-            },
-            tooltip: 'Mi perfil',
-          ),
+          PopupMenuButton<String>(
+  icon: Icon(Icons.account_circle),
+  onSelected: (value) {
+    // Manejar selección
+    switch (value) {
+      case 'profile':
+        // Editar perfil
+        break;
+      case 'my_terms':
+        // Ver mis términos propuestos
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => MyProposedTermsScreen()),
+        );
+        break;
+      case 'moderation':
+        // Solo si es moderador
+        if (authProvider.isModerator) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => ModerationScreen()),
+          );
+        }
+        break;
+      case 'logout':
+  authProvider.signOut().then((_) {
+    if (context.mounted) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => const LoginScreen()),
+      );
+    }
+  });
+  break;
+    }
+  },
+  itemBuilder: (context) => [
+    PopupMenuItem(
+      value: 'profile',
+      child: ListTile(
+        leading: Icon(Icons.person),
+        title: Text('Editar perfil'),
+      ),
+    ),
+    PopupMenuItem(
+      value: 'my_terms',
+      child: ListTile(
+        leading: Icon(Icons.article_outlined),
+        title: Text('Mis términos propuestos'),
+        subtitle: Text('${user?.termsProposed ?? 0} términos'),
+      ),
+    ),
+    if (authProvider.isModerator)
+      PopupMenuItem(
+        value: 'moderation',
+        child: ListTile(
+          leading: Icon(Icons.admin_panel_settings),
+          title: Text('Moderación'),
+        ),
+      ),
+    PopupMenuDivider(),
+    PopupMenuItem(
+      value: 'logout',
+      child: ListTile(
+        leading: Icon(Icons.logout, color: AppConfig.errorColor),
+        title: Text('Cerrar sesión'),
+      ),
+    ),
+  ],
+)
         ],
       ),
       body: SingleChildScrollView(

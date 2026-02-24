@@ -8,186 +8,195 @@ class ParentalGuidesListScreen extends StatelessWidget {
   const ParentalGuidesListScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final guidesService = ParentalGuidesService();
-    final guides = guidesService.getAllGuides();
+Widget build(BuildContext context) {
+  final guidesService = ParentalGuidesService();
+  final allGuides = guidesService.getAllGuides();
+  
+  // Agrupar guías por plataforma
+  final Map<String, List<ParentalGuide>> groupedGuides = {};
+  for (var guide in allGuides) {
+    if (!groupedGuides.containsKey(guide.platform)) {
+      groupedGuides[guide.platform] = [];
+    }
+    groupedGuides[guide.platform]!.add(guide);
+  }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Control Parental'),
+  return Scaffold(
+    appBar: AppBar(
+      title: Text('Control Parental'),
+    ),
+    body: SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Banner informativo (sin cambios)
+          // Banner informativo
+Container(
+  width: double.infinity,
+  padding: EdgeInsets.all(AppConfig.paddingLarge),
+  decoration: BoxDecoration(
+    gradient: LinearGradient(
+      colors: [
+        AppConfig.primaryColor,
+        AppConfig.secondaryColor,
+      ],
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+    ),
+  ),
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Icon(
+        Icons.security,
+        size: 50,
+        color: Colors.white,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Banner informativo
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(AppConfig.paddingLarge),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    AppConfig.primaryColor,
-                    AppConfig.secondaryColor,
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
+      SizedBox(height: AppConfig.paddingMedium),
+      Text(
+        'Guías de Control Parental',
+        style: TextStyle(
+          fontSize: AppConfig.fontSizeTitle,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
+      ),
+      SizedBox(height: AppConfig.paddingSmall),
+      Text(
+        'Aprende a configurar controles de seguridad en las consolas y plataformas más populares.',
+        style: TextStyle(
+          fontSize: AppConfig.fontSizeBody,
+          color: Colors.white.withOpacity(0.9),
+        ),
+      ),
+    ],
+  ),
+),
+          
+          SizedBox(height: AppConfig.paddingLarge),
+          
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: AppConfig.paddingMedium),
+            child: Text(
+              'Selecciona tu plataforma',
+              style: TextStyle(
+                fontSize: AppConfig.fontSizeHeading,
+                fontWeight: FontWeight.bold,
               ),
+            ),
+          ),
+          SizedBox(height: AppConfig.paddingMedium),
+          
+          // Mostrar guías agrupadas por plataforma
+          ...groupedGuides.entries.map((entry) {
+            return _buildPlatformSection(context, entry.key, entry.value);
+          }).toList(),
+          
+          SizedBox(height: AppConfig.paddingLarge),
+          _buildInfoSection(context),
+          SizedBox(height: AppConfig.paddingLarge * 2),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget _buildPlatformSection(BuildContext context, String platform, List<ParentalGuide> guides) {
+  return Padding(
+    padding: EdgeInsets.only(bottom: AppConfig.paddingMedium),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: AppConfig.paddingMedium),
+          child: Text(
+            guides.first.platformDisplayName,
+            style: TextStyle(
+              fontSize: AppConfig.fontSizeBody,
+              fontWeight: FontWeight.bold,
+              color: AppConfig.primaryColor,
+            ),
+          ),
+        ),
+        SizedBox(height: AppConfig.paddingSmall),
+        ...guides.map((guide) => _buildGuideCard(context, guide)).toList(),
+      ],
+    ),
+  );
+}
+
+  Widget _buildGuideCard(BuildContext context, ParentalGuide guide) {
+  return Card(
+    margin: EdgeInsets.symmetric(
+      horizontal: AppConfig.paddingMedium,
+      vertical: AppConfig.paddingSmall / 2,
+    ),
+    child: InkWell(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => ParentalGuideDetailScreen(guide: guide),
+          ),
+        );
+      },
+      borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
+      child: Padding(
+        padding: EdgeInsets.all(AppConfig.paddingMedium),
+        child: Row(
+          children: [
+            Container(
+              width: 50,
+              height: 50,
+              decoration: BoxDecoration(
+                color: guide.type == 'enable' 
+                    ? AppConfig.accentColor.withOpacity(0.1)
+                    : AppConfig.errorColor.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(AppConfig.borderRadiusSmall),
+              ),
+              child: Icon(
+                guide.type == 'enable' ? Icons.lock : Icons.lock_open,
+                size: 28,
+                color: guide.type == 'enable' 
+                    ? AppConfig.accentColor 
+                    : AppConfig.errorColor,
+              ),
+            ),
+            SizedBox(width: AppConfig.paddingMedium),
+            
+            Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(
-                    Icons.security,
-                    size: 50,
-                    color: Colors.white,
-                  ),
-                  SizedBox(height: AppConfig.paddingMedium),
                   Text(
-                    'Guías de Control Parental',
-                    style: TextStyle(
-                      fontSize: AppConfig.fontSizeTitle,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  SizedBox(height: AppConfig.paddingSmall),
-                  Text(
-                    'Aprende a configurar controles de seguridad en las consolas y plataformas más populares.',
+                    '${guide.typeDisplayName} Control Parental',
                     style: TextStyle(
                       fontSize: AppConfig.fontSizeBody,
-                      color: Colors.white.withOpacity(0.9),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: AppConfig.paddingSmall / 2),
+                  Text(
+                    '${guide.steps.length} pasos',
+                    style: TextStyle(
+                      fontSize: AppConfig.fontSizeCaption,
+                      color: AppConfig.textSecondaryColor,
                     ),
                   ),
                 ],
               ),
             ),
             
-            SizedBox(height: AppConfig.paddingLarge),
-            
-            // Lista de guías
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: AppConfig.paddingMedium),
-              child: Text(
-                'Selecciona tu plataforma',
-                style: TextStyle(
-                  fontSize: AppConfig.fontSizeHeading,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+            Icon(
+              Icons.arrow_forward_ios,
+              size: 16,
+              color: AppConfig.textSecondaryColor,
             ),
-            SizedBox(height: AppConfig.paddingMedium),
-            
-            ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              padding: EdgeInsets.symmetric(horizontal: AppConfig.paddingMedium),
-              itemCount: guides.length,
-              itemBuilder: (context, index) {
-                final guide = guides[index];
-                return _buildGuideCard(context, guide);
-              },
-            ),
-            
-            SizedBox(height: AppConfig.paddingLarge),
-            
-            // Información adicional
-            _buildInfoSection(context),
-            
-            SizedBox(height: AppConfig.paddingLarge * 2),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildGuideCard(BuildContext context, ParentalGuide guide) {
-    return Card(
-      margin: EdgeInsets.only(bottom: AppConfig.paddingMedium),
-      child: InkWell(
-        onTap: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (_) => ParentalGuideDetailScreen(guide: guide),
-            ),
-          );
-        },
-        borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
-        child: Padding(
-          padding: EdgeInsets.all(AppConfig.paddingMedium),
-          child: Row(
-            children: [
-              // Icono de la plataforma
-              Container(
-                width: 60,
-                height: 60,
-                decoration: BoxDecoration(
-                  color: _getPlatformColor(guide.platform).withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(AppConfig.borderRadiusSmall),
-                ),
-                child: Icon(
-                  _getPlatformIcon(guide.platform),
-                  size: 35,
-                  color: _getPlatformColor(guide.platform),
-                ),
-              ),
-              SizedBox(width: AppConfig.paddingMedium),
-              
-              // Información
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      guide.platformDisplayName,
-                      style: TextStyle(
-                        fontSize: AppConfig.fontSizeBody,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: AppConfig.paddingSmall / 2),
-                    Text(
-                      guide.description,
-                      style: TextStyle(
-                        fontSize: AppConfig.fontSizeCaption,
-                        color: AppConfig.textSecondaryColor,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    SizedBox(height: AppConfig.paddingSmall / 2),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.list_alt,
-                          size: 14,
-                          color: AppConfig.textSecondaryColor,
-                        ),
-                        SizedBox(width: AppConfig.paddingSmall / 2),
-                        Text(
-                          '${guide.steps.length} pasos',
-                          style: TextStyle(
-                            fontSize: AppConfig.fontSizeCaption,
-                            color: AppConfig.textSecondaryColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              
-              Icon(
-                Icons.arrow_forward_ios,
-                size: 20,
-                color: AppConfig.textSecondaryColor,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildInfoSection(BuildContext context) {
     return Padding(

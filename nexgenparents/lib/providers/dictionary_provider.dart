@@ -143,11 +143,24 @@ class DictionaryProvider with ChangeNotifier {
 
   // Obtener términos propuestos por el usuario
   void loadUserProposedTerms(String userId) {
-    _firestoreService.getUserProposedTerms(userId).listen((terms) {
-      _userProposedTerms = terms;
-      notifyListeners();
-    });
-  }
+  print('🔍 Iniciando consulta para userId: $userId'); // DEBUG
+  
+  _firestoreService.getUserProposedTerms(userId).listen((terms) {
+    print('📦 Términos recibidos del stream: ${terms.length}'); // DEBUG
+    _userProposedTerms = terms;
+    
+    // Imprimir detalles de cada término
+    for (var term in terms) {
+      print('  - ${term.term} (${term.status})'); // DEBUG
+    }
+    
+    notifyListeners();
+  }, onError: (error) {
+    print('❌ Error en el stream: $error'); // DEBUG
+    _errorMessage = 'Error al cargar términos';
+    notifyListeners();
+  });
+}
 
   // Obtener términos pendientes de aprobación (para moderadores)
   void loadPendingTerms() {

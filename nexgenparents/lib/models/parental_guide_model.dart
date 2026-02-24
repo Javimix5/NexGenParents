@@ -1,10 +1,11 @@
 class ParentalGuide {
   final String id;
-  final String platform; // 'playstation', 'xbox', 'nintendo', 'steam', etc.
+  final String platform;
   final String title;
   final String description;
   final List<ParentalGuideStep> steps;
   final String iconUrl;
+  final String type;
 
   ParentalGuide({
     required this.id,
@@ -13,6 +14,7 @@ class ParentalGuide {
     required this.description,
     required this.steps,
     required this.iconUrl,
+    this.type = 'enable',
   });
 
   String get platformDisplayName {
@@ -33,12 +35,16 @@ class ParentalGuide {
         return platform;
     }
   }
+  
+  String get typeDisplayName {
+    return type == 'enable' ? 'Activar' : 'Desactivar';
+  }
 }
 
 class ParentalGuideStep {
   final int stepNumber;
   final String instruction;
-  final String imageUrl; // URL de jsDelivr con la imagen del paso
+  final String imageUrl;
 
   ParentalGuideStep({
     required this.stepNumber,

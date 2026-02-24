@@ -1,0 +1,382 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../providers/auth_provider.dart';
+import '../../providers/dictionary_provider.dart';
+import '../../config/app_config.dart';
+import '../../config/app_theme.dart';
+import 'term_detail_screen.dart';
+
+class MyProposedTermsScreen extends StatefulWidget {
+  const MyProposedTermsScreen({super.key});
+
+  @override
+  State<MyProposedTermsScreen> createState() => _MyProposedTermsScreenState();
+}
+
+class _MyProposedTermsScreenState extends State<MyProposedTermsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      final dictionaryProvider = Provider.of<DictionaryProvider>(context, listen: false);
+      
+      if (authProvider.currentUser != null) {
+        print('🔍 Cargando términos del usuario: ${authProvider.currentUser!.id}');
+        dictionaryProvider.loadUserProposedTerms(authProvider.currentUser!.id);
+      } else{
+        print('❌ No hay usuario autenticado');
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
+    final user = authProvider.currentUser;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Mis Términos Propuestos'),
+      ),
+      body: Consumer<DictionaryProvider>(
+        builder: (context, dictionaryProvider, child) {
+          if (dictionaryProvider.isLoading) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(height: AppConfig.paddingMedium),
+                  Text('Cargando tus términos...'),
+                ],
+              ),
+            );
+          }
+
+          final terms = dictionaryProvider.userProposedTerms;
+          print('📝 Términos cargados: ${terms.length}');
+          if (terms.isEmpty) {
+            return Center(
+              child: Padding(
+                padding: EdgeInsets.all(AppConfig.paddingLarge),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.article_outlined,
+                      size: 80,
+                      color: AppConfig.textSecondaryColor,
+                    ),
+                    SizedBox(height: AppConfig.paddingMedium),
+                    Text(
+                      'No has propuesto términos aún',
+                      style: Theme.of(context).textTheme.displayMedium,
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: AppConfig.paddingSmall),
+                    Text(
+                      'Contribuye al diccionario proponiendo nuevos términos',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }
+
+          if (terms.isEmpty) {
+            return Center(
+              child: Padding(
+                padding: EdgeInsets.all(AppConfig.paddingLarge),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.article_outlined,
+                      size: 80,
+                      color: AppConfig.textSecondaryColor,
+                    ),
+                    SizedBox(height: AppConfig.paddingMedium),
+                    Text(
+                      'No has propuesto términos aún',
+                      style: Theme.of(context).textTheme.displayMedium,
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: AppConfig.paddingSmall),
+                    Text(
+                      'Contribuye al diccionario proponiendo nuevos términos',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }
+
+          return Column(
+            children: [
+              // Header con estadísticas
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.all(AppConfig.paddingLarge),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      AppConfig.primaryColor,
+                      AppConfig.secondaryColor,
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      '${terms.length}',
+                      style: TextStyle(
+                        fontSize: 48,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Text(
+                      'Términos propuestos',
+                      style: TextStyle(
+                        fontSize: AppConfig.fontSizeBody,
+                        color: Colors.white.withOpacity(0.9),
+                      ),
+                    ),
+                    SizedBox(height: AppConfig.paddingMedium),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _buildStatChip(
+                          'Aprobados',
+                          user?.termsApproved ?? 0,
+                          AppConfig.accentColor,
+                        ),
+                        SizedBox(width: AppConfig.paddingSmall),
+                        _buildStatChip(
+                          'Pendientes',
+                          terms.where((t) => t.status == 'pending').length,
+                          AppConfig.warningColor,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+
+              // Lista de términos
+              Expanded(
+                child: ListView.builder(
+                  padding: EdgeInsets.all(AppConfig.paddingMedium),
+                  itemCount: terms.length,
+                  itemBuilder: (context, index) {
+                    final term = terms[index];
+                    return Card(
+                      margin: EdgeInsets.only(bottom: AppConfig.paddingMedium),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => TermDetailScreen(termId: term.id),
+                            ),
+                          );
+                        },
+                        borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
+                        child: Padding(
+                          padding: EdgeInsets.all(AppConfig.paddingMedium),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      term.term,
+                                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  _buildStatusChip(term.status),
+                                ],
+                              ),
+                              SizedBox(height: AppConfig.paddingSmall),
+                              Text(
+                                term.definition,
+                                style: Theme.of(context).textTheme.bodyMedium,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              SizedBox(height: AppConfig.paddingSmall),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.category,
+                                    size: 14,
+                                    color: AppConfig.textSecondaryColor,
+                                  ),
+                                  SizedBox(width: AppConfig.paddingSmall / 2),
+                                  Text(
+                                    term.categoryDisplayName,
+                                    style: TextStyle(
+                                      fontSize: AppConfig.fontSizeCaption,
+                                      color: AppConfig.textSecondaryColor,
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  if (term.rejectionReason != null) ...[
+                                    Icon(
+                                      Icons.info_outline,
+                                      size: 14,
+                                      color: AppConfig.errorColor,
+                                    ),
+                                    SizedBox(width: AppConfig.paddingSmall / 2),
+                                    Text(
+                                      'Ver motivo',
+                                      style: TextStyle(
+                                        fontSize: AppConfig.fontSizeCaption,
+                                        color: AppConfig.errorColor,
+                                      ),
+                                    ),
+                                  ],
+                                ],
+                              ),
+                              if (term.rejectionReason != null) ...[
+                                SizedBox(height: AppConfig.paddingSmall),
+                                Container(
+                                  padding: EdgeInsets.all(AppConfig.paddingSmall),
+                                  decoration: BoxDecoration(
+                                    color: AppConfig.errorColor.withOpacity(0.1),
+                                    borderRadius: BorderRadius.circular(AppConfig.borderRadiusSmall),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.block,
+                                        size: 16,
+                                        color: AppConfig.errorColor,
+                                      ),
+                                      SizedBox(width: AppConfig.paddingSmall / 2),
+                                      Expanded(
+                                        child: Text(
+                                          term.rejectionReason!,
+                                          style: TextStyle(
+                                            fontSize: AppConfig.fontSizeCaption,
+                                            color: AppConfig.errorColor,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildStatChip(String label, int count, Color color) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: AppConfig.paddingMedium,
+        vertical: AppConfig.paddingSmall,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(AppConfig.borderRadiusLarge),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            '$count',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: AppConfig.fontSizeBody,
+            ),
+          ),
+          SizedBox(width: AppConfig.paddingSmall / 2),
+          Text(
+            label,
+            style: TextStyle(
+              color: Colors.white.withOpacity(0.9),
+              fontSize: AppConfig.fontSizeCaption,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStatusChip(String status) {
+    Color color;
+    String text;
+    IconData icon;
+
+    switch (status) {
+      case 'approved':
+        color = AppConfig.accentColor;
+        text = 'Aprobado';
+        icon = Icons.check_circle;
+        break;
+      case 'pending':
+        color = AppConfig.warningColor;
+        text = 'Pendiente';
+        icon = Icons.schedule;
+        break;
+      case 'rejected':
+        color = AppConfig.errorColor;
+        text = 'Rechazado';
+        icon = Icons.cancel;
+        break;
+      default:
+        color = AppConfig.textSecondaryColor;
+        text = status;
+        icon = Icons.help;
+    }
+
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: AppConfig.paddingSmall,
+        vertical: AppConfig.paddingSmall / 2,
+      ),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(AppConfig.borderRadiusSmall),
+        border: Border.all(color: color),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 14, color: color),
+          SizedBox(width: AppConfig.paddingSmall / 2),
+          Text(
+            text,
+            style: TextStyle(
+              color: color,
+              fontSize: AppConfig.fontSizeCaption,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
