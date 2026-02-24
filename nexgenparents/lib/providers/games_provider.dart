@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/rawg_service.dart';
 import '../models/game_model.dart';
+import '../models/game_filters.dart';
 
 class GamesProvider with ChangeNotifier {
   final RawgService _rawgService = RawgService();
@@ -9,6 +10,8 @@ class GamesProvider with ChangeNotifier {
   List<Game> _searchResults = [];
   List<Game> _gamesByAge = [];
   List<Game> _favoriteGames = [];
+  GameFilters _filters = GameFilters();
+
   Game? _selectedGame;
   List<String> _selectedGameScreenshots = [];
 
@@ -215,4 +218,60 @@ class GamesProvider with ChangeNotifier {
     _selectedGameScreenshots = [];
     notifyListeners();
   }
+
+  GameFilters _currentFilters = GameFilters();
+List<String> _availableGenres = [];
+
+GameFilters get currentFilters => _currentFilters;
+List<String> get availableGenres => _availableGenres;
+
+// Cargar géneros disponibles desde la API
+Future<void> loadGenres() async {
+  try {
+    final genres = await _rawgService.getGenres();
+    _availableGenres = genres.map((g) => g['slug'] as String).toList();
+    notifyListeners();
+  } catch (e) {
+    print('Error al cargar géneros: $e');
+  }
+}
+
+// Buscar con filtros avanzados (nombre, año, género, plataforma, edad) [1]
+Future<void> searchWithFilters(GameFilters filters) async {
+  _isSearching = true;
+  _currentFilters = filters;
+  _errorMessage = null;
+  notifyListeners();
+
+  try {
+    _searchResults = await _rawgService.searchGamesWithFilters(
+      query: filters.searchQuery,
+      yearFrom: filters.yearFrom,
+      yearTo: filters.yearTo,
+      genres: filters.selectedGenres,
+      platforms: filters.selectedPlatforms,
+      pegiAge: filters.pegiAge,
+      ordering: filters.ordering,
+    );
+    _isSearching = false;
+    notifyListeners();
+  } catch (e) {
+    _errorMessage = 'Error al buscar juegos con filtros';
+    _isSearching = false;
+    notifyListeners();
+  }
+}
+
+// Limpiar todos los filtros
+void clearFilters() {
+  _currentFilters = GameFilters();
+  _searchResults = [];
+  notifyListeners();
+}
+
+// Aplicar filtro rápido por edad PEGI (mantiene otros filtros activos)
+void applyPegiFilter(int age) {
+  _currentFilters = _currentFilters.copyWith(pegiAge: age);
+  searchWithFilters(_currentFilters);
+}
 }

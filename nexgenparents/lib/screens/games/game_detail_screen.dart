@@ -123,24 +123,32 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
       pinned: true,
       flexibleSpace: FlexibleSpaceBar(
         title: Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: AppConfig.paddingSmall,
-            vertical: AppConfig.paddingSmall / 2,
-          ),
-          decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.7),
-            borderRadius: BorderRadius.circular(AppConfig.borderRadiusSmall),
-          ),
-          child: Text(
-            game.name,
-            style: TextStyle(
-              fontSize: AppConfig.fontSizeBody,
-              fontWeight: FontWeight.bold,
-            ),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
+  padding: EdgeInsets.symmetric(
+    horizontal: AppConfig.paddingSmall,
+    vertical: AppConfig.paddingSmall / 2,
+  ),
+  decoration: BoxDecoration(
+    color: Colors.black.withOpacity(0.7),
+    borderRadius: BorderRadius.circular(AppConfig.borderRadiusSmall),
+  ),
+  child: Text(
+    game.name,
+    style: TextStyle(
+      fontSize: AppConfig.fontSizeBody,
+      fontWeight: FontWeight.bold,
+      color: Colors.white,
+      shadows: [
+        Shadow(
+          offset: Offset(0, 1),
+          blurRadius: 3.0,
+          color: Colors.black.withOpacity(0.8),
         ),
+      ],
+    ),
+    maxLines: 2,
+    overflow: TextOverflow.ellipsis,
+  ),
+),
         background: game.backgroundImage != null
             ? CachedNetworkImage(
                 imageUrl: game.backgroundImage!,

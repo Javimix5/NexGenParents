@@ -306,4 +306,170 @@ class FirestoreService {
       return null;
     }
   }
+
+
+// ========== MÉTODOS PARA ADMINISTRACIÓN DE USUARIOS ==========
+
+// Obtener todos los usuarios (solo para admin)
+Stream<List<UserModel>> getAllUsers() {
+  return _firestore
+      .collection('users')
+      .orderBy('displayName')
+      .snapshots()
+      .map((snapshot) => snapshot.docs
+          .map((doc) => UserModel.fromFirestore(doc))
+          .toList());
+}
+
+// Actualizar rol de usuario (solo admin)
+Future<Map<String, dynamic>> updateUserRole({
+  required String userId,
+  required String newRole,
+  required String adminId,
+}) async {
+  try {
+    // Verificar que el nuevo rol sea válido
+    if (!['user', 'moderator', 'admin'].contains(newRole)) {
+      return {
+        'success': false,
+        'message': 'Rol inválido. Debe ser: user, moderator o admin',
+      };
+    }
+
+    // Verificar que el admin no se esté modificando a sí mismo
+    if (userId == adminId) {
+      return {
+        'success': false,
+        'message': 'No puedes modificar tu propio rol',
+      };
+    }
+
+    // Actualizar el rol en Firestore
+    await _firestore.collection('users').doc(userId).update({
+      'role': newRole,
+    });
+
+    return {
+      'success': true,
+      'message': 'Rol actualizado correctamente',
+    };
+  } catch (e) {
+    return {
+      'success': false,
+      'message': 'Error al actualizar rol: ${e.toString()}',
+    };
+  }
+}
+
+// ========== MÉTODOS PARA EDITAR PERFIL ==========
+
+// Actualizar edades de hijos
+Future<Map<String, dynamic>> updateChildrenAges({
+  required String userId,
+  required List<int> ages,
+}) async {
+  try {
+    await _firestore.collection('users').doc(userId).update({
+      'childrenAges': ages,
+    });
+    
+    return {
+      'success': true,
+      'message': 'Edades actualizadas correctamente',
+    };
+  } catch (e) {
+    return {
+      'success': false,
+      'message': 'Error al actualizar edades: ${e.toString()}',
+    };
+  }
+}
+
+// Actualizar plataformas
+Future<Map<String, dynamic>> updateOwnedPlatforms({
+  required String userId,
+  required List<String> platforms,
+}) async {
+  try {
+    await _firestore.collection('users').doc(userId).update({
+      'ownedPlatforms': platforms,
+    });
+    
+    return {
+      'success': true,
+      'message': 'Plataformas actualizadas correctamente',
+    };
+  } catch (e) {
+    return {
+      'success': false,
+      'message': 'Error al actualizar plataformas: ${e.toString()}',
+    };
+  }
+}
+
+// Actualizar URL de avatar
+Future<Map<String, dynamic>> updatePhotoUrl({
+  required String userId,
+  required String photoUrl,
+}) async {
+  try {
+    await _firestore.collection('users').doc(userId).update({
+      'photoUrl': photoUrl,
+    });
+    
+    return {
+      'success': true,
+      'message': 'Avatar actualizado correctamente',
+    };
+  } catch (e) {
+    return {
+      'success': false,
+      'message': 'Error al actualizar avatar: ${e.toString()}',
+    };
+  }
+}
+
+// Actualizar información básica del usuario (displayName, email)
+Future<Map<String, dynamic>> updateUserBasicInfo({
+  required String userId,
+  String? displayName,
+  String? email,
+}) async {
+  try {
+    final Map<String, dynamic> updates = {};
+    if (displayName != null) updates['displayName'] = displayName;
+    if (email != null) updates['email'] = email;
+
+    if (updates.isNotEmpty) {
+      await _firestore.collection('users').doc(userId).update(updates);
+    }
+
+    return {
+      'success': true,
+      'message': 'Información de usuario actualizada correctamente',
+    };
+  } catch (e) {
+    return {
+      'success': false,
+      'message': 'Error al actualizar información: ${e.toString()}',
+    };
+  }
+}
+
+// Eliminar cuenta de usuario
+Future<Map<String, dynamic>> deleteUserAccount(String userId) async {
+  try {
+    await _firestore.collection('users').doc(userId).delete();
+    
+    return {
+      'success': true,
+      'message': 'Cuenta eliminada correctamente',
+    };
+  } catch (e) {
+    return {
+      'success': false,
+      'message': 'Error al eliminar cuenta: ${e.toString()}',
+    };
+  }
+}
 }

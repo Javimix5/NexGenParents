@@ -10,7 +10,10 @@ import '../dictionary/my_proposed_terms_screen.dart';
 import '../dictionary/moderation_screen.dart';
 import '../games/games_search_screen.dart';
 import '../auth/login_screen.dart';
+import '../info/pegi_info_screen.dart';
+import '../admin/users_management_screen.dart';
 import '../parental_guides/parental_guides_list_screen.dart';
+import '../profile/edit_profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -23,7 +26,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    // Cargar datos iniciales
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final dictionaryProvider = Provider.of<DictionaryProvider>(context, listen: false);
       final gamesProvider = Provider.of<GamesProvider>(context, listen: false);
@@ -43,86 +45,99 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text(AppConfig.appName),
         actions: [
           PopupMenuButton<String>(
-  icon: Icon(Icons.account_circle),
-  onSelected: (value) {
-    // Manejar selección
-    switch (value) {
-      case 'profile':
-        // Editar perfil
-        break;
-      case 'my_terms':
-        // Ver mis términos propuestos
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => MyProposedTermsScreen()),
-        );
-        break;
-      case 'moderation':
-        // Solo si es moderador
-        if (authProvider.isModerator) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => ModerationScreen()),
-          );
-        }
-        break;
-      case 'logout':
-  authProvider.signOut().then((_) {
-    if (context.mounted) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const LoginScreen()),
-      );
-    }
-  });
-  break;
-    }
-  },
-  itemBuilder: (context) => [
-    PopupMenuItem(
-      value: 'profile',
-      child: ListTile(
-        leading: Icon(Icons.person),
-        title: Text('Editar perfil'),
-      ),
-    ),
-    PopupMenuItem(
-      value: 'my_terms',
-      child: ListTile(
-        leading: Icon(Icons.article_outlined),
-        title: Text('Mis términos propuestos'),
-        subtitle: Text('${user?.termsProposed ?? 0} términos'),
-      ),
-    ),
-    if (authProvider.isModerator)
-      PopupMenuItem(
-        value: 'moderation',
-        child: ListTile(
-          leading: Icon(Icons.admin_panel_settings),
-          title: Text('Moderación'),
-        ),
-      ),
-    PopupMenuDivider(),
-    PopupMenuItem(
-      value: 'logout',
-      child: ListTile(
-        leading: Icon(Icons.logout, color: AppConfig.errorColor),
-        title: Text('Cerrar sesión'),
-      ),
-    ),
-  ],
-)
+            icon: Icon(Icons.account_circle),
+            onSelected: (value) {
+              switch (value) {
+                case 'profile':
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const EditProfileScreen()),
+                  );
+                  break;
+                case 'my_terms':
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => MyProposedTermsScreen()),
+                  );
+                  break;
+                case 'moderation':
+                  if (authProvider.isModerator) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => ModerationScreen()),
+                    );
+                  }
+                  break;
+                case 'users_management':
+                  if (authProvider.isAdmin) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const UsersManagementScreen()),
+                    );
+                  }
+                  break;
+                case 'logout':
+                  authProvider.signOut().then((_) {
+                    if (context.mounted) {
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (_) => const LoginScreen()),
+                      );
+                    }
+                  });
+                  break;
+              }
+            },
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                value: 'profile',
+                child: ListTile(
+                  leading: Icon(Icons.person),
+                  title: Text('Editar perfil'),
+                ),
+              ),
+              PopupMenuItem(
+                value: 'my_terms',
+                child: ListTile(
+                  leading: Icon(Icons.article_outlined),
+                  title: Text('Mis términos propuestos'),
+                  subtitle: Text('${user?.termsProposed ?? 0} términos'),
+                ),
+              ),
+              if (authProvider.isModerator)
+                PopupMenuItem(
+                  value: 'moderation',
+                  child: ListTile(
+                    leading: Icon(Icons.admin_panel_settings),
+                    title: Text('Moderación'),
+                  ),
+                ),
+              if (authProvider.isAdmin)
+                PopupMenuItem(
+                  value: 'users_management',
+                  child: ListTile(
+                    leading: Icon(Icons.people),
+                    title: Text('Gestión de Usuarios'),
+                  ),
+                ),
+              PopupMenuDivider(),
+              PopupMenuItem(
+                value: 'logout',
+                child: ListTile(
+                  leading: Icon(Icons.logout, color: AppConfig.errorColor),
+                  title: Text('Cerrar sesión'),
+                ),
+              ),
+            ],
+          )
         ],
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Banner de bienvenida
             _buildWelcomeBanner(user?.displayName ?? 'Usuario'),
-            
             SizedBox(height: AppConfig.paddingLarge),
             
-            // Sección de acciones principales
             Padding(
               padding: EdgeInsets.symmetric(horizontal: AppConfig.paddingMedium),
               child: Text(
@@ -132,12 +147,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             SizedBox(height: AppConfig.paddingMedium),
             
-            // Cards de acciones principales
             _buildMainActions(context),
             
             SizedBox(height: AppConfig.paddingLarge),
             
-            // Sección de información rápida
             Padding(
               padding: EdgeInsets.symmetric(horizontal: AppConfig.paddingMedium),
               child: Text(
@@ -199,7 +212,6 @@ class _HomeScreenState extends State<HomeScreen> {
       padding: EdgeInsets.symmetric(horizontal: AppConfig.paddingMedium),
       child: Column(
         children: [
-          // Card: Diccionario
           _buildActionCard(
             context: context,
             title: 'Diccionario Gamer',
@@ -216,7 +228,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           SizedBox(height: AppConfig.paddingMedium),
           
-          // Card: Buscador de juegos
           _buildActionCard(
             context: context,
             title: 'Buscar Videojuegos',
@@ -233,7 +244,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           SizedBox(height: AppConfig.paddingMedium),
           
-          // Card: Proponer término
           _buildActionCard(
             context: context,
             title: 'Proponer Término',
@@ -241,12 +251,12 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icons.add_circle_outline,
             color: AppConfig.accentColor,
             onTap: () {
-  Navigator.of(context).push(
-    MaterialPageRoute(
-      builder: (_) => const ProposeTermScreen(),
-    ),
-  );
-},
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const ProposeTermScreen(),
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -316,28 +326,37 @@ class _HomeScreenState extends State<HomeScreen> {
       padding: EdgeInsets.symmetric(horizontal: AppConfig.paddingMedium),
       child: Column(
         children: [
-          _buildInfoCard(
-            context: context,
-            title: '¿Qué es PEGI?',
-            description: 'Sistema europeo de clasificación por edades para videojuegos',
-            icon: Icons.info_outline,
+          InkWell(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const PegiInfoScreen(),
+                ),
+              );
+            },
+            child: _buildInfoCard(
+              context: context,
+              title: '¿Qué es PEGI?',
+              description: 'Sistema europeo de clasificación por edades para videojuegos',
+              icon: Icons.info_outline,
+            ),
           ),
           SizedBox(height: AppConfig.paddingSmall),
           InkWell(
-  onTap: () {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => const ParentalGuidesListScreen(),
-      ),
-    );
-  },
-  child: _buildInfoCard(
-    context: context,
-    title: 'Control Parental',
-    description: 'Aprende a configurar controles en consolas',
-    icon: Icons.security,
-  ),
-),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const ParentalGuidesListScreen(),
+                ),
+              );
+            },
+            child: _buildInfoCard(
+              context: context,
+              title: 'Control Parental',
+              description: 'Aprende a configurar controles en consolas',
+              icon: Icons.security,
+            ),
+          ),
         ],
       ),
     );
@@ -385,68 +404,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  void _showProfileMenu(BuildContext context) {
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final user = authProvider.currentUser;
-
-    showModalBottomSheet(
-      context: context,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(AppConfig.borderRadiusLarge),
-        ),
-      ),
-      builder: (context) => Padding(
-        padding: EdgeInsets.all(AppConfig.paddingLarge),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: CircleAvatar(
-                backgroundColor: AppConfig.primaryColor,
-                child: Text(
-                  user?.displayName.substring(0, 1).toUpperCase() ?? 'U',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-              title: Text(user?.displayName ?? 'Usuario'),
-              subtitle: Text(user?.email ?? ''),
-            ),
-            Divider(),
-            ListTile(
-              leading: Icon(Icons.article_outlined),
-              title: Text('Mis términos propuestos'),
-              subtitle: Text('${user?.termsProposed ?? 0} términos'),
-              onTap: () {
-                Navigator.pop(context);
-                // TODO: Navegar a pantalla de términos del usuario
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.verified_outlined, color: AppConfig.accentColor),
-              title: Text('Términos aprobados'),
-              subtitle: Text('${user?.termsApproved ?? 0} aprobados'),
-            ),
-            Divider(),
-            ListTile(
-              leading: Icon(Icons.logout, color: AppConfig.errorColor),
-              title: Text('Cerrar sesión'),
-              onTap: () async {
-                Navigator.pop(context);
-                await authProvider.signOut();
-                if (context.mounted) {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (_) => const LoginScreen()),
-                  );
-                }
-              },
-            ),
-          ],
-        ),
       ),
     );
   }

@@ -9,6 +9,9 @@ class UserModel {
   final int termsApproved;
   final DateTime createdAt;
   final DateTime lastLogin;
+  final String? photoUrl;
+  final List<int>? childrenAges;
+  final List<String>? ownedPlatforms;
 
   UserModel({
     required this.id,
@@ -19,6 +22,9 @@ class UserModel {
     this.termsApproved = 0,
     required this.createdAt,
     required this.lastLogin,
+    this.photoUrl,
+    this.childrenAges,
+    this.ownedPlatforms,
   });
 
   // Constructor para crear un UserModel desde un documento de Firestore
@@ -34,6 +40,13 @@ class UserModel {
       termsApproved: data['termsApproved'] ?? 0,
       createdAt: (data['createdAt'] as Timestamp).toDate(),
       lastLogin: (data['lastLogin'] as Timestamp).toDate(),
+      photoUrl: data['photoUrl'],
+      childrenAges: data['childrenAges'] != null 
+          ? List<int>.from(data['childrenAges']) 
+          : null,
+      ownedPlatforms: data['ownedPlatforms'] != null
+          ? List<String>.from(data['ownedPlatforms'])
+          : null,
     );
   }
 
@@ -48,6 +61,13 @@ class UserModel {
       termsApproved: map['termsApproved'] ?? 0,
       createdAt: (map['createdAt'] as Timestamp).toDate(),
       lastLogin: (map['lastLogin'] as Timestamp).toDate(),
+      photoUrl: map['photoUrl'],
+      childrenAges: map['childrenAges'] != null
+          ? List<int>.from(map['childrenAges'])
+          : null,
+      ownedPlatforms: map['ownedPlatforms'] != null
+          ? List<String>.from(map['ownedPlatforms'])
+          : null,
     );
   }
 
@@ -61,6 +81,9 @@ class UserModel {
       'termsApproved': termsApproved,
       'createdAt': Timestamp.fromDate(createdAt),
       'lastLogin': Timestamp.fromDate(lastLogin),
+      'photoUrl': photoUrl,
+      'childrenAges': childrenAges,
+      'ownedPlatforms': ownedPlatforms,
     };
   }
 
@@ -74,6 +97,9 @@ class UserModel {
     int? termsApproved,
     DateTime? createdAt,
     DateTime? lastLogin,
+    String? photoUrl,
+    List<int>? childrenAges,
+    List<String>? ownedPlatforms,
   }) {
     return UserModel(
       id: id ?? this.id,
@@ -84,6 +110,9 @@ class UserModel {
       termsApproved: termsApproved ?? this.termsApproved,
       createdAt: createdAt ?? this.createdAt,
       lastLogin: lastLogin ?? this.lastLogin,
+      photoUrl: photoUrl ?? this.photoUrl,
+      childrenAges: childrenAges ?? this.childrenAges,
+      ownedPlatforms: ownedPlatforms ?? this.ownedPlatforms,
     );
   }
 
