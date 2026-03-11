@@ -17,6 +17,39 @@ class ParentalGuide {
     this.type = 'enable',
   });
 
+  // Convertir a Map para Firestore
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'platform': platform,
+      'title': title,
+      'description': description,
+      'steps': steps.map((step) => step.toMap()).toList(),
+      'iconUrl': iconUrl,
+      'type': type,
+    };
+  }
+
+  // Crear desde Map (Firestore)
+  factory ParentalGuide.fromMap(Map<String, dynamic> map) {
+    List<ParentalGuideStep> steps = [];
+    if (map['steps'] != null && map['steps'] is List) {
+      steps = (map['steps'] as List<dynamic>)
+          .map((step) => ParentalGuideStep.fromMap(step as Map<String, dynamic>))
+          .toList();
+    }
+
+    return ParentalGuide(
+      id: map['id'] as String? ?? '',
+      platform: map['platform'] as String? ?? 'unknown',
+      title: map['title'] as String? ?? '',
+      description: map['description'] as String? ?? '',
+      steps: steps,
+      iconUrl: map['iconUrl'] as String? ?? '',
+      type: map['type'] as String? ?? 'enable',
+    );
+  }
+
   String get platformDisplayName {
     switch (platform) {
       case 'playstation':
@@ -37,7 +70,18 @@ class ParentalGuide {
   }
   
   String get typeDisplayName {
-    return type == 'enable' ? 'Activar' : 'Desactivar';
+    switch (type) {
+      case 'enable':
+        return 'Activar';
+      case 'disable':
+        return 'Desactivar';
+      case 'app':
+        return 'Activar en App';
+      case 'time':
+        return 'Tiempo de uso';
+      default:
+        return 'Guía';
+    }
   }
 }
 
@@ -51,4 +95,22 @@ class ParentalGuideStep {
     required this.instruction,
     required this.imageUrl,
   });
+
+  // Convertir a Map para Firestore
+  Map<String, dynamic> toMap() {
+    return {
+      'stepNumber': stepNumber,
+      'instruction': instruction,
+      'imageUrl': imageUrl,
+    };
+  }
+
+  // Crear desde Map
+  factory ParentalGuideStep.fromMap(Map<String, dynamic> map) {
+    return ParentalGuideStep(
+      stepNumber: map['stepNumber'] as int? ?? 0,
+      instruction: map['instruction'] as String? ?? '',
+      imageUrl: map['imageUrl'] as String? ?? '',
+    );
+  }
 }

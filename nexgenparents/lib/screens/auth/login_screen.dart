@@ -63,16 +63,23 @@ class _LoginScreenState extends State<LoginScreen> {
               builder: (context, authProvider, child) {
                 return Form(
                   key: _formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      // Logo/Icono de la app
-                      Icon(
-                        Icons.videogame_asset_rounded,
-                        size: 100,
-                        color: AppConfig.primaryColor,
-                      ),
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 400),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        // Logo de la app
+                        Image.network(
+                          '${AppConfig.githubCdnBase}/icons/logo.webp',
+                          height: 100,
+                          width: 100,
+                          errorBuilder: (context, error, stackTrace) => Icon(
+                            Icons.videogame_asset_rounded,
+                            size: 100,
+                            color: AppConfig.primaryColor,
+                          ),
+                        ),
                       SizedBox(height: AppConfig.paddingMedium),
                       
                       // Título
@@ -219,7 +226,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: TextStyle(fontSize: AppConfig.fontSizeBody),
                         ),
                       ),
-                    ],
+                      ],
+                    ),
                   ),
                 );
               },

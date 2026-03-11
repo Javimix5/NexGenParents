@@ -17,14 +17,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
-  
   final _authService = AuthService();
   final _firestoreService = FirestoreService();
-  
-  List<int> _childrenAges = [];
+  List<int> _childrenBirthYears = []; // Cambiado de _childrenAges
   List<String> _selectedPlatforms = [];
   String _selectedAvatar = 'assets/avatars/default.png';
-  
   bool _isLoading = false;
 
   // Avatares disponibles (emojis como avatares simples)
@@ -58,17 +55,24 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     super.dispose();
   }
 
+  // Método para calcular la edad a partir del año de nacimiento
+  int _calculateAge(int birthYear) {
+    final currentYear = DateTime.now().year;
+    return currentYear - birthYear;
+  }
+
   void _loadUserData() {
     final user = Provider.of<AuthProvider>(context, listen: false).currentUser;
     if (user != null) {
       _nameController.text = user.displayName;
       _emailController.text = user.email;
-      _childrenAges = user.childrenAges ?? [];
+
+      _childrenBirthYears = user.childrenBirthYears ?? [];
+      
       _selectedPlatforms = user.ownedPlatforms ?? [];
       _selectedAvatar = user.photoUrl ?? '👨';
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -104,11 +108,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(AppConfig.paddingMedium),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 980),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
               // Avatar
               _buildAvatarSection(),
               SizedBox(height: AppConfig.paddingLarge),
@@ -119,39 +126,43 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
               // Nombre
               _buildSectionTitle('Información Personal'),
-              TextFormField(
-                controller: _nameController,
-                decoration: InputDecoration(
-                  labelText: 'Nombre de usuario',
-                  prefixIcon: Icon(Icons.person),
+              _buildConstrainedField(
+                TextFormField(
+                  controller: _nameController,
+                  decoration: InputDecoration(
+                    labelText: 'Nombre de usuario',
+                    prefixIcon: Icon(Icons.person),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, introduce tu nombre';
+                    }
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, introduce tu nombre';
-                  }
-                  return null;
-                },
               ),
               SizedBox(height: AppConfig.paddingMedium),
 
               // Email
-              TextFormField(
-                controller: _emailController,
-                decoration: InputDecoration(
-                  labelText: 'Correo electrónico',
-                  prefixIcon: Icon(Icons.email),
-                  suffixIcon: Icon(Icons.lock_outline, size: 16),
+              _buildConstrainedField(
+                TextFormField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    labelText: 'Correo electrónico',
+                    prefixIcon: Icon(Icons.email),
+                    suffixIcon: Icon(Icons.lock_outline, size: 16),
+                  ),
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, introduce tu correo';
+                    }
+                    if (!value.contains('@')) {
+                      return 'Correo no válido';
+                    }
+                    return null;
+                  },
                 ),
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, introduce tu correo';
-                  }
-                  if (!value.contains('@')) {
-                    return 'Correo no válido';
-                  }
-                  return null;
-                },
               ),
               SizedBox(height: AppConfig.paddingSmall),
               Row(
@@ -179,17 +190,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
               SizedBox(height: AppConfig.paddingLarge),
 
-              // Edades de hijos
+              // Edades de hijos (calculadas desde año de nacimiento)
               _buildSectionTitle('Información de tus Hijos'),
               Text(
-                'Añade las edades para personalizar recomendaciones de juegos',
+                'Añade los años de nacimiento para personalizar recomendaciones de juegos',
                 style: TextStyle(
                   fontSize: AppConfig.fontSizeCaption,
                   color: AppConfig.textSecondaryColor,
                 ),
               ),
               SizedBox(height: AppConfig.paddingSmall),
-              _buildChildrenAgesSection(),
+              _buildChildrenBirthYearsSection(),
               SizedBox(height: AppConfig.paddingLarge),
 
               // Plataformas
@@ -206,31 +217,62 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               SizedBox(height: AppConfig.paddingLarge),
 
               // Botón guardar
-              ElevatedButton.icon(
-                onPressed: _isLoading ? null : _saveProfile,
-                icon: Icon(Icons.save),
-                label: Text('Guardar Cambios'),
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: AppConfig.paddingMedium),
-                  minimumSize: Size(double.infinity, 0),
+              Align(
+                alignment: Alignment.center,
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 320),
+                  child: ElevatedButton.icon(
+                    onPressed: _isLoading ? null : _saveProfile,
+                    icon: Icon(Icons.save),
+                    label: Text('Guardar Cambios'),
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(
+                        vertical: AppConfig.paddingMedium,
+                        horizontal: AppConfig.paddingLarge,
+                      ),
+                      minimumSize: const Size(0, 48),
+                    ),
+                  ),
                 ),
               ),
               SizedBox(height: AppConfig.paddingMedium),
 
               // Botón eliminar cuenta
-              OutlinedButton.icon(
-                onPressed: _showDeleteAccountDialog,
-                icon: Icon(Icons.delete_forever, color: AppConfig.errorColor),
-                label: Text('Eliminar Cuenta'),
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: AppConfig.errorColor,
-                  side: BorderSide(color: AppConfig.errorColor),
-                  minimumSize: Size(double.infinity, 0),
+              Align(
+                alignment: Alignment.center,
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 320),
+                  child: OutlinedButton.icon(
+                    onPressed: _showDeleteAccountDialog,
+                    icon: Icon(Icons.delete_forever, color: AppConfig.errorColor),
+                    label: Text('Eliminar Cuenta'),
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: AppConfig.errorColor,
+                      side: BorderSide(color: AppConfig.errorColor),
+                      padding: EdgeInsets.symmetric(
+                        vertical: AppConfig.paddingMedium,
+                        horizontal: AppConfig.paddingLarge,
+                      ),
+                      minimumSize: const Size(0, 48),
+                    ),
+                  ),
                 ),
               ),
             ],
+              ),
+            ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildConstrainedField(Widget field) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 620),
+        child: field,
       ),
     );
   }
@@ -347,18 +389,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
-  Widget _buildChildrenAgesSection() {
+  // Widget modificado para mostrar año de nacimiento y edad calculada
+  Widget _buildChildrenBirthYearsSection() {
     return Column(
       children: [
         Wrap(
           spacing: AppConfig.paddingSmall,
-          children: _childrenAges.map((age) {
+          runSpacing: AppConfig.paddingSmall,
+          children: _childrenBirthYears.map((birthYear) {
+            final age = _calculateAge(birthYear);
             return Chip(
-              label: Text('$age años'),
+              label: Text('$age años (${birthYear})'),
               deleteIcon: Icon(Icons.close, size: 18),
               onDeleted: () {
                 setState(() {
-                  _childrenAges.remove(age);
+                  _childrenBirthYears.remove(birthYear);
                 });
               },
             );
@@ -366,9 +411,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         ),
         SizedBox(height: AppConfig.paddingSmall),
         OutlinedButton.icon(
-          onPressed: _showAddAgeDialog,
+          onPressed: _showAddBirthYearDialog,
           icon: Icon(Icons.add),
-          label: Text('Añadir Edad de Hijo/a'),
+          label: Text('Añadir Año de Nacimiento'),
         ),
       ],
     );
@@ -439,21 +484,35 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
-  void _showAddAgeDialog() {
-    final ageController = TextEditingController();
+  // Diálogo modificado para pedir año de nacimiento en lugar de edad
+  void _showAddBirthYearDialog() {
+    final birthYearController = TextEditingController();
+    final currentYear = DateTime.now().year;
 
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Añadir Edad'),
-        content: TextField(
-          controller: ageController,
-          keyboardType: TextInputType.number,
-          decoration: InputDecoration(
-            labelText: 'Edad del niño/a',
-            hintText: 'Ejemplo: 10',
-          ),
-          autofocus: true,
+        title: Text('Añadir Año de Nacimiento'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: birthYearController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                labelText: 'Año de nacimiento',
+                hintText: 'Ejemplo: 2015',
+              ),
+            ),
+            SizedBox(height: AppConfig.paddingSmall),
+            Text(
+              'Introduce el año de nacimiento de tu hijo para obtener recomendaciones personalizadas.',
+              style: TextStyle(
+                fontSize: AppConfig.fontSizeCaption,
+                color: AppConfig.textSecondaryColor,
+              ),
+            ),
+          ],
         ),
         actions: [
           TextButton(
@@ -462,111 +521,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           ),
           ElevatedButton(
             onPressed: () {
-              final age = int.tryParse(ageController.text);
-              if (age != null && age > 0 && age < 100) {
+              final birthYear = int.tryParse(birthYearController.text);
+              if (birthYear != null && birthYear > 1900 && birthYear <= currentYear) {
                 setState(() {
-                  if (!_childrenAges.contains(age)) {
-                    _childrenAges.add(age);
-                    _childrenAges.sort();
-                  }
+                  _childrenBirthYears.add(birthYear);
                 });
                 Navigator.pop(context);
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Introduce una edad válida')),
+                  SnackBar(content: Text('Por favor, introduce un año de nacimiento válido')),
                 );
               }
             },
             child: Text('Añadir'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _showChangePasswordDialog() {
-    final currentPasswordController = TextEditingController();
-    final newPasswordController = TextEditingController();
-    final confirmPasswordController = TextEditingController();
-
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Cambiar Contraseña'),
-        content: SingleChildScrollView(
-          child: Column(
-            children: [
-              TextField(
-                controller: currentPasswordController,
-                obscureText: true,
-                decoration: InputDecoration(labelText: 'Contraseña Actual'),
-              ),
-              SizedBox(height: AppConfig.paddingMedium),
-              TextField(
-                controller: newPasswordController,
-                obscureText: true,
-                decoration: InputDecoration(labelText: 'Nueva Contraseña'),
-              ),
-              SizedBox(height: AppConfig.paddingMedium),
-              TextField(
-                controller: confirmPasswordController,
-                obscureText: true,
-                decoration: InputDecoration(labelText: 'Confirmar Nueva Contraseña'),
-              ),
-            ],
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text('Cancelar'),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              final currentPassword = currentPasswordController.text;
-              final newPassword = newPasswordController.text;
-              final confirmPassword = confirmPasswordController.text;
-
-              if (newPassword != confirmPassword) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Las nuevas contraseñas no coinciden')),
-                );
-                return;
-              }
-
-              if (newPassword.length < 6) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('La nueva contraseña debe tener al menos 6 caracteres')),
-                );
-                return;
-              }
-
-              setState(() => _isLoading = true);
-
-              try {
-                final result = await _authService.changePassword(
-                  currentPassword: currentPassword,
-                  newPassword: newPassword,
-                );
-                if (!(result['success'] == true)) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(result['message'] ?? 'Error al cambiar la contraseña')),
-                  );
-                  return;
-                }
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Contraseña cambiada exitosamente')),
-                );
-                Navigator.pop(context);
-              } catch (e) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Error al cambiar la contraseña: ${e.toString()}')),
-                );
-              } finally {
-                setState(() => _isLoading = false);
-              }
-            },
-            child: Text('Cambiar'),
           ),
         ],
       ),
@@ -580,133 +547,271 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     final user = authProvider.currentUser;
     if (user == null) return;
 
-    final newName = _nameController.text.trim();
-    final newEmail = _emailController.text.trim();
-
-    setState(() => _isLoading = true);
+    setState(() {
+      _isLoading = true;
+    });
 
     try {
-      // 1) Actualizar displayName en Firebase Auth si cambia
-      final firebaseUser = _authService.currentUser;
-      if (firebaseUser != null && newName.isNotEmpty && newName != user.displayName) {
-        await firebaseUser.updateDisplayName(newName);
+      final trimmedName = _nameController.text.trim();
+      final trimmedEmail = _emailController.text.trim();
+
+      final basicInfoResult = await _firestoreService.updateUserBasicInfo(
+        userId: user.id,
+        displayName: trimmedName,
+      );
+
+      if (!(basicInfoResult['success'] ?? false)) {
+        throw Exception(basicInfoResult['message'] ?? 'No se pudo actualizar el nombre');
       }
 
-      // 2) Si cambia el email, pedir reautenticación (pedir contraseña)
-      if (newEmail.isNotEmpty && newEmail != user.email) {
-        final passwordController = TextEditingController();
-        final confirmed = await showDialog<bool>(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text('Confirmar cambio de email'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('Introduce tu contraseña actual para cambiar el correo'),
-                SizedBox(height: AppConfig.paddingSmall),
-                TextField(
-                  controller: passwordController,
-                  obscureText: true,
-                  decoration: InputDecoration(labelText: 'Contraseña actual'),
-                ),
-              ],
-            ),
-            actions: [
-              TextButton(onPressed: () => Navigator.pop(context, false), child: Text('Cancelar')),
-              ElevatedButton(onPressed: () => Navigator.pop(context, true), child: Text('Confirmar')),
-            ],
-          ),
+      final birthYearsResult = await _firestoreService.updateChildrenBirthYears(
+        userId: user.id,
+        birthYears: _childrenBirthYears,
+      );
+
+      if (!(birthYearsResult['success'] ?? false)) {
+        throw Exception(birthYearsResult['message'] ?? 'No se pudo actualizar la información de hijos');
+      }
+
+      final platformsResult = await _firestoreService.updateOwnedPlatforms(
+        userId: user.id,
+        platforms: _selectedPlatforms,
+      );
+
+      if (!(platformsResult['success'] ?? false)) {
+        throw Exception(platformsResult['message'] ?? 'No se pudieron actualizar las plataformas');
+      }
+
+      final avatarResult = await _firestoreService.updatePhotoUrl(
+        userId: user.id,
+        photoUrl: _selectedAvatar,
+      );
+
+      if (!(avatarResult['success'] ?? false)) {
+        throw Exception(avatarResult['message'] ?? 'No se pudo actualizar el avatar');
+      }
+
+      if (trimmedEmail != user.email) {
+        final password = await _askForCurrentPassword(
+          title: 'Verificación para cambiar email',
+          message: 'Para cambiar tu correo, confirma tu contraseña actual.',
         );
 
-        if (confirmed == true) {
-          final currentPassword = passwordController.text;
-          final result = await _authService.changeEmail(currentPassword: currentPassword, newEmail: newEmail);
-          if (!(result['success'] == true)) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(result['message'] ?? 'Error al cambiar email')));
-            setState(() => _isLoading = false);
-            return;
-          }
-        } else {
-          setState(() => _isLoading = false);
-          return;
+        if (password == null || password.isEmpty) {
+          throw Exception('Cambio de email cancelado');
         }
+
+        final emailResult = await _authService.changeEmail(
+          currentPassword: password,
+          newEmail: trimmedEmail,
+        );
+
+        if (!(emailResult['success'] ?? false)) {
+          throw Exception(emailResult['message'] ?? 'No se pudo cambiar el email');
+        }
+
+        await _firestoreService.updateUserBasicInfo(
+          userId: user.id,
+          email: trimmedEmail,
+        );
       }
 
-      // 3) Actualizar Firestore: displayName, email, childrenAges, ownedPlatforms, photoUrl
-      final updates = <String, dynamic>{};
-      if (newName != user.displayName) updates['displayName'] = newName;
-      if (newEmail != user.email) updates['email'] = newEmail;
-
-      if (updates.isNotEmpty) {
-        await _firestoreService.updateUserBasicInfo(userId: user.id, displayName: updates['displayName'], email: updates['email']);
-      }
-
-      await _firestoreService.updateChildrenAges(userId: user.id, ages: _childrenAges);
-      await _firestoreService.updateOwnedPlatforms(userId: user.id, platforms: _selectedPlatforms);
-      await _firestoreService.updatePhotoUrl(userId: user.id, photoUrl: _selectedAvatar);
-
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Perfil actualizado correctamente')));
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Perfil actualizado correctamente')),
+      );
       Navigator.pop(context);
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error al guardar perfil: ${e.toString()}')));
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error al guardar perfil: $e')),
+      );
     } finally {
-      setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
-  void _showDeleteAccountDialog() {
-    final passwordController = TextEditingController();
+  Future<void> _showChangePasswordDialog() async {
+    final currentPasswordController = TextEditingController();
+    final newPasswordController = TextEditingController();
+    final confirmPasswordController = TextEditingController();
 
-    showDialog(
+    await showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Eliminar Cuenta'),
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Cambiar contraseña'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Esta acción eliminará tu cuenta permanentemente. Introduce tu contraseña para confirmar.'),
-            SizedBox(height: AppConfig.paddingSmall),
             TextField(
-              controller: passwordController,
+              controller: currentPasswordController,
               obscureText: true,
-              decoration: InputDecoration(labelText: 'Contraseña'),
+              decoration: const InputDecoration(labelText: 'Contraseña actual'),
+            ),
+            const SizedBox(height: 8),
+            TextField(
+              controller: newPasswordController,
+              obscureText: true,
+              decoration: const InputDecoration(labelText: 'Nueva contraseña'),
+            ),
+            const SizedBox(height: 8),
+            TextField(
+              controller: confirmPasswordController,
+              obscureText: true,
+              decoration: const InputDecoration(labelText: 'Confirmar nueva contraseña'),
             ),
           ],
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: Text('Cancelar')),
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: const Text('Cancelar'),
+          ),
           ElevatedButton(
             onPressed: () async {
-              Navigator.pop(context);
-              setState(() => _isLoading = true);
-              final authProvider = Provider.of<AuthProvider>(context, listen: false);
-              final user = authProvider.currentUser;
-              if (user == null) {
-                setState(() => _isLoading = false);
+              final currentPassword = currentPasswordController.text.trim();
+              final newPassword = newPasswordController.text.trim();
+              final confirmPassword = confirmPasswordController.text.trim();
+
+              if (currentPassword.isEmpty || newPassword.isEmpty || confirmPassword.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Completa todos los campos')),
+                );
                 return;
               }
 
-              try {
-                final result = await _authService.deleteAccount(passwordController.text);
-                if (result['success'] == true) {
-                  // Eliminar documento en Firestore
-                  await _firestoreService.deleteUserAccount(user.id);
-                  // Cerrar sesión local
-                  await _authService.signOut();
-                  Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (_) => LoginScreen()),
-                    (route) => false,
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(result['message'] ?? 'Error al eliminar cuenta')));
-                }
-              } catch (e) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
-              } finally {
-                setState(() => _isLoading = false);
+              if (newPassword.length < 6) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('La nueva contraseña debe tener al menos 6 caracteres')),
+                );
+                return;
               }
+
+              if (newPassword != confirmPassword) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Las contraseñas no coinciden')),
+                );
+                return;
+              }
+
+              final result = await _authService.changePassword(
+                currentPassword: currentPassword,
+                newPassword: newPassword,
+              );
+
+              if (!mounted) return;
+
+              Navigator.pop(dialogContext);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(result['message'] ?? 'Operación completada')),
+              );
             },
-            child: Text('Eliminar'),
+            child: const Text('Actualizar'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _showDeleteAccountDialog() async {
+    final passwordController = TextEditingController();
+
+    await showDialog(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Eliminar cuenta'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('Esta acción es permanente. Introduce tu contraseña para confirmar.'),
+            const SizedBox(height: 12),
+            TextField(
+              controller: passwordController,
+              obscureText: true,
+              decoration: const InputDecoration(labelText: 'Contraseña actual'),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: const Text('Cancelar'),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: AppConfig.errorColor),
+            onPressed: () async {
+              final user = Provider.of<AuthProvider>(context, listen: false).currentUser;
+              final password = passwordController.text.trim();
+
+              if (user == null || password.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Debes introducir tu contraseña')),
+                );
+                return;
+              }
+
+              final deleteAuthResult = await _authService.deleteAccount(password);
+              if (!(deleteAuthResult['success'] ?? false)) {
+                if (!mounted) return;
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(deleteAuthResult['message'] ?? 'No se pudo eliminar la cuenta')),
+                );
+                return;
+              }
+
+              await _firestoreService.deleteUserAccount(user.id);
+              await Provider.of<AuthProvider>(context, listen: false).signOut();
+
+              if (!mounted) return;
+              Navigator.pop(dialogContext);
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (_) => LoginScreen()),
+                (route) => false,
+              );
+            },
+            child: const Text('Eliminar'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<String?> _askForCurrentPassword({
+    required String title,
+    required String message,
+  }) async {
+    final passwordController = TextEditingController();
+
+    return showDialog<String>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(title),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(message),
+            const SizedBox(height: 12),
+            TextField(
+              controller: passwordController,
+              obscureText: true,
+              decoration: const InputDecoration(labelText: 'Contraseña actual'),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, null),
+            child: const Text('Cancelar'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(dialogContext, passwordController.text.trim()),
+            child: const Text('Confirmar'),
           ),
         ],
       ),

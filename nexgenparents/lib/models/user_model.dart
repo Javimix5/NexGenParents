@@ -10,7 +10,7 @@ class UserModel {
   final DateTime createdAt;
   final DateTime lastLogin;
   final String? photoUrl;
-  final List<int>? childrenAges;
+  final List<int>? childrenBirthYears;
   final List<String>? ownedPlatforms;
 
   UserModel({
@@ -23,9 +23,23 @@ class UserModel {
     required this.createdAt,
     required this.lastLogin,
     this.photoUrl,
-    this.childrenAges,
+    this.childrenBirthYears,
     this.ownedPlatforms,
   });
+
+  static List<int>? _parseChildrenBirthYears(dynamic birthYearsData, dynamic legacyAgesData) {
+    if (birthYearsData != null) {
+      return List<int>.from(birthYearsData);
+    }
+
+    if (legacyAgesData != null) {
+      final currentYear = DateTime.now().year;
+      final ages = List<int>.from(legacyAgesData);
+      return ages.map((age) => currentYear - age).toList();
+    }
+
+    return null;
+  }
 
   // Constructor para crear un UserModel desde un documento de Firestore
   factory UserModel.fromFirestore(DocumentSnapshot doc) {
@@ -41,9 +55,10 @@ class UserModel {
       createdAt: (data['createdAt'] as Timestamp).toDate(),
       lastLogin: (data['lastLogin'] as Timestamp).toDate(),
       photoUrl: data['photoUrl'],
-      childrenAges: data['childrenAges'] != null 
-          ? List<int>.from(data['childrenAges']) 
-          : null,
+      childrenBirthYears: _parseChildrenBirthYears(
+        data['childrenBirthYears'],
+        data['childrenAges'],
+      ),
       ownedPlatforms: data['ownedPlatforms'] != null
           ? List<String>.from(data['ownedPlatforms'])
           : null,
@@ -62,9 +77,10 @@ class UserModel {
       createdAt: (map['createdAt'] as Timestamp).toDate(),
       lastLogin: (map['lastLogin'] as Timestamp).toDate(),
       photoUrl: map['photoUrl'],
-      childrenAges: map['childrenAges'] != null
-          ? List<int>.from(map['childrenAges'])
-          : null,
+      childrenBirthYears: _parseChildrenBirthYears(
+        map['childrenBirthYears'],
+        map['childrenAges'],
+      ),
       ownedPlatforms: map['ownedPlatforms'] != null
           ? List<String>.from(map['ownedPlatforms'])
           : null,
@@ -82,7 +98,7 @@ class UserModel {
       'createdAt': Timestamp.fromDate(createdAt),
       'lastLogin': Timestamp.fromDate(lastLogin),
       'photoUrl': photoUrl,
-      'childrenAges': childrenAges,
+      'childrenBirthYears': childrenBirthYears,
       'ownedPlatforms': ownedPlatforms,
     };
   }
@@ -98,7 +114,7 @@ class UserModel {
     DateTime? createdAt,
     DateTime? lastLogin,
     String? photoUrl,
-    List<int>? childrenAges,
+    List<int>? childrenBirthYears,
     List<String>? ownedPlatforms,
   }) {
     return UserModel(
@@ -111,7 +127,7 @@ class UserModel {
       createdAt: createdAt ?? this.createdAt,
       lastLogin: lastLogin ?? this.lastLogin,
       photoUrl: photoUrl ?? this.photoUrl,
-      childrenAges: childrenAges ?? this.childrenAges,
+      childrenBirthYears: childrenBirthYears ?? this.childrenBirthYears,
       ownedPlatforms: ownedPlatforms ?? this.ownedPlatforms,
     );
   }

@@ -42,6 +42,31 @@ class MyApp extends StatelessWidget {
         title: AppConfig.appName,
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightTheme,
+        builder: (context, child) {
+          final content = child ?? const SizedBox.shrink();
+
+          return LayoutBuilder(
+            builder: (context, constraints) {
+              if (constraints.maxWidth < 1200) {
+                return content;
+              }
+
+              return Container(
+                color: AppConfig.backgroundColor,
+                child: Row(
+                  children: [
+                    const Expanded(child: SizedBox()),
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 1200),
+                      child: content,
+                    ),
+                    const Expanded(child: SizedBox()),
+                  ],
+                ),
+              );
+            },
+          );
+        },
         home: const AuthWrapper(),
       ),
     );

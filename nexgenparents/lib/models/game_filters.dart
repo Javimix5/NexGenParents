@@ -49,4 +49,32 @@ class GameFilters {
   GameFilters clear() {
     return GameFilters();
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'searchQuery': searchQuery,
+      'yearFrom': yearFrom,
+      'yearTo': yearTo,
+      'selectedGenres': selectedGenres,
+      'selectedPlatforms': selectedPlatforms,
+      'pegiAge': pegiAge,
+      'ordering': ordering,
+    };
+  }
+
+  factory GameFilters.fromJson(Map<String, dynamic> json) {
+    return GameFilters(
+      searchQuery: json['searchQuery'] as String?,
+      yearFrom: json['yearFrom'] as int?,
+      yearTo: json['yearTo'] as int?,
+      selectedGenres: json['selectedGenres'] != null
+          ? List<String>.from(json['selectedGenres'] as List)
+          : const [],
+      selectedPlatforms: json['selectedPlatforms'] != null
+          ? List<int>.from(json['selectedPlatforms'] as List)
+          : const [],
+      pegiAge: json['pegiAge'] as int?,
+      ordering: (json['ordering'] as String?) ?? '-rating',
+    );
+  }
 }

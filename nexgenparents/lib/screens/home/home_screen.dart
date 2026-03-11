@@ -29,9 +29,15 @@ class _HomeScreenState extends State<HomeScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final dictionaryProvider = Provider.of<DictionaryProvider>(context, listen: false);
       final gamesProvider = Provider.of<GamesProvider>(context, listen: false);
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
       
       dictionaryProvider.loadApprovedTerms();
       gamesProvider.loadPopularGames();
+      
+      // Cargar términos propuestos del usuario al iniciar la pantalla
+      if (authProvider.currentUser != null) {
+        dictionaryProvider.loadUserProposedTerms(authProvider.currentUser!.id);
+      }
     });
   }
 
@@ -100,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: ListTile(
                   leading: Icon(Icons.article_outlined),
                   title: Text('Mis términos propuestos'),
-                  subtitle: Text('${user?.termsProposed ?? 0} términos'),
+                  subtitle: Text('${Provider.of<DictionaryProvider>(context, listen: false).userProposedTerms.length} términos'),
                 ),
               ),
               if (authProvider.isModerator)

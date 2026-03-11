@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/dictionary_term_model.dart';
 import '../models/user_model.dart';
+import '../models/parental_guide_model.dart';
 import '../config/app_config.dart';
 
 class FirestoreService {
@@ -363,24 +364,24 @@ Future<Map<String, dynamic>> updateUserRole({
 
 // ========== MÉTODOS PARA EDITAR PERFIL ==========
 
-// Actualizar edades de hijos
-Future<Map<String, dynamic>> updateChildrenAges({
+// Actualizar años de nacimiento de hijos
+Future<Map<String, dynamic>> updateChildrenBirthYears({
   required String userId,
-  required List<int> ages,
+  required List<int> birthYears,
 }) async {
   try {
     await _firestore.collection('users').doc(userId).update({
-      'childrenAges': ages,
+      'childrenBirthYears': birthYears,
     });
-    
+
     return {
       'success': true,
-      'message': 'Edades actualizadas correctamente',
+      'message': 'Años de nacimiento actualizados correctamente',
     };
   } catch (e) {
     return {
       'success': false,
-      'message': 'Error al actualizar edades: ${e.toString()}',
+      'message': 'Error al actualizar años de nacimiento: ${e.toString()}',
     };
   }
 }
@@ -470,6 +471,36 @@ Future<Map<String, dynamic>> deleteUserAccount(String userId) async {
       'success': false,
       'message': 'Error al eliminar cuenta: ${e.toString()}',
     };
+  }
+}
+
+// ========== MÉTODOS PARA GUÍAS DE CONTROL PARENTAL ==========
+
+// Obtener guías adicionales desde Firestore (para escalabilidad futura)
+Future<List<ParentalGuide>> getExtraGuides() async {
+  try {
+    final snapshot = await _firestore
+        .collection('parental_guides_extra')
+        .get();
+
+    return snapshot.docs
+        .map((doc) {
+          final data = doc.data();
+          // Asegurar que tiene ID
+          if (data['id'] == null || data['id'].isEmpty) {
+            data['id'] = doc.id;
+          }
+          return ParentalGuide.fromMap(data);
+        })
+        .toList();
+  } on FirebaseException catch (e) {
+    if (e.code != 'permission-denied') {
+      print('Error al obtener guías extras desde Firestore: $e');
+    }
+    return [];
+  } catch (e) {
+    print('Error al obtener guías extras desde Firestore: $e');
+    return [];
   }
 }
 }
