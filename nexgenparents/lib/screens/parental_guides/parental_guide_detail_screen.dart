@@ -39,7 +39,7 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
 
   Widget _buildProgressIndicator() {
     return Container(
-      padding: EdgeInsets.all(AppConfig.paddingMedium),
+      padding: const EdgeInsets.all(AppConfig.paddingMedium),
       decoration: BoxDecoration(
         color: AppConfig.primaryColor.withValues(alpha: 0.1),
         border: Border(
@@ -56,7 +56,7 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
             children: [
               Text(
                 'Paso ${_currentStep + 1} de ${widget.guide.steps.length}',
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: AppConfig.fontSizeBody,
                   fontWeight: FontWeight.bold,
                   color: AppConfig.primaryColor,
@@ -64,7 +64,7 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
               ),
               Text(
                 '${((_currentStep + 1) / widget.guide.steps.length * 100).toInt()}%',
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: AppConfig.fontSizeBody,
                   fontWeight: FontWeight.bold,
                   color: AppConfig.primaryColor,
@@ -72,11 +72,11 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
               ),
             ],
           ),
-          SizedBox(height: AppConfig.paddingSmall),
+          const SizedBox(height: AppConfig.paddingSmall),
           LinearProgressIndicator(
             value: (_currentStep + 1) / widget.guide.steps.length,
             backgroundColor: AppConfig.textSecondaryColor.withValues(alpha: 0.2),
-            valueColor: AlwaysStoppedAnimation<Color>(AppConfig.primaryColor),
+            valueColor: const AlwaysStoppedAnimation<Color>(AppConfig.primaryColor),
             minHeight: 8,
             borderRadius: BorderRadius.circular(AppConfig.borderRadiusSmall),
           ),
@@ -92,21 +92,21 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 980),
         child: Padding(
-          padding: EdgeInsets.all(AppConfig.paddingLarge),
+          padding: const EdgeInsets.all(AppConfig.paddingLarge),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 width: 60,
                 height: 60,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: AppConfig.primaryColor,
                   shape: BoxShape.circle,
                 ),
                 child: Center(
                   child: Text(
                     '${step.stepNumber}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: AppConfig.fontSizeTitle,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -114,9 +114,9 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: AppConfig.paddingLarge),
+              const SizedBox(height: AppConfig.paddingLarge),
               Container(
-                padding: EdgeInsets.all(AppConfig.paddingMedium),
+                padding: const EdgeInsets.all(AppConfig.paddingMedium),
                 decoration: BoxDecoration(
                   color: AppConfig.accentColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
@@ -128,12 +128,12 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(Icons.info_outline, color: AppConfig.accentColor, size: 24),
-                    SizedBox(width: AppConfig.paddingSmall),
+                    const Icon(Icons.info_outline, color: AppConfig.accentColor, size: 24),
+                    const SizedBox(width: AppConfig.paddingSmall),
                     Expanded(
                       child: Text(
                         step.instruction,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: AppConfig.fontSizeBody,
                           height: 1.6,
                           color: AppConfig.textPrimaryColor,
@@ -143,15 +143,15 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: AppConfig.paddingLarge),
-              Text(
+              const SizedBox(height: AppConfig.paddingLarge),
+              const Text(
                 'Captura de pantalla:',
                 style: TextStyle(
                   fontSize: AppConfig.fontSizeHeading,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: AppConfig.paddingMedium),
+              const SizedBox(height: AppConfig.paddingMedium),
               Center(
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 860),
@@ -175,11 +175,11 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
                           return Container(
                             height: 300,
                             color: AppConfig.textSecondaryColor.withValues(alpha: 0.1),
-                            child: Center(
+                            child: const Center(
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const CircularProgressIndicator(),
+                                  CircularProgressIndicator(),
                                   SizedBox(height: AppConfig.paddingMedium),
                                   Text(
                                     'Cargando imagen...',
@@ -194,7 +194,7 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
                           return Container(
                             height: 300,
                             color: AppConfig.errorColor.withValues(alpha: 0.1),
-                            child: Center(
+                            child: const Center(
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -218,15 +218,15 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
                 ),
               ),
               if (_currentStep == widget.guide.steps.length - 1) ...[
-                SizedBox(height: AppConfig.paddingLarge),
+                const SizedBox(height: AppConfig.paddingLarge),
                 Container(
-                  padding: EdgeInsets.all(AppConfig.paddingMedium),
+                  padding: const EdgeInsets.all(AppConfig.paddingMedium),
                   decoration: BoxDecoration(
                     color: AppConfig.accentColor.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
                     border: Border.all(color: AppConfig.accentColor, width: 2),
                   ),
-                  child: Row(
+                  child: const Row(
                     children: [
                       Icon(Icons.check_circle, color: AppConfig.accentColor, size: 30),
                       SizedBox(width: AppConfig.paddingMedium),
@@ -252,7 +252,7 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
 
   Widget _buildNavigationButtons() {
     return Container(
-      padding: EdgeInsets.all(AppConfig.paddingMedium),
+      padding: const EdgeInsets.all(AppConfig.paddingMedium),
       decoration: BoxDecoration(
         color: AppConfig.backgroundColor,
         border: Border(
@@ -275,12 +275,12 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
                 icon: const Icon(Icons.arrow_back),
                 label: const Text('Anterior'),
                 style: OutlinedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: AppConfig.paddingMedium),
+                  padding: const EdgeInsets.symmetric(vertical: AppConfig.paddingMedium),
                 ),
               ),
             ),
           if (_currentStep > 0 && _currentStep < widget.guide.steps.length - 1)
-            SizedBox(width: AppConfig.paddingMedium),
+            const SizedBox(width: AppConfig.paddingMedium),
           Expanded(
             child: ElevatedButton.icon(
               onPressed: () {
@@ -303,7 +303,7 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
                     : 'Finalizar',
               ),
               style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: AppConfig.paddingMedium),
+                padding: const EdgeInsets.symmetric(vertical: AppConfig.paddingMedium),
               ),
             ),
           ),

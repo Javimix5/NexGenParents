@@ -36,7 +36,7 @@ class _ProposeTermScreenState extends State<ProposeTermScreen> {
     final userId = authProvider.currentUser?.id;
     if (userId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Error: Usuario no autenticado'),
           backgroundColor: AppConfig.errorColor,
         ),
@@ -58,14 +58,14 @@ class _ProposeTermScreenState extends State<ProposeTermScreen> {
         context: context,
         barrierDismissible: false,
         builder: (context) => AlertDialog(
-          title: Row(
+          title: const Row(
             children: [
               Icon(Icons.check_circle, color: AppConfig.accentColor, size: 30),
               SizedBox(width: AppConfig.paddingSmall),
               Text('¡Término enviado!'),
             ],
           ),
-          content: Text(
+          content: const Text(
             'Tu término ha sido propuesto correctamente y será revisado por un moderador. '
             'Te notificaremos cuando sea aprobado.',
             style: TextStyle(fontSize: AppConfig.fontSizeBody),
@@ -76,7 +76,7 @@ class _ProposeTermScreenState extends State<ProposeTermScreen> {
                 Navigator.of(context).pop(); // Cerrar diálogo
                 Navigator.of(context).pop(); // Volver a pantalla anterior
               },
-              child: Text('Entendido'),
+              child: const Text('Entendido'),
             ),
           ],
         ),
@@ -98,10 +98,10 @@ class _ProposeTermScreenState extends State<ProposeTermScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Proponer Término'),
+        title: const Text('Proponer Término'),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(AppConfig.paddingMedium),
+        padding: const EdgeInsets.all(AppConfig.paddingMedium),
         child: Form(
           key: _formKey,
           child: Column(
@@ -109,13 +109,13 @@ class _ProposeTermScreenState extends State<ProposeTermScreen> {
             children: [
               // Información introductoria
               Container(
-                padding: EdgeInsets.all(AppConfig.paddingMedium),
+                padding: const EdgeInsets.all(AppConfig.paddingMedium),
                 decoration: BoxDecoration(
                   color: AppConfig.primaryColor.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
                   border: Border.all(color: AppConfig.primaryColor),
                 ),
-                child: Row(
+                child: const Row(
                   children: [
                     Icon(Icons.lightbulb_outline, color: AppConfig.primaryColor),
                     SizedBox(width: AppConfig.paddingSmall),
@@ -131,21 +131,21 @@ class _ProposeTermScreenState extends State<ProposeTermScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: AppConfig.paddingLarge),
+              const SizedBox(height: AppConfig.paddingLarge),
 
               // Campo: Término
-              Text(
+              const Text(
                 'Término o palabra',
                 style: TextStyle(
                   fontSize: AppConfig.fontSizeBody,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: AppConfig.paddingSmall),
+              const SizedBox(height: AppConfig.paddingSmall),
               TextFormField(
                 controller: _termController,
                 textCapitalization: TextCapitalization.none,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Ej: GG, Nerf, Farming',
                   prefixIcon: Icon(Icons.text_fields),
                 ),
@@ -159,20 +159,20 @@ class _ProposeTermScreenState extends State<ProposeTermScreen> {
                   return null;
                 },
               ),
-              SizedBox(height: AppConfig.paddingMedium),
+              const SizedBox(height: AppConfig.paddingMedium),
 
               // Campo: Categoría
-              Text(
+              const Text(
                 'Categoría',
                 style: TextStyle(
                   fontSize: AppConfig.fontSizeBody,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: AppConfig.paddingSmall),
+              const SizedBox(height: AppConfig.paddingSmall),
               DropdownButtonFormField<String>(
-                value: _selectedCategory,
-                decoration: InputDecoration(
+                initialValue: _selectedCategory,
+                decoration: const InputDecoration(
                   prefixIcon: Icon(Icons.category),
                 ),
                 items: AppConfig.dictionaryCategories.map((category) {
@@ -189,22 +189,22 @@ class _ProposeTermScreenState extends State<ProposeTermScreen> {
                   }
                 },
               ),
-              SizedBox(height: AppConfig.paddingMedium),
+              const SizedBox(height: AppConfig.paddingMedium),
 
               // Campo: Definición
-              Text(
+              const Text(
                 'Definición',
                 style: TextStyle(
                   fontSize: AppConfig.fontSizeBody,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: AppConfig.paddingSmall),
+              const SizedBox(height: AppConfig.paddingSmall),
               TextFormField(
                 controller: _definitionController,
                 maxLines: 4,
                 maxLength: 200,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Explica qué significa este término de forma clara y sencilla',
                   prefixIcon: Padding(
                     padding: EdgeInsets.only(bottom: 60),
@@ -221,22 +221,22 @@ class _ProposeTermScreenState extends State<ProposeTermScreen> {
                   return null;
                 },
               ),
-              SizedBox(height: AppConfig.paddingMedium),
+              const SizedBox(height: AppConfig.paddingMedium),
 
               // Campo: Ejemplo de uso
-              Text(
+              const Text(
                 'Ejemplo de uso',
                 style: TextStyle(
                   fontSize: AppConfig.fontSizeBody,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: AppConfig.paddingSmall),
+              const SizedBox(height: AppConfig.paddingSmall),
               TextFormField(
                 controller: _exampleController,
                 maxLines: 3,
                 maxLength: 150,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Ej: "Los niños dicen GG al final de cada partida"',
                   prefixIcon: Padding(
                     padding: EdgeInsets.only(bottom: 40),
@@ -253,16 +253,16 @@ class _ProposeTermScreenState extends State<ProposeTermScreen> {
                   return null;
                 },
               ),
-              SizedBox(height: AppConfig.paddingLarge),
+              const SizedBox(height: AppConfig.paddingLarge),
 
               // Información sobre el proceso de validación
               Container(
-                padding: EdgeInsets.all(AppConfig.paddingMedium),
+                padding: const EdgeInsets.all(AppConfig.paddingMedium),
                 decoration: BoxDecoration(
                   color: AppConfig.warningColor.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
                 ),
-                child: Row(
+                child: const Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Icon(Icons.info_outline, color: AppConfig.warningColor, size: 20),
@@ -280,7 +280,7 @@ class _ProposeTermScreenState extends State<ProposeTermScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: AppConfig.paddingLarge),
+              const SizedBox(height: AppConfig.paddingLarge),
 
               // Botón de enviar
               Consumer<DictionaryProvider>(
@@ -288,7 +288,7 @@ class _ProposeTermScreenState extends State<ProposeTermScreen> {
                   return ElevatedButton.icon(
                     onPressed: dictionaryProvider.isLoading ? null : _handleSubmit,
                     icon: dictionaryProvider.isLoading
-                        ? SizedBox(
+                        ? const SizedBox(
                             width: 20,
                             height: 20,
                             child: CircularProgressIndicator(
@@ -296,13 +296,13 @@ class _ProposeTermScreenState extends State<ProposeTermScreen> {
                               valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                             ),
                           )
-                        : Icon(Icons.send),
+                        : const Icon(Icons.send),
                     label: Text(
                       dictionaryProvider.isLoading ? 'Enviando...' : 'Proponer término',
-                      style: TextStyle(fontSize: AppConfig.fontSizeBody),
+                      style: const TextStyle(fontSize: AppConfig.fontSizeBody),
                     ),
                     style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(vertical: AppConfig.paddingMedium),
+                      padding: const EdgeInsets.symmetric(vertical: AppConfig.paddingMedium),
                     ),
                   );
                 },

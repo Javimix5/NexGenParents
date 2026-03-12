@@ -83,7 +83,7 @@ class AuthWrapper extends StatelessWidget {
       builder: (context, authProvider, child) {
         // Mostrar indicador de carga mientras verifica autenticación
         if (authProvider.isLoading) {
-          return Scaffold(
+          return const Scaffold(
             backgroundColor: AppConfig.backgroundColor,
             body: Center(
               child: Column(

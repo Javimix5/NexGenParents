@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/firestore_service.dart';
 import '../models/dictionary_term_model.dart';
-import '../config/app_config.dart';
 
 class DictionaryProvider with ChangeNotifier {
   final FirestoreService _firestoreService = FirestoreService();

@@ -34,13 +34,13 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Buscar Videojuegos'),
+        title: const Text('Buscar Videojuegos'),
       ),
       body: Column(
         children: [
           // Barra de búsqueda y botón de filtros
           Padding(
-            padding: EdgeInsets.all(AppConfig.paddingMedium),
+            padding: const EdgeInsets.all(AppConfig.paddingMedium),
             child: Row(
               children: [
                 Expanded(
@@ -48,10 +48,10 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                     controller: _searchController,
                     decoration: InputDecoration(
                       hintText: 'Buscar juego por nombre...',
-                      prefixIcon: Icon(Icons.search),
+                      prefixIcon: const Icon(Icons.search),
                       suffixIcon: _searchController.text.isNotEmpty
                           ? IconButton(
-                              icon: Icon(Icons.clear),
+                              icon: const Icon(Icons.clear),
                               onPressed: () {
                                 _searchController.clear();
                                 setState(() {});
@@ -73,7 +73,7 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                     },
                   ),
                 ),
-                SizedBox(width: AppConfig.paddingSmall),
+                const SizedBox(width: AppConfig.paddingSmall),
                 
                 // Botón de filtros avanzados
                 Consumer<GamesProvider>(
@@ -84,7 +84,7 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                       children: [
                         IconButton(
                           onPressed: () => _showFilters(context),
-                          icon: Icon(Icons.filter_list),
+                          icon: const Icon(Icons.filter_list),
                           style: IconButton.styleFrom(
                             backgroundColor: hasFilters 
                                 ? AppConfig.primaryColor.withOpacity(0.1)
@@ -99,7 +99,7 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                             child: Container(
                               width: 8,
                               height: 8,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 color: AppConfig.accentColor,
                                 shape: BoxShape.circle,
                               ),
@@ -119,19 +119,19 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
               final filters = gamesProvider.currentFilters;
               
               if (!filters.hasActiveFilters) {
-                return SizedBox.shrink();
+                return const SizedBox.shrink();
               }
 
               return Container(
                 width: double.infinity,
-                padding: EdgeInsets.symmetric(horizontal: AppConfig.paddingMedium),
+                padding: const EdgeInsets.symmetric(horizontal: AppConfig.paddingMedium),
                 child: Wrap(
                   spacing: AppConfig.paddingSmall / 2,
                   children: [
                     if (filters.yearFrom != null)
                       Chip(
                         label: Text('Desde ${filters.yearFrom}'),
-                        deleteIcon: Icon(Icons.close, size: 18),
+                        deleteIcon: const Icon(Icons.close, size: 18),
                         onDeleted: () {
                           final newFilters = filters.copyWith(yearFrom: null);
                           gamesProvider.searchWithFilters(newFilters);
@@ -140,7 +140,7 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                     if (filters.yearTo != null)
                       Chip(
                         label: Text('Hasta ${filters.yearTo}'),
-                        deleteIcon: Icon(Icons.close, size: 18),
+                        deleteIcon: const Icon(Icons.close, size: 18),
                         onDeleted: () {
                           final newFilters = filters.copyWith(yearTo: null);
                           gamesProvider.searchWithFilters(newFilters);
@@ -149,7 +149,7 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                     if (filters.pegiAge != null)
                       Chip(
                         label: Text('PEGI ${filters.pegiAge}+'),
-                        deleteIcon: Icon(Icons.close, size: 18),
+                        deleteIcon: const Icon(Icons.close, size: 18),
                         onDeleted: () {
                           final newFilters = filters.copyWith(pegiAge: null);
                           gamesProvider.searchWithFilters(newFilters);
@@ -158,7 +158,7 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                     if (filters.selectedGenres.isNotEmpty)
                       Chip(
                         label: Text('${filters.selectedGenres.length} género(s)'),
-                        deleteIcon: Icon(Icons.close, size: 18),
+                        deleteIcon: const Icon(Icons.close, size: 18),
                         onDeleted: () {
                           final newFilters = filters.copyWith(selectedGenres: []);
                           gamesProvider.searchWithFilters(newFilters);
@@ -167,7 +167,7 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                     if (filters.selectedPlatforms.isNotEmpty)
                       Chip(
                         label: Text('${filters.selectedPlatforms.length} plataforma(s)'),
-                        deleteIcon: Icon(Icons.close, size: 18),
+                        deleteIcon: const Icon(Icons.close, size: 18),
                         onDeleted: () {
                           final newFilters = filters.copyWith(selectedPlatforms: []);
                           gamesProvider.searchWithFilters(newFilters);
@@ -176,13 +176,13 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                     
                     // Botón limpiar todos
                     ActionChip(
-                      label: Text('Limpiar todo'),
+                      label: const Text('Limpiar todo'),
                       onPressed: () {
                         gamesProvider.clearFilters();
                         _searchController.clear();
                         setState(() {});
                       },
-                      avatar: Icon(Icons.clear_all, size: 18),
+                      avatar: const Icon(Icons.clear_all, size: 18),
                     ),
                   ],
                 ),
@@ -195,7 +195,7 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
             child: Consumer<GamesProvider>(
               builder: (context, gamesProvider, child) {
                 if (gamesProvider.isLoading || gamesProvider.isSearching) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 }
 
                 final games = _searchController.text.isEmpty && 
@@ -206,21 +206,21 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                 if (games.isEmpty) {
                   return Center(
                     child: Padding(
-                      padding: EdgeInsets.all(AppConfig.paddingLarge),
+                      padding: const EdgeInsets.all(AppConfig.paddingLarge),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.videogame_asset_off,
                             size: 80,
                             color: AppConfig.textSecondaryColor,
                           ),
-                          SizedBox(height: AppConfig.paddingMedium),
+                          const SizedBox(height: AppConfig.paddingMedium),
                           Text(
                             'No se encontraron juegos',
                             style: Theme.of(context).textTheme.displayMedium,
                           ),
-                          SizedBox(height: AppConfig.paddingSmall),
+                          const SizedBox(height: AppConfig.paddingSmall),
                           Text(
                             'Intenta ajustar los filtros o busca otro término',
                             style: Theme.of(context).textTheme.bodyMedium,
@@ -233,12 +233,12 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                 }
 
                 return ListView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: AppConfig.paddingMedium),
+                  padding: const EdgeInsets.symmetric(horizontal: AppConfig.paddingMedium),
                   itemCount: games.length,
                   itemBuilder: (context, index) {
                     final game = games[index];
                     return Card(
-                      margin: EdgeInsets.only(bottom: AppConfig.paddingMedium),
+                      margin: const EdgeInsets.only(bottom: AppConfig.paddingMedium),
                       child: InkWell(
                         onTap: () {
                           Navigator.of(context).push(
@@ -252,7 +252,7 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                         },
                         borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
                         child: Padding(
-                          padding: EdgeInsets.all(AppConfig.paddingMedium),
+                          padding: const EdgeInsets.all(AppConfig.paddingMedium),
                           child: Row(
                             children: [
                               // Imagen del juego
@@ -272,7 +272,7 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                                       )
                                     : _buildPlaceholderImage(),
                               ),
-                              SizedBox(width: AppConfig.paddingMedium),
+                              const SizedBox(width: AppConfig.paddingMedium),
                               
                               // Información del juego
                               Expanded(
@@ -287,18 +287,18 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                     ),
-                                    SizedBox(height: AppConfig.paddingSmall / 2),
+                                    const SizedBox(height: AppConfig.paddingSmall / 2),
                                     Row(
                                       children: [
-                                        Icon(Icons.star, size: 16, color: Colors.amber),
-                                        SizedBox(width: 4),
+                                        const Icon(Icons.star, size: 16, color: Colors.amber),
+                                        const SizedBox(width: 4),
                                         Text('${game.rating}/5'),
                                       ],
                                     ),
                                     if (game.pegiRating != null) ...[
-                                      SizedBox(height: AppConfig.paddingSmall / 2),
+                                      const SizedBox(height: AppConfig.paddingSmall / 2),
                                       Container(
-                                        padding: EdgeInsets.symmetric(
+                                        padding: const EdgeInsets.symmetric(
                                           horizontal: AppConfig.paddingSmall,
                                           vertical: 2,
                                         ),
@@ -324,7 +324,7 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                                 ),
                               ),
                               
-                              Icon(Icons.arrow_forward_ios, size: 16),
+                              const Icon(Icons.arrow_forward_ios, size: 16),
                             ],
                           ),
                         ),
@@ -345,7 +345,7 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
       width: 80,
       height: 80,
       color: AppConfig.textSecondaryColor.withOpacity(0.1),
-      child: Icon(
+      child: const Icon(
         Icons.videogame_asset,
         color: AppConfig.textSecondaryColor,
       ),

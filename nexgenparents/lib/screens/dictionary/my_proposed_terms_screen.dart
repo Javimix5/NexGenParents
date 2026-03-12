@@ -37,12 +37,12 @@ class _MyProposedTermsScreenState extends State<MyProposedTermsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Mis Términos Propuestos'),
+        title: const Text('Mis Términos Propuestos'),
       ),
       body: Consumer<DictionaryProvider>(
         builder: (context, dictionaryProvider, child) {
           if (dictionaryProvider.isLoading) {
-            return Center(
+            return const Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -59,22 +59,22 @@ class _MyProposedTermsScreenState extends State<MyProposedTermsScreen> {
           if (terms.isEmpty) {
             return Center(
               child: Padding(
-                padding: EdgeInsets.all(AppConfig.paddingLarge),
+                padding: const EdgeInsets.all(AppConfig.paddingLarge),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.article_outlined,
                       size: 80,
                       color: AppConfig.textSecondaryColor,
                     ),
-                    SizedBox(height: AppConfig.paddingMedium),
+                    const SizedBox(height: AppConfig.paddingMedium),
                     Text(
                       'No has propuesto términos aún',
                       style: Theme.of(context).textTheme.displayMedium,
                       textAlign: TextAlign.center,
                     ),
-                    SizedBox(height: AppConfig.paddingSmall),
+                    const SizedBox(height: AppConfig.paddingSmall),
                     Text(
                       'Contribuye al diccionario proponiendo nuevos términos',
                       style: Theme.of(context).textTheme.bodyMedium,
@@ -89,22 +89,22 @@ class _MyProposedTermsScreenState extends State<MyProposedTermsScreen> {
           if (terms.isEmpty) {
             return Center(
               child: Padding(
-                padding: EdgeInsets.all(AppConfig.paddingLarge),
+                padding: const EdgeInsets.all(AppConfig.paddingLarge),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.article_outlined,
                       size: 80,
                       color: AppConfig.textSecondaryColor,
                     ),
-                    SizedBox(height: AppConfig.paddingMedium),
+                    const SizedBox(height: AppConfig.paddingMedium),
                     Text(
                       'No has propuesto términos aún',
                       style: Theme.of(context).textTheme.displayMedium,
                       textAlign: TextAlign.center,
                     ),
-                    SizedBox(height: AppConfig.paddingSmall),
+                    const SizedBox(height: AppConfig.paddingSmall),
                     Text(
                       'Contribuye al diccionario proponiendo nuevos términos',
                       style: Theme.of(context).textTheme.bodyMedium,
@@ -121,8 +121,8 @@ class _MyProposedTermsScreenState extends State<MyProposedTermsScreen> {
               // Header con estadísticas
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.all(AppConfig.paddingLarge),
-                decoration: BoxDecoration(
+                padding: const EdgeInsets.all(AppConfig.paddingLarge),
+                decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
                       AppConfig.primaryColor,
@@ -136,7 +136,7 @@ class _MyProposedTermsScreenState extends State<MyProposedTermsScreen> {
                   children: [
                     Text(
                       '${terms.length}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 48,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
@@ -149,7 +149,7 @@ class _MyProposedTermsScreenState extends State<MyProposedTermsScreen> {
                         color: Colors.white.withOpacity(0.9),
                       ),
                     ),
-                    SizedBox(height: AppConfig.paddingMedium),
+                    const SizedBox(height: AppConfig.paddingMedium),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -158,7 +158,7 @@ class _MyProposedTermsScreenState extends State<MyProposedTermsScreen> {
                           user?.termsApproved ?? 0,
                           AppConfig.accentColor,
                         ),
-                        SizedBox(width: AppConfig.paddingSmall),
+                        const SizedBox(width: AppConfig.paddingSmall),
                         _buildStatChip(
                           'Pendientes',
                           terms.where((t) => t.status == 'pending').length,
@@ -173,12 +173,12 @@ class _MyProposedTermsScreenState extends State<MyProposedTermsScreen> {
               // Lista de términos
               Expanded(
                 child: ListView.builder(
-                  padding: EdgeInsets.all(AppConfig.paddingMedium),
+                  padding: const EdgeInsets.all(AppConfig.paddingMedium),
                   itemCount: terms.length,
                   itemBuilder: (context, index) {
                     final term = terms[index];
                     return Card(
-                      margin: EdgeInsets.only(bottom: AppConfig.paddingMedium),
+                      margin: const EdgeInsets.only(bottom: AppConfig.paddingMedium),
                       child: InkWell(
                         onTap: () {
                           Navigator.of(context).push(
@@ -189,7 +189,7 @@ class _MyProposedTermsScreenState extends State<MyProposedTermsScreen> {
                         },
                         borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
                         child: Padding(
-                          padding: EdgeInsets.all(AppConfig.paddingMedium),
+                          padding: const EdgeInsets.all(AppConfig.paddingMedium),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -206,38 +206,38 @@ class _MyProposedTermsScreenState extends State<MyProposedTermsScreen> {
                                   _buildStatusChip(term.status),
                                 ],
                               ),
-                              SizedBox(height: AppConfig.paddingSmall),
+                              const SizedBox(height: AppConfig.paddingSmall),
                               Text(
                                 term.definition,
                                 style: Theme.of(context).textTheme.bodyMedium,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                               ),
-                              SizedBox(height: AppConfig.paddingSmall),
+                              const SizedBox(height: AppConfig.paddingSmall),
                               Row(
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Icons.category,
                                     size: 14,
                                     color: AppConfig.textSecondaryColor,
                                   ),
-                                  SizedBox(width: AppConfig.paddingSmall / 2),
+                                  const SizedBox(width: AppConfig.paddingSmall / 2),
                                   Text(
                                     term.categoryDisplayName,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: AppConfig.fontSizeCaption,
                                       color: AppConfig.textSecondaryColor,
                                     ),
                                   ),
-                                  Spacer(),
+                                  const Spacer(),
                                   if (term.rejectionReason != null) ...[
-                                    Icon(
+                                    const Icon(
                                       Icons.info_outline,
                                       size: 14,
                                       color: AppConfig.errorColor,
                                     ),
-                                    SizedBox(width: AppConfig.paddingSmall / 2),
-                                    Text(
+                                    const SizedBox(width: AppConfig.paddingSmall / 2),
+                                    const Text(
                                       'Ver motivo',
                                       style: TextStyle(
                                         fontSize: AppConfig.fontSizeCaption,
@@ -248,25 +248,25 @@ class _MyProposedTermsScreenState extends State<MyProposedTermsScreen> {
                                 ],
                               ),
                               if (term.rejectionReason != null) ...[
-                                SizedBox(height: AppConfig.paddingSmall),
+                                const SizedBox(height: AppConfig.paddingSmall),
                                 Container(
-                                  padding: EdgeInsets.all(AppConfig.paddingSmall),
+                                  padding: const EdgeInsets.all(AppConfig.paddingSmall),
                                   decoration: BoxDecoration(
                                     color: AppConfig.errorColor.withOpacity(0.1),
                                     borderRadius: BorderRadius.circular(AppConfig.borderRadiusSmall),
                                   ),
                                   child: Row(
                                     children: [
-                                      Icon(
+                                      const Icon(
                                         Icons.block,
                                         size: 16,
                                         color: AppConfig.errorColor,
                                       ),
-                                      SizedBox(width: AppConfig.paddingSmall / 2),
+                                      const SizedBox(width: AppConfig.paddingSmall / 2),
                                       Expanded(
                                         child: Text(
                                           term.rejectionReason!,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontSize: AppConfig.fontSizeCaption,
                                             color: AppConfig.errorColor,
                                           ),
@@ -293,7 +293,7 @@ class _MyProposedTermsScreenState extends State<MyProposedTermsScreen> {
 
   Widget _buildStatChip(String label, int count, Color color) {
     return Container(
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         horizontal: AppConfig.paddingMedium,
         vertical: AppConfig.paddingSmall,
       ),
@@ -306,13 +306,13 @@ class _MyProposedTermsScreenState extends State<MyProposedTermsScreen> {
         children: [
           Text(
             '$count',
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
               fontSize: AppConfig.fontSizeBody,
             ),
           ),
-          SizedBox(width: AppConfig.paddingSmall / 2),
+          const SizedBox(width: AppConfig.paddingSmall / 2),
           Text(
             label,
             style: TextStyle(
@@ -353,7 +353,7 @@ class _MyProposedTermsScreenState extends State<MyProposedTermsScreen> {
     }
 
     return Container(
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         horizontal: AppConfig.paddingSmall,
         vertical: AppConfig.paddingSmall / 2,
       ),
@@ -366,7 +366,7 @@ class _MyProposedTermsScreenState extends State<MyProposedTermsScreen> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(icon, size: 14, color: color),
-          SizedBox(width: AppConfig.paddingSmall / 2),
+          const SizedBox(width: AppConfig.paddingSmall / 2),
           Text(
             text,
             style: TextStyle(

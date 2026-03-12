@@ -280,7 +280,7 @@ Future<List<Game>> searchGamesWithFilters({
       queryParams['platforms'] = platforms.join(',');
     }
 
-    final uri = Uri.parse(_baseUrl + '/games').replace(queryParameters: queryParams);
+    final uri = Uri.parse('$_baseUrl/games').replace(queryParameters: queryParams);
     
     final data = await _fetchJson(uri);
     if (data != null) {

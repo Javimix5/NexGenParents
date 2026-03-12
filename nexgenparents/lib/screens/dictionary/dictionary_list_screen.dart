@@ -26,12 +26,12 @@ class _DictionaryListScreenState extends State<DictionaryListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Diccionario Gamer'),
+        title: const Text('Diccionario Gamer'),
       ),
       body: Consumer<DictionaryProvider>(
         builder: (context, dictionaryProvider, child) {
           if (dictionaryProvider.isLoading) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
 
           final terms = dictionaryProvider.approvedTerms;
@@ -39,22 +39,22 @@ class _DictionaryListScreenState extends State<DictionaryListScreen> {
           if (terms.isEmpty) {
             return Center(
               child: Padding(
-                padding: EdgeInsets.all(AppConfig.paddingLarge),
+                padding: const EdgeInsets.all(AppConfig.paddingLarge),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.book_outlined,
                       size: 80,
                       color: AppConfig.textSecondaryColor,
                     ),
-                    SizedBox(height: AppConfig.paddingMedium),
+                    const SizedBox(height: AppConfig.paddingMedium),
                     Text(
                       'No hay términos en el diccionario',
                       style: Theme.of(context).textTheme.displayMedium,
                       textAlign: TextAlign.center,
                     ),
-                    SizedBox(height: AppConfig.paddingSmall),
+                    const SizedBox(height: AppConfig.paddingSmall),
                     Text(
                       'Sé el primero en proponer un término',
                       style: Theme.of(context).textTheme.bodyMedium,
@@ -67,7 +67,7 @@ class _DictionaryListScreenState extends State<DictionaryListScreen> {
           }
 
           return ListView.builder(
-            padding: EdgeInsets.all(AppConfig.paddingMedium),
+            padding: const EdgeInsets.all(AppConfig.paddingMedium),
             itemCount: terms.length,
             itemBuilder: (context, index) {
               final term = terms[index];
@@ -108,8 +108,8 @@ class _DictionaryListScreenState extends State<DictionaryListScreen> {
     ),
   );
 },
-        icon: Icon(Icons.add),
-        label: Text('Proponer término'),
+        icon: const Icon(Icons.add),
+        label: const Text('Proponer término'),
       ),
     );
   }

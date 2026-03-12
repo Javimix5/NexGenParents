@@ -37,7 +37,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
       body: Consumer<GamesProvider>(
         builder: (context, gamesProvider, child) {
           if (gamesProvider.isLoadingDetails) {
-            return Center(
+            return const Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -56,17 +56,17 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.error_outline,
                     size: 60,
                     color: AppConfig.errorColor,
                   ),
-                  SizedBox(height: AppConfig.paddingMedium),
-                  Text('No se pudo cargar la información del juego'),
-                  SizedBox(height: AppConfig.paddingMedium),
+                  const SizedBox(height: AppConfig.paddingMedium),
+                  const Text('No se pudo cargar la información del juego'),
+                  const SizedBox(height: AppConfig.paddingMedium),
                   ElevatedButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    child: Text('Volver'),
+                    child: const Text('Volver'),
                   ),
                 ],
               ),
@@ -86,12 +86,12 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                     // Información básica
                     _buildBasicInfo(game),
                     
-                    Divider(height: 1),
+                    const Divider(height: 1),
                     
                     // Clasificación PEGI y advertencias
                     _buildPegiSection(game),
                     
-                    Divider(height: 1),
+                    const Divider(height: 1),
                     
                     // Descripción/Sinopsis [1]
                     _buildDescriptionSection(game),
@@ -106,7 +106,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                     if (gamesProvider.selectedGameScreenshots.isNotEmpty)
                       _buildScreenshotsSection(gamesProvider.selectedGameScreenshots),
                     
-                    SizedBox(height: AppConfig.paddingLarge * 2),
+                    const SizedBox(height: AppConfig.paddingLarge * 2),
                   ],
                 ),
               ),
@@ -123,7 +123,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
       pinned: true,
       flexibleSpace: FlexibleSpaceBar(
         title: Container(
-  padding: EdgeInsets.symmetric(
+  padding: const EdgeInsets.symmetric(
     horizontal: AppConfig.paddingSmall,
     vertical: AppConfig.paddingSmall / 2,
   ),
@@ -139,7 +139,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
       color: Colors.white,
       shadows: [
         Shadow(
-          offset: Offset(0, 1),
+          offset: const Offset(0, 1),
           blurRadius: 3.0,
           color: Colors.black.withOpacity(0.8),
         ),
@@ -155,16 +155,16 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                 fit: BoxFit.cover,
                 placeholder: (context, url) => Container(
                   color: AppConfig.textSecondaryColor,
-                  child: Center(child: CircularProgressIndicator()),
+                  child: const Center(child: CircularProgressIndicator()),
                 ),
                 errorWidget: (context, url, error) => Container(
                   color: AppConfig.textSecondaryColor,
-                  child: Icon(Icons.videogame_asset, size: 60),
+                  child: const Icon(Icons.videogame_asset, size: 60),
                 ),
               )
             : Container(
                 color: AppConfig.textSecondaryColor,
-                child: Icon(Icons.videogame_asset, size: 60, color: Colors.white),
+                child: const Icon(Icons.videogame_asset, size: 60, color: Colors.white),
               ),
       ),
     );
@@ -172,28 +172,28 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
 
   Widget _buildBasicInfo(Game game) {
     return Padding(
-      padding: EdgeInsets.all(AppConfig.paddingMedium),
+      padding: const EdgeInsets.all(AppConfig.paddingMedium),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
               // Rating
-              Icon(Icons.star, color: Colors.amber, size: 24),
-              SizedBox(width: AppConfig.paddingSmall / 2),
+              const Icon(Icons.star, color: Colors.amber, size: 24),
+              const SizedBox(width: AppConfig.paddingSmall / 2),
               Text(
                 '${game.rating}/5',
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: AppConfig.fontSizeHeading,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(width: AppConfig.paddingMedium),
+              const SizedBox(width: AppConfig.paddingMedium),
               
               // Metacritic
               if (game.metacritic != null) ...[
                 Container(
-                  padding: EdgeInsets.symmetric(
+                  padding: const EdgeInsets.symmetric(
                     horizontal: AppConfig.paddingSmall,
                     vertical: AppConfig.paddingSmall / 2,
                   ),
@@ -203,7 +203,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                   ),
                   child: Text(
                     'Metacritic: ${game.metacritic}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
@@ -214,14 +214,14 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
           ),
           
           if (game.released != null) ...[
-            SizedBox(height: AppConfig.paddingSmall),
+            const SizedBox(height: AppConfig.paddingSmall),
             Row(
               children: [
-                Icon(Icons.calendar_today, size: 16, color: AppConfig.textSecondaryColor),
-                SizedBox(width: AppConfig.paddingSmall / 2),
+                const Icon(Icons.calendar_today, size: 16, color: AppConfig.textSecondaryColor),
+                const SizedBox(width: AppConfig.paddingSmall / 2),
                 Text(
                   'Lanzamiento: ${game.released}',
-                  style: TextStyle(color: AppConfig.textSecondaryColor),
+                  style: const TextStyle(color: AppConfig.textSecondaryColor),
                 ),
               ],
             ),
@@ -236,21 +236,21 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
     
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(AppConfig.paddingMedium),
+      padding: const EdgeInsets.all(AppConfig.paddingMedium),
       color: pegi != null
           ? AppTheme.getPegiColor(pegi).withOpacity(0.1)
           : AppConfig.backgroundColor,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             'Clasificación por edad (PEGI)',
             style: TextStyle(
               fontSize: AppConfig.fontSizeHeading,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: AppConfig.paddingSmall),
+          const SizedBox(height: AppConfig.paddingSmall),
           
           if (pegi != null) ...[
             Row(
@@ -266,7 +266,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                     child: Text(
                       'PEGI\n$pegi+',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: AppConfig.fontSizeBody,
@@ -274,20 +274,20 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                     ),
                   ),
                 ),
-                SizedBox(width: AppConfig.paddingMedium),
+                const SizedBox(width: AppConfig.paddingMedium),
                 Expanded(
                   child: Text(
                     _getPegiDescription(pegi),
-                    style: TextStyle(fontSize: AppConfig.fontSizeBody),
+                    style: const TextStyle(fontSize: AppConfig.fontSizeBody),
                   ),
                 ),
               ],
             ),
-            SizedBox(height: AppConfig.paddingMedium),
+            const SizedBox(height: AppConfig.paddingMedium),
             
             // Advertencia para padres
             Container(
-              padding: EdgeInsets.all(AppConfig.paddingMedium),
+              padding: const EdgeInsets.all(AppConfig.paddingMedium),
               decoration: BoxDecoration(
                 color: AppConfig.warningColor.withOpacity(0.2),
                 borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
@@ -295,12 +295,12 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.warning_amber_rounded, color: AppConfig.warningColor),
-                  SizedBox(width: AppConfig.paddingSmall),
+                  const Icon(Icons.warning_amber_rounded, color: AppConfig.warningColor),
+                  const SizedBox(width: AppConfig.paddingSmall),
                   Expanded(
                     child: Text(
                       'Recomendado para mayores de $pegi años',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: AppConfig.fontSizeBody,
                       ),
@@ -310,7 +310,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
               ),
             ),
           ] else ...[
-            Text(
+            const Text(
               'No hay información de clasificación PEGI disponible',
               style: TextStyle(
                 color: AppConfig.textSecondaryColor,
@@ -325,21 +325,21 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
 
   Widget _buildDescriptionSection(Game game) {
     return Padding(
-      padding: EdgeInsets.all(AppConfig.paddingMedium),
+      padding: const EdgeInsets.all(AppConfig.paddingMedium),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             'Descripción del juego',
             style: TextStyle(
               fontSize: AppConfig.fontSizeHeading,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: AppConfig.paddingSmall),
+          const SizedBox(height: AppConfig.paddingSmall),
           Text(
             game.description ?? 'No hay descripción disponible',
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: AppConfig.fontSizeBody,
               height: 1.5,
             ),
@@ -350,21 +350,21 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
   }
 
   Widget _buildGenresSection(Game game) {
-    if (game.genres.isEmpty) return SizedBox.shrink();
+    if (game.genres.isEmpty) return const SizedBox.shrink();
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: AppConfig.paddingMedium),
+      padding: const EdgeInsets.symmetric(horizontal: AppConfig.paddingMedium),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             'Géneros',
             style: TextStyle(
               fontSize: AppConfig.fontSizeHeading,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: AppConfig.paddingSmall),
+          const SizedBox(height: AppConfig.paddingSmall),
           Wrap(
             spacing: AppConfig.paddingSmall,
             runSpacing: AppConfig.paddingSmall,
@@ -375,39 +375,39 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
               );
             }).toList(),
           ),
-          SizedBox(height: AppConfig.paddingMedium),
+          const SizedBox(height: AppConfig.paddingMedium),
         ],
       ),
     );
   }
 
   Widget _buildPlatformsSection(Game game) {
-    if (game.platforms.isEmpty) return SizedBox.shrink();
+    if (game.platforms.isEmpty) return const SizedBox.shrink();
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: AppConfig.paddingMedium),
+      padding: const EdgeInsets.symmetric(horizontal: AppConfig.paddingMedium),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             'Plataformas disponibles',
             style: TextStyle(
               fontSize: AppConfig.fontSizeHeading,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: AppConfig.paddingSmall),
+          const SizedBox(height: AppConfig.paddingSmall),
           Wrap(
             spacing: AppConfig.paddingSmall,
             runSpacing: AppConfig.paddingSmall,
             children: game.platforms.map((platform) {
               return Chip(
                 label: Text(platform),
-                avatar: Icon(Icons.devices, size: 16),
+                avatar: const Icon(Icons.devices, size: 16),
               );
             }).toList(),
           ),
-          SizedBox(height: AppConfig.paddingMedium),
+          const SizedBox(height: AppConfig.paddingMedium),
         ],
       ),
     );
@@ -415,18 +415,18 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
 
   Widget _buildScreenshotsSection(List<String> screenshots) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: AppConfig.paddingMedium),
+      padding: const EdgeInsets.symmetric(horizontal: AppConfig.paddingMedium),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             'Capturas de pantalla',
             style: TextStyle(
               fontSize: AppConfig.fontSizeHeading,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: AppConfig.paddingSmall),
+          const SizedBox(height: AppConfig.paddingSmall),
           SizedBox(
             height: 150,
             child: ListView.builder(
@@ -434,7 +434,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
               itemCount: screenshots.length,
               itemBuilder: (context, index) {
                 return Padding(
-                  padding: EdgeInsets.only(right: AppConfig.paddingSmall),
+                  padding: const EdgeInsets.only(right: AppConfig.paddingSmall),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
                     child: CachedNetworkImage(
@@ -444,12 +444,12 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                       placeholder: (context, url) => Container(
                         width: 250,
                         color: AppConfig.textSecondaryColor,
-                        child: Center(child: CircularProgressIndicator()),
+                        child: const Center(child: CircularProgressIndicator()),
                       ),
                       errorWidget: (context, url, error) => Container(
                         width: 250,
                         color: AppConfig.textSecondaryColor,
-                        child: Icon(Icons.error),
+                        child: const Icon(Icons.error),
                       ),
                     ),
                   ),

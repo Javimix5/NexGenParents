@@ -81,17 +81,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
     if (user == null) {
       return Scaffold(
-        appBar: AppBar(title: Text('Editar Perfil')),
-        body: Center(child: Text('No hay usuario autenticado')),
+        appBar: AppBar(title: const Text('Editar Perfil')),
+        body: const Center(child: Text('No hay usuario autenticado')),
       );
     }
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Editar Perfil'),
+        title: const Text('Editar Perfil'),
         actions: [
           if (_isLoading)
-            Center(
+            const Center(
               child: Padding(
                 padding: EdgeInsets.all(16),
                 child: SizedBox(
@@ -107,7 +107,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         ],
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(AppConfig.paddingMedium),
+        padding: const EdgeInsets.all(AppConfig.paddingMedium),
         child: Center(
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 980),
@@ -118,18 +118,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 children: [
               // Avatar
               _buildAvatarSection(),
-              SizedBox(height: AppConfig.paddingLarge),
+              const SizedBox(height: AppConfig.paddingLarge),
 
               // Estadísticas
               _buildStatsSection(user),
-              SizedBox(height: AppConfig.paddingLarge),
+              const SizedBox(height: AppConfig.paddingLarge),
 
               // Nombre
               _buildSectionTitle('Información Personal'),
               _buildConstrainedField(
                 TextFormField(
                   controller: _nameController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Nombre de usuario',
                     prefixIcon: Icon(Icons.person),
                   ),
@@ -141,13 +141,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   },
                 ),
               ),
-              SizedBox(height: AppConfig.paddingMedium),
+              const SizedBox(height: AppConfig.paddingMedium),
 
               // Email
               _buildConstrainedField(
                 TextFormField(
                   controller: _emailController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Correo electrónico',
                     prefixIcon: Icon(Icons.email),
                     suffixIcon: Icon(Icons.lock_outline, size: 16),
@@ -164,8 +164,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   },
                 ),
               ),
-              SizedBox(height: AppConfig.paddingSmall),
-              Row(
+              const SizedBox(height: AppConfig.paddingSmall),
+              const Row(
                 children: [
                   Icon(Icons.info_outline, size: 14, color: AppConfig.textSecondaryColor),
                   SizedBox(width: 4),
@@ -180,41 +180,41 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: AppConfig.paddingMedium),
+              const SizedBox(height: AppConfig.paddingMedium),
 
               // Botón cambiar contraseña
               OutlinedButton.icon(
                 onPressed: _showChangePasswordDialog,
-                icon: Icon(Icons.lock),
-                label: Text('Cambiar contraseña'),
+                icon: const Icon(Icons.lock),
+                label: const Text('Cambiar contraseña'),
               ),
-              SizedBox(height: AppConfig.paddingLarge),
+              const SizedBox(height: AppConfig.paddingLarge),
 
               // Edades de hijos (calculadas desde año de nacimiento)
               _buildSectionTitle('Información de tus Hijos'),
-              Text(
+              const Text(
                 'Añade los años de nacimiento para personalizar recomendaciones de juegos',
                 style: TextStyle(
                   fontSize: AppConfig.fontSizeCaption,
                   color: AppConfig.textSecondaryColor,
                 ),
               ),
-              SizedBox(height: AppConfig.paddingSmall),
+              const SizedBox(height: AppConfig.paddingSmall),
               _buildChildrenBirthYearsSection(),
-              SizedBox(height: AppConfig.paddingLarge),
+              const SizedBox(height: AppConfig.paddingLarge),
 
               // Plataformas
               _buildSectionTitle('Plataformas que Posees'),
-              Text(
+              const Text(
                 'Selecciona las consolas y dispositivos que tienes en casa',
                 style: TextStyle(
                   fontSize: AppConfig.fontSizeCaption,
                   color: AppConfig.textSecondaryColor,
                 ),
               ),
-              SizedBox(height: AppConfig.paddingSmall),
+              const SizedBox(height: AppConfig.paddingSmall),
               _buildPlatformsSection(),
-              SizedBox(height: AppConfig.paddingLarge),
+              const SizedBox(height: AppConfig.paddingLarge),
 
               // Botón guardar
               Align(
@@ -223,10 +223,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   constraints: const BoxConstraints(maxWidth: 320),
                   child: ElevatedButton.icon(
                     onPressed: _isLoading ? null : _saveProfile,
-                    icon: Icon(Icons.save),
-                    label: Text('Guardar Cambios'),
+                    icon: const Icon(Icons.save),
+                    label: const Text('Guardar Cambios'),
                     style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         vertical: AppConfig.paddingMedium,
                         horizontal: AppConfig.paddingLarge,
                       ),
@@ -235,7 +235,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: AppConfig.paddingMedium),
+              const SizedBox(height: AppConfig.paddingMedium),
 
               // Botón eliminar cuenta
               Align(
@@ -244,12 +244,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   constraints: const BoxConstraints(maxWidth: 320),
                   child: OutlinedButton.icon(
                     onPressed: _showDeleteAccountDialog,
-                    icon: Icon(Icons.delete_forever, color: AppConfig.errorColor),
-                    label: Text('Eliminar Cuenta'),
+                    icon: const Icon(Icons.delete_forever, color: AppConfig.errorColor),
+                    label: const Text('Eliminar Cuenta'),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: AppConfig.errorColor,
-                      side: BorderSide(color: AppConfig.errorColor),
-                      padding: EdgeInsets.symmetric(
+                      side: const BorderSide(color: AppConfig.errorColor),
+                      padding: const EdgeInsets.symmetric(
                         vertical: AppConfig.paddingMedium,
                         horizontal: AppConfig.paddingLarge,
                       ),
@@ -279,10 +279,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   Widget _buildSectionTitle(String title) {
     return Padding(
-      padding: EdgeInsets.only(bottom: AppConfig.paddingSmall),
+      padding: const EdgeInsets.only(bottom: AppConfig.paddingSmall),
       child: Text(
         title,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: AppConfig.fontSizeHeading,
           fontWeight: FontWeight.bold,
           color: AppConfig.primaryColor,
@@ -306,15 +306,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             child: Center(
               child: Text(
                 _selectedAvatar,
-                style: TextStyle(fontSize: 50),
+                style: const TextStyle(fontSize: 50),
               ),
             ),
           ),
-          SizedBox(height: AppConfig.paddingSmall),
+          const SizedBox(height: AppConfig.paddingSmall),
           TextButton.icon(
             onPressed: _showAvatarSelector,
-            icon: Icon(Icons.edit),
-            label: Text('Cambiar Avatar'),
+            icon: const Icon(Icons.edit),
+            label: const Text('Cambiar Avatar'),
           ),
         ],
       ),
@@ -323,7 +323,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   Widget _buildStatsSection(user) {
     return Container(
-      padding: EdgeInsets.all(AppConfig.paddingMedium),
+      padding: const EdgeInsets.all(AppConfig.paddingMedium),
       decoration: BoxDecoration(
         color: AppConfig.primaryColor.withOpacity(0.1),
         borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
@@ -331,14 +331,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       ),
       child: Column(
         children: [
-          Text(
+          const Text(
             'Tu Actividad en NexGen Parents',
             style: TextStyle(
               fontSize: AppConfig.fontSizeBody,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: AppConfig.paddingMedium),
+          const SizedBox(height: AppConfig.paddingMedium),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -368,10 +368,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return Column(
       children: [
         Icon(icon, color: AppConfig.primaryColor, size: 30),
-        SizedBox(height: 4),
+        const SizedBox(height: 4),
         Text(
           value,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
             color: AppConfig.primaryColor,
@@ -379,7 +379,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         ),
         Text(
           label,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 12,
             color: AppConfig.textSecondaryColor,
           ),
@@ -399,8 +399,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           children: _childrenBirthYears.map((birthYear) {
             final age = _calculateAge(birthYear);
             return Chip(
-              label: Text('$age años (${birthYear})'),
-              deleteIcon: Icon(Icons.close, size: 18),
+              label: Text('$age años ($birthYear)'),
+              deleteIcon: const Icon(Icons.close, size: 18),
               onDeleted: () {
                 setState(() {
                   _childrenBirthYears.remove(birthYear);
@@ -409,11 +409,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             );
           }).toList(),
         ),
-        SizedBox(height: AppConfig.paddingSmall),
+        const SizedBox(height: AppConfig.paddingSmall),
         OutlinedButton.icon(
           onPressed: _showAddBirthYearDialog,
-          icon: Icon(Icons.add),
-          label: Text('Añadir Año de Nacimiento'),
+          icon: const Icon(Icons.add),
+          label: const Text('Añadir Año de Nacimiento'),
         ),
       ],
     );
@@ -446,7 +446,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Selecciona tu Avatar'),
+        title: const Text('Selecciona tu Avatar'),
         content: Wrap(
           spacing: 16,
           runSpacing: 16,
@@ -474,7 +474,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                 ),
                 child: Center(
-                  child: Text(avatar, style: TextStyle(fontSize: 30)),
+                  child: Text(avatar, style: const TextStyle(fontSize: 30)),
                 ),
               ),
             );
@@ -492,20 +492,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Añadir Año de Nacimiento'),
+        title: const Text('Añadir Año de Nacimiento'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
               controller: birthYearController,
               keyboardType: TextInputType.number,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Año de nacimiento',
                 hintText: 'Ejemplo: 2015',
               ),
             ),
-            SizedBox(height: AppConfig.paddingSmall),
-            Text(
+            const SizedBox(height: AppConfig.paddingSmall),
+            const Text(
               'Introduce el año de nacimiento de tu hijo para obtener recomendaciones personalizadas.',
               style: TextStyle(
                 fontSize: AppConfig.fontSizeCaption,
@@ -517,7 +517,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text('Cancelar'),
+            child: const Text('Cancelar'),
           ),
           ElevatedButton(
             onPressed: () {
@@ -529,11 +529,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 Navigator.pop(context);
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Por favor, introduce un año de nacimiento válido')),
+                  const SnackBar(content: Text('Por favor, introduce un año de nacimiento válido')),
                 );
               }
             },
-            child: Text('Añadir'),
+            child: const Text('Añadir'),
           ),
         ],
       ),
@@ -770,7 +770,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               if (!mounted) return;
               Navigator.pop(dialogContext);
               Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (_) => LoginScreen()),
+                MaterialPageRoute(builder: (_) => const LoginScreen()),
                 (route) => false,
               );
             },
