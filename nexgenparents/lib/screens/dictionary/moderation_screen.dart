@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/dictionary_provider.dart';
 import '../../config/app_config.dart';
-import '../../config/app_theme.dart';
 
 class ModerationScreen extends StatefulWidget {
   const ModerationScreen({super.key});
