@@ -111,10 +111,6 @@ Las contribuciones son bienvenidas. Para cambios importantes:
 4. Push a la rama (`git push origin feature/AmazingFeature`)
 5. Abre un Pull Request
 
-## Licencia
-
-Este proyecto está bajo licencia [especificar licencia - ej: MIT]. Ver el archivo `LICENSE` para más detalles.
-
 ## Contacto
 
 Para preguntas o sugerencias sobre NexGen Parents, puedes abrir un issue en este repositorio.
