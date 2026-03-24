@@ -1,4 +1,9 @@
 # NexGen Parents
+<p align="center">
+  <img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter">
+  <img src="https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white" alt="Dart">
+  <img src="https://img.shields.io/badge/Version-1.0.0-green?style=for-the-badge" alt="Version">
+</p>
 
 Una aplicación móvil diseñada para ayudar a padres y madres a tomar decisiones informadas sobre videojuegos. Combina un diccionario colaborativo de términos gaming, guías paso a paso de controles parentales y recomendaciones de juegos según edad y plataforma.
 
