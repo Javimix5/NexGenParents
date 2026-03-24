@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../services/rawg_service.dart';
 import '../models/game_model.dart';
 import '../models/game_filters.dart';
 
 class GamesProvider with ChangeNotifier {
-  final RawgService _rawgService = RawgService();
+  static const String _favoritesStorageKey = 'games_favorite_items';
+  static const String _filtersStorageKey = 'games_last_filters';
+
+  final RawgService _rawgService;
+
+  GamesProvider({RawgService? rawgService})
+      : _rawgService = rawgService ?? RawgService() {
+    _restoreLocalState();
+  }
 
   List<Game> _popularGames = [];
   List<Game> _searchResults = [];
   List<Game> _gamesByAge = [];
   List<Game> _favoriteGames = [];
-  GameFilters _filters = GameFilters();
 
   Game? _selectedGame;
   List<String> _selectedGameScreenshots = [];
@@ -130,6 +139,7 @@ class GamesProvider with ChangeNotifier {
   void addToFavorites(Game game) {
     if (!_favoriteGames.any((g) => g.id == game.id)) {
       _favoriteGames.add(game);
+      _saveFavorites();
       notifyListeners();
     }
   }
@@ -137,6 +147,7 @@ class GamesProvider with ChangeNotifier {
   // Eliminar juego de favoritos
   void removeFromFavorites(int gameId) {
     _favoriteGames.removeWhere((game) => game.id == gameId);
+    _saveFavorites();
     notifyListeners();
   }
 
@@ -240,6 +251,7 @@ Future<void> loadGenres() async {
 Future<void> searchWithFilters(GameFilters filters) async {
   _isSearching = true;
   _currentFilters = filters;
+  _saveFilters();
   _errorMessage = null;
   notifyListeners();
 
@@ -266,12 +278,63 @@ Future<void> searchWithFilters(GameFilters filters) async {
 void clearFilters() {
   _currentFilters = GameFilters();
   _searchResults = [];
+  _saveFilters();
   notifyListeners();
 }
 
 // Aplicar filtro rápido por edad PEGI (mantiene otros filtros activos)
 void applyPegiFilter(int age) {
   _currentFilters = _currentFilters.copyWith(pegiAge: age);
+  _saveFilters();
   searchWithFilters(_currentFilters);
 }
+
+  Future<void> _restoreLocalState() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+
+      final favoriteItems = prefs.getStringList(_favoritesStorageKey) ?? [];
+      _favoriteGames = favoriteItems
+          .map((item) => Game.fromJson(json.decode(item) as Map<String, dynamic>))
+          .toList();
+
+      final storedFilters = prefs.getString(_filtersStorageKey);
+      if (storedFilters != null && storedFilters.isNotEmpty) {
+        _currentFilters = GameFilters.fromJson(
+          json.decode(storedFilters) as Map<String, dynamic>,
+        );
+      }
+
+      notifyListeners();
+    } catch (e) {
+      _errorMessage = 'No se pudieron restaurar favoritos y filtros locales';
+      notifyListeners();
+    }
+  }
+
+  Future<void> _saveFavorites() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final payload = _favoriteGames
+          .map((game) => json.encode(game.toJson()))
+          .toList();
+      await prefs.setStringList(_favoritesStorageKey, payload);
+    } catch (e) {
+      _errorMessage = 'No se pudieron guardar los favoritos';
+      notifyListeners();
+    }
+  }
+
+  Future<void> _saveFilters() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(
+        _filtersStorageKey,
+        json.encode(_currentFilters.toJson()),
+      );
+    } catch (e) {
+      _errorMessage = 'No se pudieron guardar los filtros';
+      notifyListeners();
+    }
+  }
 }

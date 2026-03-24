@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/dictionary_provider.dart';
 import '../../config/app_config.dart';
-import '../../config/app_theme.dart';
 
 class ModerationScreen extends StatefulWidget {
   const ModerationScreen({super.key});
@@ -28,25 +27,25 @@ class _ModerationScreenState extends State<ModerationScreen> {
     // Verificar permisos de moderador
     if (!authProvider.isModerator) {
       return Scaffold(
-        appBar: AppBar(title: Text('Acceso Denegado')),
+        appBar: AppBar(title: const Text('Acceso Denegado')),
         body: Center(
           child: Padding(
-            padding: EdgeInsets.all(AppConfig.paddingLarge),
+            padding: const EdgeInsets.all(AppConfig.paddingLarge),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
+                const Icon(
                   Icons.block,
                   size: 80,
                   color: AppConfig.errorColor,
                 ),
-                SizedBox(height: AppConfig.paddingMedium),
+                const SizedBox(height: AppConfig.paddingMedium),
                 Text(
                   'No tienes permisos para acceder a esta sección',
                   style: Theme.of(context).textTheme.displayMedium,
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: AppConfig.paddingSmall),
+                const SizedBox(height: AppConfig.paddingSmall),
                 Text(
                   'Solo los moderadores pueden revisar términos propuestos',
                   style: Theme.of(context).textTheme.bodyMedium,
@@ -61,10 +60,10 @@ class _ModerationScreenState extends State<ModerationScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Panel de Moderación'),
+        title: const Text('Panel de Moderación'),
         actions: [
           IconButton(
-            icon: Icon(Icons.refresh),
+            icon: const Icon(Icons.refresh),
             onPressed: () {
               Provider.of<DictionaryProvider>(context, listen: false)
                   .loadPendingTerms();
@@ -76,7 +75,7 @@ class _ModerationScreenState extends State<ModerationScreen> {
       body: Consumer<DictionaryProvider>(
         builder: (context, dictionaryProvider, child) {
           if (dictionaryProvider.isLoading) {
-            return Center(
+            return const Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -93,22 +92,22 @@ class _ModerationScreenState extends State<ModerationScreen> {
           if (pendingTerms.isEmpty) {
             return Center(
               child: Padding(
-                padding: EdgeInsets.all(AppConfig.paddingLarge),
+                padding: const EdgeInsets.all(AppConfig.paddingLarge),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.check_circle_outline,
                       size: 80,
                       color: AppConfig.accentColor,
                     ),
-                    SizedBox(height: AppConfig.paddingMedium),
+                    const SizedBox(height: AppConfig.paddingMedium),
                     Text(
                       '¡Todo revisado!',
                       style: Theme.of(context).textTheme.displayLarge,
                       textAlign: TextAlign.center,
                     ),
-                    SizedBox(height: AppConfig.paddingSmall),
+                    const SizedBox(height: AppConfig.paddingSmall),
                     Text(
                       'No hay términos pendientes de revisar',
                       style: Theme.of(context).textTheme.bodyMedium,
@@ -125,7 +124,7 @@ class _ModerationScreenState extends State<ModerationScreen> {
               // Header con contador
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.all(AppConfig.paddingMedium),
+                padding: const EdgeInsets.all(AppConfig.paddingMedium),
                 decoration: BoxDecoration(
                   color: AppConfig.warningColor.withOpacity(0.1),
                   border: Border(
@@ -136,11 +135,11 @@ class _ModerationScreenState extends State<ModerationScreen> {
                 ),
                 child: Row(
                   children: [
-                    Icon(Icons.pending_actions, color: AppConfig.warningColor),
-                    SizedBox(width: AppConfig.paddingSmall),
+                    const Icon(Icons.pending_actions, color: AppConfig.warningColor),
+                    const SizedBox(width: AppConfig.paddingSmall),
                     Text(
                       '${pendingTerms.length} términos pendientes de revisión',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: AppConfig.fontSizeBody,
                         fontWeight: FontWeight.bold,
                         color: AppConfig.warningColor,
@@ -153,48 +152,48 @@ class _ModerationScreenState extends State<ModerationScreen> {
               // Lista de términos pendientes
               Expanded(
                 child: ListView.builder(
-                  padding: EdgeInsets.all(AppConfig.paddingMedium),
+                  padding: const EdgeInsets.all(AppConfig.paddingMedium),
                   itemCount: pendingTerms.length,
                   itemBuilder: (context, index) {
                     final term = pendingTerms[index];
                     return Card(
-                      margin: EdgeInsets.only(bottom: AppConfig.paddingMedium),
+                      margin: const EdgeInsets.only(bottom: AppConfig.paddingMedium),
                       child: ExpansionTile(
-                        leading: CircleAvatar(
+                        leading: const CircleAvatar(
                           backgroundColor: AppConfig.primaryColor,
                           child: Icon(Icons.article, color: Colors.white),
                         ),
                         title: Text(
                           term.term,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: AppConfig.fontSizeBody,
                           ),
                         ),
                         subtitle: Text(
                           term.categoryDisplayName,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: AppConfig.fontSizeCaption,
                             color: AppConfig.textSecondaryColor,
                           ),
                         ),
                         children: [
                           Padding(
-                            padding: EdgeInsets.all(AppConfig.paddingMedium),
+                            padding: const EdgeInsets.all(AppConfig.paddingMedium),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 // Definición
-                                Text(
+                                const Text(
                                   'Definición:',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: AppConfig.fontSizeBody,
                                   ),
                                 ),
-                                SizedBox(height: AppConfig.paddingSmall / 2),
+                                const SizedBox(height: AppConfig.paddingSmall / 2),
                                 Container(
-                                  padding: EdgeInsets.all(AppConfig.paddingSmall),
+                                  padding: const EdgeInsets.all(AppConfig.paddingSmall),
                                   decoration: BoxDecoration(
                                     color: AppConfig.backgroundColor,
                                     borderRadius: BorderRadius.circular(
@@ -203,23 +202,23 @@ class _ModerationScreenState extends State<ModerationScreen> {
                                   ),
                                   child: Text(
                                     term.definition,
-                                    style: TextStyle(fontSize: AppConfig.fontSizeBody),
+                                    style: const TextStyle(fontSize: AppConfig.fontSizeBody),
                                   ),
                                 ),
-                                SizedBox(height: AppConfig.paddingMedium),
+                                const SizedBox(height: AppConfig.paddingMedium),
 
                                 // Ejemplo de uso
                                 if (term.example.isNotEmpty) ...[
-                                  Text(
+                                  const Text(
                                     'Ejemplo de uso:',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: AppConfig.fontSizeBody,
                                     ),
                                   ),
-                                  SizedBox(height: AppConfig.paddingSmall / 2),
+                                  const SizedBox(height: AppConfig.paddingSmall / 2),
                                   Container(
-                                    padding: EdgeInsets.all(AppConfig.paddingSmall),
+                                    padding: const EdgeInsets.all(AppConfig.paddingSmall),
                                     decoration: BoxDecoration(
                                       color: AppConfig.accentColor.withOpacity(0.1),
                                       borderRadius: BorderRadius.circular(
@@ -228,34 +227,34 @@ class _ModerationScreenState extends State<ModerationScreen> {
                                     ),
                                     child: Text(
                                       '"${term.example}"',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: AppConfig.fontSizeBody,
                                         fontStyle: FontStyle.italic,
                                       ),
                                     ),
                                   ),
-                                  SizedBox(height: AppConfig.paddingMedium),
+                                  const SizedBox(height: AppConfig.paddingMedium),
                                 ],
 
                                 // Información adicional
                                 Row(
                                   children: [
-                                    Icon(
+                                    const Icon(
                                       Icons.calendar_today,
                                       size: 14,
                                       color: AppConfig.textSecondaryColor,
                                     ),
-                                    SizedBox(width: AppConfig.paddingSmall / 2),
+                                    const SizedBox(width: AppConfig.paddingSmall / 2),
                                     Text(
                                       'Propuesto el ${_formatDate(term.createdAt)}',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: AppConfig.fontSizeCaption,
                                         color: AppConfig.textSecondaryColor,
                                       ),
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: AppConfig.paddingMedium),
+                                const SizedBox(height: AppConfig.paddingMedium),
 
                                 // Botones de acción
                                 Row(
@@ -267,17 +266,17 @@ class _ModerationScreenState extends State<ModerationScreen> {
                                           term.id,
                                           term.term,
                                         ),
-                                        icon: Icon(Icons.cancel),
-                                        label: Text('Rechazar'),
+                                        icon: const Icon(Icons.cancel),
+                                        label: const Text('Rechazar'),
                                         style: OutlinedButton.styleFrom(
                                           foregroundColor: AppConfig.errorColor,
-                                          side: BorderSide(
+                                          side: const BorderSide(
                                             color: AppConfig.errorColor,
                                           ),
                                         ),
                                       ),
                                     ),
-                                    SizedBox(width: AppConfig.paddingMedium),
+                                    const SizedBox(width: AppConfig.paddingMedium),
                                     Expanded(
                                       child: ElevatedButton.icon(
                                         onPressed: () => _approveTerm(
@@ -285,8 +284,8 @@ class _ModerationScreenState extends State<ModerationScreen> {
                                           term.id,
                                           term.term,
                                         ),
-                                        icon: Icon(Icons.check_circle),
-                                        label: Text('Aprobar'),
+                                        icon: const Icon(Icons.check_circle),
+                                        label: const Text('Aprobar'),
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: AppConfig.accentColor,
                                         ),
@@ -322,7 +321,7 @@ class _ModerationScreenState extends State<ModerationScreen> {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Row(
+        title: const Row(
           children: [
             Icon(Icons.check_circle, color: AppConfig.accentColor),
             SizedBox(width: AppConfig.paddingSmall),
@@ -332,19 +331,19 @@ class _ModerationScreenState extends State<ModerationScreen> {
         content: Text(
           '¿Estás seguro de que deseas aprobar el término "$termName"?\n\n'
           'Será visible para todos los usuarios.',
-          style: TextStyle(fontSize: AppConfig.fontSizeBody),
+          style: const TextStyle(fontSize: AppConfig.fontSizeBody),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: Text('Cancelar'),
+            child: const Text('Cancelar'),
           ),
           ElevatedButton(
             onPressed: () => Navigator.of(context).pop(true),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppConfig.accentColor,
             ),
-            child: Text('Aprobar'),
+            child: const Text('Aprobar'),
           ),
         ],
       ),
@@ -381,7 +380,7 @@ class _ModerationScreenState extends State<ModerationScreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Row(
+        title: const Row(
           children: [
             Icon(Icons.cancel, color: AppConfig.errorColor),
             SizedBox(width: AppConfig.paddingSmall),
@@ -394,19 +393,19 @@ class _ModerationScreenState extends State<ModerationScreen> {
           children: [
             Text(
               '¿Por qué rechazas el término "$termName"?',
-              style: TextStyle(fontSize: AppConfig.fontSizeBody),
+              style: const TextStyle(fontSize: AppConfig.fontSizeBody),
             ),
-            SizedBox(height: AppConfig.paddingMedium),
+            const SizedBox(height: AppConfig.paddingMedium),
             TextField(
               controller: reasonController,
               maxLines: 3,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'Escribe el motivo del rechazo...',
                 border: OutlineInputBorder(),
               ),
             ),
-            SizedBox(height: AppConfig.paddingSmall),
-            Text(
+            const SizedBox(height: AppConfig.paddingSmall),
+            const Text(
               'El usuario verá este motivo en sus términos propuestos',
               style: TextStyle(
                 fontSize: AppConfig.fontSizeCaption,
@@ -419,13 +418,13 @@ class _ModerationScreenState extends State<ModerationScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: Text('Cancelar'),
+            child: const Text('Cancelar'),
           ),
           ElevatedButton(
             onPressed: () {
               if (reasonController.text.trim().isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
+                  const SnackBar(
                     content: Text('Debes indicar un motivo para rechazar'),
                     backgroundColor: AppConfig.errorColor,
                   ),
@@ -437,7 +436,7 @@ class _ModerationScreenState extends State<ModerationScreen> {
             style: ElevatedButton.styleFrom(
               backgroundColor: AppConfig.errorColor,
             ),
-            child: Text('Rechazar'),
+            child: const Text('Rechazar'),
           ),
         ],
       ),

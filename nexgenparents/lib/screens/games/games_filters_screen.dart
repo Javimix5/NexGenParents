@@ -55,7 +55,7 @@ class _GamesFiltersScreenState extends State<GamesFiltersScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Filtros de Búsqueda'),
+        title: const Text('Filtros de Búsqueda'),
         actions: [
           TextButton(
             onPressed: () {
@@ -63,7 +63,7 @@ class _GamesFiltersScreenState extends State<GamesFiltersScreen> {
                 _filters = GameFilters();
               });
             },
-            child: Text(
+            child: const Text(
               'Limpiar',
               style: TextStyle(color: Colors.white),
             ),
@@ -71,19 +71,19 @@ class _GamesFiltersScreenState extends State<GamesFiltersScreen> {
         ],
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(AppConfig.paddingMedium),
+        padding: const EdgeInsets.all(AppConfig.paddingMedium),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Banner informativo
             Container(
-              padding: EdgeInsets.all(AppConfig.paddingMedium),
+              padding: const EdgeInsets.all(AppConfig.paddingMedium),
               decoration: BoxDecoration(
                 color: AppConfig.primaryColor.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
                 border: Border.all(color: AppConfig.primaryColor),
               ),
-              child: Row(
+              child: const Row(
                 children: [
                   Icon(Icons.info_outline, color: AppConfig.primaryColor),
                   SizedBox(width: AppConfig.paddingSmall),
@@ -96,24 +96,24 @@ class _GamesFiltersScreenState extends State<GamesFiltersScreen> {
                 ],
               ),
             ),
-            SizedBox(height: AppConfig.paddingLarge),
+            const SizedBox(height: AppConfig.paddingLarge),
 
             // Filtro por Año
             _buildSectionTitle('Año de lanzamiento'),
-            Text(
+            const Text(
               'Filtra juegos por su año de salida',
               style: TextStyle(
                 fontSize: AppConfig.fontSizeCaption,
                 color: AppConfig.textSecondaryColor,
               ),
             ),
-            SizedBox(height: AppConfig.paddingSmall),
+            const SizedBox(height: AppConfig.paddingSmall),
             Row(
               children: [
                 Expanded(
                   child: DropdownButtonFormField<int>(
-                    value: _filters.yearFrom,
-                    decoration: InputDecoration(labelText: 'Desde'),
+                    initialValue: _filters.yearFrom,
+                    decoration: const InputDecoration(labelText: 'Desde'),
                     items: _buildYearItems(),
                     onChanged: (value) {
                       setState(() {
@@ -122,11 +122,11 @@ class _GamesFiltersScreenState extends State<GamesFiltersScreen> {
                     },
                   ),
                 ),
-                SizedBox(width: AppConfig.paddingMedium),
+                const SizedBox(width: AppConfig.paddingMedium),
                 Expanded(
                   child: DropdownButtonFormField<int>(
-                    value: _filters.yearTo,
-                    decoration: InputDecoration(labelText: 'Hasta'),
+                    initialValue: _filters.yearTo,
+                    decoration: const InputDecoration(labelText: 'Hasta'),
                     items: _buildYearItems(),
                     onChanged: (value) {
                       setState(() {
@@ -137,18 +137,18 @@ class _GamesFiltersScreenState extends State<GamesFiltersScreen> {
                 ),
               ],
             ),
-            SizedBox(height: AppConfig.paddingLarge),
+            const SizedBox(height: AppConfig.paddingLarge),
 
             // Filtro por Edad PEGI
             _buildSectionTitle('Edad recomendada (PEGI)'),
-            Text(
+            const Text(
               'Selecciona la edad de tu hijo para ver juegos apropiados',
               style: TextStyle(
                 fontSize: AppConfig.fontSizeCaption,
                 color: AppConfig.textSecondaryColor,
               ),
             ),
-            SizedBox(height: AppConfig.paddingSmall),
+            const SizedBox(height: AppConfig.paddingSmall),
             Wrap(
               spacing: AppConfig.paddingSmall,
               children: AppConfig.pegiRatings.map((age) {
@@ -167,18 +167,18 @@ class _GamesFiltersScreenState extends State<GamesFiltersScreen> {
                 );
               }).toList(),
             ),
-            SizedBox(height: AppConfig.paddingLarge),
+            const SizedBox(height: AppConfig.paddingLarge),
 
             // Filtro por Plataforma
             _buildSectionTitle('Plataforma'),
-            Text(
+            const Text(
               'Selecciona en qué dispositivos quieres que esté disponible',
               style: TextStyle(
                 fontSize: AppConfig.fontSizeCaption,
                 color: AppConfig.textSecondaryColor,
               ),
             ),
-            SizedBox(height: AppConfig.paddingSmall),
+            const SizedBox(height: AppConfig.paddingSmall),
             ...platforms.entries.map((entry) {
               final isSelected = _filters.selectedPlatforms.contains(entry.value);
               return CheckboxListTile(
@@ -197,19 +197,19 @@ class _GamesFiltersScreenState extends State<GamesFiltersScreen> {
                   });
                 },
               );
-            }).toList(),
-            SizedBox(height: AppConfig.paddingLarge),
+            }),
+            const SizedBox(height: AppConfig.paddingLarge),
 
             // Filtro por Género
             _buildSectionTitle('Género de juego'),
-            Text(
+            const Text(
               'Elige el tipo de juegos que te interesan',
               style: TextStyle(
                 fontSize: AppConfig.fontSizeCaption,
                 color: AppConfig.textSecondaryColor,
               ),
             ),
-            SizedBox(height: AppConfig.paddingSmall),
+            const SizedBox(height: AppConfig.paddingSmall),
             Wrap(
               spacing: AppConfig.paddingSmall,
               runSpacing: AppConfig.paddingSmall,
@@ -234,24 +234,24 @@ class _GamesFiltersScreenState extends State<GamesFiltersScreen> {
               }).toList(),
             ),
             
-            SizedBox(height: AppConfig.paddingLarge),
+            const SizedBox(height: AppConfig.paddingLarge),
           ],
         ),
       ),
       bottomNavigationBar: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(AppConfig.paddingMedium),
+          padding: const EdgeInsets.all(AppConfig.paddingMedium),
           child: ElevatedButton.icon(
             onPressed: () {
               Navigator.of(context).pop(_filters);
             },
-            icon: Icon(Icons.check),
-            label: Text(
+            icon: const Icon(Icons.check),
+            label: const Text(
               'Aplicar Filtros',
               style: TextStyle(fontSize: AppConfig.fontSizeBody),
             ),
             style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(vertical: AppConfig.paddingMedium),
+              padding: const EdgeInsets.symmetric(vertical: AppConfig.paddingMedium),
             ),
           ),
         ),
@@ -261,10 +261,10 @@ class _GamesFiltersScreenState extends State<GamesFiltersScreen> {
 
   Widget _buildSectionTitle(String title) {
     return Padding(
-      padding: EdgeInsets.only(bottom: AppConfig.paddingSmall),
+      padding: const EdgeInsets.only(bottom: AppConfig.paddingSmall),
       child: Text(
         title,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: AppConfig.fontSizeHeading,
           fontWeight: FontWeight.bold,
           color: AppConfig.primaryColor,
@@ -276,7 +276,7 @@ class _GamesFiltersScreenState extends State<GamesFiltersScreen> {
   List<DropdownMenuItem<int>> _buildYearItems() {
     final currentYear = DateTime.now().year;
     List<DropdownMenuItem<int>> items = [
-      DropdownMenuItem(
+      const DropdownMenuItem(
         value: null,
         child: Text('Cualquiera'),
       ),

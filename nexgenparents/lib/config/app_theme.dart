@@ -10,16 +10,15 @@ class AppTheme {
       // Colores principales
       primaryColor: AppConfig.primaryColor,
       scaffoldBackgroundColor: AppConfig.backgroundColor,
-      colorScheme: ColorScheme.light(
+      colorScheme: const ColorScheme.light(
         primary: AppConfig.primaryColor,
         secondary: AppConfig.secondaryColor,
         error: AppConfig.errorColor,
-        background: AppConfig.backgroundColor,
         surface: AppConfig.cardColor,
       ),
       
       // AppBar
-      appBarTheme: AppBarTheme(
+      appBarTheme: const AppBarTheme(
         backgroundColor: AppConfig.primaryColor,
         foregroundColor: Colors.white,
         elevation: 0,
@@ -32,7 +31,7 @@ class AppTheme {
       ),
       
       // Textos (tamaños grandes para accesibilidad)
-      textTheme: TextTheme(
+      textTheme: const TextTheme(
         displayLarge: TextStyle(
           fontSize: AppConfig.fontSizeTitle,
           fontWeight: FontWeight.bold,
@@ -64,7 +63,7 @@ class AppTheme {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
         ),
-        margin: EdgeInsets.symmetric(
+        margin: const EdgeInsets.symmetric(
           horizontal: AppConfig.paddingMedium,
           vertical: AppConfig.paddingSmall,
         ),
@@ -75,11 +74,11 @@ class AppTheme {
         style: ElevatedButton.styleFrom(
           backgroundColor: AppConfig.primaryColor,
           foregroundColor: Colors.white,
-          padding: EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
             horizontal: AppConfig.paddingLarge,
             vertical: AppConfig.paddingMedium,
           ),
-          textStyle: TextStyle(
+          textStyle: const TextStyle(
             fontSize: AppConfig.fontSizeBody,
             fontWeight: FontWeight.bold,
           ),
@@ -94,7 +93,7 @@ class AppTheme {
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: AppConfig.primaryColor,
-          textStyle: TextStyle(
+          textStyle: const TextStyle(
             fontSize: AppConfig.fontSizeBody,
             fontWeight: FontWeight.w600,
           ),
@@ -105,12 +104,12 @@ class AppTheme {
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: AppConfig.primaryColor,
-          side: BorderSide(color: AppConfig.primaryColor, width: 2),
-          padding: EdgeInsets.symmetric(
+          side: const BorderSide(color: AppConfig.primaryColor, width: 2),
+          padding: const EdgeInsets.symmetric(
             horizontal: AppConfig.paddingLarge,
             vertical: AppConfig.paddingMedium,
           ),
-          textStyle: TextStyle(
+          textStyle: const TextStyle(
             fontSize: AppConfig.fontSizeBody,
             fontWeight: FontWeight.bold,
           ),
@@ -124,32 +123,32 @@ class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: AppConfig.cardColor,
-        contentPadding: EdgeInsets.all(AppConfig.paddingMedium),
+        contentPadding: const EdgeInsets.all(AppConfig.paddingMedium),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
-          borderSide: BorderSide(color: AppConfig.textSecondaryColor),
+          borderSide: const BorderSide(color: AppConfig.textSecondaryColor),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
-          borderSide: BorderSide(color: AppConfig.textSecondaryColor, width: 1),
+          borderSide: const BorderSide(color: AppConfig.textSecondaryColor, width: 1),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
-          borderSide: BorderSide(color: AppConfig.primaryColor, width: 2),
+          borderSide: const BorderSide(color: AppConfig.primaryColor, width: 2),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
-          borderSide: BorderSide(color: AppConfig.errorColor, width: 1),
+          borderSide: const BorderSide(color: AppConfig.errorColor, width: 1),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
-          borderSide: BorderSide(color: AppConfig.errorColor, width: 2),
+          borderSide: const BorderSide(color: AppConfig.errorColor, width: 2),
         ),
-        labelStyle: TextStyle(
+        labelStyle: const TextStyle(
           fontSize: AppConfig.fontSizeBody,
           color: AppConfig.textSecondaryColor,
         ),
-        hintStyle: TextStyle(
+        hintStyle: const TextStyle(
           fontSize: AppConfig.fontSizeBody,
           color: AppConfig.textSecondaryColor,
         ),
@@ -158,11 +157,11 @@ class AppTheme {
       // Chips (para categorías del diccionario)
       chipTheme: ChipThemeData(
         backgroundColor: AppConfig.primaryColor.withOpacity(0.1),
-        labelStyle: TextStyle(
+        labelStyle: const TextStyle(
           fontSize: AppConfig.fontSizeCaption,
           color: AppConfig.primaryColor,
         ),
-        padding: EdgeInsets.symmetric(
+        padding: const EdgeInsets.symmetric(
           horizontal: AppConfig.paddingSmall,
           vertical: AppConfig.paddingSmall / 2,
         ),
@@ -172,7 +171,7 @@ class AppTheme {
       ),
       
       // Indicadores de progreso
-      progressIndicatorTheme: ProgressIndicatorThemeData(
+      progressIndicatorTheme: const ProgressIndicatorThemeData(
         color: AppConfig.primaryColor,
       ),
     );

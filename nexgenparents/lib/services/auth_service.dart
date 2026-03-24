@@ -12,16 +12,63 @@ class AuthService {
   // Obtener usuario actual de Firebase Auth
   User? get currentUser => _auth.currentUser;
 
+  UserModel _buildUserModelFromAuth(
+    User user, {
+    String? displayName,
+    DateTime? createdAt,
+  }) {
+    final now = DateTime.now();
+
+    return UserModel(
+      id: user.uid,
+      email: user.email ?? '',
+      displayName: displayName ?? user.displayName ?? '',
+      role: 'user',
+      termsProposed: 0,
+      termsApproved: 0,
+      createdAt: createdAt ?? now,
+      lastLogin: now,
+      photoUrl: user.photoURL,
+    );
+  }
+
+  Future<UserModel?> _ensureUserDocument(
+    User user, {
+    String? displayName,
+  }) async {
+    final docRef = _firestore.collection('users').doc(user.uid);
+    final doc = await docRef.get();
+
+    if (doc.exists) {
+      await docRef.update({
+        'lastLogin': Timestamp.now(),
+        if (displayName != null && displayName.trim().isNotEmpty)
+          'displayName': displayName.trim(),
+        if (user.email != null) 'email': user.email,
+      });
+
+      final refreshedDoc = await docRef.get();
+      return UserModel.fromFirestore(refreshedDoc);
+    }
+
+    final recoveredUser = _buildUserModelFromAuth(
+      user,
+      displayName: displayName,
+      createdAt: user.metadata.creationTime,
+    );
+
+    await docRef.set(recoveredUser.toMap());
+    final createdDoc = await docRef.get();
+    return UserModel.fromFirestore(createdDoc);
+  }
+
   // Obtener UserModel completo del usuario actual
   Future<UserModel?> getCurrentUserModel() async {
     try {
       final user = currentUser;
       if (user == null) return null;
 
-      final doc = await _firestore.collection('users').doc(user.uid).get();
-      if (!doc.exists) return null;
-
-      return UserModel.fromFirestore(doc);
+      return await _ensureUserDocument(user);
     } catch (e) {
       print('Error al obtener UserModel: $e');
       return null;
@@ -49,22 +96,20 @@ class AuthService {
         };
       }
 
-      // Crear documento del usuario en Firestore
-      final UserModel newUser = UserModel(
-        id: user.uid,
-        email: email,
-        displayName: displayName,
-        role: 'user', // Por defecto todos son usuarios normales
-        termsProposed: 0,
-        termsApproved: 0,
-        createdAt: DateTime.now(),
-        lastLogin: DateTime.now(),
-      );
-
-      await _firestore.collection('users').doc(user.uid).set(newUser.toMap());
-
       // Actualizar displayName en Firebase Auth
       await user.updateDisplayName(displayName);
+
+      final UserModel? newUser = await _ensureUserDocument(
+        user,
+        displayName: displayName,
+      );
+
+      if (newUser == null) {
+        return {
+          'success': false,
+          'message': 'No se pudo crear el perfil del usuario',
+        };
+      }
 
       return {
         'success': true,
@@ -72,6 +117,43 @@ class AuthService {
         'user': newUser,
       };
     } on FirebaseAuthException catch (e) {
+      if (e.code == 'email-already-in-use') {
+        try {
+          final existingCredential = await _auth.signInWithEmailAndPassword(
+            email: email,
+            password: password,
+          );
+
+          final existingUser = existingCredential.user;
+          if (existingUser != null) {
+            if ((existingUser.displayName ?? '').isEmpty && displayName.trim().isNotEmpty) {
+              await existingUser.updateDisplayName(displayName.trim());
+            }
+
+            final recoveredUser = await _ensureUserDocument(
+              existingUser,
+              displayName: displayName,
+            );
+
+            if (recoveredUser != null) {
+              return {
+                'success': true,
+                'message': 'La cuenta ya existía en autenticación y se ha restaurado el perfil.',
+                'user': recoveredUser,
+              };
+            }
+          }
+        } on FirebaseAuthException catch (recoveryError) {
+          if (recoveryError.code == 'wrong-password' ||
+              recoveryError.code == 'invalid-credential') {
+            return {
+              'success': false,
+              'message': 'Este correo ya está registrado. Si borraste solo el perfil en la base de datos, inicia sesión con tu contraseña anterior para restaurarlo.',
+            };
+          }
+        } catch (_) {}
+      }
+
       String message = 'Error al registrar usuario';
       
       switch (e.code) {
@@ -117,14 +199,13 @@ class AuthService {
         };
       }
 
-      // Actualizar última fecha de login
-      await _firestore.collection('users').doc(user.uid).update({
-        'lastLogin': Timestamp.now(),
-      });
-
-      // Obtener datos completos del usuario
-      final userDoc = await _firestore.collection('users').doc(user.uid).get();
-      final UserModel userModel = UserModel.fromFirestore(userDoc);
+      final UserModel? userModel = await _ensureUserDocument(user);
+      if (userModel == null) {
+        return {
+          'success': false,
+          'message': 'No se pudo cargar el perfil del usuario',
+        };
+      }
 
       return {
         'success': true,

@@ -1,11 +1,51 @@
 import 'dart:convert';
+import 'dart:async';
 import 'package:http/http.dart' as http;
 import '../models/game_model.dart';
 import '../config/app_config.dart';
 
 class RawgService {
+  final http.Client _httpClient;
+  final Duration _requestTimeout;
   final String _baseUrl = AppConfig.rawgBaseUrl;
   final String _apiKey = AppConfig.rawgApiKey;
+
+  RawgService({
+    http.Client? httpClient,
+    Duration requestTimeout = const Duration(seconds: 12),
+  })  : _httpClient = httpClient ?? http.Client(),
+        _requestTimeout = requestTimeout;
+
+  Future<Map<String, dynamic>?> _fetchJson(Uri url) async {
+    try {
+      final response = await _httpClient.get(url).timeout(_requestTimeout);
+
+      if (response.statusCode != 200) {
+        print('Error HTTP ${response.statusCode} en RAWG');
+        return null;
+      }
+
+      final decoded = json.decode(response.body);
+      if (decoded is! Map<String, dynamic>) {
+        print('Respuesta JSON inválida en RAWG');
+        return null;
+      }
+
+      return decoded;
+    } on TimeoutException {
+      print('Timeout en la llamada a RAWG');
+      return null;
+    } on http.ClientException catch (e) {
+      print('Error de red en RAWG: $e');
+      return null;
+    } on FormatException catch (e) {
+      print('JSON inválido en RAWG: $e');
+      return null;
+    } catch (e) {
+      print('Error inesperado en RAWG: $e');
+      return null;
+    }
+  }
 
   // Obtener fecha de hace 5 años en formato YYYY-MM-DD
   String _getDateFiveYearsAgo() {
@@ -31,15 +71,12 @@ class RawgService {
       '$_baseUrl/games?key=$_apiKey&search=$query&dates=$dateRange&page_size=20&ordering=-rating'
     );
     
-    final response = await http.get(url);
-
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      final List results = data['results'] ?? [];
+    final data = await _fetchJson(url);
+    if (data != null) {
+      final List results = data['results'] as List? ?? [];
       
       return results.map((gameJson) => Game.fromJson(gameJson)).toList();
     } else {
-      print('Error en la API: ${response.statusCode}');
       return [];
     }
   } catch (e) {
@@ -57,15 +94,12 @@ class RawgService {
       '$_baseUrl/games?key=$_apiKey&dates=$dateRange&ordering=-rating&page=$page&page_size=20'
     );
     
-    final response = await http.get(url);
-
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      final List results = data['results'] ?? [];
+    final data = await _fetchJson(url);
+    if (data != null) {
+      final List results = data['results'] as List? ?? [];
       
       return results.map((gameJson) => Game.fromJson(gameJson)).toList();
     } else {
-      print('Error en la API: ${response.statusCode}');
       return [];
     }
   } catch (e) {
@@ -83,18 +117,15 @@ class RawgService {
       '$_baseUrl/games?key=$_apiKey&dates=$dateRange&ordering=-rating&page_size=40'
     );
     
-    final response = await http.get(url);
-
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      final List results = data['results'] ?? [];
+    final data = await _fetchJson(url);
+    if (data != null) {
+      final List results = data['results'] as List? ?? [];
       
       final allGames = results.map((gameJson) => Game.fromJson(gameJson)).toList();
       
       // Filtrar juegos apropiados para la edad
       return allGames.where((game) => game.isAppropriateForAge(age)).toList();
     } else {
-      print('Error en la API: ${response.statusCode}');
       return [];
     }
   } catch (e) {
@@ -107,14 +138,11 @@ class RawgService {
   Future<Game?> getGameDetails(int gameId) async {
     try {
       final url = Uri.parse('$_baseUrl/games/$gameId?key=$_apiKey');
-      
-      final response = await http.get(url);
 
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
+      final data = await _fetchJson(url);
+      if (data != null) {
         return Game.fromJson(data);
       } else {
-        print('Error en la API: ${response.statusCode}');
         return null;
       }
     } catch (e) {
@@ -130,15 +158,12 @@ class RawgService {
         '$_baseUrl/games?key=$_apiKey&genres=$genre&page_size=20'
       );
       
-      final response = await http.get(url);
-
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        final List results = data['results'] ?? [];
+      final data = await _fetchJson(url);
+      if (data != null) {
+        final List results = data['results'] as List? ?? [];
         
         return results.map((gameJson) => Game.fromJson(gameJson)).toList();
       } else {
-        print('Error en la API: ${response.statusCode}');
         return [];
       }
     } catch (e) {
@@ -155,15 +180,12 @@ class RawgService {
         '$_baseUrl/games?key=$_apiKey&platforms=$platformId&page_size=20'
       );
       
-      final response = await http.get(url);
-
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        final List results = data['results'] ?? [];
+      final data = await _fetchJson(url);
+      if (data != null) {
+        final List results = data['results'] as List? ?? [];
         
         return results.map((gameJson) => Game.fromJson(gameJson)).toList();
       } else {
-        print('Error en la API: ${response.statusCode}');
         return [];
       }
     } catch (e) {
@@ -176,18 +198,15 @@ class RawgService {
   Future<List<String>> getGameScreenshots(int gameId) async {
     try {
       final url = Uri.parse('$_baseUrl/games/$gameId/screenshots?key=$_apiKey');
-      
-      final response = await http.get(url);
 
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        final List results = data['results'] ?? [];
+      final data = await _fetchJson(url);
+      if (data != null) {
+        final List results = data['results'] as List? ?? [];
         
         return results
             .map((screenshot) => screenshot['image'] as String)
             .toList();
       } else {
-        print('Error en la API: ${response.statusCode}');
         return [];
       }
     } catch (e) {
@@ -205,15 +224,12 @@ class RawgService {
       '$_baseUrl/games?key=$_apiKey&dates=$dateRange&ordering=-released&page_size=20'
     );
     
-    final response = await http.get(url);
-
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      final List results = data['results'] ?? [];
+    final data = await _fetchJson(url);
+    if (data != null) {
+      final List results = data['results'] as List? ?? [];
       
       return results.map((gameJson) => Game.fromJson(gameJson)).toList();
     } else {
-      print('Error en la API: ${response.statusCode}');
       return [];
     }
   } catch (e) {
@@ -264,13 +280,11 @@ Future<List<Game>> searchGamesWithFilters({
       queryParams['platforms'] = platforms.join(',');
     }
 
-    final uri = Uri.parse(_baseUrl + '/games').replace(queryParameters: queryParams);
+    final uri = Uri.parse('$_baseUrl/games').replace(queryParameters: queryParams);
     
-    final response = await http.get(uri);
-
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      final List results = data['results'] ?? [];
+    final data = await _fetchJson(uri);
+    if (data != null) {
+      final List results = data['results'] as List? ?? [];
       
       var games = results.map((gameJson) => Game.fromJson(gameJson)).toList();
       
@@ -280,7 +294,6 @@ Future<List<Game>> searchGamesWithFilters({
       
       return games;
     } else {
-      print('Error en la API: ${response.statusCode}');
       return [];
     }
   } catch (e) {
@@ -293,11 +306,9 @@ Future<List<Game>> searchGamesWithFilters({
 Future<List<Map<String, dynamic>>> getGenres() async {
   try {
     final url = Uri.parse('$_baseUrl/genres?key=$_apiKey');
-    final response = await http.get(url);
-
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      final List results = data['results'] ?? [];
+    final data = await _fetchJson(url);
+    if (data != null) {
+      final List results = data['results'] as List? ?? [];
       return results.map((genre) => {
         'id': genre['id'].toString(),
         'name': genre['name'] as String,

@@ -9,7 +9,7 @@ class PegiInfoScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sistemas de Clasificación'),
+        title: const Text('Sistemas de Clasificación'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -19,7 +19,7 @@ class PegiInfoScreen extends StatelessWidget {
             _buildPegiExplanation(context),
             _buildEsrbExplanation(context),
             _buildContentDescriptors(context),
-            SizedBox(height: AppConfig.paddingLarge * 2),
+            const SizedBox(height: AppConfig.paddingLarge * 2),
           ],
         ),
       ),
@@ -29,8 +29,8 @@ class PegiInfoScreen extends StatelessWidget {
   Widget _buildHeader(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(AppConfig.paddingLarge),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.all(AppConfig.paddingLarge),
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [
             AppConfig.primaryColor,
@@ -43,13 +43,13 @@ class PegiInfoScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(
+          const Icon(
             Icons.info_outline,
             size: 60,
             color: Colors.white,
           ),
-          SizedBox(height: AppConfig.paddingMedium),
-          Text(
+          const SizedBox(height: AppConfig.paddingMedium),
+          const Text(
             '¿Qué significan las clasificaciones por edad?',
             style: TextStyle(
               fontSize: AppConfig.fontSizeTitle,
@@ -57,7 +57,7 @@ class PegiInfoScreen extends StatelessWidget {
               color: Colors.white,
             ),
           ),
-          SizedBox(height: AppConfig.paddingSmall),
+          const SizedBox(height: AppConfig.paddingSmall),
           Text(
             'Los sistemas de clasificación ayudan a los padres a elegir videojuegos apropiados para sus hijos.',
             style: TextStyle(
@@ -72,21 +72,21 @@ class PegiInfoScreen extends StatelessWidget {
 
   Widget _buildPegiExplanation(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(AppConfig.paddingMedium),
+      padding: const EdgeInsets.all(AppConfig.paddingMedium),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(Icons.flag, color: AppConfig.primaryColor),
-              SizedBox(width: AppConfig.paddingSmall),
+              const Icon(Icons.flag, color: AppConfig.primaryColor),
+              const SizedBox(width: AppConfig.paddingSmall),
               Text(
                 'Sistema PEGI (Europa)',
                 style: Theme.of(context).textTheme.displayLarge,
               ),
             ],
           ),
-          SizedBox(height: AppConfig.paddingMedium),
+          const SizedBox(height: AppConfig.paddingMedium),
           
           _buildPegiCard(
             age: '3',
@@ -129,22 +129,22 @@ class PegiInfoScreen extends StatelessWidget {
 
   Widget _buildEsrbExplanation(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(AppConfig.paddingMedium),
+      padding: const EdgeInsets.all(AppConfig.paddingMedium),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(Icons.flag, color: AppConfig.secondaryColor),
-              SizedBox(width: AppConfig.paddingSmall),
+              const Icon(Icons.flag, color: AppConfig.secondaryColor),
+              const SizedBox(width: AppConfig.paddingSmall),
               Text(
                 'Sistema ESRB (Estados Unidos)',
                 style: Theme.of(context).textTheme.displayLarge,
               ),
             ],
           ),
-          SizedBox(height: AppConfig.paddingSmall),
-          Text(
+          const SizedBox(height: AppConfig.paddingSmall),
+          const Text(
             'Este es el sistema que suele aparecer en la API de videojuegos que utilizamos.',
             style: TextStyle(
               fontSize: AppConfig.fontSizeCaption,
@@ -152,7 +152,7 @@ class PegiInfoScreen extends StatelessWidget {
               fontStyle: FontStyle.italic,
             ),
           ),
-          SizedBox(height: AppConfig.paddingMedium),
+          const SizedBox(height: AppConfig.paddingMedium),
           
           _buildEsrbCard(
             'E',
@@ -202,8 +202,8 @@ class PegiInfoScreen extends StatelessWidget {
     required String description,
   }) {
     return Container(
-      margin: EdgeInsets.only(bottom: AppConfig.paddingMedium),
-      padding: EdgeInsets.all(AppConfig.paddingMedium),
+      margin: const EdgeInsets.only(bottom: AppConfig.paddingMedium),
+      padding: const EdgeInsets.all(AppConfig.paddingMedium),
       decoration: BoxDecoration(
         color: AppConfig.cardColor,
         border: Border.all(color: AppConfig.textSecondaryColor.withOpacity(0.3)),
@@ -223,7 +223,7 @@ class PegiInfoScreen extends StatelessWidget {
                 width: 60,
                 height: 60,
                 color: AppConfig.textSecondaryColor.withOpacity(0.1),
-                child: Center(
+                child: const Center(
                   child: CircularProgressIndicator(strokeWidth: 2),
                 ),
               ),
@@ -237,7 +237,7 @@ class PegiInfoScreen extends StatelessWidget {
                 child: Center(
                   child: Text(
                     age,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
@@ -247,23 +247,23 @@ class PegiInfoScreen extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(width: AppConfig.paddingMedium),
+          const SizedBox(width: AppConfig.paddingMedium),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: AppConfig.fontSizeBody,
                     color: AppConfig.primaryColor,
                   ),
                 ),
-                SizedBox(height: AppConfig.paddingSmall / 2),
+                const SizedBox(height: AppConfig.paddingSmall / 2),
                 Text(
                   description,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: AppConfig.fontSizeCaption,
                     color: AppConfig.textPrimaryColor,
                   ),
@@ -283,8 +283,8 @@ class PegiInfoScreen extends StatelessWidget {
     String imageUrl,
   ) {
     return Container(
-      margin: EdgeInsets.only(bottom: AppConfig.paddingSmall),
-      padding: EdgeInsets.all(AppConfig.paddingMedium),
+      margin: const EdgeInsets.only(bottom: AppConfig.paddingSmall),
+      padding: const EdgeInsets.all(AppConfig.paddingMedium),
       decoration: BoxDecoration(
         color: AppConfig.cardColor,
         borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
@@ -303,14 +303,14 @@ class PegiInfoScreen extends StatelessWidget {
                 width: 50,
                 height: 50,
                 color: AppConfig.textSecondaryColor.withOpacity(0.1),
-                child: Center(
+                child: const Center(
                   child: CircularProgressIndicator(strokeWidth: 2),
                 ),
               ),
               errorWidget: (context, url, error) => Container(
                 width: 50,
                 height: 50,
-                padding: EdgeInsets.all(AppConfig.paddingSmall),
+                padding: const EdgeInsets.all(AppConfig.paddingSmall),
                 decoration: BoxDecoration(
                   color: AppConfig.secondaryColor.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(AppConfig.borderRadiusSmall),
@@ -319,7 +319,7 @@ class PegiInfoScreen extends StatelessWidget {
                 child: Center(
                   child: Text(
                     rating,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 12,
                       color: AppConfig.secondaryColor,
@@ -330,22 +330,22 @@ class PegiInfoScreen extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(width: AppConfig.paddingMedium),
+          const SizedBox(width: AppConfig.paddingMedium),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   fullName,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: AppConfig.fontSizeBody,
                   ),
                 ),
-                SizedBox(height: AppConfig.paddingSmall / 2),
+                const SizedBox(height: AppConfig.paddingSmall / 2),
                 Text(
                   description,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: AppConfig.fontSizeCaption,
                     color: AppConfig.textSecondaryColor,
                   ),
@@ -360,8 +360,8 @@ class PegiInfoScreen extends StatelessWidget {
 
   Widget _buildContentDescriptors(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(AppConfig.paddingMedium),
-      padding: EdgeInsets.all(AppConfig.paddingMedium),
+      margin: const EdgeInsets.all(AppConfig.paddingMedium),
+      padding: const EdgeInsets.all(AppConfig.paddingMedium),
       decoration: BoxDecoration(
         color: AppConfig.warningColor.withOpacity(0.1),
         borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
@@ -370,7 +370,7 @@ class PegiInfoScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          const Row(
             children: [
               Icon(Icons.warning_amber, color: AppConfig.warningColor),
               SizedBox(width: AppConfig.paddingSmall),
@@ -383,12 +383,12 @@ class PegiInfoScreen extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: AppConfig.paddingSmall),
-          Text(
+          const SizedBox(height: AppConfig.paddingSmall),
+          const Text(
             'Además de la edad, las clasificaciones incluyen iconos que indican el tipo de contenido:',
             style: TextStyle(fontSize: AppConfig.fontSizeBody),
           ),
-          SizedBox(height: AppConfig.paddingMedium),
+          const SizedBox(height: AppConfig.paddingMedium),
           
           Wrap(
             spacing: AppConfig.paddingSmall,
@@ -435,7 +435,7 @@ class PegiInfoScreen extends StatelessWidget {
 
   Widget _buildDescriptorChip(String label, String imageUrl) {
     return Container(
-      padding: EdgeInsets.all(AppConfig.paddingSmall),
+      padding: const EdgeInsets.all(AppConfig.paddingSmall),
       decoration: BoxDecoration(
         color: AppConfig.cardColor,
         borderRadius: BorderRadius.circular(AppConfig.borderRadiusSmall),
@@ -455,7 +455,7 @@ class PegiInfoScreen extends StatelessWidget {
                 width: 30,
                 height: 30,
                 color: AppConfig.textSecondaryColor.withOpacity(0.1),
-                child: Center(
+                child: const Center(
                   child: SizedBox(
                     width: 15,
                     height: 15,
@@ -467,14 +467,14 @@ class PegiInfoScreen extends StatelessWidget {
                 width: 30,
                 height: 30,
                 color: AppConfig.warningColor.withOpacity(0.2),
-                child: Icon(Icons.warning, size: 16, color: AppConfig.warningColor),
+                child: const Icon(Icons.warning, size: 16, color: AppConfig.warningColor),
               ),
             ),
           ),
-          SizedBox(width: AppConfig.paddingSmall),
+          const SizedBox(width: AppConfig.paddingSmall),
           Text(
             label,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: AppConfig.fontSizeCaption,
               fontWeight: FontWeight.w600,
             ),

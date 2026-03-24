@@ -58,22 +58,29 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: EdgeInsets.all(AppConfig.paddingLarge),
+            padding: const EdgeInsets.all(AppConfig.paddingLarge),
             child: Consumer<AuthProvider>(
               builder: (context, authProvider, child) {
                 return Form(
                   key: _formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      // Logo/Icono de la app
-                      Icon(
-                        Icons.videogame_asset_rounded,
-                        size: 100,
-                        color: AppConfig.primaryColor,
-                      ),
-                      SizedBox(height: AppConfig.paddingMedium),
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 400),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        // Logo de la app
+                        Image.network(
+                          '${AppConfig.githubCdnBase}/icons/logo.webp',
+                          height: 100,
+                          width: 100,
+                          errorBuilder: (context, error, stackTrace) => const Icon(
+                            Icons.videogame_asset_rounded,
+                            size: 100,
+                            color: AppConfig.primaryColor,
+                          ),
+                        ),
+                      const SizedBox(height: AppConfig.paddingMedium),
                       
                       // Título
                       Text(
@@ -83,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      SizedBox(height: AppConfig.paddingSmall),
+                      const SizedBox(height: AppConfig.paddingSmall),
                       
                       // Subtítulo
                       Text(
@@ -91,13 +98,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: Theme.of(context).textTheme.bodyMedium,
                         textAlign: TextAlign.center,
                       ),
-                      SizedBox(height: AppConfig.paddingLarge * 2),
+                      const SizedBox(height: AppConfig.paddingLarge * 2),
                       
                       // Campo Email
                       TextFormField(
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Correo electrónico',
                           hintText: 'ejemplo@correo.com',
                           prefixIcon: Icon(Icons.email_outlined),
@@ -112,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           return null;
                         },
                       ),
-                      SizedBox(height: AppConfig.paddingMedium),
+                      const SizedBox(height: AppConfig.paddingMedium),
                       
                       // Campo Contraseña
                       TextFormField(
@@ -121,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         decoration: InputDecoration(
                           labelText: 'Contraseña',
                           hintText: 'Introduce tu contraseña',
-                          prefixIcon: Icon(Icons.lock_outline),
+                          prefixIcon: const Icon(Icons.lock_outline),
                           suffixIcon: IconButton(
                             icon: Icon(
                               _obscurePassword
@@ -145,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           return null;
                         },
                       ),
-                      SizedBox(height: AppConfig.paddingMedium),
+                      const SizedBox(height: AppConfig.paddingMedium),
                       
                       // Botón de recuperar contraseña
                       Align(
@@ -154,21 +161,21 @@ class _LoginScreenState extends State<LoginScreen> {
                           onPressed: () {
                             _showForgotPasswordDialog();
                           },
-                          child: Text('¿Olvidaste tu contraseña?'),
+                          child: const Text('¿Olvidaste tu contraseña?'),
                         ),
                       ),
-                      SizedBox(height: AppConfig.paddingMedium),
+                      const SizedBox(height: AppConfig.paddingMedium),
                       
                       // Botón de Login
                       ElevatedButton(
                         onPressed: authProvider.isLoading ? null : _handleLogin,
                         style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                             vertical: AppConfig.paddingMedium,
                           ),
                         ),
                         child: authProvider.isLoading
-                            ? SizedBox(
+                            ? const SizedBox(
                                 height: 20,
                                 width: 20,
                                 child: CircularProgressIndicator(
@@ -178,15 +185,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 ),
                               )
-                            : Text(
+                            : const Text(
                                 'Iniciar sesión',
                                 style: TextStyle(fontSize: AppConfig.fontSizeBody),
                               ),
                       ),
-                      SizedBox(height: AppConfig.paddingLarge),
+                      const SizedBox(height: AppConfig.paddingLarge),
                       
                       // Divider
-                      Row(
+                      const Row(
                         children: [
                           Expanded(child: Divider()),
                           Padding(
@@ -198,7 +205,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Expanded(child: Divider()),
                         ],
                       ),
-                      SizedBox(height: AppConfig.paddingLarge),
+                      const SizedBox(height: AppConfig.paddingLarge),
                       
                       // Botón de registro
                       OutlinedButton(
@@ -210,16 +217,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           );
                         },
                         style: OutlinedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                             vertical: AppConfig.paddingMedium,
                           ),
                         ),
-                        child: Text(
+                        child: const Text(
                           'Crear cuenta nueva',
                           style: TextStyle(fontSize: AppConfig.fontSizeBody),
                         ),
                       ),
-                    ],
+                      ],
+                    ),
                   ),
                 );
               },
@@ -236,7 +244,7 @@ class _LoginScreenState extends State<LoginScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Recuperar contraseña'),
+        title: const Text('Recuperar contraseña'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -244,11 +252,11 @@ class _LoginScreenState extends State<LoginScreen> {
               'Introduce tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
-            SizedBox(height: AppConfig.paddingMedium),
+            const SizedBox(height: AppConfig.paddingMedium),
             TextField(
               controller: emailController,
               keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Correo electrónico',
                 prefixIcon: Icon(Icons.email_outlined),
               ),
@@ -258,14 +266,14 @@ class _LoginScreenState extends State<LoginScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: Text('Cancelar'),
+            child: const Text('Cancelar'),
           ),
           ElevatedButton(
             onPressed: () async {
               final email = emailController.text.trim();
               if (email.isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Introduce tu correo electrónico')),
+                  const SnackBar(content: Text('Introduce tu correo electrónico')),
                 );
                 return;
               }
@@ -293,7 +301,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 );
               }
             },
-            child: Text('Enviar'),
+            child: const Text('Enviar'),
           ),
         ],
       ),

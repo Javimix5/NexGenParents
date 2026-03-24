@@ -12,6 +12,8 @@ class AppConfig {
   // GitHub + jsDelivr para imágenes estáticas
   static const String githubCdnBase = 
       'https://cdn.jsdelivr.net/gh/javimix5/nexgen-parents-assets@main';
+    static const String githubRawBase =
+      'https://raw.githubusercontent.com/Javimix5/nexgen-parents-assets/main';
   
   // Colores del tema (adaptado a padres/madres - interfaz amigable)
   static const Color primaryColor = Color(0xFF6366F1); // Indigo suave

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/dictionary_provider.dart';
-import '../../providers/auth_provider.dart';
 import '../../models/dictionary_term_model.dart';
 import '../../config/app_config.dart';
 import '../../config/app_theme.dart';
@@ -35,12 +34,12 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Detalle del Término'),
+        title: const Text('Detalle del Término'),
       ),
       body: Consumer<DictionaryProvider>(
         builder: (context, dictionaryProvider, child) {
           if (dictionaryProvider.isLoading) {
-            return Center(
+            return const Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -59,17 +58,17 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.error_outline,
                     size: 60,
                     color: AppConfig.errorColor,
                   ),
-                  SizedBox(height: AppConfig.paddingMedium),
-                  Text('No se pudo cargar el término'),
-                  SizedBox(height: AppConfig.paddingMedium),
+                  const SizedBox(height: AppConfig.paddingMedium),
+                  const Text('No se pudo cargar el término'),
+                  const SizedBox(height: AppConfig.paddingMedium),
                   ElevatedButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    child: Text('Volver'),
+                    child: const Text('Volver'),
                   ),
                 ],
               ),
@@ -83,27 +82,27 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
                 // Header con el término y categoría
                 _buildHeader(term),
 
-                Divider(height: 1),
+                const Divider(height: 1),
 
                 // Definición
                 _buildDefinitionSection(term),
 
-                Divider(height: 1),
+                const Divider(height: 1),
 
                 // Ejemplo de uso
                 _buildExampleSection(term),
 
-                Divider(height: 1),
+                const Divider(height: 1),
 
                 // Estadísticas y votos
                 _buildStatsSection(term, dictionaryProvider),
 
-                Divider(height: 1),
+                const Divider(height: 1),
 
                 // Información adicional
                 _buildAdditionalInfo(term),
 
-                SizedBox(height: AppConfig.paddingLarge * 2),
+                const SizedBox(height: AppConfig.paddingLarge * 2),
               ],
             ),
           );
@@ -115,8 +114,8 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
   Widget _buildHeader(DictionaryTerm term) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(AppConfig.paddingLarge),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.all(AppConfig.paddingLarge),
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [
             AppConfig.primaryColor,
@@ -132,17 +131,17 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
           // Término principal
           Text(
             term.term,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: AppConfig.fontSizeTitle + 4,
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
           ),
-          SizedBox(height: AppConfig.paddingSmall),
+          const SizedBox(height: AppConfig.paddingSmall),
 
           // Categoría
           Container(
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               horizontal: AppConfig.paddingMedium,
               vertical: AppConfig.paddingSmall,
             ),
@@ -158,10 +157,10 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
                   color: Colors.white,
                   size: 16,
                 ),
-                SizedBox(width: AppConfig.paddingSmall / 2),
+                const SizedBox(width: AppConfig.paddingSmall / 2),
                 Text(
                   term.categoryDisplayName,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w600,
                     fontSize: AppConfig.fontSizeCaption,
@@ -177,11 +176,11 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
 
   Widget _buildDefinitionSection(DictionaryTerm term) {
     return Padding(
-      padding: EdgeInsets.all(AppConfig.paddingLarge),
+      padding: const EdgeInsets.all(AppConfig.paddingLarge),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          const Row(
             children: [
               Icon(Icons.description, color: AppConfig.primaryColor),
               SizedBox(width: AppConfig.paddingSmall),
@@ -194,10 +193,10 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
               ),
             ],
           ),
-          SizedBox(height: AppConfig.paddingMedium),
+          const SizedBox(height: AppConfig.paddingMedium),
           Text(
             term.definition,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: AppConfig.fontSizeBody,
               height: 1.6,
             ),
@@ -208,16 +207,16 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
   }
 
   Widget _buildExampleSection(DictionaryTerm term) {
-    if (term.example.isEmpty) return SizedBox.shrink();
+    if (term.example.isEmpty) return const SizedBox.shrink();
 
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(AppConfig.paddingLarge),
+      padding: const EdgeInsets.all(AppConfig.paddingLarge),
       color: AppConfig.accentColor.withOpacity(0.05),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          const Row(
             children: [
               Icon(Icons.format_quote, color: AppConfig.accentColor),
               SizedBox(width: AppConfig.paddingSmall),
@@ -230,9 +229,9 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
               ),
             ],
           ),
-          SizedBox(height: AppConfig.paddingMedium),
+          const SizedBox(height: AppConfig.paddingMedium),
           Container(
-            padding: EdgeInsets.all(AppConfig.paddingMedium),
+            padding: const EdgeInsets.all(AppConfig.paddingMedium),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
@@ -243,7 +242,7 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
             ),
             child: Text(
               '"${term.example}"',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: AppConfig.fontSizeBody,
                 fontStyle: FontStyle.italic,
                 height: 1.5,
@@ -257,18 +256,18 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
 
   Widget _buildStatsSection(DictionaryTerm term, DictionaryProvider provider) {
     return Padding(
-      padding: EdgeInsets.all(AppConfig.paddingLarge),
+      padding: const EdgeInsets.all(AppConfig.paddingLarge),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             '¿Te ha sido útil este término?',
             style: TextStyle(
               fontSize: AppConfig.fontSizeHeading,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: AppConfig.paddingMedium),
+          const SizedBox(height: AppConfig.paddingMedium),
 
           // Botón de votar
           Row(
@@ -284,7 +283,7 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
                           });
                           if (mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
+                              const SnackBar(
                                 content: Text('¡Gracias por tu voto!'),
                                 backgroundColor: AppConfig.accentColor,
                                 duration: Duration(seconds: 2),
@@ -299,7 +298,7 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor:
                         _hasVoted ? AppConfig.accentColor : AppConfig.primaryColor,
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       vertical: AppConfig.paddingMedium,
                     ),
                   ),
@@ -307,7 +306,7 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
               ),
             ],
           ),
-          SizedBox(height: AppConfig.paddingMedium),
+          const SizedBox(height: AppConfig.paddingMedium),
 
           // Estadísticas
           Row(
@@ -339,7 +338,7 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
     required Color color,
   }) {
     return Container(
-      padding: EdgeInsets.all(AppConfig.paddingMedium),
+      padding: const EdgeInsets.all(AppConfig.paddingMedium),
       decoration: BoxDecoration(
         color: color.withOpacity(0.1),
         borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
@@ -347,7 +346,7 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
       child: Column(
         children: [
           Icon(icon, color: color, size: 30),
-          SizedBox(height: AppConfig.paddingSmall / 2),
+          const SizedBox(height: AppConfig.paddingSmall / 2),
           Text(
             value,
             style: TextStyle(
@@ -356,10 +355,10 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
               color: color,
             ),
           ),
-          SizedBox(height: AppConfig.paddingSmall / 2),
+          const SizedBox(height: AppConfig.paddingSmall / 2),
           Text(
             label,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: AppConfig.fontSizeCaption,
               color: AppConfig.textSecondaryColor,
             ),
@@ -372,32 +371,32 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
 
   Widget _buildAdditionalInfo(DictionaryTerm term) {
     return Padding(
-      padding: EdgeInsets.all(AppConfig.paddingLarge),
+      padding: const EdgeInsets.all(AppConfig.paddingLarge),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             'Información adicional',
             style: TextStyle(
               fontSize: AppConfig.fontSizeHeading,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: AppConfig.paddingMedium),
+          const SizedBox(height: AppConfig.paddingMedium),
 
           _buildInfoRow(
             icon: Icons.calendar_today,
             label: 'Añadido el',
             value: _formatDate(term.createdAt),
           ),
-          SizedBox(height: AppConfig.paddingSmall),
+          const SizedBox(height: AppConfig.paddingSmall),
 
           _buildInfoRow(
             icon: Icons.update,
             label: 'Última actualización',
             value: _formatDate(term.updatedAt),
           ),
-          SizedBox(height: AppConfig.paddingSmall),
+          const SizedBox(height: AppConfig.paddingSmall),
 
           _buildInfoRow(
             icon: Icons.verified,
@@ -419,10 +418,10 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
     return Row(
       children: [
         Icon(icon, size: 18, color: AppConfig.textSecondaryColor),
-        SizedBox(width: AppConfig.paddingSmall),
+        const SizedBox(width: AppConfig.paddingSmall),
         Text(
           '$label: ',
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: AppConfig.fontSizeBody,
             color: AppConfig.textSecondaryColor,
           ),

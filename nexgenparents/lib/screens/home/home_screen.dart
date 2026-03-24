@@ -29,9 +29,15 @@ class _HomeScreenState extends State<HomeScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final dictionaryProvider = Provider.of<DictionaryProvider>(context, listen: false);
       final gamesProvider = Provider.of<GamesProvider>(context, listen: false);
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
       
       dictionaryProvider.loadApprovedTerms();
       gamesProvider.loadPopularGames();
+      
+      // Cargar términos propuestos del usuario al iniciar la pantalla
+      if (authProvider.currentUser != null) {
+        dictionaryProvider.loadUserProposedTerms(authProvider.currentUser!.id);
+      }
     });
   }
 
@@ -42,10 +48,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppConfig.appName),
+        title: const Text(AppConfig.appName),
         actions: [
           PopupMenuButton<String>(
-            icon: Icon(Icons.account_circle),
+            icon: const Icon(Icons.account_circle),
             onSelected: (value) {
               switch (value) {
                 case 'profile':
@@ -57,14 +63,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 case 'my_terms':
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => MyProposedTermsScreen()),
+                    MaterialPageRoute(builder: (_) => const MyProposedTermsScreen()),
                   );
                   break;
                 case 'moderation':
                   if (authProvider.isModerator) {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (_) => ModerationScreen()),
+                      MaterialPageRoute(builder: (_) => const ModerationScreen()),
                     );
                   }
                   break;
@@ -88,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
               }
             },
             itemBuilder: (context) => [
-              PopupMenuItem(
+              const PopupMenuItem(
                 value: 'profile',
                 child: ListTile(
                   leading: Icon(Icons.person),
@@ -98,13 +104,13 @@ class _HomeScreenState extends State<HomeScreen> {
               PopupMenuItem(
                 value: 'my_terms',
                 child: ListTile(
-                  leading: Icon(Icons.article_outlined),
-                  title: Text('Mis términos propuestos'),
-                  subtitle: Text('${user?.termsProposed ?? 0} términos'),
+                  leading: const Icon(Icons.article_outlined),
+                  title: const Text('Mis términos propuestos'),
+                  subtitle: Text('${Provider.of<DictionaryProvider>(context, listen: false).userProposedTerms.length} términos'),
                 ),
               ),
               if (authProvider.isModerator)
-                PopupMenuItem(
+                const PopupMenuItem(
                   value: 'moderation',
                   child: ListTile(
                     leading: Icon(Icons.admin_panel_settings),
@@ -112,15 +118,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               if (authProvider.isAdmin)
-                PopupMenuItem(
+                const PopupMenuItem(
                   value: 'users_management',
                   child: ListTile(
                     leading: Icon(Icons.people),
                     title: Text('Gestión de Usuarios'),
                   ),
                 ),
-              PopupMenuDivider(),
-              PopupMenuItem(
+              const PopupMenuDivider(),
+              const PopupMenuItem(
                 value: 'logout',
                 child: ListTile(
                   leading: Icon(Icons.logout, color: AppConfig.errorColor),
@@ -136,33 +142,33 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildWelcomeBanner(user?.displayName ?? 'Usuario'),
-            SizedBox(height: AppConfig.paddingLarge),
+            const SizedBox(height: AppConfig.paddingLarge),
             
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: AppConfig.paddingMedium),
+              padding: const EdgeInsets.symmetric(horizontal: AppConfig.paddingMedium),
               child: Text(
                 '¿Qué deseas hacer?',
                 style: Theme.of(context).textTheme.displayMedium,
               ),
             ),
-            SizedBox(height: AppConfig.paddingMedium),
+            const SizedBox(height: AppConfig.paddingMedium),
             
             _buildMainActions(context),
             
-            SizedBox(height: AppConfig.paddingLarge),
+            const SizedBox(height: AppConfig.paddingLarge),
             
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: AppConfig.paddingMedium),
+              padding: const EdgeInsets.symmetric(horizontal: AppConfig.paddingMedium),
               child: Text(
                 'Información útil',
                 style: Theme.of(context).textTheme.displayMedium,
               ),
             ),
-            SizedBox(height: AppConfig.paddingMedium),
+            const SizedBox(height: AppConfig.paddingMedium),
             
             _buildInfoSection(context),
             
-            SizedBox(height: AppConfig.paddingLarge),
+            const SizedBox(height: AppConfig.paddingLarge),
           ],
         ),
       ),
@@ -172,8 +178,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildWelcomeBanner(String userName) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(AppConfig.paddingLarge),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.all(AppConfig.paddingLarge),
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [
             AppConfig.primaryColor,
@@ -188,13 +194,13 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Text(
             '¡Hola, $userName!',
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: AppConfig.fontSizeTitle,
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
           ),
-          SizedBox(height: AppConfig.paddingSmall),
+          const SizedBox(height: AppConfig.paddingSmall),
           Text(
             'Bienvenido a tu guía de videojuegos para padres',
             style: TextStyle(
@@ -209,7 +215,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildMainActions(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: AppConfig.paddingMedium),
+      padding: const EdgeInsets.symmetric(horizontal: AppConfig.paddingMedium),
       child: Column(
         children: [
           _buildActionCard(
@@ -226,7 +232,7 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             },
           ),
-          SizedBox(height: AppConfig.paddingMedium),
+          const SizedBox(height: AppConfig.paddingMedium),
           
           _buildActionCard(
             context: context,
@@ -242,7 +248,7 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             },
           ),
-          SizedBox(height: AppConfig.paddingMedium),
+          const SizedBox(height: AppConfig.paddingMedium),
           
           _buildActionCard(
             context: context,
@@ -277,11 +283,11 @@ class _HomeScreenState extends State<HomeScreen> {
         onTap: onTap,
         borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
         child: Padding(
-          padding: EdgeInsets.all(AppConfig.paddingMedium),
+          padding: const EdgeInsets.all(AppConfig.paddingMedium),
           child: Row(
             children: [
               Container(
-                padding: EdgeInsets.all(AppConfig.paddingMedium),
+                padding: const EdgeInsets.all(AppConfig.paddingMedium),
                 decoration: BoxDecoration(
                   color: color.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(AppConfig.borderRadiusSmall),
@@ -292,7 +298,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: color,
                 ),
               ),
-              SizedBox(width: AppConfig.paddingMedium),
+              const SizedBox(width: AppConfig.paddingMedium),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -301,7 +307,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       title,
                       style: Theme.of(context).textTheme.displayMedium,
                     ),
-                    SizedBox(height: AppConfig.paddingSmall / 2),
+                    const SizedBox(height: AppConfig.paddingSmall / 2),
                     Text(
                       description,
                       style: Theme.of(context).textTheme.bodyMedium,
@@ -309,7 +315,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              Icon(
+              const Icon(
                 Icons.arrow_forward_ios,
                 color: AppConfig.textSecondaryColor,
                 size: 20,
@@ -323,7 +329,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildInfoSection(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: AppConfig.paddingMedium),
+      padding: const EdgeInsets.symmetric(horizontal: AppConfig.paddingMedium),
       child: Column(
         children: [
           InkWell(
@@ -341,7 +347,7 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: Icons.info_outline,
             ),
           ),
-          SizedBox(height: AppConfig.paddingSmall),
+          const SizedBox(height: AppConfig.paddingSmall),
           InkWell(
             onTap: () {
               Navigator.of(context).push(
@@ -369,7 +375,7 @@ class _HomeScreenState extends State<HomeScreen> {
     required IconData icon,
   }) {
     return Container(
-      padding: EdgeInsets.all(AppConfig.paddingMedium),
+      padding: const EdgeInsets.all(AppConfig.paddingMedium),
       decoration: BoxDecoration(
         color: AppConfig.cardColor,
         borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
@@ -384,7 +390,7 @@ class _HomeScreenState extends State<HomeScreen> {
             color: AppConfig.primaryColor,
             size: 30,
           ),
-          SizedBox(width: AppConfig.paddingMedium),
+          const SizedBox(width: AppConfig.paddingMedium),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -395,7 +401,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: AppConfig.paddingSmall / 2),
+                const SizedBox(height: AppConfig.paddingSmall / 2),
                 Text(
                   description,
                   style: Theme.of(context).textTheme.bodyMedium,

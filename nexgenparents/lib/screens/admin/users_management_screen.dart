@@ -16,19 +16,19 @@ class UsersManagementScreen extends StatelessWidget {
     // Verificar que sea admin
     if (!authProvider.isAdmin) {
       return Scaffold(
-        appBar: AppBar(title: Text('Acceso Denegado')),
+        appBar: AppBar(title: const Text('Acceso Denegado')),
         body: Center(
           child: Padding(
-            padding: EdgeInsets.all(AppConfig.paddingLarge),
+            padding: const EdgeInsets.all(AppConfig.paddingLarge),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
+                const Icon(
                   Icons.block,
                   size: 80,
                   color: AppConfig.errorColor,
                 ),
-                SizedBox(height: AppConfig.paddingMedium),
+                const SizedBox(height: AppConfig.paddingMedium),
                 Text(
                   'Solo los administradores pueden acceder',
                   style: Theme.of(context).textTheme.displayMedium,
@@ -43,10 +43,10 @@ class UsersManagementScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Gestión de Usuarios'),
+        title: const Text('Gestión de Usuarios'),
         actions: [
           IconButton(
-            icon: Icon(Icons.info_outline),
+            icon: const Icon(Icons.info_outline),
             onPressed: () => _showInfoDialog(context),
             tooltip: 'Información',
           ),
@@ -56,7 +56,7 @@ class UsersManagementScreen extends StatelessWidget {
         stream: firestoreService.getAllUsers(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -71,21 +71,21 @@ class UsersManagementScreen extends StatelessWidget {
           if (snapshot.hasError) {
             return Center(
               child: Padding(
-                padding: EdgeInsets.all(AppConfig.paddingLarge),
+                padding: const EdgeInsets.all(AppConfig.paddingLarge),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.error_outline,
                       size: 80,
                       color: AppConfig.errorColor,
                     ),
-                    SizedBox(height: AppConfig.paddingMedium),
+                    const SizedBox(height: AppConfig.paddingMedium),
                     Text(
                       'Error al cargar usuarios',
                       style: Theme.of(context).textTheme.displayMedium,
                     ),
-                    SizedBox(height: AppConfig.paddingSmall),
+                    const SizedBox(height: AppConfig.paddingSmall),
                     Text(
                       snapshot.error.toString(),
                       style: Theme.of(context).textTheme.bodyMedium,
@@ -100,7 +100,7 @@ class UsersManagementScreen extends StatelessWidget {
           final users = snapshot.data ?? [];
 
           if (users.isEmpty) {
-            return Center(
+            return const Center(
               child: Text('No hay usuarios registrados'),
             );
           }
@@ -110,7 +110,7 @@ class UsersManagementScreen extends StatelessWidget {
               // Header con estadísticas
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.all(AppConfig.paddingMedium),
+                padding: const EdgeInsets.all(AppConfig.paddingMedium),
                 decoration: BoxDecoration(
                   color: AppConfig.primaryColor.withOpacity(0.1),
                   border: Border(
@@ -149,20 +149,20 @@ class UsersManagementScreen extends StatelessWidget {
               // Lista de usuarios
               Expanded(
                 child: ListView.builder(
-                  padding: EdgeInsets.all(AppConfig.paddingMedium),
+                  padding: const EdgeInsets.all(AppConfig.paddingMedium),
                   itemCount: users.length,
                   itemBuilder: (context, index) {
                     final user = users[index];
                     final isCurrentUser = user.id == authProvider.currentUser?.id;
 
                     return Card(
-                      margin: EdgeInsets.only(bottom: AppConfig.paddingMedium),
+                      margin: const EdgeInsets.only(bottom: AppConfig.paddingMedium),
                       child: ListTile(
                         leading: CircleAvatar(
                           backgroundColor: _getRoleColor(user.role),
                           child: Text(
                             user.displayName.substring(0, 1).toUpperCase(),
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                             ),
@@ -173,14 +173,14 @@ class UsersManagementScreen extends StatelessWidget {
                             Expanded(
                               child: Text(
                                 user.displayName,
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: const TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ),
                             if (isCurrentUser)
                               Chip(
-                                label: Text('Tú'),
+                                label: const Text('Tú'),
                                 backgroundColor: AppConfig.primaryColor.withOpacity(0.2),
-                                labelStyle: TextStyle(fontSize: 12),
+                                labelStyle: const TextStyle(fontSize: 12),
                               ),
                           ],
                         ),
@@ -188,14 +188,14 @@ class UsersManagementScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(user.email),
-                            SizedBox(height: AppConfig.paddingSmall / 2),
+                            const SizedBox(height: AppConfig.paddingSmall / 2),
                             Row(
                               children: [
                                 _buildRoleChip(user.role),
-                                SizedBox(width: AppConfig.paddingSmall),
+                                const SizedBox(width: AppConfig.paddingSmall),
                                 Text(
                                   '${user.termsProposed} propuestos | ${user.termsApproved} aprobados',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: AppConfig.fontSizeCaption,
                                     color: AppConfig.textSecondaryColor,
                                   ),
@@ -207,7 +207,7 @@ class UsersManagementScreen extends StatelessWidget {
                         trailing: isCurrentUser
                             ? null
                             : PopupMenuButton<String>(
-                                icon: Icon(Icons.more_vert),
+                                icon: const Icon(Icons.more_vert),
                                 onSelected: (value) {
                                   _changeUserRole(
                                     context,
@@ -221,7 +221,7 @@ class UsersManagementScreen extends StatelessWidget {
                                   PopupMenuItem(
                                     value: 'user',
                                     enabled: user.role != 'user',
-                                    child: Row(
+                                    child: const Row(
                                       children: [
                                         Icon(Icons.person, size: 20),
                                         SizedBox(width: AppConfig.paddingSmall),
@@ -232,7 +232,7 @@ class UsersManagementScreen extends StatelessWidget {
                                   PopupMenuItem(
                                     value: 'moderator',
                                     enabled: user.role != 'moderator',
-                                    child: Row(
+                                    child: const Row(
                                       children: [
                                         Icon(Icons.verified_user, size: 20),
                                         SizedBox(width: AppConfig.paddingSmall),
@@ -243,7 +243,7 @@ class UsersManagementScreen extends StatelessWidget {
                                   PopupMenuItem(
                                     value: 'admin',
                                     enabled: user.role != 'admin',
-                                    child: Row(
+                                    child: const Row(
                                       children: [
                                         Icon(Icons.admin_panel_settings, size: 20),
                                         SizedBox(width: AppConfig.paddingSmall),
@@ -278,7 +278,7 @@ class UsersManagementScreen extends StatelessWidget {
         ),
         Text(
           label,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: AppConfig.fontSizeCaption,
             color: AppConfig.textSecondaryColor,
           ),
@@ -292,7 +292,7 @@ class UsersManagementScreen extends StatelessWidget {
     String label = _getRoleLabel(role);
 
     return Container(
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         horizontal: AppConfig.paddingSmall,
         vertical: AppConfig.paddingSmall / 2,
       ),
@@ -344,18 +344,18 @@ class UsersManagementScreen extends StatelessWidget {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Confirmar cambio de rol'),
+        title: const Text('Confirmar cambio de rol'),
         content: Text(
           '¿Estás seguro de que deseas cambiar el rol de "${user.displayName}" a "${_getRoleLabel(newRole)}"?',
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: Text('Cancelar'),
+            child: const Text('Cancelar'),
           ),
           ElevatedButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: Text('Confirmar'),
+            child: const Text('Confirmar'),
           ),
         ],
       ),
@@ -385,7 +385,7 @@ class UsersManagementScreen extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Row(
+        title: const Row(
           children: [
             Icon(Icons.info_outline, color: AppConfig.primaryColor),
             SizedBox(width: AppConfig.paddingSmall),
@@ -396,26 +396,26 @@ class UsersManagementScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Roles disponibles:',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: AppConfig.fontSizeBody,
               ),
             ),
-            SizedBox(height: AppConfig.paddingSmall),
+            const SizedBox(height: AppConfig.paddingSmall),
             _buildRoleInfo(
               'Usuario',
               'Puede consultar el diccionario y proponer términos',
               AppConfig.accentColor,
             ),
-            SizedBox(height: AppConfig.paddingSmall),
+            const SizedBox(height: AppConfig.paddingSmall),
             _buildRoleInfo(
               'Moderador',
               'Puede aprobar o rechazar términos propuestos',
               AppConfig.warningColor,
             ),
-            SizedBox(height: AppConfig.paddingSmall),
+            const SizedBox(height: AppConfig.paddingSmall),
             _buildRoleInfo(
               'Admin',
               'Tiene acceso completo, incluida la gestión de usuarios',
@@ -426,7 +426,7 @@ class UsersManagementScreen extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: Text('Entendido'),
+            child: const Text('Entendido'),
           ),
         ],
       ),
@@ -440,13 +440,13 @@ class UsersManagementScreen extends StatelessWidget {
         Container(
           width: 8,
           height: 8,
-          margin: EdgeInsets.only(top: 6),
+          margin: const EdgeInsets.only(top: 6),
           decoration: BoxDecoration(
             color: color,
             shape: BoxShape.circle,
           ),
         ),
-        SizedBox(width: AppConfig.paddingSmall),
+        const SizedBox(width: AppConfig.paddingSmall),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -460,7 +460,7 @@ class UsersManagementScreen extends StatelessWidget {
               ),
               Text(
                 description,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: AppConfig.fontSizeCaption,
                   color: AppConfig.textSecondaryColor,
                 ),
