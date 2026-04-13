@@ -5,7 +5,7 @@ import '../models/user_model.dart';
 
 class AuthProvider with ChangeNotifier {
   final AuthService _authService = AuthService();
-  
+
   UserModel? _currentUser;
   bool _isLoading = false;
   String? _errorMessage;
@@ -91,6 +91,35 @@ class AuthProvider with ChangeNotifier {
 
       if (result['success']) {
         _currentUser = result['user'];
+        _isLoading = false;
+        notifyListeners();
+        return true;
+      } else {
+        _errorMessage = result['message'];
+        _isLoading = false;
+        notifyListeners();
+        return false;
+      }
+    } catch (e) {
+      _errorMessage = 'Error inesperado: ${e.toString()}';
+      _isLoading = false;
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<bool> signInWithGoogle() async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      final result = await _authService.signInWithGoogle();
+
+      if (result['success']) {
+        if (result['user'] != null) {
+          _currentUser = result['user'];
+        }
         _isLoading = false;
         notifyListeners();
         return true;

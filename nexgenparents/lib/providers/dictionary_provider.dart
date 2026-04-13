@@ -1,20 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:async';
 import '../services/firestore_service.dart';
 import '../models/dictionary_term_model.dart';
 
 class DictionaryProvider with ChangeNotifier {
   final FirestoreService _firestoreService = FirestoreService();
+  StreamSubscription<User?>? _authSubscription;
+  StreamSubscription<List<DictionaryTerm>>? _approvedTermsSubscription;
+  StreamSubscription<List<DictionaryTerm>>? _userProposedTermsSubscription;
+  StreamSubscription<List<DictionaryTerm>>? _pendingTermsSubscription;
 
   List<DictionaryTerm> _approvedTerms = [];
   List<DictionaryTerm> _userProposedTerms = [];
   List<DictionaryTerm> _pendingTerms = [];
   List<DictionaryTerm> _searchResults = [];
-  
+
   DictionaryTerm? _selectedTerm;
   String _selectedCategory = 'all';
   bool _isLoading = false;
   bool _isSearching = false;
   String? _errorMessage;
+
+  DictionaryProvider() {
+    _authSubscription = FirebaseAuth.instance.authStateChanges().listen((user) {
+      if (user == null) {
+        _userProposedTermsSubscription?.cancel();
+        _userProposedTermsSubscription = null;
+        _userProposedTerms = [];
+        notifyListeners();
+      }
+    });
+  }
 
   // Getters
   List<DictionaryTerm> get approvedTerms => _approvedTerms;
@@ -29,23 +46,42 @@ class DictionaryProvider with ChangeNotifier {
 
   // Obtener términos aprobados (con stream en tiempo real)
   void loadApprovedTerms() {
-    _firestoreService.getApprovedTerms().listen((terms) {
-      _approvedTerms = terms;
-      notifyListeners();
-    });
+    _approvedTermsSubscription?.cancel();
+    _approvedTermsSubscription = _firestoreService.getApprovedTerms().listen(
+      (terms) {
+        _approvedTerms = terms;
+        _errorMessage = null;
+        notifyListeners();
+      },
+      onError: (error) {
+        _approvedTerms = [];
+        _errorMessage = 'Error al cargar términos aprobados';
+        notifyListeners();
+      },
+    );
   }
 
   // Filtrar términos por categoría
   void filterByCategory(String category) {
     _selectedCategory = category;
-    
+
     if (category == 'all') {
       loadApprovedTerms();
     } else {
-      _firestoreService.getTermsByCategory(category).listen((terms) {
-        _approvedTerms = terms;
-        notifyListeners();
-      });
+      _approvedTermsSubscription?.cancel();
+      _approvedTermsSubscription =
+          _firestoreService.getTermsByCategory(category).listen(
+        (terms) {
+          _approvedTerms = terms;
+          _errorMessage = null;
+          notifyListeners();
+        },
+        onError: (error) {
+          _approvedTerms = [];
+          _errorMessage = 'Error al filtrar términos';
+          notifyListeners();
+        },
+      );
     }
   }
 
@@ -86,12 +122,12 @@ class DictionaryProvider with ChangeNotifier {
 
     try {
       _selectedTerm = await _firestoreService.getTermById(termId);
-      
+
       // Incrementar contador de visualizaciones
       if (_selectedTerm != null) {
         await _firestoreService.incrementViewCount(termId);
       }
-      
+
       _isLoading = false;
       notifyListeners();
     } catch (e) {
@@ -142,31 +178,45 @@ class DictionaryProvider with ChangeNotifier {
 
   // Obtener términos propuestos por el usuario
   void loadUserProposedTerms(String userId) {
-  print('🔍 Iniciando consulta para userId: $userId'); // DEBUG
-  
-  _firestoreService.getUserProposedTerms(userId).listen((terms) {
-    print('📦 Términos recibidos del stream: ${terms.length}'); // DEBUG
-    _userProposedTerms = terms;
-    
-    // Imprimir detalles de cada término
-    for (var term in terms) {
-      print('  - ${term.term} (${term.status})'); // DEBUG
-    }
-    
-    notifyListeners();
-  }, onError: (error) {
-    print('❌ Error en el stream: $error'); // DEBUG
-    _errorMessage = 'Error al cargar términos';
-    notifyListeners();
-  });
-}
+    _userProposedTermsSubscription?.cancel();
+
+    _userProposedTermsSubscription =
+        _firestoreService.getUserProposedTerms(userId).listen(
+      (terms) {
+        _userProposedTerms = terms;
+        _errorMessage = null;
+        notifyListeners();
+      },
+      onError: (error) {
+        final errorText = error.toString();
+
+        if (errorText.contains('permission-denied')) {
+          _userProposedTerms = [];
+          notifyListeners();
+          return;
+        }
+
+        _errorMessage = 'Error al cargar términos';
+        notifyListeners();
+      },
+    );
+  }
 
   // Obtener términos pendientes de aprobación (para moderadores)
   void loadPendingTerms() {
-    _firestoreService.getPendingTerms().listen((terms) {
-      _pendingTerms = terms;
-      notifyListeners();
-    });
+    _pendingTermsSubscription?.cancel();
+    _pendingTermsSubscription = _firestoreService.getPendingTerms().listen(
+      (terms) {
+        _pendingTerms = terms;
+        _errorMessage = null;
+        notifyListeners();
+      },
+      onError: (error) {
+        _pendingTerms = [];
+        _errorMessage = 'Error al cargar términos pendientes';
+        notifyListeners();
+      },
+    );
   }
 
   // Aprobar término (solo moderadores)
@@ -321,6 +371,15 @@ class DictionaryProvider with ChangeNotifier {
   void clearError() {
     _errorMessage = null;
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _authSubscription?.cancel();
+    _approvedTermsSubscription?.cancel();
+    _userProposedTermsSubscription?.cancel();
+    _pendingTermsSubscription?.cancel();
+    super.dispose();
   }
 
   // Obtener términos por categoría legible

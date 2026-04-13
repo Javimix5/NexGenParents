@@ -1,10 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import '../models/user_model.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  GoogleSignIn? _googleSignIn;
+
+  GoogleSignIn get _googleSignInMobile {
+    return _googleSignIn ??= GoogleSignIn();
+  }
 
   // Stream para escuchar cambios en el estado de autenticación
   Stream<User?> get authStateChanges => _auth.authStateChanges();
@@ -82,8 +89,24 @@ class AuthService {
     required String displayName,
   }) async {
     try {
+      if (!_isValidEmail(email)) {
+        return {
+          'success': false,
+          'message': 'El correo electrónico no es válido',
+        };
+      }
+
+      if (!_isStrongPassword(password)) {
+        return {
+          'success': false,
+          'message':
+              'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número',
+        };
+      }
+
       // Crear usuario en Firebase Auth
-      final UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+      final UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -126,7 +149,8 @@ class AuthService {
 
           final existingUser = existingCredential.user;
           if (existingUser != null) {
-            if ((existingUser.displayName ?? '').isEmpty && displayName.trim().isNotEmpty) {
+            if ((existingUser.displayName ?? '').isEmpty &&
+                displayName.trim().isNotEmpty) {
               await existingUser.updateDisplayName(displayName.trim());
             }
 
@@ -138,7 +162,8 @@ class AuthService {
             if (recoveredUser != null) {
               return {
                 'success': true,
-                'message': 'La cuenta ya existía en autenticación y se ha restaurado el perfil.',
+                'message':
+                    'La cuenta ya existía en autenticación y se ha restaurado el perfil.',
                 'user': recoveredUser,
               };
             }
@@ -148,20 +173,22 @@ class AuthService {
               recoveryError.code == 'invalid-credential') {
             return {
               'success': false,
-              'message': 'Este correo ya está registrado. Si borraste solo el perfil en la base de datos, inicia sesión con tu contraseña anterior para restaurarlo.',
+              'message':
+                  'Este correo ya está registrado. Si borraste solo el perfil en la base de datos, inicia sesión con tu contraseña anterior para restaurarlo.',
             };
           }
         } catch (_) {}
       }
 
       String message = 'Error al registrar usuario';
-      
+
       switch (e.code) {
         case 'email-already-in-use':
           message = 'Este correo ya está registrado';
           break;
         case 'weak-password':
-          message = 'La contraseña es demasiado débil (mínimo 6 caracteres)';
+          message =
+              'La contraseña es demasiado débil (mínimo 8 caracteres, con mayúscula, minúscula y número)';
           break;
         case 'invalid-email':
           message = 'El correo electrónico no es válido';
@@ -186,7 +213,15 @@ class AuthService {
     required String password,
   }) async {
     try {
-      final UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+      if (!_isValidEmail(email)) {
+        return {
+          'success': false,
+          'message': 'El correo electrónico no es válido',
+        };
+      }
+
+      final UserCredential userCredential =
+          await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -214,7 +249,7 @@ class AuthService {
       };
     } on FirebaseAuthException catch (e) {
       String message = 'Error al iniciar sesión';
-      
+
       switch (e.code) {
         case 'user-not-found':
           message = 'No existe un usuario con este correo';
@@ -242,9 +277,98 @@ class AuthService {
     }
   }
 
+  Future<Map<String, dynamic>> signInWithGoogle() async {
+    try {
+      UserCredential userCredential;
+
+      if (kIsWeb) {
+        final googleProvider = GoogleAuthProvider();
+        await _auth.signInWithRedirect(googleProvider);
+        return {
+          'success': true,
+          'message': 'Redirigiendo a Google... ',
+          'isRedirectFlow': true,
+        };
+      } else {
+        final GoogleSignInAccount? googleUser =
+            await _googleSignInMobile.signIn();
+
+        if (googleUser == null) {
+          return {
+            'success': false,
+            'message': 'Inicio de sesión cancelado por el usuario',
+          };
+        }
+
+        final GoogleSignInAuthentication googleAuth =
+            await googleUser.authentication;
+        final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+
+        userCredential = await _auth.signInWithCredential(credential);
+      }
+
+      final user = userCredential.user;
+      if (user == null) {
+        return {
+          'success': false,
+          'message': 'No se pudo autenticar la cuenta de Google',
+        };
+      }
+
+      final UserModel? userModel = await _ensureUserDocument(
+        user,
+        displayName: user.displayName,
+      );
+
+      if (userModel == null) {
+        return {
+          'success': false,
+          'message': 'No se pudo cargar el perfil del usuario',
+        };
+      }
+
+      return {
+        'success': true,
+        'message': 'Sesión iniciada correctamente con Google',
+        'user': userModel,
+      };
+    } on FirebaseAuthException catch (e) {
+      var message = 'Error al iniciar sesión con Google';
+
+      switch (e.code) {
+        case 'account-exists-with-different-credential':
+          message = 'Este correo ya está registrado con otro método de acceso';
+          break;
+        case 'invalid-credential':
+          message = 'Las credenciales de Google no son válidas';
+          break;
+        case 'popup-closed-by-user':
+          message =
+              'Has cerrado la ventana de Google antes de completar el acceso';
+          break;
+      }
+
+      return {
+        'success': false,
+        'message': message,
+      };
+    } catch (e) {
+      return {
+        'success': false,
+        'message': 'Error inesperado: ${e.toString()}',
+      };
+    }
+  }
+
   // Cerrar sesión
   Future<void> signOut() async {
     try {
+      if (!kIsWeb) {
+        await _googleSignIn?.signOut();
+      }
       await _auth.signOut();
     } catch (e) {
       print('Error al cerrar sesión: $e');
@@ -258,11 +382,12 @@ class AuthService {
       await _auth.sendPasswordResetEmail(email: email);
       return {
         'success': true,
-        'message': 'Correo de recuperación enviado. Revisa tu bandeja de entrada',
+        'message':
+            'Correo de recuperación enviado. Revisa tu bandeja de entrada',
       };
     } on FirebaseAuthException catch (e) {
       String message = 'Error al enviar correo de recuperación';
-      
+
       if (e.code == 'user-not-found') {
         message = 'No existe un usuario con este correo';
       } else if (e.code == 'invalid-email') {
@@ -286,157 +411,171 @@ class AuthService {
     return currentUser != null;
   }
 
+  bool _isValidEmail(String value) {
+    return RegExp(r'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')
+        .hasMatch(value.trim());
+  }
+
+  bool _isStrongPassword(String value) {
+    if (value.length < 8) return false;
+    final hasUpperCase = RegExp(r'[A-Z]').hasMatch(value);
+    final hasLowerCase = RegExp(r'[a-z]').hasMatch(value);
+    final hasNumber = RegExp(r'[0-9]').hasMatch(value);
+
+    return hasUpperCase && hasLowerCase && hasNumber;
+  }
+
   // Cambiar contraseña
-Future<Map<String, dynamic>> changePassword({
-  required String currentPassword,
-  required String newPassword,
-}) async {
-  try {
-    final user = currentUser;
-    if (user == null) {
+  Future<Map<String, dynamic>> changePassword({
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    try {
+      final user = currentUser;
+      if (user == null) {
+        return {
+          'success': false,
+          'message': 'No hay usuario autenticado',
+        };
+      }
+
+      // Reautenticar usuario
+      final credential = EmailAuthProvider.credential(
+        email: user.email!,
+        password: currentPassword,
+      );
+
+      await user.reauthenticateWithCredential(credential);
+
+      // Cambiar contraseña
+      await user.updatePassword(newPassword);
+
+      return {
+        'success': true,
+        'message': 'Contraseña actualizada correctamente',
+      };
+    } on FirebaseAuthException catch (e) {
+      String message = 'Error al cambiar contraseña';
+
+      switch (e.code) {
+        case 'wrong-password':
+          message = 'La contraseña actual es incorrecta';
+          break;
+        case 'weak-password':
+          message = 'La nueva contraseña es demasiado débil';
+          break;
+      }
+
       return {
         'success': false,
-        'message': 'No hay usuario autenticado',
+        'message': message,
+      };
+    } catch (e) {
+      return {
+        'success': false,
+        'message': 'Error inesperado: ${e.toString()}',
       };
     }
-
-    // Reautenticar usuario
-    final credential = EmailAuthProvider.credential(
-      email: user.email!,
-      password: currentPassword,
-    );
-    
-    await user.reauthenticateWithCredential(credential);
-    
-    // Cambiar contraseña
-    await user.updatePassword(newPassword);
-    
-    return {
-      'success': true,
-      'message': 'Contraseña actualizada correctamente',
-    };
-  } on FirebaseAuthException catch (e) {
-    String message = 'Error al cambiar contraseña';
-    
-    switch (e.code) {
-      case 'wrong-password':
-        message = 'La contraseña actual es incorrecta';
-        break;
-      case 'weak-password':
-        message = 'La nueva contraseña es demasiado débil';
-        break;
-    }
-    
-    return {
-      'success': false,
-      'message': message,
-    };
-  } catch (e) {
-    return {
-      'success': false,
-      'message': 'Error inesperado: ${e.toString()}',
-    };
   }
-}
 
 // Cambiar email
-Future<Map<String, dynamic>> changeEmail({
-  required String currentPassword,
-  required String newEmail,
-}) async {
-  try {
-    final user = currentUser;
-    if (user == null) {
+  Future<Map<String, dynamic>> changeEmail({
+    required String currentPassword,
+    required String newEmail,
+  }) async {
+    try {
+      final user = currentUser;
+      if (user == null) {
+        return {
+          'success': false,
+          'message': 'No hay usuario autenticado',
+        };
+      }
+
+      // Reautenticar usuario
+      final credential = EmailAuthProvider.credential(
+        email: user.email!,
+        password: currentPassword,
+      );
+
+      await user.reauthenticateWithCredential(credential);
+
+      // Cambiar email
+      await user.updateEmail(newEmail);
+
+      return {
+        'success': true,
+        'message': 'Email actualizado correctamente. Verifica tu nuevo correo.',
+      };
+    } on FirebaseAuthException catch (e) {
+      String message = 'Error al cambiar email';
+
+      switch (e.code) {
+        case 'email-already-in-use':
+          message = 'Este email ya está en uso';
+          break;
+        case 'invalid-email':
+          message = 'El email no es válido';
+          break;
+        case 'wrong-password':
+          message = 'La contraseña es incorrecta';
+          break;
+      }
+
       return {
         'success': false,
-        'message': 'No hay usuario autenticado',
+        'message': message,
+      };
+    } catch (e) {
+      return {
+        'success': false,
+        'message': 'Error inesperado: ${e.toString()}',
       };
     }
-
-    // Reautenticar usuario
-    final credential = EmailAuthProvider.credential(
-      email: user.email!,
-      password: currentPassword,
-    );
-    
-    await user.reauthenticateWithCredential(credential);
-    
-    // Cambiar email
-    await user.updateEmail(newEmail);
-    
-    return {
-      'success': true,
-      'message': 'Email actualizado correctamente. Verifica tu nuevo correo.',
-    };
-  } on FirebaseAuthException catch (e) {
-    String message = 'Error al cambiar email';
-    
-    switch (e.code) {
-      case 'email-already-in-use':
-        message = 'Este email ya está en uso';
-        break;
-      case 'invalid-email':
-        message = 'El email no es válido';
-        break;
-      case 'wrong-password':
-        message = 'La contraseña es incorrecta';
-        break;
-    }
-    
-    return {
-      'success': false,
-      'message': message,
-    };
-  } catch (e) {
-    return {
-      'success': false,
-      'message': 'Error inesperado: ${e.toString()}',
-    };
   }
-}
 
 // Eliminar cuenta (autenticación)
-Future<Map<String, dynamic>> deleteAccount(String password) async {
-  try {
-    final user = currentUser;
-    if (user == null) {
+  Future<Map<String, dynamic>> deleteAccount(String password) async {
+    try {
+      final user = currentUser;
+      if (user == null) {
+        return {
+          'success': false,
+          'message': 'No hay usuario autenticado',
+        };
+      }
+
+      // Reautenticar antes de eliminar
+      final credential = EmailAuthProvider.credential(
+        email: user.email!,
+        password: password,
+      );
+
+      await user.reauthenticateWithCredential(credential);
+
+      // Eliminar cuenta de Firebase Auth
+      await user.delete();
+
+      return {
+        'success': true,
+        'message': 'Cuenta eliminada correctamente',
+      };
+    } on FirebaseAuthException catch (e) {
+      String message = 'Error al eliminar cuenta';
+
+      if (e.code == 'wrong-password') {
+        message = 'La contraseña es incorrecta';
+      }
+
       return {
         'success': false,
-        'message': 'No hay usuario autenticado',
+        'message': message,
+      };
+    } catch (e) {
+      return {
+        'success': false,
+        'message': 'Error inesperado: ${e.toString()}',
       };
     }
-
-    // Reautenticar antes de eliminar
-    final credential = EmailAuthProvider.credential(
-      email: user.email!,
-      password: password,
-    );
-    
-    await user.reauthenticateWithCredential(credential);
-    
-    // Eliminar cuenta de Firebase Auth
-    await user.delete();
-    
-    return {
-      'success': true,
-      'message': 'Cuenta eliminada correctamente',
-    };
-  } on FirebaseAuthException catch (e) {
-    String message = 'Error al eliminar cuenta';
-    
-    if (e.code == 'wrong-password') {
-      message = 'La contraseña es incorrecta';
-    }
-    
-    return {
-      'success': false,
-      'message': message,
-    };
-  } catch (e) {
-    return {
-      'success': false,
-      'message': 'Error inesperado: ${e.toString()}',
-    };
   }
-}
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../config/app_config.dart';
+import '../../utils/auth_validators.dart';
 import '../home/home_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -56,6 +58,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
   }
 
+  Future<void> _handleGoogleSignIn() async {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+
+    if (authProvider.isLoading) return;
+
+    final success = await authProvider.signInWithGoogle();
+
+    if (kIsWeb) {
+      return;
+    }
+
+    if (success && mounted) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => const HomeScreen()),
+      );
+    } else if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            authProvider.errorMessage ?? 'No se pudo registrar con Google',
+          ),
+          backgroundColor: AppConfig.errorColor,
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,7 +115,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         color: AppConfig.primaryColor,
                       ),
                       const SizedBox(height: AppConfig.paddingMedium),
-                      
+
                       // Título
                       Text(
                         'Registro de Padres',
@@ -94,7 +123,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: AppConfig.paddingSmall),
-                      
+
                       // Subtítulo
                       Text(
                         'Crea tu cuenta para acceder a todas las funciones',
@@ -102,7 +131,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: AppConfig.paddingLarge * 2),
-                      
+
                       // Campo Nombre
                       TextFormField(
                         controller: _nameController,
@@ -113,17 +142,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           prefixIcon: Icon(Icons.person_outline),
                         ),
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Por favor, introduce tu nombre';
-                          }
-                          if (value.length < 3) {
-                            return 'El nombre debe tener al menos 3 caracteres';
-                          }
-                          return null;
+                          return AuthValidators.validateDisplayName(value);
                         },
                       ),
                       const SizedBox(height: AppConfig.paddingMedium),
-                      
+
                       // Campo Email
                       TextFormField(
                         controller: _emailController,
@@ -134,24 +157,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           prefixIcon: Icon(Icons.email_outlined),
                         ),
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Por favor, introduce tu correo';
-                          }
-                          if (!value.contains('@') || !value.contains('.')) {
-                            return 'Introduce un correo válido';
-                          }
-                          return null;
+                          return AuthValidators.validateEmail(value);
                         },
                       ),
                       const SizedBox(height: AppConfig.paddingMedium),
-                      
+
                       // Campo Contraseña
                       TextFormField(
                         controller: _passwordController,
                         obscureText: _obscurePassword,
                         decoration: InputDecoration(
                           labelText: 'Contraseña',
-                          hintText: 'Mínimo 6 caracteres',
+                          hintText: 'Mínimo 8 caracteres',
                           prefixIcon: const Icon(Icons.lock_outline),
                           suffixIcon: IconButton(
                             icon: Icon(
@@ -167,17 +184,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Por favor, introduce una contraseña';
-                          }
-                          if (value.length < 6) {
-                            return 'La contraseña debe tener al menos 6 caracteres';
-                          }
-                          return null;
+                          return AuthValidators.validatePassword(value);
                         },
                       ),
                       const SizedBox(height: AppConfig.paddingMedium),
-                      
+
                       // Campo Confirmar Contraseña
                       TextFormField(
                         controller: _confirmPasswordController,
@@ -194,23 +205,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             onPressed: () {
                               setState(() {
-                                _obscureConfirmPassword = !_obscureConfirmPassword;
+                                _obscureConfirmPassword =
+                                    !_obscureConfirmPassword;
                               });
                             },
                           ),
                         ),
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Por favor, confirma tu contraseña';
-                          }
-                          if (value != _passwordController.text) {
-                            return 'Las contraseñas no coinciden';
-                          }
-                          return null;
+                          return AuthValidators.validatePasswordConfirmation(
+                            value,
+                            _passwordController.text,
+                          );
                         },
                       ),
                       const SizedBox(height: AppConfig.paddingLarge),
-                      
+
                       // Información adicional
                       Container(
                         padding: const EdgeInsets.all(AppConfig.paddingMedium),
@@ -237,10 +246,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                       const SizedBox(height: AppConfig.paddingLarge),
-                      
+
                       // Botón de Registro
                       ElevatedButton(
-                        onPressed: authProvider.isLoading ? null : _handleRegister,
+                        onPressed:
+                            authProvider.isLoading ? null : _handleRegister,
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(
                             vertical: AppConfig.paddingMedium,
@@ -259,11 +269,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               )
                             : const Text(
                                 'Crear cuenta',
-                                style: TextStyle(fontSize: AppConfig.fontSizeBody),
+                                style:
+                                    TextStyle(fontSize: AppConfig.fontSizeBody),
                               ),
                       ),
                       const SizedBox(height: AppConfig.paddingMedium),
-                      
+                      OutlinedButton.icon(
+                        onPressed:
+                            authProvider.isLoading ? null : _handleGoogleSignIn,
+                        icon: const Icon(Icons.g_mobiledata_rounded),
+                        style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: AppConfig.paddingMedium,
+                          ),
+                        ),
+                        label: const Text(
+                          'Registrarse con Google',
+                          style: TextStyle(fontSize: AppConfig.fontSizeBody),
+                        ),
+                      ),
+                      const SizedBox(height: AppConfig.paddingMedium),
+
                       // Enlace a Login
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
