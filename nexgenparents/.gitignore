@@ -4,6 +4,13 @@
 *.pyc
 *.swp
 .DS_Store
+.env
+.env.*
+.secret
+.secrets
+.secrets.*
+.credentials
+.credentials.*
 .atom/
 .build/
 .buildlog/
@@ -11,12 +18,36 @@
 .svn/
 .swiftpm/
 migrate_working_dir/
+openJdk-25/
 
 # IntelliJ related
 *.iml
 *.ipr
 *.iws
 .idea/
+
+# Local configuration and signing keys
+android/local.properties
+key.properties
+*.jks
+*.keystore
+*.p12
+*.pem
+*.crt
+*.csr
+*.p8
+*.mobileprovision
+secrets.*
+
+# Firebase / cloud local state
+.firebase/
+.firebaserc.local
+
+# Backups and editor temp files
+*.bak
+*.orig
+*.tmp
+*.temp
 
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
@@ -32,6 +63,13 @@ migrate_working_dir/
 .pub/
 /build/
 /coverage/
+
+# iOS generated and user-specific files
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/Generated.xcconfig
+ios/Flutter/flutter_export_environment.sh
+*.xcuserdata/
 
 # Symbolication related
 app.*.symbols
