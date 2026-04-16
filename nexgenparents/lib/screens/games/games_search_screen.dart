@@ -20,7 +20,8 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<GamesProvider>(context, listen: false).loadPopularGames();
+      // Cargar los juegos del último año por defecto
+      Provider.of<GamesProvider>(context, listen: false).loadNewGames();
     });
   }
 
@@ -111,6 +112,27 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                 ),
               ],
             ),
+          ),
+
+          // Mensaje informativo
+          Consumer<GamesProvider>(
+            builder: (context, gamesProvider, child) {
+              final showMessage = _searchController.text.isEmpty &&
+                  !gamesProvider.currentFilters.hasActiveFilters;
+
+              if (!showMessage) {
+                return const SizedBox.shrink();
+              }
+
+              return Padding(
+                padding: const EdgeInsets.fromLTRB(
+                  AppConfig.paddingMedium, 0, AppConfig.paddingMedium, AppConfig.paddingSmall),
+                child: Text(
+                  'Mostrando los juegos más recientes del último año',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              );
+            },
           ),
 
           // Chips de filtros activos

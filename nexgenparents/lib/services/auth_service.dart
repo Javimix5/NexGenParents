@@ -283,12 +283,7 @@ class AuthService {
 
       if (kIsWeb) {
         final googleProvider = GoogleAuthProvider();
-        await _auth.signInWithRedirect(googleProvider);
-        return {
-          'success': true,
-          'message': 'Redirigiendo a Google... ',
-          'isRedirectFlow': true,
-        };
+        userCredential = await _auth.signInWithPopup(googleProvider);
       } else {
         final GoogleSignInAccount? googleUser =
             await _googleSignInMobile.signIn();

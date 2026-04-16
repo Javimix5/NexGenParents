@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "import:dictionary": "node scripts/import_dictionary_from_odt.js"
+  },
   "dependencies": {
     "firebase": "^12.9.0",
     "firebase-admin": "^10.3.0"
