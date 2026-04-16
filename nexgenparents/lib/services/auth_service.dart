@@ -529,14 +529,23 @@ class AuthService {
     }
   }
 
-// Eliminar cuenta (autenticación)
-  Future<Map<String, dynamic>> deleteAccount(String password) async {
+  Future<Map<String, dynamic>> reauthenticateForSensitiveAction(
+    String password,
+  ) async {
     try {
       final user = currentUser;
       if (user == null) {
         return {
           'success': false,
           'message': 'No hay usuario autenticado',
+        };
+      }
+
+      if (user.email == null || user.email!.trim().isEmpty) {
+        return {
+          'success': false,
+          'message':
+              'Tu cuenta no usa contraseña. Inicia sesión de nuevo con tu proveedor para continuar.',
         };
       }
 
@@ -547,6 +556,39 @@ class AuthService {
       );
 
       await user.reauthenticateWithCredential(credential);
+
+      return {
+        'success': true,
+        'message': 'Reautenticación correcta',
+      };
+    } on FirebaseAuthException catch (e) {
+      String message = 'Error de reautenticación';
+
+      if (e.code == 'wrong-password' || e.code == 'invalid-credential') {
+        message = 'La contraseña es incorrecta';
+      }
+
+      return {
+        'success': false,
+        'message': message,
+      };
+    } catch (e) {
+      return {
+        'success': false,
+        'message': 'Error inesperado: ${e.toString()}',
+      };
+    }
+  }
+
+  Future<Map<String, dynamic>> deleteCurrentAuthUser() async {
+    try {
+      final user = currentUser;
+      if (user == null) {
+        return {
+          'success': false,
+          'message': 'No hay usuario autenticado',
+        };
+      }
 
       // Eliminar cuenta de Firebase Auth
       await user.delete();
@@ -572,5 +614,15 @@ class AuthService {
         'message': 'Error inesperado: ${e.toString()}',
       };
     }
+  }
+
+// Eliminar cuenta (atajo con reautenticación + borrado Auth)
+  Future<Map<String, dynamic>> deleteAccount(String password) async {
+    final reauthResult = await reauthenticateForSensitiveAction(password);
+    if (!(reauthResult['success'] ?? false)) {
+      return reauthResult;
+    }
+
+    return deleteCurrentAuthUser();
   }
 }

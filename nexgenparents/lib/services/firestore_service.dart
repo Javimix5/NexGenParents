@@ -225,6 +225,7 @@ class FirestoreService {
   // Actualizar término existente (UPDATE - CRUD)
   Future<Map<String, dynamic>> updateTerm({
     required String termId,
+    String? term,
     String? definition,
     String? example,
     String? category,
@@ -234,8 +235,9 @@ class FirestoreService {
         'updatedAt': Timestamp.now(),
       };
 
-      if (definition != null) updates['definition'] = definition;
-      if (example != null) updates['example'] = example;
+      if (term != null) updates['term'] = term.trim();
+      if (definition != null) updates['definition'] = definition.trim();
+      if (example != null) updates['example'] = example.trim();
       if (category != null) updates['category'] = category;
 
       await _firestore

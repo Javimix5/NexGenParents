@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/dictionary_provider.dart';
+import '../../models/dictionary_term_model.dart';
 import '../../config/app_config.dart';
 
 class ModerationScreen extends StatefulWidget {
@@ -256,6 +257,18 @@ class _ModerationScreenState extends State<ModerationScreen> {
                                 ),
                                 const SizedBox(height: AppConfig.paddingMedium),
 
+                                if (authProvider.isAdmin) ...[
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: OutlinedButton.icon(
+                                      onPressed: () => _showEditTermDialog(context, term),
+                                      icon: const Icon(Icons.edit),
+                                      label: const Text('Editar término'),
+                                    ),
+                                  ),
+                                  const SizedBox(height: AppConfig.paddingMedium),
+                                ],
+
                                 // Botones de acción
                                 Row(
                                   children: [
@@ -462,6 +475,153 @@ class _ModerationScreenState extends State<ModerationScreen> {
           backgroundColor: success ? AppConfig.warningColor : AppConfig.errorColor,
         ),
       );
+    }
+  }
+
+  Future<void> _showEditTermDialog(
+    BuildContext context,
+    DictionaryTerm term,
+  ) async {
+    final termController = TextEditingController(text: term.term);
+    final definitionController = TextEditingController(text: term.definition);
+    final exampleController = TextEditingController(text: term.example);
+    String selectedCategory = term.category;
+
+    final updated = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) {
+        return StatefulBuilder(
+          builder: (context, setDialogState) => AlertDialog(
+            title: const Text('Editar término'),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextField(
+                    controller: termController,
+                    decoration: const InputDecoration(
+                      labelText: 'Término',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: AppConfig.paddingMedium),
+                  TextField(
+                    controller: definitionController,
+                    maxLines: 3,
+                    decoration: const InputDecoration(
+                      labelText: 'Definición',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: AppConfig.paddingMedium),
+                  TextField(
+                    controller: exampleController,
+                    maxLines: 2,
+                    decoration: const InputDecoration(
+                      labelText: 'Ejemplo (opcional)',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: AppConfig.paddingMedium),
+                  DropdownButtonFormField<String>(
+                    value: selectedCategory,
+                    decoration: const InputDecoration(
+                      labelText: 'Categoría',
+                      border: OutlineInputBorder(),
+                    ),
+                    items: AppConfig.dictionaryCategories
+                        .map(
+                          (category) => DropdownMenuItem<String>(
+                            value: category,
+                            child: Text(_getCategoryLabel(category)),
+                          ),
+                        )
+                        .toList(),
+                    onChanged: (value) {
+                      if (value == null) return;
+                      setDialogState(() {
+                        selectedCategory = value;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(dialogContext).pop(false),
+                child: const Text('Cancelar'),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  if (termController.text.trim().isEmpty ||
+                      definitionController.text.trim().isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Término y definición son obligatorios'),
+                        backgroundColor: AppConfig.errorColor,
+                      ),
+                    );
+                    return;
+                  }
+
+                  final dictionaryProvider =
+                      Provider.of<DictionaryProvider>(context, listen: false);
+
+                  final success = await dictionaryProvider.updateTerm(
+                    termId: term.id,
+                    term: termController.text.trim(),
+                    definition: definitionController.text.trim(),
+                    example: exampleController.text.trim(),
+                    category: selectedCategory,
+                  );
+
+                  if (!mounted) return;
+
+                  if (success) {
+                    Navigator.of(dialogContext).pop(true);
+                    return;
+                  }
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        dictionaryProvider.errorMessage ??
+                            'No se pudo actualizar el término',
+                      ),
+                      backgroundColor: AppConfig.errorColor,
+                    ),
+                  );
+                },
+                child: const Text('Guardar cambios'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+
+    if (updated == true && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('✓ Término actualizado correctamente'),
+          backgroundColor: AppConfig.accentColor,
+        ),
+      );
+    }
+  }
+
+  String _getCategoryLabel(String category) {
+    switch (category) {
+      case 'jerga_gamer':
+        return 'Jerga Gamer';
+      case 'mecánicas_juego':
+        return 'Mecánicas de Juego';
+      case 'plataformas':
+        return 'Plataformas';
+      default:
+        return category;
     }
   }
 }

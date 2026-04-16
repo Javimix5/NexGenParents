@@ -718,6 +718,31 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   Future<void> _showDeleteAccountDialog() async {
+    final confirmDelete = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Confirmar eliminación'),
+        content: const Text(
+          '¿Seguro que quieres eliminar tu perfil? Esta acción es irreversible.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: const Text('No'),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: AppConfig.errorColor),
+            onPressed: () => Navigator.pop(dialogContext, true),
+            child: const Text('Sí, eliminar'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmDelete != true || !mounted) {
+      return;
+    }
+
     final passwordController = TextEditingController();
 
     await showDialog(
@@ -755,16 +780,33 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 return;
               }
 
-              final deleteAuthResult = await _authService.deleteAccount(password);
-              if (!(deleteAuthResult['success'] ?? false)) {
+              final reauthResult = await _authService.reauthenticateForSensitiveAction(password);
+              if (!(reauthResult['success'] ?? false)) {
                 if (!mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(deleteAuthResult['message'] ?? 'No se pudo eliminar la cuenta')),
+                  SnackBar(content: Text(reauthResult['message'] ?? 'No se pudo validar la contraseña')),
                 );
                 return;
               }
 
-              await _firestoreService.deleteUserAccount(user.id);
+              final deleteFirestoreResult = await _firestoreService.deleteUserAccount(user.id);
+              if (!(deleteFirestoreResult['success'] ?? false)) {
+                if (!mounted) return;
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(deleteFirestoreResult['message'] ?? 'No se pudo eliminar el perfil en la base de datos')),
+                );
+                return;
+              }
+
+              final deleteAuthResult = await _authService.deleteCurrentAuthUser();
+              if (!(deleteAuthResult['success'] ?? false)) {
+                if (!mounted) return;
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(deleteAuthResult['message'] ?? 'Se eliminó el perfil, pero no la cuenta de acceso')),
+                );
+                return;
+              }
+
               await Provider.of<AuthProvider>(context, listen: false).signOut();
 
               if (!mounted) return;

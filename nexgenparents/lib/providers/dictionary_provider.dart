@@ -288,6 +288,7 @@ class DictionaryProvider with ChangeNotifier {
   // Actualizar término (UPDATE - parte del CRUD) [1]
   Future<bool> updateTerm({
     required String termId,
+    String? term,
     String? definition,
     String? example,
     String? category,
@@ -299,6 +300,7 @@ class DictionaryProvider with ChangeNotifier {
     try {
       final result = await _firestoreService.updateTerm(
         termId: termId,
+        term: term,
         definition: definition,
         example: example,
         category: category,
