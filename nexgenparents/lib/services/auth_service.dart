@@ -9,6 +9,9 @@ class AuthService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   GoogleSignIn? _googleSignIn;
 
+  static const int _maxPermissionDeniedRetries = 3;
+  static const Duration _permissionDeniedRetryDelay = Duration(milliseconds: 350);
+
   GoogleSignIn get _googleSignInMobile {
     return _googleSignIn ??= GoogleSignIn();
   }
@@ -43,30 +46,59 @@ class AuthService {
     User user, {
     String? displayName,
   }) async {
-    final docRef = _firestore.collection('users').doc(user.uid);
-    final doc = await docRef.get();
-
-    if (doc.exists) {
-      await docRef.update({
-        'lastLogin': Timestamp.now(),
-        if (displayName != null && displayName.trim().isNotEmpty)
-          'displayName': displayName.trim(),
-        if (user.email != null) 'email': user.email,
-      });
-
-      final refreshedDoc = await docRef.get();
-      return UserModel.fromFirestore(refreshedDoc);
-    }
-
-    final recoveredUser = _buildUserModelFromAuth(
+    return _runWithFreshTokenRetry(
       user,
-      displayName: displayName,
-      createdAt: user.metadata.creationTime,
-    );
+      () async {
+        final docRef = _firestore.collection('users').doc(user.uid);
+        final doc = await docRef.get();
 
-    await docRef.set(recoveredUser.toMap());
-    final createdDoc = await docRef.get();
-    return UserModel.fromFirestore(createdDoc);
+        if (doc.exists) {
+          await docRef.update({
+            'lastLogin': Timestamp.now(),
+            if (displayName != null && displayName.trim().isNotEmpty)
+              'displayName': displayName.trim(),
+            if (user.email != null) 'email': user.email,
+          });
+
+          final refreshedDoc = await docRef.get();
+          return UserModel.fromFirestore(refreshedDoc);
+        }
+
+        final recoveredUser = _buildUserModelFromAuth(
+          user,
+          displayName: displayName,
+          createdAt: user.metadata.creationTime,
+        );
+
+        await docRef.set(recoveredUser.toMap());
+        final createdDoc = await docRef.get();
+        return UserModel.fromFirestore(createdDoc);
+      },
+    );
+  }
+
+  Future<T> _runWithFreshTokenRetry<T>(
+    User user,
+    Future<T> Function() operation,
+  ) async {
+    var attempts = 0;
+
+    while (true) {
+      try {
+        return await operation();
+      } on FirebaseException catch (e) {
+        final shouldRetry =
+            e.code == 'permission-denied' && attempts < _maxPermissionDeniedRetries;
+
+        if (!shouldRetry) {
+          rethrow;
+        }
+
+        attempts++;
+        await user.getIdToken(true);
+        await Future.delayed(_permissionDeniedRetryDelay * attempts);
+      }
+    }
   }
 
   // Obtener UserModel completo del usuario actual
@@ -199,6 +231,19 @@ class AuthService {
         'success': false,
         'message': message,
       };
+    } on FirebaseException catch (e) {
+      if (e.code == 'permission-denied') {
+        return {
+          'success': false,
+          'message':
+              'No hay permisos para acceder al perfil en Firestore. Revisa y despliega firestore.rules.',
+        };
+      }
+
+      return {
+        'success': false,
+        'message': 'Error de Firestore: ${e.message ?? e.code}',
+      };
     } catch (e) {
       return {
         'success': false,
@@ -268,6 +313,19 @@ class AuthService {
       return {
         'success': false,
         'message': message,
+      };
+    } on FirebaseException catch (e) {
+      if (e.code == 'permission-denied') {
+        return {
+          'success': false,
+          'message':
+              'No hay permisos para acceder al perfil en Firestore. Revisa y despliega firestore.rules.',
+        };
+      }
+
+      return {
+        'success': false,
+        'message': 'Error de Firestore: ${e.message ?? e.code}',
       };
     } catch (e) {
       return {
@@ -349,6 +407,19 @@ class AuthService {
       return {
         'success': false,
         'message': message,
+      };
+    } on FirebaseException catch (e) {
+      if (e.code == 'permission-denied') {
+        return {
+          'success': false,
+          'message':
+              'No hay permisos para acceder al perfil en Firestore. Revisa y despliega firestore.rules.',
+        };
+      }
+
+      return {
+        'success': false,
+        'message': 'Error de Firestore: ${e.message ?? e.code}',
       };
     } catch (e) {
       return {

@@ -30,7 +30,8 @@ service cloud.firestore {
 
     // --- Coleccion: users ---
     match /users/{userId} {
-      allow get: if isAdmin() || isOwner(userId);
+      // Evita bloqueos de login por chequeos de rol durante el bootstrap.
+      allow get: if isSignedIn();
       allow list: if isAdmin();
 
       // El usuario solo puede crear su propio perfil con rol basico.

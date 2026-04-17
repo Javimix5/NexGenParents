@@ -525,7 +525,7 @@ class _ModerationScreenState extends State<ModerationScreen> {
                   ),
                   const SizedBox(height: AppConfig.paddingMedium),
                   DropdownButtonFormField<String>(
-                    value: selectedCategory,
+                    initialValue: selectedCategory,
                     decoration: const InputDecoration(
                       labelText: 'Categoría',
                       border: OutlineInputBorder(),

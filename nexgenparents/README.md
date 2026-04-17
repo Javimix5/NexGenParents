@@ -27,6 +27,19 @@ El consumo de videojuegos crece cada año, pero muchas familias se sienten perdi
 - Android Studio o similar (para desarrollo en Android)
 - Una cuenta de Firebase configurada
 
+## Soporte multiplataforma
+
+Este proyecto esta preparado para Android, Linux, macOS y Windows.
+
+- Guia de setup por plataforma: [Setup Multiplataforma](docs/SETUP_MULTIPLATFORM.md)
+- Validacion de entorno: `flutter doctor -v`
+
+Nota importante:
+
+- Para compilar/ejecutar en nativo, Flutter necesita toolchains del sistema destino.
+- No es posible compilar para Android/Linux/macOS/Windows solo con el IDE sin instalar dependencias del target.
+- Si quieres evitar instalaciones locales, usa artefactos precompilados (Releases/CI) o desarrollo remoto.
+
 ## Instalación y configuración
 
 ### 1. Clonar el repositorio
