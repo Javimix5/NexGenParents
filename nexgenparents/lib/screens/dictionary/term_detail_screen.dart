@@ -5,7 +5,6 @@ import '../../providers/dictionary_provider.dart';
 import '../../models/dictionary_term_model.dart';
 import '../../config/app_config.dart';
 import '../../config/app_theme.dart';
-import '../../widgets/custom_snackbar.dart';
 
 class TermDetailScreen extends StatefulWidget {
   final String termId;
@@ -35,8 +34,8 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
   @override
   Widget build(BuildContext context) {
     // Obtenemos el rol del usuario actual desde el AuthProvider
-    final currentUser =
-        Provider.of<AuthProvider>(context, listen: false).userModel;
+    final currentUser = Provider.of<AuthProvider>(context).currentUser;
+    final dictionaryProvider = Provider.of<DictionaryProvider>(context);
     final isModeratorOrAdmin =
         ['moderator', 'admin'].contains(currentUser?.role);
     final isAdmin = currentUser?.role == 'admin';
@@ -62,77 +61,77 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
             ),
         ],
       ),
-      body: Consumer<DictionaryProvider>(
-        builder: (context, dictionaryProvider, child) {
-          if (dictionaryProvider.isLoading) {
-            return const Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CircularProgressIndicator(),
-                  SizedBox(height: AppConfig.paddingMedium),
-                  Text('Cargando término...'),
-                ],
-              ),
-            );
-          }
+      body: _buildBody(context, dictionaryProvider),
+    );
+  }
 
-          final term = dictionaryProvider.selectedTerm;
+  Widget _buildBody(BuildContext context, DictionaryProvider dictionaryProvider) {
+    if (dictionaryProvider.isLoading) {
+      return const Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(height: AppConfig.paddingMedium),
+            Text('Cargando término...'),
+          ],
+        ),
+      );
+    }
 
-          if (term == null) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.error_outline,
-                    size: 60,
-                    color: AppConfig.errorColor,
-                  ),
-                  const SizedBox(height: AppConfig.paddingMedium),
-                  const Text('No se pudo cargar el término'),
-                  const SizedBox(height: AppConfig.paddingMedium),
-                  ElevatedButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: const Text('Volver'),
-                  ),
-                ],
-              ),
-            );
-          }
+    final term = dictionaryProvider.selectedTerm;
 
-          return SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Header con el término y categoría
-                _buildHeader(term),
-
-                const Divider(height: 1),
-
-                // Definición
-                _buildDefinitionSection(term),
-
-                const Divider(height: 1),
-
-                // Ejemplo de uso
-                _buildExampleSection(term),
-
-                const Divider(height: 1),
-
-                // Estadísticas y votos
-                _buildStatsSection(term, dictionaryProvider),
-
-                const Divider(height: 1),
-
-                // Información adicional
-                _buildAdditionalInfo(term),
-
-                const SizedBox(height: AppConfig.paddingLarge * 2),
-              ],
+    if (term == null) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(
+              Icons.error_outline,
+              size: 60,
+              color: AppConfig.errorColor,
             ),
-          );
-        },
+            const SizedBox(height: AppConfig.paddingMedium),
+            const Text('No se pudo cargar el término'),
+            const SizedBox(height: AppConfig.paddingMedium),
+            ElevatedButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Volver'),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header con el término y categoría
+          _buildHeader(term),
+
+          const Divider(height: 1),
+
+          // Definición
+          _buildDefinitionSection(term),
+
+          const Divider(height: 1),
+
+          // Ejemplo de uso
+          _buildExampleSection(term),
+
+          const Divider(height: 1),
+
+          // Estadísticas y votos
+          _buildStatsSection(term, dictionaryProvider),
+
+          const Divider(height: 1),
+
+          // Información adicional
+          _buildAdditionalInfo(term),
+
+          const SizedBox(height: AppConfig.paddingLarge * 2),
+        ],
       ),
     );
   }
@@ -576,16 +575,18 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
 
                   if (context.mounted) {
                     if (success) {
-                      CustomSnackbar.show(
-                          context,
-                          'Término actualizado correctamente',
-                          SnackBarType.success);
+                      _showSnackBar(
+                        context,
+                        'Término actualizado correctamente',
+                        AppConfig.accentColor,
+                      );
                     } else {
-                      CustomSnackbar.show(
-                          context,
-                          dictionaryProvider.errorMessage ??
-                              'Error al actualizar el término',
-                          SnackBarType.error);
+                      _showSnackBar(
+                        context,
+                        dictionaryProvider.errorMessage ??
+                            'Error al actualizar el término',
+                        AppConfig.errorColor,
+                      );
                     }
                   }
                 }
@@ -628,16 +629,18 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
                   Navigator.of(context).pop();
 
                   if (success) {
-                    CustomSnackbar.show(
-                        context,
-                        'Término eliminado correctamente',
-                        SnackBarType.success);
+                    _showSnackBar(
+                      context,
+                      'Término eliminado correctamente',
+                      AppConfig.accentColor,
+                    );
                   } else {
-                    CustomSnackbar.show(
-                        context,
-                        dictionaryProvider.errorMessage ??
-                            'Error al eliminar el término',
-                        SnackBarType.error);
+                    _showSnackBar(
+                      context,
+                      dictionaryProvider.errorMessage ??
+                          'Error al eliminar el término',
+                      AppConfig.errorColor,
+                    );
                   }
                 }
               },
@@ -646,6 +649,16 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
           ],
         );
       },
+    );
+  }
+
+  void _showSnackBar(BuildContext context, String message, Color backgroundColor) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: backgroundColor,
+        duration: const Duration(seconds: 2),
+      ),
     );
   }
 }

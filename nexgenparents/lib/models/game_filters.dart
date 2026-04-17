@@ -1,11 +1,13 @@
 class GameFilters {
-  String? searchQuery;
-  int? yearFrom;
-  int? yearTo;
-  List<String> selectedGenres;
-  List<int> selectedPlatforms;
-  int? pegiAge;
-  String ordering;
+  static const Object _unset = Object();
+
+  final String? searchQuery;
+  final int? yearFrom;
+  final int? yearTo;
+  final List<String> selectedGenres;
+  final List<int> selectedPlatforms;
+  final int? pegiAge;
+  final String ordering;
 
   GameFilters({
     this.searchQuery,
@@ -27,21 +29,21 @@ class GameFilters {
   }
 
   GameFilters copyWith({
-    String? searchQuery,
-    int? yearFrom,
-    int? yearTo,
+    Object? searchQuery = _unset,
+    Object? yearFrom = _unset,
+    Object? yearTo = _unset,
     List<String>? selectedGenres,
     List<int>? selectedPlatforms,
-    int? pegiAge,
+    Object? pegiAge = _unset,
     String? ordering,
   }) {
     return GameFilters(
-      searchQuery: searchQuery ?? this.searchQuery,
-      yearFrom: yearFrom ?? this.yearFrom,
-      yearTo: yearTo ?? this.yearTo,
-      selectedGenres: selectedGenres ?? this.selectedGenres,
-      selectedPlatforms: selectedPlatforms ?? this.selectedPlatforms,
-      pegiAge: pegiAge ?? this.pegiAge,
+      searchQuery: searchQuery == _unset ? this.searchQuery : searchQuery as String?,
+      yearFrom: yearFrom == _unset ? this.yearFrom : yearFrom as int?,
+      yearTo: yearTo == _unset ? this.yearTo : yearTo as int?,
+      selectedGenres: selectedGenres != null ? List<String>.from(selectedGenres) : List<String>.from(this.selectedGenres),
+      selectedPlatforms: selectedPlatforms != null ? List<int>.from(selectedPlatforms) : List<int>.from(this.selectedPlatforms),
+      pegiAge: pegiAge == _unset ? this.pegiAge : pegiAge as int?,
       ordering: ordering ?? this.ordering,
     );
   }
@@ -69,10 +71,10 @@ class GameFilters {
       yearTo: json['yearTo'] as int?,
       selectedGenres: json['selectedGenres'] != null
           ? List<String>.from(json['selectedGenres'] as List)
-          : const [],
+          : <String>[],
       selectedPlatforms: json['selectedPlatforms'] != null
           ? List<int>.from(json['selectedPlatforms'] as List)
-          : const [],
+          : <int>[],
       pegiAge: json['pegiAge'] as int?,
       ordering: (json['ordering'] as String?) ?? '-rating',
     );

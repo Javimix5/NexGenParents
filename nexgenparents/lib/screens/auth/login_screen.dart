@@ -151,7 +151,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           onFieldSubmitted: (_) {
                             FocusScope.of(context)
                                 .requestFocus(_passwordFocusNode);
-                            return AuthValidators.validateEmail(value);
                           },
                         ),
                         const SizedBox(height: AppConfig.paddingMedium),
