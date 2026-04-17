@@ -91,6 +91,7 @@ class AuthService {
             e.code == 'permission-denied' && attempts < _maxPermissionDeniedRetries;
 
         if (!shouldRetry) {
+      debugPrint('Firestore operation failed after retries: ${e.code} - ${e.message}');
           rethrow;
         }
 

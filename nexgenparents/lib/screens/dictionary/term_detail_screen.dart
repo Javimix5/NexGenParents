@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../providers/auth_provider.dart';
 import '../../providers/dictionary_provider.dart';
 import '../../models/dictionary_term_model.dart';
 import '../../config/app_config.dart';
 import '../../config/app_theme.dart';
+import '../../widgets/custom_snackbar.dart';
 
 class TermDetailScreen extends StatefulWidget {
   final String termId;
@@ -32,9 +34,33 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Obtenemos el rol del usuario actual desde el AuthProvider
+    final currentUser =
+        Provider.of<AuthProvider>(context, listen: false).userModel;
+    final isModeratorOrAdmin =
+        ['moderator', 'admin'].contains(currentUser?.role);
+    final isAdmin = currentUser?.role == 'admin';
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Detalle del Término'),
+        actions: [
+          // Mostramos los botones solo si el usuario tiene el rol adecuado
+          if (isModeratorOrAdmin && dictionaryProvider.selectedTerm != null)
+            IconButton(
+              icon: const Icon(Icons.edit),
+              tooltip: 'Editar Término',
+              onPressed: () =>
+                  _showEditTermDialog(context, dictionaryProvider.selectedTerm!),
+            ),
+          if (isAdmin && dictionaryProvider.selectedTerm != null)
+            IconButton(
+              icon: const Icon(Icons.delete, color: AppConfig.errorColor),
+              tooltip: 'Eliminar Término',
+              onPressed: () => _showDeleteConfirmationDialog(
+                  context, dictionaryProvider.selectedTerm!.id),
+            ),
+        ],
       ),
       body: Consumer<DictionaryProvider>(
         builder: (context, dictionaryProvider, child) {
@@ -466,5 +492,160 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
       default:
         return status;
     }
+  }
+
+  // Diálogo para editar el término (solo para Admin/Moderator)
+  void _showEditTermDialog(BuildContext context, DictionaryTerm currentTerm) {
+    final formKey = GlobalKey<FormState>();
+    final termController = TextEditingController(text: currentTerm.term);
+    final definitionController =
+        TextEditingController(text: currentTerm.definition);
+    final exampleController = TextEditingController(text: currentTerm.example);
+    String selectedCategory = currentTerm.category;
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Editar Término'),
+          content: Form(
+            key: formKey,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextFormField(
+                    controller: termController,
+                    decoration: const InputDecoration(labelText: 'Término'),
+                    validator: (value) =>
+                        value!.isEmpty ? 'El término no puede estar vacío' : null,
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    controller: definitionController,
+                    decoration: const InputDecoration(labelText: 'Definición'),
+                    maxLines: 3,
+                    validator: (value) => value!.isEmpty
+                        ? 'La definición no puede estar vacía'
+                        : null,
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    controller: exampleController,
+                    decoration:
+                        const InputDecoration(labelText: 'Ejemplo (opcional)'),
+                    maxLines: 2,
+                  ),
+                  const SizedBox(height: 16),
+                  DropdownButtonFormField<String>(
+                    value: selectedCategory,
+                    items: AppConfig.dictionaryCategories.map((category) {
+                      return DropdownMenuItem(
+                          value: category, child: Text(category));
+                    }).toList(),
+                    onChanged: (value) {
+                      if (value != null) {
+                        selectedCategory = value;
+                      }
+                    },
+                    decoration: const InputDecoration(labelText: 'Categoría'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Cancelar'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                if (formKey.currentState!.validate()) {
+                  final dictionaryProvider =
+                      Provider.of<DictionaryProvider>(context, listen: false);
+                  final success = await dictionaryProvider.updateTerm(
+                    termId: currentTerm.id,
+                    term: termController.text,
+                    definition: definitionController.text,
+                    example: exampleController.text,
+                    category: selectedCategory,
+                  );
+
+                  Navigator.of(context).pop(); // Cierra el diálogo
+
+                  if (context.mounted) {
+                    if (success) {
+                      CustomSnackbar.show(
+                          context,
+                          'Término actualizado correctamente',
+                          SnackBarType.success);
+                    } else {
+                      CustomSnackbar.show(
+                          context,
+                          dictionaryProvider.errorMessage ??
+                              'Error al actualizar el término',
+                          SnackBarType.error);
+                    }
+                  }
+                }
+              },
+              child: const Text('Guardar Cambios'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // Diálogo de confirmación para eliminar (solo para Admin)
+  void _showDeleteConfirmationDialog(BuildContext context, String termId) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Confirmar Eliminación'),
+          content: const Text(
+              '¿Estás seguro de que quieres eliminar este término de forma permanente? Esta acción no se puede deshacer.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Cancelar'),
+            ),
+            ElevatedButton(
+              style:
+                  ElevatedButton.styleFrom(backgroundColor: AppConfig.errorColor),
+              onPressed: () async {
+                final dictionaryProvider =
+                    Provider.of<DictionaryProvider>(context, listen: false);
+                final success = await dictionaryProvider.deleteTerm(termId);
+
+                // Cierra el diálogo de confirmación
+                Navigator.of(context).pop();
+
+                if (context.mounted) {
+                  // Cierra la pantalla de detalle y vuelve a la lista
+                  Navigator.of(context).pop();
+
+                  if (success) {
+                    CustomSnackbar.show(
+                        context,
+                        'Término eliminado correctamente',
+                        SnackBarType.success);
+                  } else {
+                    CustomSnackbar.show(
+                        context,
+                        dictionaryProvider.errorMessage ??
+                            'Error al eliminar el término',
+                        SnackBarType.error);
+                  }
+                }
+              },
+              child: const Text('Eliminar'),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

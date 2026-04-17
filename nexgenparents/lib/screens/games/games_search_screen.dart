@@ -157,6 +157,7 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                         onDeleted: () {
                           final newFilters = filters.copyWith(yearFrom: null);
                           gamesProvider.searchWithFilters(newFilters);
+                          setState(() {}); // Forzar reconstrucción para actualizar los chips
                         },
                       ),
                     if (filters.yearTo != null)
@@ -166,6 +167,7 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                         onDeleted: () {
                           final newFilters = filters.copyWith(yearTo: null);
                           gamesProvider.searchWithFilters(newFilters);
+                          setState(() {}); // Forzar reconstrucción para actualizar los chips
                         },
                       ),
                     if (filters.pegiAge != null)
@@ -175,6 +177,7 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                         onDeleted: () {
                           final newFilters = filters.copyWith(pegiAge: null);
                           gamesProvider.searchWithFilters(newFilters);
+                          setState(() {}); // Forzar reconstrucción para actualizar los chips
                         },
                       ),
                     if (filters.selectedGenres.isNotEmpty)
@@ -184,6 +187,7 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                         onDeleted: () {
                           final newFilters = filters.copyWith(selectedGenres: []);
                           gamesProvider.searchWithFilters(newFilters);
+                          setState(() {}); // Forzar reconstrucción para actualizar los chips
                         },
                       ),
                     if (filters.selectedPlatforms.isNotEmpty)
@@ -193,6 +197,7 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                         onDeleted: () {
                           final newFilters = filters.copyWith(selectedPlatforms: []);
                           gamesProvider.searchWithFilters(newFilters);
+                          setState(() {}); // Forzar reconstrucción para actualizar los chips
                         },
                       ),
                     

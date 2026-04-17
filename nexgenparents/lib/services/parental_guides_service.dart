@@ -29,20 +29,13 @@ class ParentalGuidesService {
       _getIosGuide(),
     ];
 
-    // Guías opcionales desde Firestore (solo si el usuario está autenticado)
+    // Guías opcionales desde Firestore (disponibles para todos los usuarios)
     try {
-      final user = FirebaseAuth.instance.currentUser;
-      if (user != null) {
-        final extraGuides = await _firestoreService.getExtraGuides();
-        baseGuides.addAll(extraGuides);
-      }
+      final extraGuides = await _firestoreService.getExtraGuides();
+      baseGuides.addAll(extraGuides);
     } catch (e) {
       // Si falla la BD, solo devuelve las base (resiliente)
-      // Evitamos ruido de consola para errores de permisos esperables.
-      final errorText = e.toString();
-      if (!errorText.contains('permission-denied')) {
-        debugPrint('No se pudieron cargar guías extras desde Firestore: $e');
-      }
+      debugPrint('No se pudieron cargar guías extras desde Firestore: $e');
     }
 
     return baseGuides;
@@ -363,22 +356,22 @@ class ParentalGuidesService {
         ParentalGuideStep(
           stepNumber: 1,
           instruction: 'Abre Ajustes en el iPhone/iPad y entra en "Tiempo de uso".',
-          imageUrl: _asset('icons/ios.png'),
+          imageUrl: _asset('control-parental/ios/enable/ios-paso1.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 2,
           instruction: 'Pulsa "Activar Tiempo de uso" y selecciona "Este es el iPhone de mi hijo".',
-          imageUrl: _asset('icons/ios.png'),
+          imageUrl: _asset('control-parental/ios/enable/ios-paso2.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 3,
           instruction: 'Define un código de Tiempo de uso distinto al desbloqueo del móvil.',
-          imageUrl: _asset('icons/ios.png'),
+          imageUrl: _asset('control-parental/ios/enable/ios-paso3.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 4,
           instruction: 'Configura "Tiempo de inactividad", "Límites de apps" y "Restricciones de contenido y privacidad".',
-          imageUrl: _asset('icons/ios.png'),
+          imageUrl: _asset('control-parental/ios/enable/ios-paso4.webp'),
         ),
       ],
     );

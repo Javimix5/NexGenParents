@@ -1,101 +1,102 @@
 rules_version = '2';
-
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    function isSignedIn() {
-      return request.auth != null;
+    // ========== HELPER FUNCTIONS ==========
+    function coreTermFieldsUnchanged(existing, incoming) {
+      return incoming.term == existing.term &&
+             incoming.definition == existing.definition &&
+             incoming.example == existing.example &&
+             incoming.category == existing.category &&
+             incoming.status == existing.status &&
+             incoming.proposedBy == existing.proposedBy &&
+             incoming.approvedBy == existing.approvedBy &&
+             incoming.rejectionReason == existing.rejectionReason &&
+             incoming.createdAt == existing.createdAt;
     }
 
-    function isOwner(userId) {
-      return isSignedIn() && request.auth.uid == userId;
-    }
-
-    function getUserData(userId) {
-      return get(/databases/$(database)/documents/users/$(userId)).data;
-    }
-
-    function getRole() {
-      let userData = isSignedIn() ? getUserData(request.auth.uid) : null;
-      return userData != null && userData.role != null ? userData.role : 'user';
+    function isModeratorOrAdmin() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['moderator', 'admin'];
     }
 
     function isAdmin() {
-      return isSignedIn() && getRole() == 'admin';
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
     }
 
-    function isModerator() {
-      return isSignedIn() && getRole() in ['moderator', 'admin'];
-    }
-
-    // --- Coleccion: users ---
+    // ========== USER PROFILES ==========
     match /users/{userId} {
-      // Evita bloqueos de login por chequeos de rol durante el bootstrap.
-      allow get: if isSignedIn();
-      allow list: if isAdmin();
+      // A user can create their own document upon signup.
+      allow create: if request.auth != null && request.auth.uid == userId;
 
-      // El usuario solo puede crear su propio perfil con rol basico.
-      allow create: if isOwner(userId)
-        && request.resource.data.role == 'user';
+      // A user can read their own document. Admins can read any user document.
+      allow get: if request.auth != null && (request.auth.uid == userId || isAdmin());
+      
+      // Admins can list all users.
+      allow list: if request.auth != null && isAdmin();
 
-      // El usuario puede actualizar unicamente su propio perfil (sin rol).
-      allow update: if isOwner(userId)
-        && request.resource.data.diff(resource.data).affectedKeys().isSubsetOf([
-          'displayName', 'lastLogin', 'photoUrl', 'childrenBirthYears', 'ownedPlatforms', 'email'
-        ]);
-
-      // Solo admin puede cambiar el rol.
-      allow update: if isAdmin()
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['role']);
-
-      // Usuario elimina su propio perfil o admin elimina cualquiera.
-      allow delete: if isOwner(userId) || isAdmin();
+      // A user can update their own document but cannot change their role.
+      // Admins can update any user's document.
+      allow update: if request.auth != null && 
+        (
+          (request.auth.uid == userId && request.resource.data.role == resource.data.role) || 
+          isAdmin()
+        );
+        
+      // A user can delete their own account document.
+      allow delete: if request.auth != null && request.auth.uid == userId;
     }
 
-    // --- Coleccion: dictionary_terms ---
+    // ========== DICTIONARY TERMS ==========
     match /dictionary_terms/{termId} {
-      // Lectura publica de terminos aprobados.
-      allow get: if resource.data.status == 'approved'
-        || (isSignedIn() && (resource.data.proposedBy == request.auth.uid || isModerator()));
+      // Anyone can read approved terms.
+      // Authenticated users can read their own proposals.
+      // Moderators/Admins can read any term.
+      allow read: if resource.data.status == 'approved' ||
+                 (request.auth != null && request.auth.uid == resource.data.proposedBy) ||
+                 (request.auth != null && isModeratorOrAdmin());
 
-      // Listado para usuarios autenticados.
-      allow list: if isSignedIn();
+      // Any authenticated user can propose a new term.
+      // We must validate the incoming data for security.
+      allow create: if request.auth != null &&
+                      request.resource.data.proposedBy == request.auth.uid &&
+                      request.resource.data.status == 'pending' &&
+                      request.resource.data.term is string &&
+                      request.resource.data.definition is string;
 
-      // Cualquier usuario autenticado puede proponer terminos en estado pending.
-      allow create: if isSignedIn()
-        && request.resource.data.proposedBy == request.auth.uid
-        && request.resource.data.status == 'pending';
+      // Users can update their own proposals if not yet approved.
+      // Moderators/Admins can update any term (e.g., to approve/reject it).
+      // Any authenticated user can vote or increment view count.
+      allow update: if request.auth != null && 
+        (
+          (request.auth.uid == resource.data.proposedBy && resource.data.status != 'approved') ||
+          isModeratorOrAdmin() ||
+          // Allow voting or incrementing view count on approved terms
+          (
+            resource.data.status == 'approved' &&
+            coreTermFieldsUnchanged(resource.data, request.resource.data) &&
+            (
+              // Is voting: votes increments, viewCount is unchanged
+              (
+                request.resource.data.votes == (resource.data.votes == null ? 1 : resource.data.votes + 1) &&
+                request.resource.data.viewCount == resource.data.viewCount
+              ) ||
+              // Is viewing: viewCount increments, votes is unchanged
+              (
+                request.resource.data.viewCount == (resource.data.viewCount == null ? 1 : resource.data.viewCount + 1) &&
+                request.resource.data.votes == resource.data.votes
+              )
+            )
+          )
+        );
 
-      // Cualquier usuario autenticado puede incrementar vistas de 1 en 1.
-      allow update: if isSignedIn()
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['viewCount'])
-        && request.resource.data.viewCount == resource.data.viewCount + 1;
-
-      // Cualquier usuario autenticado puede votar de 1 en 1.
-      allow update: if isSignedIn()
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['votes'])
-        && request.resource.data.votes == resource.data.votes + 1;
-
-      // Moderador/admin puede cambiar estado de moderacion.
-      allow update: if isModerator()
-        && request.resource.data.diff(resource.data).affectedKeys().isSubsetOf([
-          'status', 'rejectionReason', 'approvedBy', 'updatedAt'
-        ]);
-
-      // Admin puede corregir contenido del termino.
-      allow update: if isAdmin()
-        && request.resource.data.diff(resource.data).affectedKeys().isSubsetOf([
-          'term', 'definition', 'example', 'category', 'updatedAt'
-        ]);
-
-      // Solo admin elimina terminos.
-      allow delete: if isAdmin();
+      // Only admins can delete terms.
+      allow delete: if request.auth != null && isAdmin();
     }
-
-    // --- Coleccion: parental_guides_extra ---
+    
+    // ========== PARENTAL GUIDES ==========
     match /parental_guides_extra/{guideId} {
+      // This content is public and read-only for all users.
       allow read: if true;
-      allow write: if isAdmin();
     }
   }
 }
