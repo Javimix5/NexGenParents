@@ -2,7 +2,6 @@ import '../models/parental_guide_model.dart';
 import '../config/app_config.dart';
 import 'firestore_service.dart';
 import 'package:flutter/foundation.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class ParentalGuidesService {
   final FirestoreService _firestoreService;

@@ -537,7 +537,7 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
                   ),
                   const SizedBox(height: 16),
                   DropdownButtonFormField<String>(
-                    value: selectedCategory,
+                    initialValue: selectedCategory,
                     items: AppConfig.dictionaryCategories.map((category) {
                       return DropdownMenuItem(
                           value: category, child: Text(category));

@@ -1,20 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import '../models/user_model.dart';
+// Importar condicionalmente la función para obtener GoogleSignIn
+import '_google_sign_in_mobile.dart' if (dart.library.html) '_google_sign_in_stub.dart' as google_sign_in_service;
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  GoogleSignIn? _googleSignIn;
 
   static const int _maxPermissionDeniedRetries = 3;
   static const Duration _permissionDeniedRetryDelay = Duration(milliseconds: 350);
-
-  GoogleSignIn get _googleSignInMobile {
-    return _googleSignIn ??= GoogleSignIn();
-  }
 
   // Stream para escuchar cambios en el estado de autenticación
   Stream<User?> get authStateChanges => _auth.authStateChanges();
@@ -91,7 +87,7 @@ class AuthService {
             e.code == 'permission-denied' && attempts < _maxPermissionDeniedRetries;
 
         if (!shouldRetry) {
-      debugPrint('Firestore operation failed after retries: ${e.code} - ${e.message}');
+      print('Firestore operation failed after retries: ${e.code} - ${e.message}');
           rethrow;
         }
 
@@ -341,23 +337,49 @@ class AuthService {
       UserCredential userCredential;
 
       if (kIsWeb) {
-        final googleProvider = GoogleAuthProvider();
-        userCredential = await _auth.signInWithPopup(googleProvider);
-      } else {
-        final GoogleSignInAccount? googleUser =
-            await _googleSignInMobile.signIn();
+        final googleProvider = GoogleAuthProvider()
+          ..addScope('email')
+          ..addScope('profile');
 
+        try {
+          userCredential = await _auth.signInWithPopup(googleProvider);
+        } on FirebaseAuthException catch (e) {
+          // Fallback para navegadores que bloquean popups o cancelan el contexto.
+          if (e.code == 'popup-blocked' ||
+              e.code == 'cancelled-popup-request' ||
+              e.code == 'web-context-cancelled') {
+            await _auth.signInWithRedirect(googleProvider);
+            return {
+              'success': true,
+              'message':
+                  'Redirigiendo al proveedor de Google para completar el acceso',
+            };
+          }
+          rethrow;
+        }
+      } else {
+        final googleUser = google_sign_in_service.getGoogleSignIn();
         if (googleUser == null) {
+          return {
+            'success': false,
+            'message': 'Google Sign-In no está disponible en esta plataforma',
+          };
+        }
+
+        final dynamic googleUserAccount =
+            await googleUser.signIn();
+
+        if (googleUserAccount == null) {
           return {
             'success': false,
             'message': 'Inicio de sesión cancelado por el usuario',
           };
         }
 
-        final GoogleSignInAuthentication googleAuth =
-            await googleUser.authentication;
+        final dynamic googleAuth =
+            await googleUserAccount.authentication;
         final credential = GoogleAuthProvider.credential(
-          accessToken: googleAuth.accessToken,
+          accessToken: googleAuth.accessToken ?? googleAuth.accessToken,
           idToken: googleAuth.idToken,
         );
 
@@ -403,6 +425,10 @@ class AuthService {
           message =
               'Has cerrado la ventana de Google antes de completar el acceso';
           break;
+        case 'popup-blocked':
+          message =
+              'El navegador bloqueó la ventana emergente de Google. Inténtalo de nuevo';
+          break;
       }
 
       return {
@@ -433,8 +459,9 @@ class AuthService {
   // Cerrar sesión
   Future<void> signOut() async {
     try {
-      if (!kIsWeb) {
-        await _googleSignIn?.signOut();
+      final googleSignIn = google_sign_in_service.getGoogleSignIn();
+      if (googleSignIn != null) {
+        await googleSignIn.signOut();
       }
       await _auth.signOut();
     } catch (e) {
@@ -568,7 +595,7 @@ class AuthService {
       await user.reauthenticateWithCredential(credential);
 
       // Cambiar email
-      await user.updateEmail(newEmail);
+      await user.verifyBeforeUpdateEmail(newEmail);
 
       return {
         'success': true,

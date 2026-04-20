@@ -114,33 +114,6 @@ main.dart               # Punto de entrada de la app
 - [Plan de negocio (EIE)](docs/EIE.md)
 - [Abstract en inglés](docs/ABSTRACT_EN.md)
 
-## Importación automática del diccionario (ODT -> Firestore)
-
-Existe un script para cargar términos desde un archivo `.odt` directamente a Firestore:
-
-```bash
-npm run import:dictionary -- \
-  --file /ruta/diccionario.odt \
-  --admin-uid TU_UID_ADMIN \
-  --service-account /ruta/service-account.json
-```
-
-Opciones útiles:
-
-- `--dry-run`: valida y muestra cuántos términos se insertarían sin escribir en Firestore.
-- `--collection`: cambia la colección destino (por defecto: `dictionary_terms`).
-- `--default-category`: categoría por defecto si no viene en el ODT (`jerga_gamer`, `mecánicas_juego`, `plataformas`).
-- `--service-account` debe apuntar a un JSON de service account de Firebase Admin. `google-services.json` no sirve para esta importación.
-
-Comportamiento del importador:
-
-- Crea los términos como `approved`.
-- Asigna `proposedBy` y `approvedBy` al UID de admin indicado.
-- Evita duplicados por `term` (normalizado) respecto a los ya existentes en Firestore.
-- Actualiza en `users/{adminUid}` los contadores `termsProposed` y `termsApproved` con los insertados.
-
-Si solo tienes `google-services.json`, tendrás que crear y descargar una clave privada de service account desde Firebase Console o usar credenciales ADC válidas en tu entorno.
-
 ## Contributing
 
 Las contribuciones son bienvenidas. Para cambios importantes:
