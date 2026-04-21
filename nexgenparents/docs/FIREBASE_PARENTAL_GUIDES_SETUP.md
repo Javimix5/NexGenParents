@@ -125,6 +125,20 @@ service cloud.firestore {
       allow read: if request.auth.uid == userId || request.auth.token.admin == true;
       allow write: if request.auth.uid == userId || request.auth.token.admin == true;
     }
+
+    // Reglas para el Foro/Comunidad
+    match /forum_posts/{postId} {
+      allow read: if true;
+      allow create: if request.auth != null;
+      allow update, delete: if request.auth.uid == resource.data.authorId || request.auth.token.admin == true;
+    }
+
+    match /forum_replies/{replyId} {
+      allow read: if true;
+      allow create: if request.auth != null;
+      allow update, delete: if request.auth.uid == resource.data.authorId || request.auth.token.admin == true;
+    }
+
   }
 }
 ```

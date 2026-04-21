@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/dictionary_term_model.dart';
 import '../models/user_model.dart';
+import '../models/forum_post_model.dart';
+import '../models/forum_reply_model.dart';
 import '../models/parental_guide_model.dart';
 import '../config/app_config.dart';
 
@@ -504,5 +506,125 @@ Future<List<ParentalGuide>> getExtraGuides() async {
     print('Error al obtener guías extras desde Firestore: $e');
     return [];
   }
+}
+
+// --- Métodos para el Foro ---
+
+// Obtiene un stream de todas las publicaciones del foro, ordenadas por la actividad más reciente.
+Stream<List<ForumPost>> getForumPosts() {
+  return _firestore
+      .collection('forum_posts')
+      .orderBy('updatedAt', descending: true)
+      .snapshots()
+      .map((snapshot) {
+    return snapshot.docs
+        .map((doc) => ForumPost.fromMap(doc.id, doc.data()))
+        .toList();
+  });
+}
+
+// Obtiene un stream de las respuestas para una publicación específica.
+Stream<List<ForumReply>> getRepliesForPost(String postId) {
+  return _firestore
+      .collection('forum_replies')
+      .where('postId', isEqualTo: postId)
+      .orderBy('createdAt', descending: false)
+      .snapshots()
+      .map((snapshot) {
+    return snapshot.docs
+        .map((doc) => ForumReply.fromMap(doc.id, doc.data()))
+        .toList();
+  });
+}
+
+// Crea una nueva publicación en el foro.
+Future<void> createForumPost(ForumPost post) async {
+  await _firestore.collection('forum_posts').add(post.toMap());
+}
+
+// Elimina una publicación del foro y sus respuestas asociadas.
+Future<Map<String, dynamic>> deleteForumPost(String postId) async {
+  try {
+    final repliesSnapshot = await _firestore
+        .collection('forum_replies')
+        .where('postId', isEqualTo: postId)
+        .get();
+
+    final batch = _firestore.batch();
+
+    for (final replyDoc in repliesSnapshot.docs) {
+      batch.delete(replyDoc.reference);
+    }
+
+    batch.delete(_firestore.collection('forum_posts').doc(postId));
+
+    await batch.commit();
+
+    return {
+      'success': true,
+      'message': 'Publicación eliminada correctamente',
+    };
+  } catch (e) {
+    return {
+      'success': false,
+      'message': 'Error al eliminar la publicación: ${e.toString()}',
+    };
+  }
+}
+
+// Elimina una respuesta del foro y actualiza el contador del post.
+Future<Map<String, dynamic>> deleteForumReply({
+  required String replyId,
+  required String postId,
+}) async {
+  try {
+    final postRef = _firestore.collection('forum_posts').doc(postId);
+    final replyRef = _firestore.collection('forum_replies').doc(replyId);
+
+    await _firestore.runTransaction((transaction) async {
+      final postSnapshot = await transaction.get(postRef);
+      if (!postSnapshot.exists) {
+        throw FirebaseException(
+          plugin: 'cloud_firestore',
+          code: 'not-found',
+          message: 'La publicación asociada no existe',
+        );
+      }
+
+      transaction.delete(replyRef);
+
+      final currentReplyCount = (postSnapshot.data()?['replyCount'] ?? 0) as int;
+      transaction.update(postRef, {
+        'replyCount': currentReplyCount > 0 ? currentReplyCount - 1 : 0,
+        'updatedAt': FieldValue.serverTimestamp(),
+      });
+    });
+
+    return {
+      'success': true,
+      'message': 'Respuesta eliminada correctamente',
+    };
+  } catch (e) {
+    return {
+      'success': false,
+      'message': 'Error al eliminar la respuesta: ${e.toString()}',
+    };
+  }
+}
+
+// Añade una respuesta y actualiza el contador y la fecha en la publicación principal.
+Future<void> createForumReply(ForumReply reply) async {
+  final postRef = _firestore.collection('forum_posts').doc(reply.postId);
+  final replyRef = _firestore.collection('forum_replies').doc();
+
+  // Usamos una transacción para asegurar que ambas operaciones se completen correctamente.
+  await _firestore.runTransaction((transaction) async {
+    transaction.set(replyRef, reply.toMap());
+    transaction.update(postRef, {
+      'replyCount': FieldValue.increment(1),
+      'updatedAt': FieldValue.serverTimestamp(),
+      'lastReplyAt': FieldValue.serverTimestamp(),
+    });
+  });
 }
 }

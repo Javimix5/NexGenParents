@@ -5,6 +5,7 @@ import 'firebase_options.dart';
 import 'config/app_theme.dart';
 import 'config/app_config.dart';
 import 'providers/auth_provider.dart';
+import 'providers/forum_provider.dart';
 import 'providers/dictionary_provider.dart';
 import 'providers/games_provider.dart';
 import 'screens/auth/login_screen.dart';
@@ -31,6 +32,9 @@ class MyApp extends StatelessWidget {
       providers: [
         // Provider de Autenticación [1]
         ChangeNotifierProvider(create: (_) => AuthProvider()),
+
+        // Provider del Foro [1]
+        ChangeNotifierProvider(create: (_) => ForumProvider()),
         
         // Provider del Diccionario Colaborativo [1]
         ChangeNotifierProvider(create: (_) => DictionaryProvider()),

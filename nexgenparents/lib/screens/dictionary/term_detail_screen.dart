@@ -38,7 +38,7 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
     final dictionaryProvider = Provider.of<DictionaryProvider>(context);
     final isModeratorOrAdmin =
         ['moderator', 'admin'].contains(currentUser?.role);
-    final isAdmin = currentUser?.role == 'admin';
+    final isAdmin = currentUser?.isAdmin ?? false;
 
     return Scaffold(
       appBar: AppBar(

@@ -129,12 +129,12 @@ class UsersManagementScreen extends StatelessWidget {
                     ),
                     _buildStatChip(
                       'Admins',
-                      users.where((u) => u.role == 'admin').length,
+                      users.where((u) => u.isAdmin).length,
                       AppConfig.errorColor,
                     ),
                     _buildStatChip(
                       'Moderadores',
-                      users.where((u) => u.role == 'moderator').length,
+                      users.where((u) => u.isModerator).length,
                       AppConfig.warningColor,
                     ),
                     _buildStatChip(

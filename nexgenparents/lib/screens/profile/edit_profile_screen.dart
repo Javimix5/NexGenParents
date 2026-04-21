@@ -354,7 +354,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
               _buildStatItem(
                 Icons.emoji_events,
-                user.role == 'admin' ? 'Admin' : user.role == 'moderator' ? 'Mod' : 'Usuario',
+                user.isAdmin ? 'Admin' : user.isModerator ? 'Mod' : 'Usuario',
                 'Nivel',
               ),
             ],

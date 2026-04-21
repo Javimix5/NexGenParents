@@ -16,11 +16,24 @@ service cloud.firestore {
     }
 
     function isModeratorOrAdmin() {
-      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['moderator', 'admin'];
+      let role = get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role;
+      return role in ['moderator', 'admin', 'Moderator', 'Admin', 'MODERATOR', 'ADMIN'];
     }
 
     function isAdmin() {
-      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['admin', 'Admin', 'ADMIN'];
+    }
+
+    function forumPostReplyUpdateOnly(existing, incoming) {
+      return incoming.title == existing.title &&
+             incoming.content == existing.content &&
+             incoming.authorId == existing.authorId &&
+             incoming.authorName == existing.authorName &&
+             incoming.topic == existing.topic &&
+             incoming.createdAt == existing.createdAt &&
+             incoming.replyCount == (existing.replyCount == null ? 1 : existing.replyCount + 1) &&
+             incoming.updatedAt == request.time &&
+             incoming.lastReplyAt == request.time;
     }
 
     // ========== USER PROFILES ==========
@@ -90,6 +103,50 @@ service cloud.firestore {
         );
 
       // Only admins can delete terms.
+      allow delete: if request.auth != null && isAdmin();
+    }
+
+    // ========== FORO ==========
+    match /forum_posts/{postId} {
+      // El foro es visible solo para usuarios autenticados.
+      allow read: if request.auth != null;
+
+      // Crear publicaciones propias.
+      allow create: if request.auth != null &&
+                      request.resource.data.authorId == request.auth.uid &&
+                      request.resource.data.title is string &&
+                      request.resource.data.content is string &&
+                      request.resource.data.authorName is string &&
+                      request.resource.data.replyCount == 0 &&
+                      request.resource.data.createdAt == request.time &&
+                      request.resource.data.updatedAt == request.time;
+
+      // Solo admins pueden borrar publicaciones.
+      // Los usuarios autenticados pueden actualizar únicamente los metadatos generados al responder.
+      allow update: if request.auth != null && (
+        isAdmin() || forumPostReplyUpdateOnly(resource.data, request.resource.data)
+      );
+
+      // Solo admins pueden borrar publicaciones.
+      allow delete: if request.auth != null && isAdmin();
+    }
+
+    match /forum_replies/{replyId} {
+      // Las respuestas se leen solo dentro del foro autenticado.
+      allow read: if request.auth != null;
+
+      // Crear respuestas propias.
+      allow create: if request.auth != null &&
+                      request.resource.data.authorId == request.auth.uid &&
+                      request.resource.data.postId is string &&
+                      request.resource.data.content is string &&
+                      request.resource.data.authorName is string &&
+                      request.resource.data.createdAt == request.time;
+
+      // No se editan respuestas desde la app.
+      allow update: if false;
+
+      // Solo admins pueden borrar respuestas.
       allow delete: if request.auth != null && isAdmin();
     }
     

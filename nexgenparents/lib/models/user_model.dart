@@ -133,9 +133,9 @@ class UserModel {
   }
 
   // Método para verificar si el usuario es moderador o admin
-  bool get isModerator => role == 'moderator' || role == 'admin';
+  bool get isModerator => role.toLowerCase() == 'moderator' || role.toLowerCase() == 'admin';
   
-  bool get isAdmin => role == 'admin';
+  bool get isAdmin => role.toLowerCase() == 'admin';
 
   @override
   String toString() {
