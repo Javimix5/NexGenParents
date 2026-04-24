@@ -196,7 +196,7 @@ class _ModerationScreenState extends State<ModerationScreen> {
                                 Container(
                                   padding: const EdgeInsets.all(AppConfig.paddingSmall),
                                   decoration: BoxDecoration(
-                                    color: AppConfig.backgroundColor,
+                                    color: AppConfig.backgroundLight,
                                     borderRadius: BorderRadius.circular(
                                       AppConfig.borderRadiusSmall,
                                     ),

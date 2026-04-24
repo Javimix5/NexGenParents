@@ -18,16 +18,22 @@ class AppConfig {
   static const String githubRawBase =
       'https://raw.githubusercontent.com/Javimix5/nexgen-parents-assets/main';
 
-  // Colores del tema (adaptado a padres/madres - interfaz amigable)
-  static const Color primaryColor = Color(0xFF6366F1); // Indigo suave
-  static const Color secondaryColor = Color(0xFF8B5CF6); // Púrpura
-  static const Color accentColor = Color(0xFF10B981); // Verde (aprobado)
+  // --- Nueva Paleta de Colores ---
+  // Primarios y Secundarios
+  static const Color primaryColor = Color(0xFF68409F); // Púrpura profundo
+  static const Color secondaryColor = Color(0xFF892BD5); // Púrpura vívido
+  static const Color accentColor = Color(0xFF3BF1E0); // Turquesa brillante
+
+  // Colores de UI (Fondos, Texto, etc.)
+  static const Color backgroundDark = Color(0xFF060617); // Negro azulado (para modo oscuro)
+  static const Color cardDark = Color(0xFF1C243C); // Azul oscuro (para tarjetas en modo oscuro)
+  static const Color backgroundLight = Color(0xFFE7E7E7); // Gris muy claro (para modo claro)
+  static const Color textPrimaryColor = Color(0xFF060617); // Casi negro para textos principales
+  static const Color textSecondaryColor = Color(0xFF475569); // Gris pizarra para textos secundarios
+
+  // Colores de estado (se mantienen por su semántica universal)
   static const Color errorColor = Color(0xFFEF4444); // Rojo
   static const Color warningColor = Color(0xFFF59E0B); // Amarillo
-  static const Color backgroundColor = Color(0xFFF9FAFB); // Gris muy claro
-  static const Color cardColor = Color(0xFFFFFFFF); // Blanco
-  static const Color textPrimaryColor = Color(0xFF111827); // Gris oscuro
-  static const Color textSecondaryColor = Color(0xFF6B7280); // Gris medio
 
   // Tipografía (adaptada a personas no nativas digitales - tamaños grandes)
   static const double fontSizeTitle = 24.0;

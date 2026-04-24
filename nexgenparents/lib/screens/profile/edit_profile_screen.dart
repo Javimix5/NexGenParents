@@ -464,7 +464,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 decoration: BoxDecoration(
                   color: _selectedAvatar == avatar
                       ? AppConfig.primaryColor.withOpacity(0.2)
-                      : AppConfig.backgroundColor,
+                      : AppConfig.backgroundLight,
                   shape: BoxShape.circle,
                   border: Border.all(
                     color: _selectedAvatar == avatar

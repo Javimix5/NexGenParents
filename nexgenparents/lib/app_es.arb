@@ -1,0 +1,58 @@
+{
+    "@@locale": "es",
+    "appName": "NexGen Parents",
+    "loading": "Cargando {appName}...",
+    "@loading": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+
+    "classificationSystemsTitle": "Sistemas de Clasificación",
+    "pegiInfoSubtitle": "Aprende a interpretar PEGI y ESRB para elegir juegos adecuados para cada edad.",
+    "ageRatingsMeaningTitle": "¿Qué significan las clasificaciones por edad?",
+    "pegiSystemEuropa": "Sistema PEGI (Europa)",
+    "esrbSystemUsa": "Sistema ESRB (EE. UU.)",
+    "esrbApiNote": "Este es el sistema que suele aparecer en la API de videojuegos que utilizamos.",
+    "pegiContentDescriptorsTitle": "Descriptores de Contenido PEGI",
+    "pegiContentDescriptorsSubtitle": "Además de la edad, las clasificaciones incluyen iconos que indican el tipo de contenido:",
+    "contentDescriptorViolence": "Violencia",
+    "contentDescriptorFear": "Miedo",
+    "contentDescriptorOnline": "Online",
+    "contentDescriptorDiscrimination": "Discriminación",
+    "contentDescriptorDrugs": "Drogas",
+    "contentDescriptorSex": "Sexo",
+    "contentDescriptorBadLanguage": "Lenguaje soez",
+    "contentDescriptorGambling": "Juego/Apuestas",
+
+    "errorInvalidEmail": "El correo electrónico no es válido",
+    "errorWeakPassword": "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número",
+    "errorUserNotFound": "No existe un usuario con este correo",
+    "errorWrongPassword": "La contraseña es incorrecta",
+    "errorUserDisabled": "Esta cuenta ha sido deshabilitada",
+    "errorEmailInUse": "Este correo ya está registrado",
+    "errorEmailInUseRecovery": "Este correo ya está registrado. Si borraste solo el perfil en la base de datos, inicia sesión con tu contraseña anterior para restaurarlo.",
+    "errorDifferentCredential": "Este correo ya está registrado con otro método de acceso",
+    "errorInvalidCredential": "Las credenciales no son válidas",
+    "errorPopupClosed": "Has cerrado la ventana de Google antes de completar el acceso",
+    "errorPopupBlocked": "El navegador bloqueó la ventana emergente de Google. Inténtalo de nuevo",
+    "errorPermissionDenied": "No hay permisos para acceder al perfil en Firestore. Revisa y despliega firestore.rules.",
+    "errorGeneric": "Error inesperado: {error}",
+    "@errorGeneric": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "errorCreatingUser": "Error al crear el usuario",
+    "errorCreatingProfile": "No se pudo crear el perfil del usuario",
+    "errorLogin": "Error al iniciar sesión",
+    "errorLoadingProfile": "No se pudo cargar el perfil del usuario",
+    "successUserRegistered": "Usuario registrado correctamente",
+    "successLogin": "Sesión iniciada correctamente",
+    "successLoginGoogle": "Sesión iniciada correctamente con Google",
+    "successPasswordReset": "Correo de recuperación enviado. Revisa tu bandeja de entrada"
+}

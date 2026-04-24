@@ -3,18 +3,25 @@ import 'app_config.dart';
 
 class AppTheme {
   // Tema claro de la aplicación
-  static ThemeData get lightTheme {
-    return ThemeData(
+  static final ThemeData lightTheme = ThemeData(
       useMaterial3: true,
+      brightness: Brightness.light,
       
       // Colores principales
       primaryColor: AppConfig.primaryColor,
-      scaffoldBackgroundColor: AppConfig.backgroundColor,
-      colorScheme: const ColorScheme.light(
+      scaffoldBackgroundColor: AppConfig.backgroundLight,
+      colorScheme: ColorScheme.light(
         primary: AppConfig.primaryColor,
         secondary: AppConfig.secondaryColor,
+        tertiary: AppConfig.accentColor,
+        tertiaryContainer: AppConfig.accentColor.withOpacity(0.1),
         error: AppConfig.errorColor,
-        surface: AppConfig.cardColor,
+        background: AppConfig.backgroundLight,
+        surface: Colors.white, // Tarjetas blancas sobre fondo gris claro
+        onPrimary: Colors.white,
+        onSecondary: Colors.white,
+        onBackground: AppConfig.textPrimaryColor,
+        onSurface: AppConfig.textPrimaryColor,
       ),
       
       // AppBar
@@ -58,7 +65,7 @@ class AppTheme {
       
       // Cards
       cardTheme: CardThemeData(
-        color: AppConfig.cardColor,
+        color: Colors.white,
         elevation: 2,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
@@ -122,7 +129,7 @@ class AppTheme {
       // Campos de texto (formularios)
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: AppConfig.cardColor,
+        fillColor: Colors.white,
         contentPadding: const EdgeInsets.all(AppConfig.paddingMedium),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
@@ -175,7 +182,95 @@ class AppTheme {
         color: AppConfig.primaryColor,
       ),
     );
-  }
+
+  // Tema oscuro de la aplicación
+  static final ThemeData darkTheme = ThemeData(
+    useMaterial3: true,
+    brightness: Brightness.dark,
+
+    // Colores principales
+    primaryColor: AppConfig.primaryColor,
+    scaffoldBackgroundColor: AppConfig.backgroundDark,
+    colorScheme: ColorScheme.dark(
+      primary: AppConfig.primaryColor,
+      secondary: AppConfig.secondaryColor,
+      tertiary: AppConfig.accentColor,
+      tertiaryContainer: AppConfig.accentColor.withOpacity(0.15),
+      error: AppConfig.errorColor,
+      background: AppConfig.backgroundDark,
+      surface: AppConfig.cardDark,
+      onPrimary: Colors.white,
+      onSecondary: Colors.white,
+      onBackground: AppConfig.backgroundLight, // Texto claro sobre fondo oscuro
+      onSurface: AppConfig.backgroundLight, // Texto claro sobre tarjetas oscuras
+    ),
+
+    // AppBar
+    appBarTheme: const AppBarTheme(
+      backgroundColor: AppConfig.cardDark,
+      foregroundColor: AppConfig.backgroundLight,
+      elevation: 0,
+      centerTitle: true,
+      titleTextStyle: TextStyle(
+        fontSize: AppConfig.fontSizeHeading,
+        fontWeight: FontWeight.bold,
+        color: AppConfig.backgroundLight,
+      ),
+    ),
+
+    // Textos
+    textTheme: const TextTheme(
+      displayLarge: TextStyle(fontSize: AppConfig.fontSizeTitle, fontWeight: FontWeight.bold, color: AppConfig.backgroundLight),
+      displayMedium: TextStyle(fontSize: AppConfig.fontSizeHeading, fontWeight: FontWeight.w600, color: AppConfig.backgroundLight),
+      bodyLarge: TextStyle(fontSize: AppConfig.fontSizeBody, color: AppConfig.backgroundLight),
+      bodyMedium: TextStyle(fontSize: AppConfig.fontSizeBody, color: AppConfig.textSecondaryColor),
+      labelLarge: TextStyle(fontSize: AppConfig.fontSizeBody, fontWeight: FontWeight.w600),
+    ),
+
+    // Cards
+    cardTheme: CardThemeData(
+      color: AppConfig.cardDark,
+      elevation: 1,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
+      ),
+      margin: const EdgeInsets.symmetric(horizontal: AppConfig.paddingMedium, vertical: AppConfig.paddingSmall),
+    ),
+
+    // Botones (los estilos base se adaptan bien, solo ajustamos foreground si es necesario)
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: AppConfig.primaryColor,
+        foregroundColor: Colors.white,
+      ),
+    ),
+    
+    // Campos de texto
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: AppConfig.cardDark,
+      contentPadding: const EdgeInsets.all(AppConfig.paddingMedium),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
+        borderSide: const BorderSide(color: AppConfig.textSecondaryColor),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
+        borderSide: const BorderSide(color: AppConfig.textSecondaryColor, width: 1),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
+        borderSide: const BorderSide(color: AppConfig.accentColor, width: 2), // Usamos el acento para el foco
+      ),
+      labelStyle: const TextStyle(fontSize: AppConfig.fontSizeBody, color: AppConfig.textSecondaryColor),
+      hintStyle: const TextStyle(fontSize: AppConfig.fontSizeBody, color: AppConfig.textSecondaryColor),
+    ),
+
+    // Indicadores de progreso
+    progressIndicatorTheme: const ProgressIndicatorThemeData(
+      color: AppConfig.accentColor, // El turquesa destacará genial
+    ),
+  );
   
   // Método helper para obtener color según status del término
   static Color getStatusColor(String status) {

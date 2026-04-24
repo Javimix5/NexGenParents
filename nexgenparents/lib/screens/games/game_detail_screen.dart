@@ -239,7 +239,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
       padding: const EdgeInsets.all(AppConfig.paddingMedium),
       color: pegi != null
           ? AppTheme.getPegiColor(pegi).withOpacity(0.1)
-          : AppConfig.backgroundColor,
+          : AppConfig.backgroundLight,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

@@ -121,15 +121,14 @@ class AuthService {
       if (!_isValidEmail(email)) {
         return {
           'success': false,
-          'message': 'El correo electrónico no es válido',
+          'messageKey': 'errorInvalidEmail',
         };
       }
 
       if (!_isStrongPassword(password)) {
         return {
           'success': false,
-          'message':
-              'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número',
+          'messageKey': 'errorWeakPassword',
         };
       }
 
@@ -144,7 +143,7 @@ class AuthService {
       if (user == null) {
         return {
           'success': false,
-          'message': 'Error al crear el usuario',
+          'messageKey': 'errorCreatingUser',
         };
       }
 
@@ -159,13 +158,13 @@ class AuthService {
       if (newUser == null) {
         return {
           'success': false,
-          'message': 'No se pudo crear el perfil del usuario',
+          'messageKey': 'errorCreatingProfile',
         };
       }
 
       return {
         'success': true,
-        'message': 'Usuario registrado correctamente',
+        'messageKey': 'successUserRegistered',
         'user': newUser,
       };
     } on FirebaseAuthException catch (e) {
@@ -191,8 +190,7 @@ class AuthService {
             if (recoveredUser != null) {
               return {
                 'success': true,
-                'message':
-                    'La cuenta ya existía en autenticación y se ha restaurado el perfil.',
+                'messageKey': 'successUserRegistered', // Or a more specific one
                 'user': recoveredUser,
               };
             }
@@ -202,49 +200,48 @@ class AuthService {
               recoveryError.code == 'invalid-credential') {
             return {
               'success': false,
-              'message':
-                  'Este correo ya está registrado. Si borraste solo el perfil en la base de datos, inicia sesión con tu contraseña anterior para restaurarlo.',
+              'messageKey': 'errorEmailInUseRecovery',
             };
           }
         } catch (_) {}
       }
 
-      String message = 'Error al registrar usuario';
+      String messageKey = 'errorGeneric';
 
       switch (e.code) {
         case 'email-already-in-use':
-          message = 'Este correo ya está registrado';
+          messageKey = 'errorEmailInUse';
           break;
         case 'weak-password':
-          message =
-              'La contraseña es demasiado débil (mínimo 8 caracteres, con mayúscula, minúscula y número)';
+          messageKey = 'errorWeakPassword';
           break;
         case 'invalid-email':
-          message = 'El correo electrónico no es válido';
+          messageKey = 'errorInvalidEmail';
           break;
       }
 
       return {
         'success': false,
-        'message': message,
+        'messageKey': messageKey,
       };
     } on FirebaseException catch (e) {
       if (e.code == 'permission-denied') {
         return {
           'success': false,
-          'message':
-              'No hay permisos para acceder al perfil en Firestore. Revisa y despliega firestore.rules.',
+          'messageKey': 'errorPermissionDenied',
         };
       }
 
       return {
         'success': false,
-        'message': 'Error de Firestore: ${e.message ?? e.code}',
+        'messageKey': 'errorGeneric',
+        'errorDetails': e.message ?? e.code,
       };
     } catch (e) {
       return {
         'success': false,
-        'message': 'Error inesperado: ${e.toString()}',
+        'messageKey': 'errorGeneric',
+        'errorDetails': e.toString(),
       };
     }
   }
@@ -258,7 +255,7 @@ class AuthService {
       if (!_isValidEmail(email)) {
         return {
           'success': false,
-          'message': 'El correo electrónico no es válido',
+          'messageKey': 'errorInvalidEmail',
         };
       }
 
@@ -272,7 +269,7 @@ class AuthService {
       if (user == null) {
         return {
           'success': false,
-          'message': 'Error al iniciar sesión',
+          'messageKey': 'errorLogin',
         };
       }
 
@@ -280,54 +277,56 @@ class AuthService {
       if (userModel == null) {
         return {
           'success': false,
-          'message': 'No se pudo cargar el perfil del usuario',
+          'messageKey': 'errorLoadingProfile',
         };
       }
 
       return {
         'success': true,
-        'message': 'Sesión iniciada correctamente',
+        'messageKey': 'successLogin',
         'user': userModel,
       };
     } on FirebaseAuthException catch (e) {
-      String message = 'Error al iniciar sesión';
+      String messageKey = 'errorLogin';
 
       switch (e.code) {
         case 'user-not-found':
-          message = 'No existe un usuario con este correo';
-          break;
-        case 'wrong-password':
-          message = 'Contraseña incorrecta';
+          messageKey = 'errorUserNotFound';
           break;
         case 'invalid-email':
-          message = 'El correo electrónico no es válido';
+          messageKey = 'errorInvalidEmail';
           break;
         case 'user-disabled':
-          message = 'Esta cuenta ha sido deshabilitada';
+          messageKey = 'errorUserDisabled';
+          break;
+        case 'wrong-password':
+        case 'invalid-credential':
+          messageKey = 'errorWrongPassword';
           break;
       }
 
       return {
         'success': false,
-        'message': message,
+        'messageKey': messageKey,
       };
     } on FirebaseException catch (e) {
       if (e.code == 'permission-denied') {
         return {
           'success': false,
-          'message':
-              'No hay permisos para acceder al perfil en Firestore. Revisa y despliega firestore.rules.',
+          'messageKey': 'errorPermissionDenied',
         };
       }
 
       return {
         'success': false,
-        'message': 'Error de Firestore: ${e.message ?? e.code}',
+        'messageKey': 'errorGeneric',
+        'errorDetails': e.message ?? e.code,
       };
     } catch (e) {
       return {
         'success': false,
-        'message': 'Error inesperado: ${e.toString()}',
+        'messageKey': 'errorGeneric',
+        'errorDetails': e.toString(),
       };
     }
   }
@@ -349,11 +348,9 @@ class AuthService {
               e.code == 'cancelled-popup-request' ||
               e.code == 'web-context-cancelled') {
             await _auth.signInWithRedirect(googleProvider);
-            return {
-              'success': true,
-              'message':
-                  'Redirigiendo al proveedor de Google para completar el acceso',
-            };
+            // No se puede devolver un resultado aquí, la app se recargará.
+            // Por simplicidad, devolvemos un estado de "redirigiendo".
+            return {'success': true, 'redirecting': true};
           }
           rethrow;
         }
@@ -362,18 +359,15 @@ class AuthService {
         if (googleUser == null) {
           return {
             'success': false,
-            'message': 'Google Sign-In no está disponible en esta plataforma',
+            'messageKey': 'errorGeneric',
+            'errorDetails': 'Google Sign-In not available',
           };
         }
 
-        final dynamic googleUserAccount =
-            await googleUser.signIn();
-
+        final dynamic googleUserAccount = await googleUser.signIn();
         if (googleUserAccount == null) {
-          return {
-            'success': false,
-            'message': 'Inicio de sesión cancelado por el usuario',
-          };
+          // El usuario canceló, no es un error, simplemente no hacemos nada.
+          return {'success': false, 'cancelled': true};
         }
 
         final dynamic googleAuth =
@@ -390,7 +384,8 @@ class AuthService {
       if (user == null) {
         return {
           'success': false,
-          'message': 'No se pudo autenticar la cuenta de Google',
+          'messageKey': 'errorGeneric',
+          'errorDetails': 'Google UserCredential was null',
         };
       }
 
@@ -402,56 +397,55 @@ class AuthService {
       if (userModel == null) {
         return {
           'success': false,
-          'message': 'No se pudo cargar el perfil del usuario',
+          'messageKey': 'errorLoadingProfile',
         };
       }
 
       return {
         'success': true,
-        'message': 'Sesión iniciada correctamente con Google',
+        'messageKey': 'successLoginGoogle',
         'user': userModel,
       };
     } on FirebaseAuthException catch (e) {
-      var message = 'Error al iniciar sesión con Google';
+      var messageKey = 'errorLogin';
 
       switch (e.code) {
         case 'account-exists-with-different-credential':
-          message = 'Este correo ya está registrado con otro método de acceso';
+          messageKey = 'errorDifferentCredential';
           break;
         case 'invalid-credential':
-          message = 'Las credenciales de Google no son válidas';
+          messageKey = 'errorInvalidCredential';
           break;
         case 'popup-closed-by-user':
-          message =
-              'Has cerrado la ventana de Google antes de completar el acceso';
+          messageKey = 'errorPopupClosed';
           break;
         case 'popup-blocked':
-          message =
-              'El navegador bloqueó la ventana emergente de Google. Inténtalo de nuevo';
+          messageKey = 'errorPopupBlocked';
           break;
       }
 
       return {
         'success': false,
-        'message': message,
+        'messageKey': messageKey,
       };
     } on FirebaseException catch (e) {
       if (e.code == 'permission-denied') {
         return {
           'success': false,
-          'message':
-              'No hay permisos para acceder al perfil en Firestore. Revisa y despliega firestore.rules.',
+          'messageKey': 'errorPermissionDenied',
         };
       }
 
       return {
         'success': false,
-        'message': 'Error de Firestore: ${e.message ?? e.code}',
+        'messageKey': 'errorGeneric',
+        'errorDetails': e.message ?? e.code,
       };
     } catch (e) {
       return {
         'success': false,
-        'message': 'Error inesperado: ${e.toString()}',
+        'messageKey': 'errorGeneric',
+        'errorDetails': e.toString(),
       };
     }
   }
@@ -476,26 +470,26 @@ class AuthService {
       await _auth.sendPasswordResetEmail(email: email);
       return {
         'success': true,
-        'message':
-            'Correo de recuperación enviado. Revisa tu bandeja de entrada',
+        'messageKey': 'successPasswordReset',
       };
     } on FirebaseAuthException catch (e) {
-      String message = 'Error al enviar correo de recuperación';
+      String messageKey = 'errorGeneric';
 
       if (e.code == 'user-not-found') {
-        message = 'No existe un usuario con este correo';
+        messageKey = 'errorUserNotFound';
       } else if (e.code == 'invalid-email') {
-        message = 'El correo electrónico no es válido';
+        messageKey = 'errorInvalidEmail';
       }
 
       return {
         'success': false,
-        'message': message,
+        'messageKey': messageKey,
       };
     } catch (e) {
       return {
         'success': false,
-        'message': 'Error inesperado: ${e.toString()}',
+        'messageKey': 'errorGeneric',
+        'errorDetails': e.toString(),
       };
     }
   }

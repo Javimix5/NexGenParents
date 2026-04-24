@@ -277,7 +277,7 @@ class ParentalGuidesListScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(AppConfig.paddingMedium),
       decoration: BoxDecoration(
-        color: AppConfig.cardColor,
+        color: AppConfig.backgroundLight,
         borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
         border: Border.all(color: AppConfig.textSecondaryColor.withValues(alpha: 0.2)),
       ),

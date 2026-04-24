@@ -254,7 +254,7 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
     return Container(
       padding: const EdgeInsets.all(AppConfig.paddingMedium),
       decoration: BoxDecoration(
-        color: AppConfig.backgroundColor,
+        color: AppConfig.backgroundLight,
         border: Border(
           top: BorderSide(
             color: AppConfig.textSecondaryColor.withValues(alpha: 0.2),

@@ -88,7 +88,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppConfig.backgroundColor,
+      backgroundColor: AppConfig.backgroundLight,
       appBar: AppBar(
         title: const Text('Crear cuenta'),
         leading: IconButton(

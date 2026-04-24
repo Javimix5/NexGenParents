@@ -9,6 +9,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  # Internacionalización
+  flutter_localizations:
+    sdk: flutter
 
   # UI & Icons
   cupertino_icons: ^1.0.6
@@ -45,10 +48,11 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  generate: true
   
-  # Aquí añadiremos assets más adelante si son necesarios
-  # assets:
-  #   - assets/images/
+  # Assets de la aplicación
+  assets:
+    - assets/images/logo_principal.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

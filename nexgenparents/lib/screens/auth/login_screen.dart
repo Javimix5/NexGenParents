@@ -85,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppConfig.backgroundColor,
+      backgroundColor: AppConfig.backgroundLight,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
