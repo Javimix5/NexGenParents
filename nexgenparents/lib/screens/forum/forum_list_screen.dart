@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../config/app_config.dart';
-import '../../../models/forum_post_model.dart';
-import '../../../providers/auth_provider.dart';
-import '../../../providers/forum_provider.dart';
+import '../../config/app_config.dart';
+import '../../models/forum_post_model.dart';
+import '../../providers/auth_provider.dart';
+import '../../providers/forum_provider.dart';
+import '../../widgets/common/app_empty_state.dart';
 import 'create_post_screen.dart';
 import 'forum_post_detail_screen.dart';
 
@@ -30,8 +31,10 @@ class ForumListScreen extends StatelessWidget {
             return Center(child: Text('Error: ${snapshot.error}'));
           }
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(
-              child: Text('No hay publicaciones todavía. ¡Sé el primero!'),
+            return const AppEmptyState(
+              icon: Icons.forum_outlined,
+              title: 'No hay publicaciones todavía',
+              message: 'Sé el primero en abrir un hilo.',
             );
           }
 
@@ -47,16 +50,20 @@ class ForumListScreen extends StatelessWidget {
                   vertical: AppConfig.paddingSmall,
                 ),
                 child: ListTile(
-                  title: Text(post.title, style: const TextStyle(fontWeight: FontWeight.bold)),
-                  subtitle: Text('por ${post.authorName} • ${post.replyCount} respuestas'),
+                  title: Text(post.title,
+                      style: const TextStyle(fontWeight: FontWeight.bold)),
+                  subtitle: Text(
+                      'por ${post.authorName} • ${post.replyCount} respuestas'),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       if (isAdmin)
                         IconButton(
                           tooltip: 'Eliminar publicación',
-                          icon: const Icon(Icons.delete_outline, color: AppConfig.errorColor),
-                          onPressed: () => _confirmDeletePost(context, forumProvider, post),
+                          icon: const Icon(Icons.delete_outline,
+                              color: AppConfig.errorColor),
+                          onPressed: () =>
+                              _confirmDeletePost(context, forumProvider, post),
                         ),
                       const Icon(Icons.arrow_forward_ios, size: 16),
                     ],
@@ -96,7 +103,8 @@ class ForumListScreen extends StatelessWidget {
       context: context,
       builder: (dialogContext) => AlertDialog(
         title: const Text('Eliminar publicación'),
-        content: Text('¿Quieres eliminar "${post.title}" y todas sus respuestas?'),
+        content:
+            Text('¿Quieres eliminar "${post.title}" y todas sus respuestas?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(false),
@@ -104,7 +112,8 @@ class ForumListScreen extends StatelessWidget {
           ),
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(true),
-            child: const Text('Eliminar', style: TextStyle(color: AppConfig.errorColor)),
+            child: const Text('Eliminar',
+                style: TextStyle(color: AppConfig.errorColor)),
           ),
         ],
       ),
@@ -116,7 +125,11 @@ class ForumListScreen extends StatelessWidget {
     if (!context.mounted) return;
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(forumProvider.errorMessage ?? (success ? 'Publicación eliminada' : 'No se pudo eliminar la publicación'))),
+      SnackBar(
+          content: Text(forumProvider.errorMessage ??
+              (success
+                  ? 'Publicación eliminada'
+                  : 'No se pudo eliminar la publicación'))),
     );
   }
 }

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../config/app_config.dart';
-import '../../../models/forum_post_model.dart';
-import '../../../models/forum_reply_model.dart';
-import '../../../providers/auth_provider.dart';
-import '../../../providers/forum_provider.dart';
+import '../../config/app_config.dart';
+import '../../models/forum_post_model.dart';
+import '../../models/forum_reply_model.dart';
+import '../../providers/auth_provider.dart';
+import '../../providers/forum_provider.dart';
 
 class ForumPostDetailScreen extends StatefulWidget {
   final ForumPost post;
@@ -70,13 +70,17 @@ class _ForumPostDetailScreenState extends State<ForumPostDetailScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(widget.post.title, style: Theme.of(context).textTheme.headlineSmall),
+                        Text(widget.post.title,
+                            style: Theme.of(context).textTheme.headlineSmall),
                         const SizedBox(height: AppConfig.paddingSmall),
-                        Text('por ${widget.post.authorName}', style: Theme.of(context).textTheme.bodySmall),
+                        Text('por ${widget.post.authorName}',
+                            style: Theme.of(context).textTheme.bodySmall),
                         const Divider(height: AppConfig.paddingLarge),
-                        Text(widget.post.content, style: Theme.of(context).textTheme.bodyLarge),
+                        Text(widget.post.content,
+                            style: Theme.of(context).textTheme.bodyLarge),
                         const Divider(height: AppConfig.paddingLarge),
-                        Text('Respuestas', style: Theme.of(context).textTheme.titleMedium),
+                        Text('Respuestas',
+                            style: Theme.of(context).textTheme.titleMedium),
                       ],
                     ),
                   ),
@@ -86,13 +90,15 @@ class _ForumPostDetailScreenState extends State<ForumPostDetailScreen> {
                   stream: forumProvider.getRepliesStream(widget.post.id),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const SliverToBoxAdapter(child: Center(child: CircularProgressIndicator()));
+                      return const SliverToBoxAdapter(
+                          child: Center(child: CircularProgressIndicator()));
                     }
                     if (!snapshot.hasData || snapshot.data!.isEmpty) {
                       return const SliverToBoxAdapter(
                         child: Padding(
                           padding: EdgeInsets.all(AppConfig.paddingMedium),
-                          child: Center(child: Text('No hay respuestas todavía.')),
+                          child:
+                              Center(child: Text('No hay respuestas todavía.')),
                         ),
                       );
                     }
@@ -107,8 +113,10 @@ class _ForumPostDetailScreenState extends State<ForumPostDetailScreen> {
                             trailing: isAdmin
                                 ? IconButton(
                                     tooltip: 'Eliminar respuesta',
-                                    icon: const Icon(Icons.delete_outline, color: AppConfig.errorColor),
-                                    onPressed: () => _confirmDeleteReply(context, forumProvider, reply),
+                                    icon: const Icon(Icons.delete_outline,
+                                        color: AppConfig.errorColor),
+                                    onPressed: () => _confirmDeleteReply(
+                                        context, forumProvider, reply),
                                   )
                                 : null,
                           );
@@ -128,12 +136,14 @@ class _ForumPostDetailScreenState extends State<ForumPostDetailScreen> {
     );
   }
 
-  Future<void> _confirmDeletePost(BuildContext context, ForumProvider forumProvider) async {
+  Future<void> _confirmDeletePost(
+      BuildContext context, ForumProvider forumProvider) async {
     final shouldDelete = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
         title: const Text('Eliminar publicación'),
-        content: const Text('¿Quieres eliminar esta publicación y todas sus respuestas?'),
+        content: const Text(
+            '¿Quieres eliminar esta publicación y todas sus respuestas?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(false),
@@ -141,7 +151,8 @@ class _ForumPostDetailScreenState extends State<ForumPostDetailScreen> {
           ),
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(true),
-            child: const Text('Eliminar', style: TextStyle(color: AppConfig.errorColor)),
+            child: const Text('Eliminar',
+                style: TextStyle(color: AppConfig.errorColor)),
           ),
         ],
       ),
@@ -153,7 +164,11 @@ class _ForumPostDetailScreenState extends State<ForumPostDetailScreen> {
     if (!context.mounted) return;
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(forumProvider.errorMessage ?? (success ? 'Publicación eliminada' : 'No se pudo eliminar la publicación'))),
+      SnackBar(
+          content: Text(forumProvider.errorMessage ??
+              (success
+                  ? 'Publicación eliminada'
+                  : 'No se pudo eliminar la publicación'))),
     );
 
     if (success && context.mounted) {
@@ -178,7 +193,8 @@ class _ForumPostDetailScreenState extends State<ForumPostDetailScreen> {
           ),
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(true),
-            child: const Text('Eliminar', style: TextStyle(color: AppConfig.errorColor)),
+            child: const Text('Eliminar',
+                style: TextStyle(color: AppConfig.errorColor)),
           ),
         ],
       ),
@@ -186,11 +202,16 @@ class _ForumPostDetailScreenState extends State<ForumPostDetailScreen> {
 
     if (shouldDelete != true) return;
 
-    final success = await forumProvider.deleteReply(replyId: reply.id, postId: reply.postId);
+    final success = await forumProvider.deleteReply(
+        replyId: reply.id, postId: reply.postId);
     if (!context.mounted) return;
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(forumProvider.errorMessage ?? (success ? 'Respuesta eliminada' : 'No se pudo eliminar la respuesta'))),
+      SnackBar(
+          content: Text(forumProvider.errorMessage ??
+              (success
+                  ? 'Respuesta eliminada'
+                  : 'No se pudo eliminar la respuesta'))),
     );
   }
 

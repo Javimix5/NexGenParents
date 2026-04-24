@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/dictionary_provider.dart';
 import '../../config/app_config.dart';
+import '../../widgets/common/app_empty_state.dart';
+import '../../widgets/common/app_loading_state.dart';
 import 'term_detail_screen.dart';
 
 class MyProposedTermsScreen extends StatefulWidget {
@@ -18,13 +20,11 @@ class _MyProposedTermsScreenState extends State<MyProposedTermsScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
-      final dictionaryProvider = Provider.of<DictionaryProvider>(context, listen: false);
-      
+      final dictionaryProvider =
+          Provider.of<DictionaryProvider>(context, listen: false);
+
       if (authProvider.currentUser != null) {
-        print('🔍 Cargando términos del usuario: ${authProvider.currentUser!.id}');
         dictionaryProvider.loadUserProposedTerms(authProvider.currentUser!.id);
-      } else{
-        print('❌ No hay usuario autenticado');
       }
     });
   }
@@ -41,77 +41,17 @@ class _MyProposedTermsScreenState extends State<MyProposedTermsScreen> {
       body: Consumer<DictionaryProvider>(
         builder: (context, dictionaryProvider, child) {
           if (dictionaryProvider.isLoading) {
-            return const Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CircularProgressIndicator(),
-                  SizedBox(height: AppConfig.paddingMedium),
-                  Text('Cargando tus términos...'),
-                ],
-              ),
+            return const AppLoadingState(
+              message: 'Cargando tus términos...',
             );
           }
 
           final terms = dictionaryProvider.userProposedTerms;
-          print('📝 Términos cargados: ${terms.length}');
           if (terms.isEmpty) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.all(AppConfig.paddingLarge),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.article_outlined,
-                      size: 80,
-                      color: AppConfig.textSecondaryColor,
-                    ),
-                    const SizedBox(height: AppConfig.paddingMedium),
-                    Text(
-                      'No has propuesto términos aún',
-                      style: Theme.of(context).textTheme.displayMedium,
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: AppConfig.paddingSmall),
-                    Text(
-                      'Contribuye al diccionario proponiendo nuevos términos',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }
-
-          if (terms.isEmpty) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.all(AppConfig.paddingLarge),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.article_outlined,
-                      size: 80,
-                      color: AppConfig.textSecondaryColor,
-                    ),
-                    const SizedBox(height: AppConfig.paddingMedium),
-                    Text(
-                      'No has propuesto términos aún',
-                      style: Theme.of(context).textTheme.displayMedium,
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: AppConfig.paddingSmall),
-                    Text(
-                      'Contribuye al diccionario proponiendo nuevos términos',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              ),
+            return const AppEmptyState(
+              icon: Icons.article_outlined,
+              title: 'No has propuesto términos aún',
+              message: 'Contribuye al diccionario proponiendo nuevos términos',
             );
           }
 
@@ -177,7 +117,8 @@ class _MyProposedTermsScreenState extends State<MyProposedTermsScreen> {
                   itemBuilder: (context, index) {
                     final term = terms[index];
                     return Card(
-                      margin: const EdgeInsets.only(bottom: AppConfig.paddingMedium),
+                      margin: const EdgeInsets.only(
+                          bottom: AppConfig.paddingMedium),
                       child: InkWell(
                         onTap: () {
                           Navigator.of(context).push(
@@ -186,9 +127,11 @@ class _MyProposedTermsScreenState extends State<MyProposedTermsScreen> {
                             ),
                           );
                         },
-                        borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
+                        borderRadius:
+                            BorderRadius.circular(AppConfig.borderRadiusMedium),
                         child: Padding(
-                          padding: const EdgeInsets.all(AppConfig.paddingMedium),
+                          padding:
+                              const EdgeInsets.all(AppConfig.paddingMedium),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -197,9 +140,12 @@ class _MyProposedTermsScreenState extends State<MyProposedTermsScreen> {
                                   Expanded(
                                     child: Text(
                                       term.term,
-                                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge
+                                          ?.copyWith(
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                     ),
                                   ),
                                   _buildStatusChip(term.status),
@@ -220,7 +166,8 @@ class _MyProposedTermsScreenState extends State<MyProposedTermsScreen> {
                                     size: 14,
                                     color: AppConfig.textSecondaryColor,
                                   ),
-                                  const SizedBox(width: AppConfig.paddingSmall / 2),
+                                  const SizedBox(
+                                      width: AppConfig.paddingSmall / 2),
                                   Text(
                                     term.categoryDisplayName,
                                     style: const TextStyle(
@@ -235,7 +182,8 @@ class _MyProposedTermsScreenState extends State<MyProposedTermsScreen> {
                                       size: 14,
                                       color: AppConfig.errorColor,
                                     ),
-                                    const SizedBox(width: AppConfig.paddingSmall / 2),
+                                    const SizedBox(
+                                        width: AppConfig.paddingSmall / 2),
                                     const Text(
                                       'Ver motivo',
                                       style: TextStyle(
@@ -249,10 +197,13 @@ class _MyProposedTermsScreenState extends State<MyProposedTermsScreen> {
                               if (term.rejectionReason != null) ...[
                                 const SizedBox(height: AppConfig.paddingSmall),
                                 Container(
-                                  padding: const EdgeInsets.all(AppConfig.paddingSmall),
+                                  padding: const EdgeInsets.all(
+                                      AppConfig.paddingSmall),
                                   decoration: BoxDecoration(
-                                    color: AppConfig.errorColor.withOpacity(0.1),
-                                    borderRadius: BorderRadius.circular(AppConfig.borderRadiusSmall),
+                                    color:
+                                        AppConfig.errorColor.withOpacity(0.1),
+                                    borderRadius: BorderRadius.circular(
+                                        AppConfig.borderRadiusSmall),
                                   ),
                                   child: Row(
                                     children: [
@@ -261,7 +212,8 @@ class _MyProposedTermsScreenState extends State<MyProposedTermsScreen> {
                                         size: 16,
                                         color: AppConfig.errorColor,
                                       ),
-                                      const SizedBox(width: AppConfig.paddingSmall / 2),
+                                      const SizedBox(
+                                          width: AppConfig.paddingSmall / 2),
                                       Expanded(
                                         child: Text(
                                           term.rejectionReason!,

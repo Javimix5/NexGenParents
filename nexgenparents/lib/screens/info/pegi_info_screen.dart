@@ -95,45 +95,45 @@ class PegiInfoScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: AppConfig.paddingMedium),
-          
           _buildPegiCard(
             context,
             age: '3',
             imageUrl: '${AppConfig.githubCdnBase}/info/pegi/PEGI_3.webp',
             title: 'PEGI 3',
-            description: 'Contenido apto para todas las edades. Sin violencia ni lenguaje soez.',
+            description:
+                'Contenido apto para todas las edades. Sin violencia ni lenguaje soez.',
           ),
-          
           _buildPegiCard(
             context,
             age: '7',
             imageUrl: '${AppConfig.githubCdnBase}/info/pegi/PEGI_7.webp',
             title: 'PEGI 7',
-            description: 'Puede contener escenas o sonidos que asusten a niños pequeños.',
+            description:
+                'Puede contener escenas o sonidos que asusten a niños pequeños.',
           ),
-          
           _buildPegiCard(
             context,
             age: '12',
             imageUrl: '${AppConfig.githubCdnBase}/info/pegi/PEGI_12.webp',
             title: 'PEGI 12',
-            description: 'Violencia en un entorno de fantasía o violencia no realista hacia personajes.',
+            description:
+                'Violencia en un entorno de fantasía o violencia no realista hacia personajes.',
           ),
-          
           _buildPegiCard(
             context,
             age: '16',
             imageUrl: '${AppConfig.githubCdnBase}/info/pegi/PEGI_16.webp',
             title: 'PEGI 16',
-            description: 'Violencia realista, lenguaje soez fuerte o escenas sexuales.',
+            description:
+                'Violencia realista, lenguaje soez fuerte o escenas sexuales.',
           ),
-          
           _buildPegiCard(
             context,
             age: '18',
             imageUrl: '${AppConfig.githubCdnBase}/info/pegi/PEGI_18.webp',
             title: 'PEGI 18',
-            description: 'Violencia extrema, contenido sexual explícito o apuestas con dinero real.',
+            description:
+                'Violencia extrema, contenido sexual explícito o apuestas con dinero real.',
           ),
         ],
       ),
@@ -169,7 +169,6 @@ class PegiInfoScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: AppConfig.paddingMedium),
-          
           _buildEsrbCard(
             context,
             'E',
@@ -257,13 +256,15 @@ class PegiInfoScreen extends StatelessWidget {
                 height: 60,
                 decoration: BoxDecoration(
                   color: theme.colorScheme.primary,
-                  borderRadius: BorderRadius.circular(AppConfig.borderRadiusSmall),
+                  borderRadius:
+                      BorderRadius.circular(AppConfig.borderRadiusSmall),
                 ),
                 child: Center(
                   child: Text(
                     age,
                     style: const TextStyle(
-                      color: Colors.white, // Aquí blanco está bien porque el fondo es el color primario
+                      color: Colors
+                          .white, // Aquí blanco está bien porque el fondo es el color primario
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                     ),
@@ -341,7 +342,8 @@ class PegiInfoScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(AppConfig.paddingSmall),
                 decoration: BoxDecoration(
                   color: theme.colorScheme.secondary.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(AppConfig.borderRadiusSmall),
+                  borderRadius:
+                      BorderRadius.circular(AppConfig.borderRadiusSmall),
                   border: Border.all(color: theme.colorScheme.secondary),
                 ),
                 child: Center(
@@ -394,7 +396,8 @@ class PegiInfoScreen extends StatelessWidget {
       margin: const EdgeInsets.all(AppConfig.paddingMedium),
       padding: const EdgeInsets.all(AppConfig.paddingMedium),
       decoration: BoxDecoration(
-        color: theme.colorScheme.tertiaryContainer, // Un buen color para destacar
+        color:
+            theme.colorScheme.tertiaryContainer, // Un buen color para destacar
         borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
         border: Border.all(color: theme.colorScheme.tertiary),
       ),
@@ -420,7 +423,6 @@ class PegiInfoScreen extends StatelessWidget {
             style: theme.textTheme.bodyMedium,
           ),
           const SizedBox(height: AppConfig.paddingMedium),
-          
           Wrap(
             spacing: AppConfig.paddingSmall,
             runSpacing: AppConfig.paddingSmall,
@@ -472,7 +474,8 @@ class PegiInfoScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildDescriptorChip(BuildContext context, String label, String imageUrl) {
+  Widget _buildDescriptorChip(
+      BuildContext context, String label, String imageUrl) {
     final theme = Theme.of(context);
     return Container(
       padding: const EdgeInsets.all(AppConfig.paddingSmall),
@@ -507,7 +510,8 @@ class PegiInfoScreen extends StatelessWidget {
                 width: 30,
                 height: 30,
                 color: theme.colorScheme.tertiary.withOpacity(0.2),
-                child: Icon(Icons.warning, size: 16, color: theme.colorScheme.tertiary),
+                child: Icon(Icons.warning,
+                    size: 16, color: theme.colorScheme.tertiary),
               ),
             ),
           ),

@@ -32,13 +32,14 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final dictionaryProvider = Provider.of<DictionaryProvider>(context, listen: false);
+      final dictionaryProvider =
+          Provider.of<DictionaryProvider>(context, listen: false);
       final gamesProvider = Provider.of<GamesProvider>(context, listen: false);
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
-      
+
       dictionaryProvider.loadApprovedTerms();
       gamesProvider.loadPopularGames();
-      
+
       // Cargar términos propuestos del usuario al iniciar la pantalla
       if (authProvider.currentUser != null) {
         dictionaryProvider.loadUserProposedTerms(authProvider.currentUser!.id);
@@ -54,6 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final authProvider = Provider.of<AuthProvider>(context);
     final user = authProvider.currentUser;
     final dictionaryProvider = Provider.of<DictionaryProvider>(context);
@@ -64,13 +66,16 @@ class _HomeScreenState extends State<HomeScreen> {
     final featuredGame = popularGames.isNotEmpty ? popularGames.first : null;
     final secondaryGame = popularGames.length > 1 ? popularGames[1] : null;
     final userName = user?.displayName;
-    final displayName = userName != null && userName.trim().isNotEmpty ? userName : 'Alex';
+    final displayName =
+        userName != null && userName.trim().isNotEmpty ? userName : 'Alex';
 
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFFF7F8FC), Color(0xFFFFFFFF)],
+            colors: isDark
+                ? const [Color(0xFF0A0F1E), Color(0xFF141B2E)]
+                : const [Color(0xFFF7F8FC), Color(0xFFFFFFFF)],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -88,12 +93,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          _buildHero(context, displayName, approvedTerms.length, userTerms.length),
+                          _buildHero(context, displayName, approvedTerms.length,
+                              userTerms.length),
                           const SizedBox(height: 28),
                           _buildSectionHeader(
                             context,
                             title: 'Quick Actions',
-                            subtitle: 'Shortcuts to the areas parents use most.',
+                            subtitle:
+                                'Shortcuts to the areas parents use most.',
                           ),
                           const SizedBox(height: 16),
                           _buildQuickActions(context),
@@ -102,11 +109,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             builder: (context, constraints) {
                               if (constraints.maxWidth < 960) {
                                 return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
                                   children: [
                                     _buildGameFeature(context, featuredGame),
                                     const SizedBox(height: 20),
-                                    _buildUpdatesPanel(context, secondaryGame, approvedTerms, userTerms),
+                                    _buildUpdatesPanel(context, secondaryGame,
+                                        approvedTerms, userTerms),
                                   ],
                                 );
                               }
@@ -114,9 +123,18 @@ class _HomeScreenState extends State<HomeScreen> {
                               return Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Expanded(flex: 3, child: _buildGameFeature(context, featuredGame)),
+                                  Expanded(
+                                      flex: 3,
+                                      child: _buildGameFeature(
+                                          context, featuredGame)),
                                   const SizedBox(width: 24),
-                                  Expanded(flex: 2, child: _buildUpdatesPanel(context, secondaryGame, approvedTerms, userTerms)),
+                                  Expanded(
+                                      flex: 2,
+                                      child: _buildUpdatesPanel(
+                                          context,
+                                          secondaryGame,
+                                          approvedTerms,
+                                          userTerms)),
                                 ],
                               );
                             },
@@ -162,9 +180,11 @@ class _HomeScreenState extends State<HomeScreen> {
               decoration: BoxDecoration(
                 color: AppConfig.primaryColor.withOpacity(0.18),
                 borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: AppConfig.primaryColor.withOpacity(0.35)),
+                border:
+                    Border.all(color: AppConfig.primaryColor.withOpacity(0.35)),
               ),
-              child: const Icon(Icons.videogame_asset_outlined, size: 18, color: Colors.white),
+              child: const Icon(Icons.videogame_asset_outlined,
+                  size: 18, color: Colors.white),
             ),
             const SizedBox(width: 18),
             Expanded(
@@ -181,10 +201,23 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
                       _buildNavLink('Home', true, () {}),
-                      _buildNavLink('Dictionary', false, () => _navigateTo(context, const DictionaryListScreen())),
-                      _buildNavLink('Game Search', false, () => _navigateTo(context, const GamesSearchScreen())),
-                      _buildNavLink('Parental Control', false, () => _navigateTo(context, const ParentalGuidesListScreen())),
-                      _buildNavLink('Community', false, () => _navigateTo(context, const ForumListScreen())),
+                      _buildNavLink(
+                          'Dictionary',
+                          false,
+                          () => _navigateTo(
+                              context, const DictionaryListScreen())),
+                      _buildNavLink(
+                          'Game Search',
+                          false,
+                          () =>
+                              _navigateTo(context, const GamesSearchScreen())),
+                      _buildNavLink(
+                          'Parental Control',
+                          false,
+                          () => _navigateTo(
+                              context, const ParentalGuidesListScreen())),
+                      _buildNavLink('Community', false,
+                          () => _navigateTo(context, const ForumListScreen())),
                     ],
                   );
                 },
@@ -195,27 +228,34 @@ class _HomeScreenState extends State<HomeScreen> {
               child: TextField(
                 controller: _searchController,
                 textInputAction: TextInputAction.search,
-                onSubmitted: (_) => _navigateTo(context, const GamesSearchScreen()),
+                onSubmitted: (_) =>
+                    _navigateTo(context, const GamesSearchScreen()),
                 style: const TextStyle(color: Colors.white, fontSize: 14),
                 decoration: InputDecoration(
                   isDense: true,
                   hintText: 'Search forum...',
-                  hintStyle: TextStyle(color: Colors.white.withOpacity(0.45), fontSize: 14),
-                  prefixIcon: Icon(Icons.search, size: 18, color: Colors.white.withOpacity(0.55)),
+                  hintStyle: TextStyle(
+                      color: Colors.white.withOpacity(0.45), fontSize: 14),
+                  prefixIcon: Icon(Icons.search,
+                      size: 18, color: Colors.white.withOpacity(0.55)),
                   filled: true,
                   fillColor: Colors.white.withOpacity(0.05),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
-                    borderSide: BorderSide(color: Colors.white.withOpacity(0.08)),
+                    borderSide:
+                        BorderSide(color: Colors.white.withOpacity(0.08)),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
-                    borderSide: BorderSide(color: Colors.white.withOpacity(0.08)),
+                    borderSide:
+                        BorderSide(color: Colors.white.withOpacity(0.08)),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
-                    borderSide: BorderSide(color: AppConfig.primaryColor.withOpacity(0.8)),
+                    borderSide: BorderSide(
+                        color: AppConfig.primaryColor.withOpacity(0.8)),
                   ),
                 ),
               ),
@@ -229,9 +269,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Colors.white.withOpacity(0.08),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.person_rounded, color: Colors.white, size: 20),
+                child: const Icon(Icons.person_rounded,
+                    color: Colors.white, size: 20),
               ),
-              onSelected: (value) => _handleMenuAction(context, authProvider, value),
+              onSelected: (value) =>
+                  _handleMenuAction(context, authProvider, value),
               itemBuilder: (context) => [
                 const PopupMenuItem(
                   value: 'profile',
@@ -245,7 +287,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: ListTile(
                     leading: const Icon(Icons.article_outlined),
                     title: const Text('Mis términos propuestos'),
-                    subtitle: Text('${Provider.of<DictionaryProvider>(context, listen: false).userProposedTerms.length} términos'),
+                    subtitle: Text(
+                        '${Provider.of<DictionaryProvider>(context, listen: false).userProposedTerms.length} términos'),
                   ),
                 ),
                 if (authProvider.isModerator)
@@ -281,13 +324,17 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildHero(BuildContext context, String userName, int approvedTermsCount, int userTermsCount) {
+  Widget _buildHero(BuildContext context, String userName,
+      int approvedTermsCount, int userTermsCount) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Container(
       padding: const EdgeInsets.all(28),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: theme.cardColor,
         borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: const Color(0xFFE7EAF3)),
+        border: Border.all(color: theme.dividerColor.withOpacity(0.35)),
         boxShadow: [
           BoxShadow(
             color: const Color(0xFF0B1020).withOpacity(0.06),
@@ -301,16 +348,25 @@ class _HomeScreenState extends State<HomeScreen> {
           final vertical = constraints.maxWidth < 760;
           return Flex(
             direction: vertical ? Axis.vertical : Axis.horizontal,
-            crossAxisAlignment: vertical ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+            crossAxisAlignment:
+                vertical ? CrossAxisAlignment.start : CrossAxisAlignment.center,
             children: [
               Container(
                 width: 70,
                 height: 70,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFF7E8DB),
+                  color: isDark
+                      ? const Color(0xFF2A3146)
+                      : const Color(0xFFF7E8DB),
                   borderRadius: BorderRadius.circular(18),
                 ),
-                child: const Icon(Icons.person_outline, size: 38, color: Color(0xFFB96A3D)),
+                child: Icon(
+                  Icons.person_outline,
+                  size: 38,
+                  color: isDark
+                      ? const Color(0xFFF5C59F)
+                      : const Color(0xFFB96A3D),
+                ),
               ),
               SizedBox(width: vertical ? 0 : 18, height: vertical ? 18 : 0),
               Expanded(
@@ -319,11 +375,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     Text(
                       'Welcome back, $userName!',
-                      style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                            fontSize: 28,
-                            fontWeight: FontWeight.w800,
-                            color: AppConfig.textPrimaryColor,
-                          ),
+                      style:
+                          Theme.of(context).textTheme.displayMedium?.copyWith(
+                                fontSize: 28,
+                                fontWeight: FontWeight.w800,
+                              ),
                     ),
                     const SizedBox(height: 6),
                     Text(
@@ -340,13 +396,22 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         _buildBadge(
                           text: 'Premium Member',
-                          background: const Color(0xFFF3E8FF),
-                          foreground: const Color(0xFF8B5CF6),
+                          background: isDark
+                              ? const Color(0xFF392B53)
+                              : const Color(0xFFF3E8FF),
+                          foreground: isDark
+                              ? const Color(0xFFE2D5FF)
+                              : const Color(0xFF8B5CF6),
                         ),
                         _buildBadge(
-                          text: '${approvedTermsCount + userTermsCount} active items',
-                          background: const Color(0xFFEAFBF3),
-                          foreground: const Color(0xFF059669),
+                          text:
+                              '${approvedTermsCount + userTermsCount} active items',
+                          background: isDark
+                              ? const Color(0xFF1E3A33)
+                              : const Color(0xFFEAFBF3),
+                          foreground: isDark
+                              ? const Color(0xFFA7F3D0)
+                              : const Color(0xFF059669),
                         ),
                       ],
                     ),
@@ -413,8 +478,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildQuickActionCard(BuildContext context, _QuickActionData action) {
+    final theme = Theme.of(context);
+
     return Material(
-      color: Colors.white,
+      color: theme.cardColor,
       borderRadius: BorderRadius.circular(18),
       child: InkWell(
         onTap: action.onTap,
@@ -424,7 +491,7 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.all(18),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(18),
-            border: Border.all(color: const Color(0xFFE9ECF5)),
+            border: Border.all(color: theme.dividerColor.withOpacity(0.35)),
             boxShadow: [
               BoxShadow(
                 color: const Color(0xFF0B1020).withOpacity(0.03),
@@ -451,7 +518,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 action.title,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       fontWeight: FontWeight.w800,
-                      color: AppConfig.textPrimaryColor,
                     ),
               ),
               const SizedBox(height: 6),
@@ -478,7 +544,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildSectionHeader(BuildContext context, {required String title, required String subtitle}) {
+  Widget _buildSectionHeader(BuildContext context,
+      {required String title, required String subtitle}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -495,7 +562,10 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 4),
             Text(
               subtitle,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 13.5),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(fontSize: 13.5),
             ),
           ],
         ),
@@ -504,12 +574,14 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildGameFeature(BuildContext context, Game? featuredGame) {
+    final theme = Theme.of(context);
+
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: theme.cardColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFE9ECF5)),
+        border: Border.all(color: theme.dividerColor.withOpacity(0.35)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -519,10 +591,11 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               const Text(
                 'Game of the Week',
-                style: TextStyle(fontSize: 21, fontWeight: FontWeight.w800, color: AppConfig.textPrimaryColor),
+                style: TextStyle(fontSize: 21, fontWeight: FontWeight.w800),
               ),
               TextButton(
-                onPressed: () => _navigateTo(context, const GamesSearchScreen()),
+                onPressed: () =>
+                    _navigateTo(context, const GamesSearchScreen()),
                 child: const Text('See past picks'),
               ),
             ],
@@ -557,7 +630,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       gradient: RadialGradient(
-                        colors: [AppConfig.primaryColor.withOpacity(0.22), Colors.transparent],
+                        colors: [
+                          AppConfig.primaryColor.withOpacity(0.22),
+                          Colors.transparent
+                        ],
                       ),
                     ),
                   ),
@@ -597,11 +673,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       const SizedBox(height: 14),
                       ElevatedButton(
-                        onPressed: () => _navigateTo(context, const GamesSearchScreen()),
+                        onPressed: () =>
+                            _navigateTo(context, const GamesSearchScreen()),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
                           foregroundColor: const Color(0xFF111827),
-                          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 18, vertical: 12),
                         ),
                         child: const Text('Read Full Review'),
                       ),
@@ -622,6 +700,8 @@ class _HomeScreenState extends State<HomeScreen> {
     List<DictionaryTerm> approvedTerms,
     List<DictionaryTerm> userTerms,
   ) {
+    final theme = Theme.of(context);
+
     final items = <_UpdateItem>[
       _UpdateItem(
         title: 'New Roblox Safety Features',
@@ -635,13 +715,16 @@ class _HomeScreenState extends State<HomeScreen> {
         subtitle: secondaryGame != null
             ? 'A quick look at whether it is a good fit for family play.'
             : 'Expert advice on balancing gaming and schoolwork.',
-        meta: secondaryGame != null ? '${secondaryGame.rating.toStringAsFixed(1)} rating' : 'Featured guide',
+        meta: secondaryGame != null
+            ? '${secondaryGame.rating.toStringAsFixed(1)} rating'
+            : 'Featured guide',
         icon: Icons.videogame_asset_outlined,
         tint: const Color(0xFF7C83FD),
       ),
       _UpdateItem(
         title: 'Dictionary Pulse',
-        subtitle: '${approvedTerms.length} approved terms and ${userTerms.length} personal drafts.',
+        subtitle:
+            '${approvedTerms.length} approved terms and ${userTerms.length} personal drafts.',
         meta: 'Community activity',
         icon: Icons.auto_graph_outlined,
         tint: const Color(0xFF10B981),
@@ -651,16 +734,16 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: theme.cardColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFE9ECF5)),
+        border: Border.all(color: theme.dividerColor.withOpacity(0.35)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
             'Latest Updates',
-            style: TextStyle(fontSize: 21, fontWeight: FontWeight.w800, color: AppConfig.textPrimaryColor),
+            style: TextStyle(fontSize: 21, fontWeight: FontWeight.w800),
           ),
           const SizedBox(height: 16),
           for (final item in items) ...[
@@ -672,8 +755,7 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () => _navigateTo(context, const ForumListScreen()),
             style: OutlinedButton.styleFrom(
               minimumSize: const Size.fromHeight(46),
-              foregroundColor: AppConfig.textPrimaryColor,
-              side: const BorderSide(color: Color(0xFFD8DDEA)),
+              side: BorderSide(color: theme.dividerColor.withOpacity(0.5)),
             ),
             child: const Text('View Community Forum'),
           ),
@@ -683,12 +765,14 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildUpdateTile(BuildContext context, _UpdateItem item) {
+    final theme = Theme.of(context);
+
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: const Color(0xFFF9FAFD),
+        color: theme.colorScheme.surface.withOpacity(0.7),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFE8EBF4)),
+        border: Border.all(color: theme.dividerColor.withOpacity(0.35)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -721,14 +805,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   item.subtitle,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 12.5, height: 1.25),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.copyWith(fontSize: 12.5, height: 1.25),
                 ),
                 const SizedBox(height: 6),
                 Text(
                   item.meta,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         fontSize: 11.5,
-                        color: AppConfig.textSecondaryColor.withOpacity(0.9),
                       ),
                 ),
               ],
@@ -749,7 +835,8 @@ class _HomeScreenState extends State<HomeScreen> {
       child: LayoutBuilder(
         builder: (context, constraints) {
           final stacked = constraints.maxWidth < 760;
-          final textStyle = TextStyle(color: Colors.white.withOpacity(0.78), fontSize: 13);
+          final textStyle =
+              TextStyle(color: Colors.white.withOpacity(0.78), fontSize: 13);
 
           if (stacked) {
             return Column(
@@ -757,15 +844,21 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 _buildFooterBrand(),
                 const SizedBox(height: 16),
-                Text('Empowering families to make informed gaming decisions.', style: textStyle),
+                Text('Empowering families to make informed gaming decisions.',
+                    style: textStyle),
                 const SizedBox(height: 16),
                 Wrap(
                   spacing: 18,
                   runSpacing: 10,
                   children: [
-                    _buildFooterLink('Privacy Policy', () => _navigateTo(context, const PegiInfoScreen())),
-                    _buildFooterLink('Terms of Service', () => _navigateTo(context, const PegiInfoScreen())),
-                    _buildFooterLink('Support', () => _navigateTo(context, const ParentalGuidesListScreen())),
+                    _buildFooterLink('Privacy Policy',
+                        () => _navigateTo(context, const PegiInfoScreen())),
+                    _buildFooterLink('Terms of Service',
+                        () => _navigateTo(context, const PegiInfoScreen())),
+                    _buildFooterLink(
+                        'Support',
+                        () => _navigateTo(
+                            context, const ParentalGuidesListScreen())),
                   ],
                 ),
               ],
@@ -780,16 +873,23 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     _buildFooterBrand(),
                     const SizedBox(height: 10),
-                    Text('Empowering families to make informed gaming decisions.', style: textStyle),
+                    Text(
+                        'Empowering families to make informed gaming decisions.',
+                        style: textStyle),
                   ],
                 ),
               ),
               Wrap(
                 spacing: 24,
                 children: [
-                  _buildFooterLink('Privacy Policy', () => _navigateTo(context, const PegiInfoScreen())),
-                  _buildFooterLink('Terms of Service', () => _navigateTo(context, const PegiInfoScreen())),
-                  _buildFooterLink('Support', () => _navigateTo(context, const ParentalGuidesListScreen())),
+                  _buildFooterLink('Privacy Policy',
+                      () => _navigateTo(context, const PegiInfoScreen())),
+                  _buildFooterLink('Terms of Service',
+                      () => _navigateTo(context, const PegiInfoScreen())),
+                  _buildFooterLink(
+                      'Support',
+                      () => _navigateTo(
+                          context, const ParentalGuidesListScreen())),
                 ],
               ),
             ],
@@ -810,12 +910,14 @@ class _HomeScreenState extends State<HomeScreen> {
             color: AppConfig.primaryColor.withOpacity(0.18),
             borderRadius: BorderRadius.circular(8),
           ),
-          child: const Icon(Icons.videogame_asset_outlined, color: Colors.white, size: 16),
+          child: const Icon(Icons.videogame_asset_outlined,
+              color: Colors.white, size: 16),
         ),
         const SizedBox(width: 10),
         const Text(
           AppConfig.appName,
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 15),
+          style: TextStyle(
+              color: Colors.white, fontWeight: FontWeight.w800, fontSize: 15),
         ),
       ],
     );
@@ -825,11 +927,15 @@ class _HomeScreenState extends State<HomeScreen> {
     return TextButton(
       onPressed: onTap,
       style: TextButton.styleFrom(foregroundColor: Colors.white),
-      child: Text(label, style: TextStyle(color: Colors.white.withOpacity(0.78))),
+      child:
+          Text(label, style: TextStyle(color: Colors.white.withOpacity(0.78))),
     );
   }
 
-  Widget _buildBadge({required String text, required Color background, required Color foreground}) {
+  Widget _buildBadge(
+      {required String text,
+      required Color background,
+      required Color foreground}) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
@@ -865,7 +971,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void _handleMenuAction(BuildContext context, AuthProvider authProvider, String value) {
+  void _handleMenuAction(
+      BuildContext context, AuthProvider authProvider, String value) {
     switch (value) {
       case 'profile':
         _navigateTo(context, const EditProfileScreen());
@@ -906,9 +1013,15 @@ class _HomeScreenState extends State<HomeScreen> {
       return 'A beautiful co-op adventure that teaches problem solving and communication. Perfect for ages 7-12.';
     }
 
-    final released = game.released != null && game.released!.isNotEmpty ? 'Released ${game.released}' : 'Featured pick';
-    final rating = game.rating > 0 ? 'Rating ${game.rating.toStringAsFixed(1)}' : 'Curated family pick';
-    final pegi = game.pegiRating != null ? 'PEGI ${game.pegiRating}+' : 'Age guidance available';
+    final released = game.released != null && game.released!.isNotEmpty
+        ? 'Released ${game.released}'
+        : 'Featured pick';
+    final rating = game.rating > 0
+        ? 'Rating ${game.rating.toStringAsFixed(1)}'
+        : 'Curated family pick';
+    final pegi = game.pegiRating != null
+        ? 'PEGI ${game.pegiRating}+'
+        : 'Age guidance available';
     return '$released  $rating  $pegi';
   }
 }

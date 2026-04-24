@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/dictionary_provider.dart';
 import '../../config/app_config.dart';
+import '../../widgets/common/app_empty_state.dart';
 import 'propose_term_screen.dart';
 import 'term_detail_screen.dart';
 
@@ -18,7 +19,8 @@ class _DictionaryListScreenState extends State<DictionaryListScreen> {
     super.initState();
     // Cargar términos aprobados
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<DictionaryProvider>(context, listen: false).loadApprovedTerms();
+      Provider.of<DictionaryProvider>(context, listen: false)
+          .loadApprovedTerms();
     });
   }
 
@@ -37,32 +39,10 @@ class _DictionaryListScreenState extends State<DictionaryListScreen> {
           final terms = dictionaryProvider.approvedTerms;
 
           if (terms.isEmpty) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.all(AppConfig.paddingLarge),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.book_outlined,
-                      size: 80,
-                      color: AppConfig.textSecondaryColor,
-                    ),
-                    const SizedBox(height: AppConfig.paddingMedium),
-                    Text(
-                      'No hay términos en el diccionario',
-                      style: Theme.of(context).textTheme.displayMedium,
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: AppConfig.paddingSmall),
-                    Text(
-                      'Sé el primero en proponer un término',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              ),
+            return const AppEmptyState(
+              icon: Icons.book_outlined,
+              title: 'No hay términos en el diccionario',
+              message: 'Sé el primero en proponer un término',
             );
           }
 
@@ -76,8 +56,8 @@ class _DictionaryListScreenState extends State<DictionaryListScreen> {
                   title: Text(
                     term.term,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                          fontWeight: FontWeight.bold,
+                        ),
                   ),
                   subtitle: Text(
                     term.definition,
@@ -88,12 +68,12 @@ class _DictionaryListScreenState extends State<DictionaryListScreen> {
                     label: Text(term.categoryDisplayName),
                   ),
                   onTap: () {
-  Navigator.of(context).push(
-    MaterialPageRoute(
-      builder: (_) => TermDetailScreen(termId: term.id),
-    ),
-  );
-},
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => TermDetailScreen(termId: term.id),
+                      ),
+                    );
+                  },
                 ),
               );
             },
@@ -102,12 +82,12 @@ class _DictionaryListScreenState extends State<DictionaryListScreen> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-  Navigator.of(context).push(
-    MaterialPageRoute(
-      builder: (_) => const ProposeTermScreen(),
-    ),
-  );
-},
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => const ProposeTermScreen(),
+            ),
+          );
+        },
         icon: const Icon(Icons.add),
         label: const Text('Proponer término'),
       ),

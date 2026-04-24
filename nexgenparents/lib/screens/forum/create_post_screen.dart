@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../config/app_config.dart';
-import '../../../providers/auth_provider.dart';
-import '../../../providers/forum_provider.dart';
+import '../../config/app_config.dart';
+import '../../providers/auth_provider.dart';
+import '../../providers/forum_provider.dart';
 
 class CreatePostScreen extends StatefulWidget {
   const CreatePostScreen({super.key});
@@ -48,7 +48,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
       Navigator.of(context).pop();
     } else if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(forumProvider.errorMessage ?? 'Error desconocido')),
+        SnackBar(
+            content: Text(forumProvider.errorMessage ?? 'Error desconocido')),
       );
     }
   }
@@ -67,7 +68,9 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               TextFormField(
                 controller: _titleController,
                 decoration: const InputDecoration(labelText: 'Título'),
-                validator: (value) => (value == null || value.isEmpty) ? 'El título es obligatorio' : null,
+                validator: (value) => (value == null || value.isEmpty)
+                    ? 'El título es obligatorio'
+                    : null,
               ),
               const SizedBox(height: AppConfig.paddingMedium),
               TextFormField(
@@ -77,7 +80,9 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                   alignLabelWithHint: true,
                 ),
                 maxLines: 8,
-                validator: (value) => (value == null || value.isEmpty) ? 'El contenido es obligatorio' : null,
+                validator: (value) => (value == null || value.isEmpty)
+                    ? 'El contenido es obligatorio'
+                    : null,
               ),
               const SizedBox(height: AppConfig.paddingLarge),
               Consumer<ForumProvider>(
@@ -85,11 +90,16 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                   return ElevatedButton.icon(
                     onPressed: provider.isLoading ? null : _handleSubmit,
                     icon: provider.isLoading
-                        ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))
+                        ? const SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(strokeWidth: 2))
                         : const Icon(Icons.send),
-                    label: Text(provider.isLoading ? 'Publicando...' : 'Publicar'),
+                    label:
+                        Text(provider.isLoading ? 'Publicando...' : 'Publicar'),
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: AppConfig.paddingMedium),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: AppConfig.paddingMedium),
                     ),
                   );
                 },

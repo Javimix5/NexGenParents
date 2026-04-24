@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../config/app_config.dart';
 import '../../models/parental_guide_model.dart';
 import '../../services/parental_guides_service.dart';
+import '../../widgets/common/app_empty_state.dart';
 import 'parental_guide_detail_screen.dart';
 
 class ParentalGuidesListScreen extends StatelessWidget {
@@ -32,7 +33,11 @@ class ParentalGuidesListScreen extends StatelessWidget {
           }
 
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No hay guías disponibles'));
+            return const AppEmptyState(
+              icon: Icons.shield_outlined,
+              title: 'No hay guías disponibles',
+              message: 'Vuelve a intentarlo más tarde.',
+            );
           }
 
           final allGuides = snapshot.data!;
@@ -51,7 +56,8 @@ class ParentalGuidesListScreen extends StatelessWidget {
                     _buildBanner(),
                     const SizedBox(height: AppConfig.paddingLarge),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: AppConfig.paddingMedium),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: AppConfig.paddingMedium),
                       child: Text(
                         'Selecciona tu plataforma (${allGuides.length} guía${allGuides.length != 1 ? 's' : ''})',
                         style: const TextStyle(
@@ -117,14 +123,16 @@ class ParentalGuidesListScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildPlatformSection(BuildContext context, List<ParentalGuide> guides) {
+  Widget _buildPlatformSection(
+      BuildContext context, List<ParentalGuide> guides) {
     return Padding(
       padding: const EdgeInsets.only(bottom: AppConfig.paddingMedium),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppConfig.paddingMedium),
+            padding:
+                const EdgeInsets.symmetric(horizontal: AppConfig.paddingMedium),
             child: Row(
               children: [
                 ClipRRect(
@@ -180,7 +188,8 @@ class ParentalGuidesListScreen extends StatelessWidget {
           child: Row(
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.circular(AppConfig.borderRadiusSmall),
+                borderRadius:
+                    BorderRadius.circular(AppConfig.borderRadiusSmall),
                 child: Image.network(
                   guide.iconUrl,
                   width: 48,
@@ -250,19 +259,22 @@ class ParentalGuidesListScreen extends StatelessWidget {
           _buildInfoCard(
             icon: Icons.child_care,
             title: 'Protección infantil',
-            description: 'Evita que tus hijos accedan a contenido no apropiado para su edad.',
+            description:
+                'Evita que tus hijos accedan a contenido no apropiado para su edad.',
           ),
           const SizedBox(height: AppConfig.paddingSmall),
           _buildInfoCard(
             icon: Icons.schedule,
             title: 'Gestión del tiempo',
-            description: 'Establece límites de tiempo de juego para mantener un equilibrio saludable.',
+            description:
+                'Establece límites de tiempo de juego para mantener un equilibrio saludable.',
           ),
           const SizedBox(height: AppConfig.paddingSmall),
           _buildInfoCard(
             icon: Icons.credit_card,
             title: 'Control de gastos',
-            description: 'Previene compras no autorizadas dentro de los juegos.',
+            description:
+                'Previene compras no autorizadas dentro de los juegos.',
           ),
         ],
       ),
@@ -279,7 +291,8 @@ class ParentalGuidesListScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppConfig.backgroundLight,
         borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
-        border: Border.all(color: AppConfig.textSecondaryColor.withValues(alpha: 0.2)),
+        border: Border.all(
+            color: AppConfig.textSecondaryColor.withValues(alpha: 0.2)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,

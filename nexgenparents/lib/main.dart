@@ -18,12 +18,12 @@ import 'screens/home/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Inicializar Firebase con las opciones específicas de la plataforma
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  
+
   runApp(const MyApp());
 }
 
@@ -54,7 +54,8 @@ class MyApp extends StatelessWidget {
 
             // --- Configuración de Idioma (Localización) ---
             locale: localeProvider.locale,
-            supportedLocales: L10n.all, // Usando la clase L10n del locale_provider
+            supportedLocales:
+                L10n.all, // Usando la clase L10n del locale_provider
             localizationsDelegates: const [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
@@ -127,7 +128,8 @@ class AuthWrapper extends StatelessWidget {
                   const CircularProgressIndicator(),
                   const SizedBox(height: AppConfig.paddingMedium),
                   // Usamos AppLocalizations si está disponible, si no un texto por defecto
-                  Text(AppLocalizations.of(context)?.loading(AppConfig.appName) ??
+                  Text(AppLocalizations.of(context)
+                          ?.loading(AppConfig.appName) ??
                       'Cargando ${AppConfig.appName}...'),
                 ],
               ),
