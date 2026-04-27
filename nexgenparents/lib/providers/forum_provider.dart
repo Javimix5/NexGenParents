@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/forum_post_model.dart';
+import '../models/forum_section.dart';
 import '../models/forum_reply_model.dart';
 import '../services/firestore_service.dart';
 
@@ -24,6 +25,7 @@ class ForumProvider with ChangeNotifier {
     required String content,
     required String authorId,
     required String authorName,
+    required String sectionId,
   }) async {
     _setLoading(true);
     try {
@@ -33,6 +35,8 @@ class ForumProvider with ChangeNotifier {
         content: content,
         authorId: authorId,
         authorName: authorName,
+        sectionId: ForumSections.normalizeId(sectionId),
+        topic: ForumSections.byId(sectionId).nameEs,
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
         replyCount: 0,
@@ -45,6 +49,10 @@ class ForumProvider with ChangeNotifier {
       _setLoading(false);
       return false;
     }
+  }
+
+  Future<int> getUserCommunityMessagesCount(String userId) {
+    return _firestoreService.getUserCommunityMessagesCount(userId);
   }
 
   // --- Lógica para las respuestas ---
@@ -71,7 +79,8 @@ class ForumProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> deleteReply({required String replyId, required String postId}) async {
+  Future<bool> deleteReply(
+      {required String replyId, required String postId}) async {
     _setLoading(true);
     try {
       final result = await _firestoreService.deleteForumReply(

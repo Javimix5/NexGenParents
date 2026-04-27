@@ -60,6 +60,31 @@ class RawgService {
     return '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
   }
 
+  String _formatDate(DateTime date) {
+    return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+  }
+
+  DateTime _startOfCurrentWeek() {
+    final now = DateTime.now();
+    final daysFromMonday = now.weekday - DateTime.monday;
+    return DateTime(now.year, now.month, now.day)
+        .subtract(Duration(days: daysFromMonday));
+  }
+
+  DateTime _endOfCurrentWeek() {
+    return _startOfCurrentWeek().add(const Duration(days: 6));
+  }
+
+  DateTime _startOfCurrentMonth() {
+    final now = DateTime.now();
+    return DateTime(now.year, now.month, 1);
+  }
+
+  DateTime _endOfCurrentMonth() {
+    final now = DateTime.now();
+    return DateTime(now.year, now.month + 1, 0);
+  }
+
   // Buscar juegos por nombre
   Future<List<Game>> searchGames(String query) async {
   try {
@@ -318,6 +343,50 @@ Future<List<Map<String, dynamic>>> getGenres() async {
     return [];
   } catch (e) {
     print('Error al obtener géneros: $e');
+    return [];
+  }
+}
+
+// Obtener el juego con mejor rating de la semana actual.
+Future<Game?> getTopRatedGameOfCurrentWeek() async {
+  try {
+    final start = _formatDate(_startOfCurrentWeek());
+    final end = _formatDate(_endOfCurrentWeek());
+    final url = Uri.parse(
+      '$_baseUrl/games?key=$_apiKey&dates=$start,$end&ordering=-rating&page_size=1',
+    );
+
+    final data = await _fetchJson(url);
+    if (data == null) return null;
+
+    final List results = data['results'] as List? ?? [];
+    if (results.isEmpty) return null;
+
+    return Game.fromJson(results.first as Map<String, dynamic>);
+  } catch (e) {
+    print('Error al obtener el juego de la semana: $e');
+    return null;
+  }
+}
+
+// Obtener juegos del mes actual (ya lanzados y próximos en el mes).
+Future<List<Game>> getCurrentMonthGames() async {
+  try {
+    final start = _formatDate(_startOfCurrentMonth());
+    final end = _formatDate(_endOfCurrentMonth());
+    final url = Uri.parse(
+      '$_baseUrl/games?key=$_apiKey&dates=$start,$end&ordering=-released&page_size=40',
+    );
+
+    final data = await _fetchJson(url);
+    if (data == null) return [];
+
+    final List results = data['results'] as List? ?? [];
+    return results
+        .map((gameJson) => Game.fromJson(gameJson as Map<String, dynamic>))
+        .toList();
+  } catch (e) {
+    print('Error al obtener juegos del mes actual: $e');
     return [];
   }
 }

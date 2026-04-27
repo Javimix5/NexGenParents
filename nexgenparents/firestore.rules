@@ -29,11 +29,23 @@ service cloud.firestore {
              incoming.content == existing.content &&
              incoming.authorId == existing.authorId &&
              incoming.authorName == existing.authorName &&
+             incoming.sectionId == existing.sectionId &&
              incoming.topic == existing.topic &&
              incoming.createdAt == existing.createdAt &&
              incoming.replyCount == (existing.replyCount == null ? 1 : existing.replyCount + 1) &&
              incoming.updatedAt == request.time &&
              incoming.lastReplyAt == request.time;
+    }
+
+    function isValidForumSection(sectionId) {
+      return sectionId in [
+        'welcome',
+        'general',
+        'news',
+        'qna',
+        'guides',
+        'offtopic'
+      ];
     }
 
     // ========== USER PROFILES ==========
@@ -117,6 +129,8 @@ service cloud.firestore {
                       request.resource.data.title is string &&
                       request.resource.data.content is string &&
                       request.resource.data.authorName is string &&
+                      request.resource.data.sectionId is string &&
+                      isValidForumSection(request.resource.data.sectionId) &&
                       request.resource.data.replyCount == 0 &&
                       request.resource.data.createdAt == request.time &&
                       request.resource.data.updatedAt == request.time;

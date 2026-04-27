@@ -21,8 +21,11 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // Cargar los juegos del último año por defecto
-      Provider.of<GamesProvider>(context, listen: false).loadNewGames();
+      // Cargar los juegos del último año por defecto solo si no hay una lista precargada.
+      final gamesProvider = Provider.of<GamesProvider>(context, listen: false);
+      if (gamesProvider.popularGames.isEmpty) {
+        gamesProvider.loadNewGames();
+      }
     });
   }
 

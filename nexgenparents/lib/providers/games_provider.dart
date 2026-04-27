@@ -20,8 +20,10 @@ class GamesProvider with ChangeNotifier {
   List<Game> _searchResults = [];
   List<Game> _gamesByAge = [];
   List<Game> _favoriteGames = [];
+  List<Game> _currentMonthGames = [];
 
   Game? _selectedGame;
+  Game? _weeklyTopGame;
   List<String> _selectedGameScreenshots = [];
 
   bool _isLoading = false;
@@ -34,7 +36,9 @@ class GamesProvider with ChangeNotifier {
   List<Game> get searchResults => _searchResults;
   List<Game> get gamesByAge => _gamesByAge;
   List<Game> get favoriteGames => _favoriteGames;
+  List<Game> get currentMonthGames => _currentMonthGames;
   Game? get selectedGame => _selectedGame;
+  Game? get weeklyTopGame => _weeklyTopGame;
   List<String> get selectedGameScreenshots => _selectedGameScreenshots;
   bool get isLoading => _isLoading;
   bool get isSearching => _isSearching;
@@ -202,6 +206,41 @@ class GamesProvider with ChangeNotifier {
       notifyListeners();
     } catch (e) {
       _errorMessage = 'Error al cargar juegos nuevos';
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  // Cargar juego con mejor rating de la semana actual
+  Future<void> loadWeeklyTopGame() async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      _weeklyTopGame = await _rawgService.getTopRatedGameOfCurrentWeek();
+      _isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      _errorMessage = 'Error al cargar el juego de la semana';
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  // Cargar juegos del mes actual.
+  Future<void> loadCurrentMonthGames() async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      _currentMonthGames = await _rawgService.getCurrentMonthGames();
+      _popularGames = _currentMonthGames;
+      _isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      _errorMessage = 'Error al cargar los juegos del mes';
       _isLoading = false;
       notifyListeners();
     }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../config/app_config.dart';
+import '../../models/forum_section.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/forum_provider.dart';
 
@@ -15,6 +16,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   final _formKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
   final _contentController = TextEditingController();
+  String _selectedSectionId = ForumSections.general.id;
 
   @override
   void dispose() {
@@ -42,6 +44,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
       content: _contentController.text.trim(),
       authorId: user.id,
       authorName: user.displayName,
+      sectionId: _selectedSectionId,
     );
 
     if (success && mounted) {
@@ -56,6 +59,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final languageCode = Localizations.localeOf(context).languageCode;
+
     return Scaffold(
       appBar: AppBar(title: const Text('Crear Nuevo Hilo')),
       body: SingleChildScrollView(
@@ -71,6 +76,24 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 validator: (value) => (value == null || value.isEmpty)
                     ? 'El título es obligatorio'
                     : null,
+              ),
+              const SizedBox(height: AppConfig.paddingMedium),
+              DropdownButtonFormField<String>(
+                value: _selectedSectionId,
+                decoration: const InputDecoration(labelText: 'Sección'),
+                items: [
+                  for (final section in ForumSections.all)
+                    DropdownMenuItem(
+                      value: section.id,
+                      child: Text(section.localizedName(languageCode)),
+                    ),
+                ],
+                onChanged: (value) {
+                  if (value == null) return;
+                  setState(() {
+                    _selectedSectionId = value;
+                  });
+                },
               ),
               const SizedBox(height: AppConfig.paddingMedium),
               TextFormField(

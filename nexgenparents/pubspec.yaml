@@ -37,6 +37,7 @@ dependencies:
   
   # Utilities
   intl: ^0.20.2
+  url_launcher: ^6.3.1
   
   # Loading & UI helpers
   flutter_spinkit: ^5.2.0

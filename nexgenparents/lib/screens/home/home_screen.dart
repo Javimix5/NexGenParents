@@ -2,17 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../config/app_config.dart';
-import '../../models/dictionary_term_model.dart';
+import '../../models/forum_post_model.dart';
+import '../../models/forum_section.dart';
+import '../../models/user_model.dart';
 import '../../models/game_model.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/dictionary_provider.dart';
+import '../../providers/forum_provider.dart';
 import '../../providers/games_provider.dart';
+import '../../viewmodels/home_view_model.dart';
+import '../../widgets/common/app_footer.dart';
+import '../../widgets/common/app_header.dart';
+import '../../widgets/common/user_avatar.dart';
 import '../admin/users_management_screen.dart';
 import '../auth/login_screen.dart';
 import '../dictionary/dictionary_list_screen.dart';
 import '../dictionary/moderation_screen.dart';
 import '../dictionary/my_proposed_terms_screen.dart';
 import '../forum/forum_list_screen.dart';
+import '../games/game_detail_screen.dart';
 import '../games/games_search_screen.dart';
 import '../info/pegi_info_screen.dart';
 import '../parental_guides/parental_guides_list_screen.dart';
@@ -26,7 +34,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final TextEditingController _searchController = TextEditingController();
+  final HomeViewModel _homeViewModel = HomeViewModel();
+  Future<int>? _userMessagesCountFuture;
+  String? _lastUserId;
 
   @override
   void initState() {
@@ -35,21 +45,39 @@ class _HomeScreenState extends State<HomeScreen> {
       final dictionaryProvider =
           Provider.of<DictionaryProvider>(context, listen: false);
       final gamesProvider = Provider.of<GamesProvider>(context, listen: false);
+      final forumProvider = Provider.of<ForumProvider>(context, listen: false);
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
-      dictionaryProvider.loadApprovedTerms();
-      gamesProvider.loadPopularGames();
-
-      // Cargar términos propuestos del usuario al iniciar la pantalla
-      if (authProvider.currentUser != null) {
-        dictionaryProvider.loadUserProposedTerms(authProvider.currentUser!.id);
-      }
+      _homeViewModel.initialize(
+        authProvider: authProvider,
+        dictionaryProvider: dictionaryProvider,
+        gamesProvider: gamesProvider,
+        forumProvider: forumProvider,
+      );
     });
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final authProvider = Provider.of<AuthProvider>(context);
+    final forumProvider = Provider.of<ForumProvider>(context, listen: false);
+    final user = authProvider.currentUser;
+
+    if (user?.id != _lastUserId) {
+      _lastUserId = user?.id;
+      if (user != null) {
+        _userMessagesCountFuture =
+            forumProvider.getUserCommunityMessagesCount(user.id);
+      } else {
+        _userMessagesCountFuture = Future.value(0);
+      }
+    }
+  }
+
+  @override
   void dispose() {
-    _searchController.dispose();
+    _homeViewModel.dispose();
     super.dispose();
   }
 
@@ -61,271 +89,168 @@ class _HomeScreenState extends State<HomeScreen> {
     final dictionaryProvider = Provider.of<DictionaryProvider>(context);
     final gamesProvider = Provider.of<GamesProvider>(context);
     final approvedTerms = dictionaryProvider.approvedTerms;
-    final userTerms = dictionaryProvider.userProposedTerms;
     final popularGames = gamesProvider.popularGames;
-    final featuredGame = popularGames.isNotEmpty ? popularGames.first : null;
-    final secondaryGame = popularGames.length > 1 ? popularGames[1] : null;
+    final featuredGame = gamesProvider.weeklyTopGame ??
+        (popularGames.isNotEmpty ? popularGames.first : null);
     final userName = user?.displayName;
     final displayName =
-        userName != null && userName.trim().isNotEmpty ? userName : 'Alex';
+        userName != null && userName.trim().isNotEmpty ? userName : 'Usuario';
+    final approvedTermsCount = user?.termsApproved ?? 0;
+    final proposedTermsCount = user?.termsProposed ?? 0;
+    final totalActiveTerms = approvedTerms.length;
 
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: isDark
-                ? const [Color(0xFF0A0F1E), Color(0xFF141B2E)]
-                : const [Color(0xFFF7F8FC), Color(0xFFFFFFFF)],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              _buildTopBar(context, authProvider),
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.fromLTRB(20, 24, 20, 24),
-                  child: Center(
-                    child: ConstrainedBox(
-                      constraints: const BoxConstraints(maxWidth: 1180),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          _buildHero(context, displayName, approvedTerms.length,
-                              userTerms.length),
-                          const SizedBox(height: 28),
-                          _buildSectionHeader(
-                            context,
-                            title: 'Quick Actions',
-                            subtitle:
-                                'Shortcuts to the areas parents use most.',
-                          ),
-                          const SizedBox(height: 16),
-                          _buildQuickActions(context),
-                          const SizedBox(height: 28),
-                          LayoutBuilder(
-                            builder: (context, constraints) {
-                              if (constraints.maxWidth < 960) {
-                                return Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  children: [
-                                    _buildGameFeature(context, featuredGame),
-                                    const SizedBox(height: 20),
-                                    _buildUpdatesPanel(context, secondaryGame,
-                                        approvedTerms, userTerms),
-                                  ],
-                                );
-                              }
+    return AnimatedBuilder(
+      animation: _homeViewModel,
+      builder: (context, child) {
+        return Scaffold(
+          body: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: isDark
+                    ? const [Color(0xFF0A0F1E), Color(0xFF141B2E)]
+                    : const [Color(0xFFF7F8FC), Color(0xFFFFFFFF)],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+            child: SafeArea(
+              child: Column(
+                children: [
+                  AppHeader(
+                    activeSection: AppSection.inicio,
+                    avatarUrl: user?.photoUrl,
+                    proposedTermsCount: proposedTermsCount,
+                    isModerator: authProvider.isModerator,
+                    isAdmin: authProvider.isAdmin,
+                    onSearchSubmitted: (_) =>
+                        _navigateTo(context, const GamesSearchScreen()),
+                    onNavigate: (section) {
+                      switch (section) {
+                        case AppSection.inicio:
+                          break;
+                        case AppSection.diccionario:
+                          _navigateTo(context, const DictionaryListScreen());
+                          break;
+                        case AppSection.videojuegos:
+                          _navigateTo(context, const GamesSearchScreen());
+                          break;
+                        case AppSection.controlParental:
+                          _navigateTo(
+                              context, const ParentalGuidesListScreen());
+                          break;
+                        case AppSection.comunidad:
+                          _navigateTo(context, const ForumListScreen());
+                          break;
+                      }
+                    },
+                    onMenuSelected: (value) =>
+                        _handleMenuAction(context, authProvider, value),
+                  ),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.fromLTRB(20, 24, 20, 24),
+                      child: Center(
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 1180),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              FutureBuilder<int>(
+                                future: _userMessagesCountFuture,
+                                builder: (context, snapshot) {
+                                  final messagesCount = snapshot.data;
+                                  final userLevel =
+                                      _getCommunityLevel(user, messagesCount);
 
-                              return Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                      flex: 3,
-                                      child: _buildGameFeature(
-                                          context, featuredGame)),
-                                  const SizedBox(width: 24),
-                                  Expanded(
-                                      flex: 2,
-                                      child: _buildUpdatesPanel(
-                                          context,
-                                          secondaryGame,
-                                          approvedTerms,
-                                          userTerms)),
-                                ],
-                              );
-                            },
+                                  return _buildHero(
+                                    context,
+                                    userName: displayName,
+                                    approvedTermsCount: approvedTermsCount,
+                                    proposedTermsCount: proposedTermsCount,
+                                    userLevel: userLevel,
+                                    totalActiveTerms: totalActiveTerms,
+                                    avatarUrl: user?.photoUrl,
+                                  );
+                                },
+                              ),
+                              const SizedBox(height: 28),
+                              _buildSectionHeader(
+                                context,
+                                title: 'Acceso rápido',
+                                subtitle:
+                                    'Acceso a las zonas de la web más usadas',
+                              ),
+                              const SizedBox(height: 16),
+                              _buildQuickActions(context),
+                              const SizedBox(height: 28),
+                              LayoutBuilder(
+                                builder: (context, constraints) {
+                                  if (constraints.maxWidth < 960) {
+                                    return Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.stretch,
+                                      children: [
+                                        _buildGameFeature(
+                                            context, featuredGame),
+                                        const SizedBox(height: 20),
+                                        _buildUpdatesPanel(context),
+                                      ],
+                                    );
+                                  }
+
+                                  return Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        flex: 3,
+                                        child: _buildGameFeature(
+                                            context, featuredGame),
+                                      ),
+                                      const SizedBox(width: 24),
+                                      Expanded(
+                                        flex: 2,
+                                        child: _buildUpdatesPanel(context),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
+                              const SizedBox(height: 28),
+                              AppFooter(
+                                onPrivacyTap: () => _navigateTo(
+                                    context, const PegiInfoScreen()),
+                                onAboutTap: () => _navigateTo(
+                                    context, const PegiInfoScreen()),
+                                onContactTap: () => _navigateTo(
+                                  context,
+                                  const ParentalGuidesListScreen(),
+                                ),
+                              ),
+                            ],
                           ),
-                          const SizedBox(height: 28),
-                          _buildFooter(context),
-                        ],
+                        ),
                       ),
                     ),
                   ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
-  Widget _buildTopBar(BuildContext context, AuthProvider authProvider) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-      child: Container(
-        height: 58,
-        decoration: BoxDecoration(
-          color: const Color(0xFF0B1020),
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: Colors.white.withOpacity(0.08)),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF0B1020).withOpacity(0.2),
-              blurRadius: 20,
-              offset: const Offset(0, 10),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            const SizedBox(width: 12),
-            Container(
-              width: 32,
-              height: 32,
-              decoration: BoxDecoration(
-                color: AppConfig.primaryColor.withOpacity(0.18),
-                borderRadius: BorderRadius.circular(10),
-                border:
-                    Border.all(color: AppConfig.primaryColor.withOpacity(0.35)),
-              ),
-              child: const Icon(Icons.videogame_asset_outlined,
-                  size: 18, color: Colors.white),
-            ),
-            const SizedBox(width: 18),
-            Expanded(
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  final compact = constraints.maxWidth < 760;
-                  if (compact) {
-                    return const SizedBox.shrink();
-                  }
-
-                  return Wrap(
-                    spacing: 18,
-                    runSpacing: 8,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      _buildNavLink('Home', true, () {}),
-                      _buildNavLink(
-                          'Dictionary',
-                          false,
-                          () => _navigateTo(
-                              context, const DictionaryListScreen())),
-                      _buildNavLink(
-                          'Game Search',
-                          false,
-                          () =>
-                              _navigateTo(context, const GamesSearchScreen())),
-                      _buildNavLink(
-                          'Parental Control',
-                          false,
-                          () => _navigateTo(
-                              context, const ParentalGuidesListScreen())),
-                      _buildNavLink('Community', false,
-                          () => _navigateTo(context, const ForumListScreen())),
-                    ],
-                  );
-                },
-              ),
-            ),
-            SizedBox(
-              width: 290,
-              child: TextField(
-                controller: _searchController,
-                textInputAction: TextInputAction.search,
-                onSubmitted: (_) =>
-                    _navigateTo(context, const GamesSearchScreen()),
-                style: const TextStyle(color: Colors.white, fontSize: 14),
-                decoration: InputDecoration(
-                  isDense: true,
-                  hintText: 'Search forum...',
-                  hintStyle: TextStyle(
-                      color: Colors.white.withOpacity(0.45), fontSize: 14),
-                  prefixIcon: Icon(Icons.search,
-                      size: 18, color: Colors.white.withOpacity(0.55)),
-                  filled: true,
-                  fillColor: Colors.white.withOpacity(0.05),
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide:
-                        BorderSide(color: Colors.white.withOpacity(0.08)),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide:
-                        BorderSide(color: Colors.white.withOpacity(0.08)),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide: BorderSide(
-                        color: AppConfig.primaryColor.withOpacity(0.8)),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(width: 10),
-            PopupMenuButton<String>(
-              icon: Container(
-                width: 38,
-                height: 38,
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.08),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(Icons.person_rounded,
-                    color: Colors.white, size: 20),
-              ),
-              onSelected: (value) =>
-                  _handleMenuAction(context, authProvider, value),
-              itemBuilder: (context) => [
-                const PopupMenuItem(
-                  value: 'profile',
-                  child: ListTile(
-                    leading: Icon(Icons.person),
-                    title: Text('Editar perfil'),
-                  ),
-                ),
-                PopupMenuItem(
-                  value: 'my_terms',
-                  child: ListTile(
-                    leading: const Icon(Icons.article_outlined),
-                    title: const Text('Mis términos propuestos'),
-                    subtitle: Text(
-                        '${Provider.of<DictionaryProvider>(context, listen: false).userProposedTerms.length} términos'),
-                  ),
-                ),
-                if (authProvider.isModerator)
-                  const PopupMenuItem(
-                    value: 'moderation',
-                    child: ListTile(
-                      leading: Icon(Icons.admin_panel_settings),
-                      title: Text('Moderación'),
-                    ),
-                  ),
-                if (authProvider.isAdmin)
-                  const PopupMenuItem(
-                    value: 'users_management',
-                    child: ListTile(
-                      leading: Icon(Icons.people),
-                      title: Text('Gestión de usuarios'),
-                    ),
-                  ),
-                const PopupMenuDivider(),
-                const PopupMenuItem(
-                  value: 'logout',
-                  child: ListTile(
-                    leading: Icon(Icons.logout, color: AppConfig.errorColor),
-                    title: Text('Cerrar sesión'),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(width: 8),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHero(BuildContext context, String userName,
-      int approvedTermsCount, int userTermsCount) {
+  Widget _buildHero(
+    BuildContext context, {
+    required String userName,
+    required int approvedTermsCount,
+    required int proposedTermsCount,
+    required String userLevel,
+    required int totalActiveTerms,
+    required String? avatarUrl,
+  }) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
 
@@ -351,30 +276,14 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment:
                 vertical ? CrossAxisAlignment.start : CrossAxisAlignment.center,
             children: [
-              Container(
-                width: 70,
-                height: 70,
-                decoration: BoxDecoration(
-                  color: isDark
-                      ? const Color(0xFF2A3146)
-                      : const Color(0xFFF7E8DB),
-                  borderRadius: BorderRadius.circular(18),
-                ),
-                child: Icon(
-                  Icons.person_outline,
-                  size: 38,
-                  color: isDark
-                      ? const Color(0xFFF5C59F)
-                      : const Color(0xFFB96A3D),
-                ),
-              ),
+              UserAvatar(photoUrl: avatarUrl, size: 70),
               SizedBox(width: vertical ? 0 : 18, height: vertical ? 18 : 0),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Welcome back, $userName!',
+                      'Bienvenido, $userName!',
                       style:
                           Theme.of(context).textTheme.displayMedium?.copyWith(
                                 fontSize: 28,
@@ -383,7 +292,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      'Tienes $approvedTermsCount términos aprobados y $userTermsCount propuestas en seguimiento hoy.',
+                      'Tienes $approvedTermsCount términos aprobados y $proposedTermsCount términos propuestos.',
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                             color: AppConfig.textSecondaryColor,
                             height: 1.35,
@@ -395,7 +304,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       runSpacing: 10,
                       children: [
                         _buildBadge(
-                          text: 'Premium Member',
+                          text: userLevel,
                           background: isDark
                               ? const Color(0xFF392B53)
                               : const Color(0xFFF3E8FF),
@@ -404,8 +313,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               : const Color(0xFF8B5CF6),
                         ),
                         _buildBadge(
-                          text:
-                              '${approvedTermsCount + userTermsCount} active items',
+                          text: '$totalActiveTerms términos activos',
                           background: isDark
                               ? const Color(0xFF1E3A33)
                               : const Color(0xFFEAFBF3),
@@ -428,22 +336,23 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildQuickActions(BuildContext context) {
     final actions = [
       _QuickActionData(
-        title: 'Search Games by Age',
-        subtitle: 'Find age-appropriate titles for your kids',
+        title: 'Buscar juegos por edad',
+        subtitle: 'Busca los juegos adecuados según la edad de tu hijo',
         icon: Icons.visibility_outlined,
         tint: const Color(0xFF22C1DC),
         onTap: () => _navigateTo(context, const GamesSearchScreen()),
       ),
       _QuickActionData(
-        title: 'Browse Gamer Slang',
-        subtitle: 'Decode what your kids are saying in-game',
+        title: 'Busca términos en el diccionario',
+        subtitle:
+            'Descubre qué significan las palabras que usa tu hijo cuando juega',
         icon: Icons.translate_outlined,
         tint: const Color(0xFFA855F7),
         onTap: () => _navigateTo(context, const DictionaryListScreen()),
       ),
       _QuickActionData(
-        title: 'Set Up Parental Controls',
-        subtitle: 'Configure limits and content filters',
+        title: 'Configurar Control Parental',
+        subtitle: 'Configura los límites de edad y uso según la plataforma',
         icon: Icons.tune_outlined,
         tint: const Color(0xFF0EA5E9),
         onTap: () => _navigateTo(context, const ParentalGuidesListScreen()),
@@ -590,13 +499,18 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                'Game of the Week',
+                'Juego de la semana',
                 style: TextStyle(fontSize: 21, fontWeight: FontWeight.w800),
               ),
               TextButton(
-                onPressed: () =>
-                    _navigateTo(context, const GamesSearchScreen()),
-                child: const Text('See past picks'),
+                onPressed: () async {
+                  final gamesProvider =
+                      Provider.of<GamesProvider>(context, listen: false);
+                  await gamesProvider.loadCurrentMonthGames();
+                  if (!context.mounted) return;
+                  _navigateTo(context, const GamesSearchScreen());
+                },
+                child: const Text('Ver los juegos del mes'),
               ),
             ],
           ),
@@ -645,7 +559,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
-                        'E for Everyone  Adventure / Puzzle',
+                        _buildGameTopLabel(featuredGame),
                         style: TextStyle(
                           color: Colors.white.withOpacity(0.8),
                           fontSize: 12,
@@ -673,15 +587,26 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       const SizedBox(height: 14),
                       ElevatedButton(
-                        onPressed: () =>
-                            _navigateTo(context, const GamesSearchScreen()),
+                        onPressed: () {
+                          if (featuredGame != null) {
+                            _navigateTo(
+                              context,
+                              GameDetailScreen(
+                                gameId: featuredGame.id,
+                                gameName: featuredGame.name,
+                              ),
+                            );
+                            return;
+                          }
+                          _navigateTo(context, const GamesSearchScreen());
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
                           foregroundColor: const Color(0xFF111827),
                           padding: const EdgeInsets.symmetric(
                               horizontal: 18, vertical: 12),
                         ),
-                        child: const Text('Read Full Review'),
+                        child: const Text('Análisis completo'),
                       ),
                     ],
                   ),
@@ -696,40 +621,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildUpdatesPanel(
     BuildContext context,
-    Game? secondaryGame,
-    List<DictionaryTerm> approvedTerms,
-    List<DictionaryTerm> userTerms,
   ) {
     final theme = Theme.of(context);
-
-    final items = <_UpdateItem>[
-      _UpdateItem(
-        title: 'New Roblox Safety Features',
-        subtitle: 'Understanding the new chat filters and privacy settings.',
-        meta: '2 hours ago',
-        icon: Icons.security_update_outlined,
-        tint: const Color(0xFFF4A261),
-      ),
-      _UpdateItem(
-        title: secondaryGame?.name ?? 'How much screen time?',
-        subtitle: secondaryGame != null
-            ? 'A quick look at whether it is a good fit for family play.'
-            : 'Expert advice on balancing gaming and schoolwork.',
-        meta: secondaryGame != null
-            ? '${secondaryGame.rating.toStringAsFixed(1)} rating'
-            : 'Featured guide',
-        icon: Icons.videogame_asset_outlined,
-        tint: const Color(0xFF7C83FD),
-      ),
-      _UpdateItem(
-        title: 'Dictionary Pulse',
-        subtitle:
-            '${approvedTerms.length} approved terms and ${userTerms.length} personal drafts.',
-        meta: 'Community activity',
-        icon: Icons.auto_graph_outlined,
-        tint: const Color(0xFF10B981),
-      ),
-    ];
+    final forumProvider = Provider.of<ForumProvider>(context, listen: false);
 
     return Container(
       padding: const EdgeInsets.all(20),
@@ -742,14 +636,55 @@ class _HomeScreenState extends State<HomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Latest Updates',
+            'Últimas actualizaciones',
             style: TextStyle(fontSize: 21, fontWeight: FontWeight.w800),
           ),
           const SizedBox(height: 16),
-          for (final item in items) ...[
-            _buildUpdateTile(context, item),
-            const SizedBox(height: 12),
-          ],
+          StreamBuilder<List<ForumPost>>(
+            stream: forumProvider.postsStream,
+            builder: (context, snapshot) {
+              final languageCode = Localizations.localeOf(context).languageCode;
+              final posts = snapshot.data ?? const <ForumPost>[];
+              final items = <_CommunityUpdateItem>[
+                _createCommunityUpdateItem(
+                  context,
+                  sectionId: ForumSections.general.id,
+                  icon: Icons.forum_outlined,
+                  tint: const Color(0xFF3B82F6),
+                  title: ForumSections.general.localizedName(languageCode),
+                  latest: _getLatestPostBySectionId(
+                      posts, ForumSections.general.id),
+                ),
+                _createCommunityUpdateItem(
+                  context,
+                  sectionId: ForumSections.news.id,
+                  icon: Icons.newspaper_outlined,
+                  tint: const Color(0xFFF59E0B),
+                  title: ForumSections.news.localizedName(languageCode),
+                  latest:
+                      _getLatestPostBySectionId(posts, ForumSections.news.id),
+                ),
+                _createCommunityUpdateItem(
+                  context,
+                  sectionId: ForumSections.qna.id,
+                  icon: Icons.help_outline,
+                  tint: const Color(0xFF10B981),
+                  title: ForumSections.qna.localizedName(languageCode),
+                  latest:
+                      _getLatestPostBySectionId(posts, ForumSections.qna.id),
+                ),
+              ];
+
+              return Column(
+                children: [
+                  for (final item in items) ...[
+                    _buildUpdateTile(context, item),
+                    const SizedBox(height: 12),
+                  ],
+                ],
+              );
+            },
+          ),
           const SizedBox(height: 6),
           OutlinedButton(
             onPressed: () => _navigateTo(context, const ForumListScreen()),
@@ -757,178 +692,75 @@ class _HomeScreenState extends State<HomeScreen> {
               minimumSize: const Size.fromHeight(46),
               side: BorderSide(color: theme.dividerColor.withOpacity(0.5)),
             ),
-            child: const Text('View Community Forum'),
+            child: const Text('Accede a la comunidad'),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildUpdateTile(BuildContext context, _UpdateItem item) {
+  Widget _buildUpdateTile(BuildContext context, _CommunityUpdateItem item) {
     final theme = Theme.of(context);
 
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surface.withOpacity(0.7),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: theme.dividerColor.withOpacity(0.35)),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 46,
-            height: 46,
-            decoration: BoxDecoration(
-              color: item.tint.withOpacity(0.12),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(item.icon, color: item.tint, size: 22),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  item.title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.w800,
-                        fontSize: 14,
-                      ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  item.subtitle,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium
-                      ?.copyWith(fontSize: 12.5, height: 1.25),
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  item.meta,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        fontSize: 11.5,
-                      ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFooter(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-      decoration: BoxDecoration(
-        color: const Color(0xFF0B1020),
-        borderRadius: BorderRadius.circular(22),
-      ),
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          final stacked = constraints.maxWidth < 760;
-          final textStyle =
-              TextStyle(color: Colors.white.withOpacity(0.78), fontSize: 13);
-
-          if (stacked) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildFooterBrand(),
-                const SizedBox(height: 16),
-                Text('Empowering families to make informed gaming decisions.',
-                    style: textStyle),
-                const SizedBox(height: 16),
-                Wrap(
-                  spacing: 18,
-                  runSpacing: 10,
-                  children: [
-                    _buildFooterLink('Privacy Policy',
-                        () => _navigateTo(context, const PegiInfoScreen())),
-                    _buildFooterLink('Terms of Service',
-                        () => _navigateTo(context, const PegiInfoScreen())),
-                    _buildFooterLink(
-                        'Support',
-                        () => _navigateTo(
-                            context, const ParentalGuidesListScreen())),
-                  ],
-                ),
-              ],
-            );
-          }
-
-          return Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildFooterBrand(),
-                    const SizedBox(height: 10),
-                    Text(
-                        'Empowering families to make informed gaming decisions.',
-                        style: textStyle),
-                  ],
-                ),
+    return InkWell(
+      onTap: item.onTap,
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: theme.colorScheme.surface.withOpacity(0.7),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: theme.dividerColor.withOpacity(0.35)),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 46,
+              height: 46,
+              decoration: BoxDecoration(
+                color: item.tint.withOpacity(0.12),
+                borderRadius: BorderRadius.circular(12),
               ),
-              Wrap(
-                spacing: 24,
+              child: Icon(item.icon, color: item.tint, size: 22),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildFooterLink('Privacy Policy',
-                      () => _navigateTo(context, const PegiInfoScreen())),
-                  _buildFooterLink('Terms of Service',
-                      () => _navigateTo(context, const PegiInfoScreen())),
-                  _buildFooterLink(
-                      'Support',
-                      () => _navigateTo(
-                          context, const ParentalGuidesListScreen())),
+                  Text(
+                    item.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 14,
+                        ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    item.subtitle,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(fontSize: 12.5, height: 1.25),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    item.meta,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontSize: 11.5,
+                        ),
+                  ),
                 ],
               ),
-            ],
-          );
-        },
+            ),
+          ],
+        ),
       ),
-    );
-  }
-
-  Widget _buildFooterBrand() {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          width: 28,
-          height: 28,
-          decoration: BoxDecoration(
-            color: AppConfig.primaryColor.withOpacity(0.18),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: const Icon(Icons.videogame_asset_outlined,
-              color: Colors.white, size: 16),
-        ),
-        const SizedBox(width: 10),
-        const Text(
-          AppConfig.appName,
-          style: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.w800, fontSize: 15),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildFooterLink(String label, VoidCallback onTap) {
-    return TextButton(
-      onPressed: onTap,
-      style: TextButton.styleFrom(foregroundColor: Colors.white),
-      child:
-          Text(label, style: TextStyle(color: Colors.white.withOpacity(0.78))),
     );
   }
 
@@ -948,24 +780,6 @@ class _HomeScreenState extends State<HomeScreen> {
           color: foreground,
           fontWeight: FontWeight.w700,
           fontSize: 12,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildNavLink(String label, bool active, VoidCallback onTap) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(999),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-        child: Text(
-          label,
-          style: TextStyle(
-            color: active ? Colors.white : Colors.white.withOpacity(0.78),
-            fontSize: 13,
-            fontWeight: active ? FontWeight.w700 : FontWeight.w500,
-          ),
         ),
       ),
     );
@@ -1010,19 +824,83 @@ class _HomeScreenState extends State<HomeScreen> {
 
   String _buildGameSummary(Game? game) {
     if (game == null) {
-      return 'A beautiful co-op adventure that teaches problem solving and communication. Perfect for ages 7-12.';
+      return 'No hay juego destacado esta semana. Consulta los juegos del mes para ver las novedades.';
     }
 
     final released = game.released != null && game.released!.isNotEmpty
-        ? 'Released ${game.released}'
-        : 'Featured pick';
+        ? 'Salida: ${game.released}'
+        : 'Salida: no disponible';
     final rating = game.rating > 0
-        ? 'Rating ${game.rating.toStringAsFixed(1)}'
-        : 'Curated family pick';
-    final pegi = game.pegiRating != null
+        ? 'Rating: ${game.rating.toStringAsFixed(1)}'
+        : 'Rating: sin datos';
+    final genre = game.genres.isNotEmpty ? game.genres.first : 'Sin género';
+    final ageRating = game.pegiRating != null
         ? 'PEGI ${game.pegiRating}+'
-        : 'Age guidance available';
-    return '$released  $rating  $pegi';
+        : (game.esrbRating?.isNotEmpty == true
+            ? 'ESRB ${game.esrbRating}'
+            : 'Clasificación pendiente');
+    return 'Género: $genre · $released · $rating · $ageRating';
+  }
+
+  String _buildGameTopLabel(Game? game) {
+    if (game == null) {
+      return 'Selección semanal';
+    }
+
+    final genreText = game.genres.isNotEmpty ? game.genres.first : 'Sin género';
+    final ageRating = game.pegiRating != null
+        ? 'PEGI ${game.pegiRating}+'
+        : (game.esrbRating?.isNotEmpty == true
+            ? 'ESRB ${game.esrbRating}'
+            : 'Sin clasificación');
+
+    return '$ageRating  ·  $genreText';
+  }
+
+  ForumPost? _getLatestPostBySectionId(
+      List<ForumPost> posts, String sectionId) {
+    for (final post in posts) {
+      if (post.effectiveSectionId == sectionId) {
+        return post;
+      }
+    }
+    return null;
+  }
+
+  _CommunityUpdateItem _createCommunityUpdateItem(
+    BuildContext context, {
+    required String sectionId,
+    required String title,
+    required IconData icon,
+    required Color tint,
+    required ForumPost? latest,
+  }) {
+    return _CommunityUpdateItem(
+      title: title,
+      subtitle: latest?.title ?? 'Sin novedades recientes en esta sección.',
+      meta: latest != null ? 'Hilo actualizado recientemente' : 'Comunidad',
+      icon: icon,
+      tint: tint,
+      onTap: () =>
+          _navigateTo(context, ForumListScreen(topicFilter: sectionId)),
+    );
+  }
+
+  String _getCommunityLevel(UserModel? user, int? messagesCount) {
+    if (user?.isAdmin ?? false) {
+      return 'Administrador';
+    }
+    if (user?.isModerator ?? false) {
+      return 'Moderador';
+    }
+
+    if (messagesCount == null) {
+      return 'Cargando...';
+    }
+
+    // Sube 1 nivel por cada 10 mensajes en la comunidad.
+    final level = 1 + (messagesCount / 10).floor();
+    return 'Nivel $level';
   }
 }
 
@@ -1042,13 +920,14 @@ class _QuickActionData {
   final VoidCallback onTap;
 }
 
-class _UpdateItem {
-  const _UpdateItem({
+class _CommunityUpdateItem {
+  const _CommunityUpdateItem({
     required this.title,
     required this.subtitle,
     required this.meta,
     required this.icon,
     required this.tint,
+    required this.onTap,
   });
 
   final String title;
@@ -1056,4 +935,5 @@ class _UpdateItem {
   final String meta;
   final IconData icon;
   final Color tint;
+  final VoidCallback onTap;
 }

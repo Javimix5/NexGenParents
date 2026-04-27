@@ -510,6 +510,30 @@ Future<List<ParentalGuide>> getExtraGuides() async {
 
 // --- Métodos para el Foro ---
 
+// Obtiene el total de mensajes aportados por un usuario (hilos + respuestas).
+Future<int> getUserCommunityMessagesCount(String userId) async {
+  try {
+    final postsCountSnapshot = await _firestore
+        .collection('forum_posts')
+        .where('authorId', isEqualTo: userId)
+        .count()
+        .get();
+
+    final repliesCountSnapshot = await _firestore
+        .collection('forum_replies')
+        .where('authorId', isEqualTo: userId)
+        .count()
+        .get();
+
+    final postsCount = postsCountSnapshot.count ?? 0;
+    final repliesCount = repliesCountSnapshot.count ?? 0;
+    return postsCount + repliesCount;
+  } catch (e) {
+    print('Error al obtener total de mensajes de comunidad: $e');
+    return 0;
+  }
+}
+
 // Obtiene un stream de todas las publicaciones del foro, ordenadas por la actividad más reciente.
 Stream<List<ForumPost>> getForumPosts() {
   return _firestore
