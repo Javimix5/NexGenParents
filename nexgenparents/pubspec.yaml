@@ -36,7 +36,7 @@ dependencies:
   shared_preferences: ^2.2.2
   
   # Utilities
-  intl: ^0.20.2
+  intl: any # Dejar que flutter_localizations resuelva la versión
   url_launcher: ^6.3.1
   
   # Loading & UI helpers
