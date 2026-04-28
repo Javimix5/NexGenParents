@@ -331,6 +331,30 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Correo de recuperación enviado. Revisa tu bandeja de entrada'**
   String get successPasswordReset;
+
+  /// No description provided for @profileTooltip.
+  ///
+  /// In es, this message translates to:
+  /// **'Perfil de usuario'**
+  String get profileTooltip;
+
+  /// No description provided for @navBarHome.
+  ///
+  /// In es, this message translates to:
+  /// **'Inicio'**
+  String get navBarHome;
+
+  /// No description provided for @navBarSearch.
+  ///
+  /// In es, this message translates to:
+  /// **'Buscar'**
+  String get navBarSearch;
+
+  /// No description provided for @navBarGuides.
+  ///
+  /// In es, this message translates to:
+  /// **'Guías'**
+  String get navBarGuides;
 }
 
 class _AppLocalizationsDelegate

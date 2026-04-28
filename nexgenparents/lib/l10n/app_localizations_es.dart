@@ -139,4 +139,16 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get successPasswordReset =>
       'Correo de recuperación enviado. Revisa tu bandeja de entrada';
+
+  @override
+  String get profileTooltip => 'Perfil de usuario';
+
+  @override
+  String get navBarHome => 'Inicio';
+
+  @override
+  String get navBarSearch => 'Buscar';
+
+  @override
+  String get navBarGuides => 'Guías';
 }

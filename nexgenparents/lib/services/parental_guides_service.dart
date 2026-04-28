@@ -1,5 +1,6 @@
 import '../models/parental_guide_model.dart';
 import '../config/app_config.dart';
+import '../l10n/app_localizations.dart';
 import 'firestore_service.dart';
 import 'package:flutter/foundation.dart';
 
@@ -15,11 +16,11 @@ class ParentalGuidesService {
   }
 
   // Obtener todas las guías disponibles (base + extra de Firestore)
-  Future<List<ParentalGuide>> getAllGuides() async {
+  Future<List<ParentalGuide>> getAllGuides(AppLocalizations l10n) async {
     // Guías base (siempre disponibles, rápidas)
     final List<ParentalGuide> baseGuides = [
-      _getPlayStationEnableGuide(),
-      _getPlayStationDisableGuide(),
+      _getPlayStationEnableGuide(l10n),
+      _getPlayStationDisableGuide(l10n),
       _getXboxGuide(),
       _getXboxTimeGuide(),
       _getNintendoGuide(),
@@ -43,49 +44,49 @@ class ParentalGuidesService {
   // Obtener guías por plataforma (ahora devuelve múltiples guías)
   // NOTA: Método sincrónico pero que llama a getAllGuides async
   // Para usar, actualizar en la pantalla con FutureBuilder
-  Future<List<ParentalGuide>> getGuidesByPlatform(String platform) async {
-    final guides = await getAllGuides();
+  Future<List<ParentalGuide>> getGuidesByPlatform(String platform, AppLocalizations l10n) async {
+    final guides = await getAllGuides(l10n);
     return guides.where((guide) => guide.platform == platform).toList();
   }
 
   // Guía de PlayStation - ACTIVAR (actualizada con tu ruta)
-  ParentalGuide _getPlayStationEnableGuide() {
+  ParentalGuide _getPlayStationEnableGuide(AppLocalizations l10n) {
     return ParentalGuide(
       id: 'ps-enable-guide',
       platform: 'playstation',
       type: 'enable',
-      title: 'Activar Control Parental en PlayStation',
-      description: 'Aprende a activar y configurar restricciones de edad, límites de gasto y horarios de juego en PlayStation 4 y PlayStation 5.',
+      title: l10n.psEnableGuideTitle,
+      description: l10n.psEnableGuideDescription,
       iconUrl: _asset('icons/PlayStation.png'),
       steps: [
         ParentalGuideStep(
           stepNumber: 1,
-          instruction: 'Desde la pantalla principal, ve a "Configuración" (icono de caja de herramientas en la parte superior derecha).',
+          instruction: l10n.psEnableGuideStep1,
           imageUrl: _asset('control-parental/playstation/enable/ps-paso1.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 2,
-          instruction: 'Selecciona "Familia y control parental" → "Control parental/Gestión de familia".',
+          instruction: l10n.psEnableGuideStep2,
           imageUrl: _asset('control-parental/playstation/enable/ps-paso2.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 3,
-          instruction: 'Elige el perfil del niño que deseas configurar.',
+          instruction: l10n.psEnableGuideStep3,
           imageUrl: _asset('control-parental/playstation/enable/ps-paso3.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 4,
-          instruction: 'Configura las restricciones de edad para juegos, películas y navegador web según la edad de tu hijo.',
+          instruction: l10n.psEnableGuideStep4,
           imageUrl: _asset('control-parental/playstation/enable/ps-paso4.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 5,
-          instruction: 'Establece límites de gasto mensual y horarios de juego permitidos.',
+          instruction: l10n.psEnableGuideStep5,
           imageUrl: _asset('control-parental/playstation/enable/ps-paso5.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 6,
-          instruction: 'Guarda los cambios y el control parental quedará activado.',
+          instruction: l10n.psEnableGuideStep6,
           imageUrl: _asset('control-parental/playstation/enable/ps-paso6.webp'),
         ),
       ],
@@ -93,38 +94,38 @@ class ParentalGuidesService {
   }
 
   // Guía de PlayStation - DESACTIVAR (NUEVA)
-  ParentalGuide _getPlayStationDisableGuide() {
+  ParentalGuide _getPlayStationDisableGuide(AppLocalizations l10n) {
     return ParentalGuide(
       id: 'ps-disable-guide',
       platform: 'playstation',
       type: 'disable',
-      title: 'Desactivar Control Parental en PlayStation',
-      description: 'Aprende a desactivar o modificar las restricciones de control parental en PlayStation 4 y PlayStation 5.',
+      title: l10n.psDisableGuideTitle,
+      description: l10n.psDisableGuideDescription,
       iconUrl: _asset('icons/PlayStation.png'),
       steps: [
         ParentalGuideStep(
           stepNumber: 1,
-          instruction: 'Ve a "Configuración" desde la pantalla principal.',
+          instruction: l10n.psDisableGuideStep1,
           imageUrl: _asset('control-parental/playstation/disable/ps2-paso1.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 2,
-          instruction: 'Accede a "Familia y control parental".',
+          instruction: l10n.psDisableGuideStep2,
           imageUrl: _asset('control-parental/playstation/disable/ps2-paso2.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 3,
-          instruction: 'Introduce el código PIN de control parental.',
+          instruction: l10n.psDisableGuideStep3,
           imageUrl: _asset('control-parental/playstation/disable/ps2-paso3.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 4,
-          instruction: 'Selecciona "Desactivar restricciones" o modifica las configuraciones.',
+          instruction: l10n.psDisableGuideStep4,
           imageUrl: _asset('control-parental/playstation/disable/ps2-paso4.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 5,
-          instruction: 'Confirma la desactivación y guarda los cambios.',
+          instruction: l10n.psDisableGuideStep5,
           imageUrl: _asset('control-parental/playstation/disable/ps2-paso5.webp'),
         ),
       ],
