@@ -21,12 +21,12 @@ class ParentalGuidesService {
     final List<ParentalGuide> baseGuides = [
       _getPlayStationEnableGuide(l10n),
       _getPlayStationDisableGuide(l10n),
-      _getXboxGuide(),
-      _getXboxTimeGuide(),
-      _getNintendoGuide(),
-      _getNintendoAppGuide(),
-      _getSteamGuide(),
-      _getIosGuide(),
+      _getXboxGuide(l10n),
+      _getXboxTimeGuide(l10n),
+      _getNintendoGuide(l10n),
+      _getNintendoAppGuide(l10n),
+      _getSteamGuide(l10n),
+      _getIosGuide(l10n),
     ];
 
     // Guías opcionales desde Firestore (disponibles para todos los usuarios)
@@ -134,38 +134,38 @@ class ParentalGuidesService {
 
 
   // Guía de Xbox - Control parental general
-  ParentalGuide _getXboxGuide() {
+  ParentalGuide _getXboxGuide(AppLocalizations l10n) {
     return ParentalGuide(
       id: 'xbox-guide',
       platform: 'xbox',
       type: 'enable',
-      title: 'Control Parental en Xbox',
-      description: 'Configura filtros de contenido, restricciones de compra y privacidad en Xbox Series X/S y Xbox One mediante la cuenta familiar de Microsoft.',
+      title: l10n.xboxGuideTitle,
+      description: l10n.xboxGuideDescription,
       iconUrl: _asset('icons/xbox.png'),
       steps: [
         ParentalGuideStep(
           stepNumber: 1,
-          instruction: 'Presiona el botón Xbox en el control y ve a "Perfil y sistema" → "Configuración".',
+          instruction: l10n.xboxGuideStep1,
           imageUrl: _asset('control-parental/xbox/xbox-paso1.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 2,
-          instruction: 'Selecciona "Cuenta" → "Familia".',
+          instruction: l10n.xboxGuideStep2,
           imageUrl: _asset('control-parental/xbox/xbox-paso2.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 3,
-          instruction: 'Elige la cuenta del niño y selecciona "Configuración de privacidad y seguridad en línea".',
+          instruction: l10n.xboxGuideStep3,
           imageUrl: _asset('control-parental/xbox/xbox-paso3.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 4,
-          instruction: 'Configura restricciones de contenido, comunicación con otros jugadores y compras.',
+          instruction: l10n.xboxGuideStep4,
           imageUrl: _asset('control-parental/xbox/xbox-paso4.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 5,
-          instruction: 'Confirma los cambios. La configuración se aplica automáticamente al perfil del niño.',
+          instruction: l10n.xboxGuideStep5,
           imageUrl: _asset('control-parental/xbox/xbox-paso5.webp'),
         ),
       ],
@@ -173,38 +173,38 @@ class ParentalGuidesService {
   }
 
   // Guía de Xbox - Tiempo de uso
-  ParentalGuide _getXboxTimeGuide() {
+  ParentalGuide _getXboxTimeGuide(AppLocalizations l10n) {
     return ParentalGuide(
       id: 'xbox-time-guide',
       platform: 'xbox',
       type: 'time',
-      title: 'Límites de Tiempo de Uso en Xbox',
-      description: 'Establece horarios y límites de tiempo de juego diario en Xbox para cada miembro de la familia desde la app Microsoft Family Safety.',
+      title: l10n.xboxTimeGuideTitle,
+      description: l10n.xboxTimeGuideDescription,
       iconUrl: _asset('icons/xbox.png'),
       steps: [
         ParentalGuideStep(
           stepNumber: 1,
-          instruction: 'Descarga e instala la app "Microsoft Family Safety" en tu smartphone. Inicia sesión con tu cuenta Microsoft.',
+          instruction: l10n.xboxTimeGuideStep1,
           imageUrl: _asset('control-parental/xbox/time/xbox-Time-paso1.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 2,
-          instruction: 'Selecciona el perfil del niño en la app y accede a "Tiempo de pantalla".',
+          instruction: l10n.xboxTimeGuideStep2,
           imageUrl: _asset('control-parental/xbox/time/xbox-Time-paso2.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 3,
-          instruction: 'Activa los límites de tiempo y configura cuántas horas puede usar Xbox cada día de la semana.',
+          instruction: l10n.xboxTimeGuideStep3,
           imageUrl: _asset('control-parental/xbox/time/xbox-Time-paso3.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 4,
-          instruction: 'Establece las franjas horarias en las que la consola está disponible (por ejemplo, solo de 17:00 a 20:00).',
+          instruction: l10n.xboxTimeGuideStep4,
           imageUrl: _asset('control-parental/xbox/time/xbox-Time-paso4.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 5,
-          instruction: 'Guarda la configuración. El niño recibirá avisos antes de que se acabe su tiempo y necesitará tu aprobación para pedir más tiempo.',
+          instruction: l10n.xboxTimeGuideStep5,
           imageUrl: _asset('control-parental/xbox/time/xbox-Time-paso5.webp'),
         ),
       ],
@@ -212,38 +212,38 @@ class ParentalGuidesService {
   }
 
   // Guía de Nintendo Switch - Configuración inicial en consola
-  ParentalGuide _getNintendoGuide() {
+  ParentalGuide _getNintendoGuide(AppLocalizations l10n) {
     return ParentalGuide(
       id: 'nintendo-guide',
       platform: 'nintendo',
       type: 'enable',
-      title: 'Control Parental en Nintendo Switch',
-      description: 'Configura el control parental directamente en la consola Nintendo Switch para restringir contenido y establecer límites de edad.',
+      title: l10n.nintendoGuideTitle,
+      description: l10n.nintendoGuideDescription,
       iconUrl: _asset('icons/nintendo.png'),
       steps: [
         ParentalGuideStep(
           stepNumber: 1,
-          instruction: 'Accede a "Configuración de la consola" desde el menú principal de Nintendo Switch.',
+          instruction: l10n.nintendoGuideStep1,
           imageUrl: _asset('control-parental/nintendo/ns-paso1.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 2,
-          instruction: 'Desplázate hacia abajo y selecciona "Control parental".',
+          instruction: l10n.nintendoGuideStep2,
           imageUrl: _asset('control-parental/nintendo/ns-paso2.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 3,
-          instruction: 'Elige "Usar smartphone" para vincular la app, o "Configurar ahora" si prefieres hacerlo desde la consola.',
+          instruction: l10n.nintendoGuideStep3,
           imageUrl: _asset('control-parental/nintendo/ns-paso3.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 4,
-          instruction: 'Selecciona el nivel de restricción de contenido según la edad del niño.',
+          instruction: l10n.nintendoGuideStep4,
           imageUrl: _asset('control-parental/nintendo/ns-paso4.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 5,
-          instruction: 'Establece un PIN de 4 dígitos para proteger la configuración. Guarda y confirma.',
+          instruction: l10n.nintendoGuideStep5,
           imageUrl: _asset('control-parental/nintendo/ns-paso5.webp'),
         ),
       ],
@@ -251,53 +251,53 @@ class ParentalGuidesService {
   }
 
   // Guía de Nintendo Switch - Configurar la App de control parental
-  ParentalGuide _getNintendoAppGuide() {
+  ParentalGuide _getNintendoAppGuide(AppLocalizations l10n) {
     return ParentalGuide(
       id: 'nintendo-app-guide',
       platform: 'nintendo',
       type: 'app',
-      title: 'Configurar la App de Control Parental (Nintendo)',
-      description: 'Aprende a vincular y configurar la app "Nintendo Switch Parental Controls" en tu smartphone para gestionar remotamente los límites de juego.',
+      title: l10n.nintendoAppGuideTitle,
+      description: l10n.nintendoAppGuideDescription,
       iconUrl: _asset('icons/nintendo.png'),
       steps: [
         ParentalGuideStep(
           stepNumber: 1,
-          instruction: 'Descarga la app "Nintendo Switch Parental Controls" en tu smartphone (disponible en Android e iOS).',
+          instruction: l10n.nintendoAppGuideStep1,
           imageUrl: _asset('control-parental/nintendo/app/ns-App-paso1.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 2,
-          instruction: 'Abre la app y acepta los términos de uso. Inicia sesión con tu cuenta Nintendo o crea una nueva.',
+          instruction: l10n.nintendoAppGuideStep2,
           imageUrl: _asset('control-parental/nintendo/app/ns-App-paso2.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 3,
-          instruction: 'En la consola, ve a "Configuración" → "Control parental" → "Usar smartphone" y escanea el código QR con la app.',
+          instruction: l10n.nintendoAppGuideStep3,
           imageUrl: _asset('control-parental/nintendo/app/ns-App-paso3.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 4,
-          instruction: 'Asigna un nombre al niño y selecciona su grupo de edad para aplicar restricciones automáticas.',
+          instruction: l10n.nintendoAppGuideStep4,
           imageUrl: _asset('control-parental/nintendo/app/ns-App-paso4.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 5,
-          instruction: 'Configura el límite de tiempo de juego diario. Puedes establecer límites distintos para días de semana y fin de semana.',
+          instruction: l10n.nintendoAppGuideStep5,
           imageUrl: _asset('control-parental/nintendo/app/ns-App-paso5.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 6,
-          instruction: 'Activa la restricción de juego después de la hora límite y personaliza el mensaje que verá el niño al alcanzarlo.',
+          instruction: l10n.nintendoAppGuideStep6,
           imageUrl: _asset('control-parental/nintendo/app/ns-App-paso6.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 7,
-          instruction: 'Revisa el resumen mensual de actividad: juegos usados, tiempo total y tendencias por día.',
+          instruction: l10n.nintendoAppGuideStep7,
           imageUrl: _asset('control-parental/nintendo/app/ns-App-paso7.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 8,
-          instruction: 'Desde la app puedes añadir tiempo extra puntualmente o suspender los límites temporalmente sin tocar la consola.',
+          instruction: l10n.nintendoAppGuideStep8,
           imageUrl: _asset('control-parental/nintendo/app/ns-App-paso8.webp'),
         ),
       ],
@@ -305,38 +305,38 @@ class ParentalGuidesService {
   }
 
   // Guía de Steam (PC)
-  ParentalGuide _getSteamGuide() {
+  ParentalGuide _getSteamGuide(AppLocalizations l10n) {
     return ParentalGuide(
       id: 'steam-guide',
       platform: 'steam',
       type: 'enable',
-      title: 'Control Parental en Steam',
-      description: 'Configura el Modo Familiar de Steam para controlar qué juegos pueden acceder tus hijos.',
+      title: l10n.steamGuideTitle,
+      description: l10n.steamGuideDescription,
       iconUrl: _asset('icons/steam.png'),
       steps: [
         ParentalGuideStep(
           stepNumber: 1,
-          instruction: 'Abre Steam en el PC y haz clic en "Steam" (arriba izquierda) → "Configuración".',
+          instruction: l10n.steamGuideStep1,
           imageUrl: _asset('control-parental/steam/steam-paso1.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 2,
-          instruction: 'Selecciona "Familia" en el menú lateral.',
+          instruction: l10n.steamGuideStep2,
           imageUrl: _asset('control-parental/steam/steam-paso2.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 3,
-          instruction: 'Activa "Vista Familiar" y establece un PIN de seguridad.',
+          instruction: l10n.steamGuideStep3,
           imageUrl: _asset('control-parental/steam/steam-paso3.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 4,
-          instruction: 'Selecciona manualmente qué juegos de tu biblioteca serán visibles en el modo familiar.',
+          instruction: l10n.steamGuideStep4,
           imageUrl: _asset('control-parental/steam/steam-paso4.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 5,
-          instruction: 'Los niños solo podrán acceder a los juegos aprobados. Para salir del modo, necesitarán el PIN.',
+          instruction: l10n.steamGuideStep5,
           imageUrl: _asset('control-parental/steam/steam-paso5.webp'),
         ),
       ],
@@ -344,33 +344,33 @@ class ParentalGuidesService {
   }
 
   // Guía de iOS - Tiempo de pantalla y restricciones
-  ParentalGuide _getIosGuide() {
+  ParentalGuide _getIosGuide(AppLocalizations l10n) {
     return ParentalGuide(
       id: 'ios-guide',
       platform: 'ios',
       type: 'enable',
-      title: 'Activar Control Parental en iOS (iPhone/iPad)',
-      description: 'Configura Tiempo de uso, contenido y privacidad en iPhone/iPad para proteger a menores.',
+      title: l10n.iosGuideTitle,
+      description: l10n.iosGuideDescription,
       iconUrl: _asset('icons/ios.png'),
       steps: [
         ParentalGuideStep(
           stepNumber: 1,
-          instruction: 'Abre Ajustes en el iPhone/iPad y entra en "Tiempo de uso".',
+          instruction: l10n.iosGuideStep1,
           imageUrl: _asset('control-parental/ios/enable/ios-paso1.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 2,
-          instruction: 'Pulsa "Activar Tiempo de uso" y selecciona "Este es el iPhone de mi hijo".',
+          instruction: l10n.iosGuideStep2,
           imageUrl: _asset('control-parental/ios/enable/ios-paso2.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 3,
-          instruction: 'Define un código de Tiempo de uso distinto al desbloqueo del móvil.',
+          instruction: l10n.iosGuideStep3,
           imageUrl: _asset('control-parental/ios/enable/ios-paso3.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 4,
-          instruction: 'Configura "Tiempo de inactividad", "Límites de apps" y "Restricciones de contenido y privacidad".',
+          instruction: l10n.iosGuideStep4,
           imageUrl: _asset('control-parental/ios/enable/ios-paso4.webp'),
         ),
       ],

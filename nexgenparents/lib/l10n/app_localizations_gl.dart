@@ -141,14 +141,65 @@ class AppLocalizationsGl extends AppLocalizations {
       'Correo de recuperación enviado. Revisa a túa bandexa de entrada';
 
   @override
-  String get profileTooltip => 'Perfil do usuario';
+  String get guideTypeEnable => 'Habilitar guía';
 
   @override
-  String get navBarHome => 'Inicio';
+  String get guideTypeDisable => 'Deshabilitar guía';
 
   @override
-  String get navBarSearch => 'Buscar';
+  String get guideTypeApp => 'Guía de aplicacións';
 
   @override
-  String get navBarGuides => 'Guías';
+  String get guideTypeTime => 'Guía de tempo';
+
+  @override
+  String get guideTypeDefault => 'Guía por defecto';
+
+  @override
+  String get psEnableGuideTitle => 'Como habilitar a guía parental';
+
+  @override
+  String get psEnableGuideDescription =>
+      'Sigue estes pasos para habilitar a guía parental no teu dispositivo.';
+
+  @override
+  String get psEnableGuideStep1 => 'Abre a aplicación de configuración.';
+
+  @override
+  String get psEnableGuideStep2 => 'Selecciona \'Controis parentais\'.';
+
+  @override
+  String get psEnableGuideStep3 => 'Activa a opción de guía parental.';
+
+  @override
+  String get psEnableGuideStep4 =>
+      'Configura as restricións segundo as túas necesidades.';
+
+  @override
+  String get psEnableGuideStep5 => 'Garda os cambios.';
+
+  @override
+  String get psEnableGuideStep6 => 'Verifica que a guía estea activa.';
+
+  @override
+  String get psDisableGuideTitle => 'Como deshabilitar a guía parental';
+
+  @override
+  String get psDisableGuideDescription =>
+      'Sigue estes pasos para deshabilitar a guía parental no teu dispositivo.';
+
+  @override
+  String get psDisableGuideStep1 => 'Abre a aplicación de configuración.';
+
+  @override
+  String get psDisableGuideStep2 => 'Selecciona \'Controis parentais\'.';
+
+  @override
+  String get psDisableGuideStep3 => 'Desactiva a opción de guía parental.';
+
+  @override
+  String get psDisableGuideStep4 => 'Garda os cambios.';
+
+  @override
+  String get psDisableGuideStep5 => 'Verifica que a guía estea desactivada.';
 }

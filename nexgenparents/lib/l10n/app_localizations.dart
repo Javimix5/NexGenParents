@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
+import 'app_localizations_en.dart';
 import 'app_localizations_es.dart';
 import 'app_localizations_gl.dart';
 
@@ -94,6 +95,7 @@ abstract class AppLocalizations {
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
+    Locale('en'),
     Locale('es'),
     Locale('gl')
   ];
@@ -332,29 +334,389 @@ abstract class AppLocalizations {
   /// **'Correo de recuperación enviado. Revisa tu bandeja de entrada'**
   String get successPasswordReset;
 
-  /// No description provided for @profileTooltip.
+  /// No description provided for @guideTypeEnable.
   ///
   /// In es, this message translates to:
-  /// **'Perfil de usuario'**
-  String get profileTooltip;
+  /// **'Habilitar guía'**
+  String get guideTypeEnable;
 
-  /// No description provided for @navBarHome.
+  /// No description provided for @guideTypeDisable.
   ///
   /// In es, this message translates to:
-  /// **'Inicio'**
-  String get navBarHome;
+  /// **'Deshabilitar guía'**
+  String get guideTypeDisable;
 
-  /// No description provided for @navBarSearch.
+  /// No description provided for @guideTypeApp.
   ///
   /// In es, this message translates to:
-  /// **'Buscar'**
-  String get navBarSearch;
+  /// **'Guía de aplicaciones'**
+  String get guideTypeApp;
 
-  /// No description provided for @navBarGuides.
+  /// No description provided for @guideTypeTime.
   ///
   /// In es, this message translates to:
-  /// **'Guías'**
-  String get navBarGuides;
+  /// **'Guía de tiempo'**
+  String get guideTypeTime;
+
+  /// No description provided for @guideTypeDefault.
+  ///
+  /// In es, this message translates to:
+  /// **'Guía por defecto'**
+  String get guideTypeDefault;
+
+  /// No description provided for @psEnableGuideTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Cómo habilitar la guía parental'**
+  String get psEnableGuideTitle;
+
+  /// No description provided for @psEnableGuideDescription.
+  ///
+  /// In es, this message translates to:
+  /// **'Sigue estos pasos para habilitar la guía parental en tu dispositivo.'**
+  String get psEnableGuideDescription;
+
+  /// No description provided for @psEnableGuideStep1.
+  ///
+  /// In es, this message translates to:
+  /// **'Abre la aplicación de configuración.'**
+  String get psEnableGuideStep1;
+
+  /// No description provided for @psEnableGuideStep2.
+  ///
+  /// In es, this message translates to:
+  /// **'Selecciona \'Controles parentales\'.'**
+  String get psEnableGuideStep2;
+
+  /// No description provided for @psEnableGuideStep3.
+  ///
+  /// In es, this message translates to:
+  /// **'Activa la opción de guía parental.'**
+  String get psEnableGuideStep3;
+
+  /// No description provided for @psEnableGuideStep4.
+  ///
+  /// In es, this message translates to:
+  /// **'Configura las restricciones según tus necesidades.'**
+  String get psEnableGuideStep4;
+
+  /// No description provided for @psEnableGuideStep5.
+  ///
+  /// In es, this message translates to:
+  /// **'Guarda los cambios.'**
+  String get psEnableGuideStep5;
+
+  /// No description provided for @psEnableGuideStep6.
+  ///
+  /// In es, this message translates to:
+  /// **'Verifica que la guía esté activa.'**
+  String get psEnableGuideStep6;
+
+  /// No description provided for @psDisableGuideTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Cómo deshabilitar la guía parental'**
+  String get psDisableGuideTitle;
+
+  /// No description provided for @psDisableGuideDescription.
+  ///
+  /// In es, this message translates to:
+  /// **'Sigue estos pasos para deshabilitar la guía parental en tu dispositivo.'**
+  String get psDisableGuideDescription;
+
+  /// No description provided for @psDisableGuideStep1.
+  ///
+  /// In es, this message translates to:
+  /// **'Abre la aplicación de configuración.'**
+  String get psDisableGuideStep1;
+
+  /// No description provided for @psDisableGuideStep2.
+  ///
+  /// In es, this message translates to:
+  /// **'Selecciona \'Controles parentales\'.'**
+  String get psDisableGuideStep2;
+
+  /// No description provided for @psDisableGuideStep3.
+  ///
+  /// In es, this message translates to:
+  /// **'Desactiva la opción de guía parental.'**
+  String get psDisableGuideStep3;
+
+  /// No description provided for @psDisableGuideStep4.
+  ///
+  /// In es, this message translates to:
+  /// **'Guarda los cambios.'**
+  String get psDisableGuideStep4;
+
+  /// No description provided for @psDisableGuideStep5.
+  ///
+  /// In es, this message translates to:
+  /// **'Verifica que la guía esté desactivada.'**
+  String get psDisableGuideStep5;
+
+  /// No description provided for @xboxGuideTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Control Parental en Xbox'**
+  String get xboxGuideTitle;
+
+  /// No description provided for @xboxGuideDescription.
+  ///
+  /// In es, this message translates to:
+  /// **'Configura filtros de contenido, restricciones de compra y privacidad en Xbox Series X/S y Xbox One mediante la cuenta familiar de Microsoft.'**
+  String get xboxGuideDescription;
+
+  /// No description provided for @xboxGuideStep1.
+  ///
+  /// In es, this message translates to:
+  /// **'Presiona el botón Xbox en el control y ve a "Perfil y sistema" → "Configuración".'**
+  String get xboxGuideStep1;
+
+  /// No description provided for @xboxGuideStep2.
+  ///
+  /// In es, this message translates to:
+  /// **'Selecciona "Cuenta" → "Familia".'**
+  String get xboxGuideStep2;
+
+  /// No description provided for @xboxGuideStep3.
+  ///
+  /// In es, this message translates to:
+  /// **'Elige la cuenta del niño y selecciona "Configuración de privacidad y seguridad en línea".'**
+  String get xboxGuideStep3;
+
+  /// No description provided for @xboxGuideStep4.
+  ///
+  /// In es, this message translates to:
+  /// **'Configura restricciones de contenido, comunicación con otros jugadores y compras.'**
+  String get xboxGuideStep4;
+
+  /// No description provided for @xboxGuideStep5.
+  ///
+  /// In es, this message translates to:
+  /// **'Confirma los cambios. La configuración se aplica automáticamente al perfil del niño.'**
+  String get xboxGuideStep5;
+
+  /// No description provided for @xboxTimeGuideTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Límites de Tiempo de Uso en Xbox'**
+  String get xboxTimeGuideTitle;
+
+  /// No description provided for @xboxTimeGuideDescription.
+  ///
+  /// In es, this message translates to:
+  /// **'Establece horarios y límites de tiempo de juego diario en Xbox para cada miembro de la familia desde la app Microsoft Family Safety.'**
+  String get xboxTimeGuideDescription;
+
+  /// No description provided for @xboxTimeGuideStep1.
+  ///
+  /// In es, this message translates to:
+  /// **'Descarga e instala la app "Microsoft Family Safety" en tu smartphone. Inicia sesión con tu cuenta Microsoft.'**
+  String get xboxTimeGuideStep1;
+
+  /// No description provided for @xboxTimeGuideStep2.
+  ///
+  /// In es, this message translates to:
+  /// **'Selecciona el perfil del niño en la app y accede a "Tiempo de pantalla".'**
+  String get xboxTimeGuideStep2;
+
+  /// No description provided for @xboxTimeGuideStep3.
+  ///
+  /// In es, this message translates to:
+  /// **'Activa los límites de tiempo y configura cuántas horas puede usar Xbox cada día de la semana.'**
+  String get xboxTimeGuideStep3;
+
+  /// No description provided for @xboxTimeGuideStep4.
+  ///
+  /// In es, this message translates to:
+  /// **'Establece las franjas horarias en las que la consola está disponible (por ejemplo, solo de 17:00 a 20:00).'**
+  String get xboxTimeGuideStep4;
+
+  /// No description provided for @xboxTimeGuideStep5.
+  ///
+  /// In es, this message translates to:
+  /// **'Guarda la configuración. El niño recibirá avisos antes de que se acabe su tiempo y necesitará tu aprobación para pedir más tiempo.'**
+  String get xboxTimeGuideStep5;
+
+  /// No description provided for @nintendoGuideTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Control Parental en Nintendo Switch'**
+  String get nintendoGuideTitle;
+
+  /// No description provided for @nintendoGuideDescription.
+  ///
+  /// In es, this message translates to:
+  /// **'Configura el control parental directamente en la consola Nintendo Switch para restringir contenido y establecer límites de edad.'**
+  String get nintendoGuideDescription;
+
+  /// No description provided for @nintendoGuideStep1.
+  ///
+  /// In es, this message translates to:
+  /// **'Accede a "Configuración de la consola" desde el menú principal de Nintendo Switch.'**
+  String get nintendoGuideStep1;
+
+  /// No description provided for @nintendoGuideStep2.
+  ///
+  /// In es, this message translates to:
+  /// **'Desplázate hacia abajo y selecciona "Control parental".'**
+  String get nintendoGuideStep2;
+
+  /// No description provided for @nintendoGuideStep3.
+  ///
+  /// In es, this message translates to:
+  /// **'Elige "Usar smartphone" para vincular la app, o "Configurar ahora" si prefieres hacerlo desde la consola.'**
+  String get nintendoGuideStep3;
+
+  /// No description provided for @nintendoGuideStep4.
+  ///
+  /// In es, this message translates to:
+  /// **'Selecciona el nivel de restricción de contenido según la edad del niño.'**
+  String get nintendoGuideStep4;
+
+  /// No description provided for @nintendoGuideStep5.
+  ///
+  /// In es, this message translates to:
+  /// **'Establece un PIN de 4 dígitos para proteger la configuración. Guarda y confirma.'**
+  String get nintendoGuideStep5;
+
+  /// No description provided for @nintendoAppGuideTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Configurar la App de Control Parental (Nintendo)'**
+  String get nintendoAppGuideTitle;
+
+  /// No description provided for @nintendoAppGuideDescription.
+  ///
+  /// In es, this message translates to:
+  /// **'Aprende a vincular y configurar la app "Nintendo Switch Parental Controls" en tu smartphone para gestionar remotamente los límites de juego.'**
+  String get nintendoAppGuideDescription;
+
+  /// No description provided for @nintendoAppGuideStep1.
+  ///
+  /// In es, this message translates to:
+  /// **'Descarga la app "Nintendo Switch Parental Controls" en tu smartphone (disponible en Android e iOS).'**
+  String get nintendoAppGuideStep1;
+
+  /// No description provided for @nintendoAppGuideStep2.
+  ///
+  /// In es, this message translates to:
+  /// **'Abre la app y acepta los términos de uso. Inicia sesión con tu cuenta Nintendo o crea una nueva.'**
+  String get nintendoAppGuideStep2;
+
+  /// No description provided for @nintendoAppGuideStep3.
+  ///
+  /// In es, this message translates to:
+  /// **'En la consola, ve a "Configuración" → "Control parental" → "Usar smartphone" y escanea el código QR con la app.'**
+  String get nintendoAppGuideStep3;
+
+  /// No description provided for @nintendoAppGuideStep4.
+  ///
+  /// In es, this message translates to:
+  /// **'Asigna un nombre al niño y selecciona su grupo de edad para aplicar restricciones automáticas.'**
+  String get nintendoAppGuideStep4;
+
+  /// No description provided for @nintendoAppGuideStep5.
+  ///
+  /// In es, this message translates to:
+  /// **'Configura el límite de tiempo de juego diario. Puedes establecer límites distintos para días de semana y fin de semana.'**
+  String get nintendoAppGuideStep5;
+
+  /// No description provided for @nintendoAppGuideStep6.
+  ///
+  /// In es, this message translates to:
+  /// **'Activa la restricción de juego después de la hora límite y personaliza el mensaje que verá el niño al alcanzarlo.'**
+  String get nintendoAppGuideStep6;
+
+  /// No description provided for @nintendoAppGuideStep7.
+  ///
+  /// In es, this message translates to:
+  /// **'Revisa el resumen mensual de actividad: juegos usados, tiempo total y tendencias por día.'**
+  String get nintendoAppGuideStep7;
+
+  /// No description provided for @nintendoAppGuideStep8.
+  ///
+  /// In es, this message translates to:
+  /// **'Desde la app puedes añadir tiempo extra puntualmente o suspender los límites temporalmente sin tocar la consola.'**
+  String get nintendoAppGuideStep8;
+
+  /// No description provided for @steamGuideTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Control Parental en Steam'**
+  String get steamGuideTitle;
+
+  /// No description provided for @steamGuideDescription.
+  ///
+  /// In es, this message translates to:
+  /// **'Configura el Modo Familiar de Steam para controlar qué juegos pueden acceder tus hijos.'**
+  String get steamGuideDescription;
+
+  /// No description provided for @steamGuideStep1.
+  ///
+  /// In es, this message translates to:
+  /// **'Abre Steam en el PC y haz clic en "Steam" (arriba izquierda) → "Configuración".'**
+  String get steamGuideStep1;
+
+  /// No description provided for @steamGuideStep2.
+  ///
+  /// In es, this message translates to:
+  /// **'Selecciona "Familia" en el menú lateral.'**
+  String get steamGuideStep2;
+
+  /// No description provided for @steamGuideStep3.
+  ///
+  /// In es, this message translates to:
+  /// **'Activa "Vista Familiar" y establece un PIN de seguridad.'**
+  String get steamGuideStep3;
+
+  /// No description provided for @steamGuideStep4.
+  ///
+  /// In es, this message translates to:
+  /// **'Selecciona manualmente qué juegos de tu biblioteca serán visibles en el modo familiar.'**
+  String get steamGuideStep4;
+
+  /// No description provided for @steamGuideStep5.
+  ///
+  /// In es, this message translates to:
+  /// **'Los niños solo podrán acceder a los juegos aprobados. Para salir del modo, necesitarán el PIN.'**
+  String get steamGuideStep5;
+
+  /// No description provided for @iosGuideTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Activar Control Parental en iOS (iPhone/iPad)'**
+  String get iosGuideTitle;
+
+  /// No description provided for @iosGuideDescription.
+  ///
+  /// In es, this message translates to:
+  /// **'Configura Tiempo de uso, contenido y privacidad en iPhone/iPad para proteger a menores.'**
+  String get iosGuideDescription;
+
+  /// No description provided for @iosGuideStep1.
+  ///
+  /// In es, this message translates to:
+  /// **'Abre Ajustes en el iPhone/iPad y entra en "Tiempo de uso".'**
+  String get iosGuideStep1;
+
+  /// No description provided for @iosGuideStep2.
+  ///
+  /// In es, this message translates to:
+  /// **'Pulsa "Activar Tiempo de uso" y selecciona "Este es el iPhone de mi hijo".'**
+  String get iosGuideStep2;
+
+  /// No description provided for @iosGuideStep3.
+  ///
+  /// In es, this message translates to:
+  /// **'Define un código de Tiempo de uso distinto al desbloqueo del móvil.'**
+  String get iosGuideStep3;
+
+  /// No description provided for @iosGuideStep4.
+  ///
+  /// In es, this message translates to:
+  /// **'Configura "Tiempo de inactividad", "Límites de apps" y "Restricciones de contenido y privacidad".'**
+  String get iosGuideStep4;
 }
 
 class _AppLocalizationsDelegate
@@ -368,7 +730,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['es', 'gl'].contains(locale.languageCode);
+      <String>['en', 'es', 'gl'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -377,6 +739,8 @@ class _AppLocalizationsDelegate
 AppLocalizations lookupAppLocalizations(Locale locale) {
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
+    case 'en':
+      return AppLocalizationsEn();
     case 'es':
       return AppLocalizationsEs();
     case 'gl':

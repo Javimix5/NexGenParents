@@ -64,6 +64,13 @@ class RawgService {
     return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
   }
 
+    // Obtener primer día del año actual en formato YYYY-MM-DD
+    String _getStartOfYear() {
+      final now = DateTime.now();
+      final startOfYear = DateTime(now.year, 1, 1);
+      return '${startOfYear.year}-${startOfYear.month.toString().padLeft(2, '0')}-${startOfYear.day.toString().padLeft(2, '0')}';
+    }
+
   DateTime _startOfCurrentWeek() {
     final now = DateTime.now();
     final daysFromMonday = now.weekday - DateTime.monday;
@@ -243,7 +250,7 @@ class RawgService {
   // Obtener juegos nuevos/recientes
   Future<List<Game>> getNewGames() async {
   try {
-    final dateRange = '${_getDateFiveYearsAgo()},${_getCurrentDate()}';
+     final dateRange = '${_getStartOfYear()},${_getCurrentDate()}';
     
     final url = Uri.parse(
       '$_baseUrl/games?key=$_apiKey&dates=$dateRange&ordering=-released&page_size=20'

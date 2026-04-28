@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../config/app_config.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/parental_guide_model.dart';
 import '../../services/parental_guides_service.dart';
 import '../../widgets/common/app_empty_state.dart';
@@ -11,13 +12,14 @@ class ParentalGuidesListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final guidesService = ParentalGuidesService();
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Control Parental'),
       ),
       body: FutureBuilder<List<ParentalGuide>>(
-        future: guidesService.getAllGuides(),
+        future: guidesService.getAllGuides(l10n),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());

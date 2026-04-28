@@ -13,6 +13,7 @@ import '../../providers/games_provider.dart';
 import '../../viewmodels/home_view_model.dart';
 import '../../widgets/common/app_footer.dart';
 import '../../widgets/common/app_header.dart';
+import '../../widgets/common/persistent_frame.dart';
 import '../../widgets/common/user_avatar.dart';
 import '../admin/users_management_screen.dart';
 import '../auth/login_screen.dart';
@@ -84,6 +85,14 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final hasPersistentFrame = PersistentFrameScope.of(context);
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final horizontalPadding = screenWidth < 600
+        ? 12.0
+        : screenWidth < 1100
+            ? 16.0
+            : 24.0;
+    final contentMaxWidth = screenWidth < 980 ? double.infinity : 1440.0;
     final authProvider = Provider.of<AuthProvider>(context);
     final user = authProvider.currentUser;
     final dictionaryProvider = Provider.of<DictionaryProvider>(context);
@@ -116,42 +125,48 @@ class _HomeScreenState extends State<HomeScreen> {
             child: SafeArea(
               child: Column(
                 children: [
-                  AppHeader(
-                    activeSection: AppSection.inicio,
-                    avatarUrl: user?.photoUrl,
-                    proposedTermsCount: proposedTermsCount,
-                    isModerator: authProvider.isModerator,
-                    isAdmin: authProvider.isAdmin,
-                    onSearchSubmitted: (_) =>
-                        _navigateTo(context, const GamesSearchScreen()),
-                    onNavigate: (section) {
-                      switch (section) {
-                        case AppSection.inicio:
-                          break;
-                        case AppSection.diccionario:
-                          _navigateTo(context, const DictionaryListScreen());
-                          break;
-                        case AppSection.videojuegos:
-                          _navigateTo(context, const GamesSearchScreen());
-                          break;
-                        case AppSection.controlParental:
-                          _navigateTo(
-                              context, const ParentalGuidesListScreen());
-                          break;
-                        case AppSection.comunidad:
-                          _navigateTo(context, const ForumListScreen());
-                          break;
-                      }
-                    },
-                    onMenuSelected: (value) =>
-                        _handleMenuAction(context, authProvider, value),
-                  ),
+                  if (!hasPersistentFrame)
+                    AppHeader(
+                      activeSection: AppSection.inicio,
+                      avatarUrl: user?.photoUrl,
+                      proposedTermsCount: proposedTermsCount,
+                      isModerator: authProvider.isModerator,
+                      isAdmin: authProvider.isAdmin,
+                      onSearchSubmitted: (_) =>
+                          _navigateTo(context, const GamesSearchScreen()),
+                      onNavigate: (section) {
+                        switch (section) {
+                          case AppSection.inicio:
+                            break;
+                          case AppSection.diccionario:
+                            _navigateTo(context, const DictionaryListScreen());
+                            break;
+                          case AppSection.videojuegos:
+                            _navigateTo(context, const GamesSearchScreen());
+                            break;
+                          case AppSection.controlParental:
+                            _navigateTo(
+                                context, const ParentalGuidesListScreen());
+                            break;
+                          case AppSection.comunidad:
+                            _navigateTo(context, const ForumListScreen());
+                            break;
+                        }
+                      },
+                      onMenuSelected: (value) =>
+                          _handleMenuAction(context, authProvider, value),
+                    ),
                   Expanded(
                     child: SingleChildScrollView(
-                      padding: const EdgeInsets.fromLTRB(20, 24, 20, 24),
+                      padding: EdgeInsets.fromLTRB(
+                        horizontalPadding,
+                        24,
+                        horizontalPadding,
+                        24,
+                      ),
                       child: Center(
                         child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 1180),
+                          constraints: BoxConstraints(maxWidth: contentMaxWidth),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
@@ -159,8 +174,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 future: _userMessagesCountFuture,
                                 builder: (context, snapshot) {
                                   final messagesCount = snapshot.data;
-                                  final userLevel =
-                                      _getCommunityLevel(user, messagesCount);
+                                    final userLevel =
+                                      _getCommunityLevel(context, user, messagesCount);
 
                                   return _buildHero(
                                     context,
@@ -176,9 +191,18 @@ class _HomeScreenState extends State<HomeScreen> {
                               const SizedBox(height: 28),
                               _buildSectionHeader(
                                 context,
-                                title: 'Acceso rápido',
-                                subtitle:
-                                    'Acceso a las zonas de la web más usadas',
+                                title: _t(
+                                  context,
+                                  es: 'Acceso rápido',
+                                  gl: 'Acceso rápido',
+                                  en: 'Quick access',
+                                ),
+                                subtitle: _t(
+                                  context,
+                                  es: 'Acceso a las zonas de la web más usadas',
+                                  gl: 'Acceso ás zonas da web máis usadas',
+                                  en: 'Access the most-used areas of the site',
+                                ),
                               ),
                               const SizedBox(height: 16),
                               _buildQuickActions(context),
@@ -217,16 +241,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                 },
                               ),
                               const SizedBox(height: 28),
-                              AppFooter(
-                                onPrivacyTap: () => _navigateTo(
-                                    context, const PegiInfoScreen()),
-                                onAboutTap: () => _navigateTo(
-                                    context, const PegiInfoScreen()),
-                                onContactTap: () => _navigateTo(
-                                  context,
-                                  const ParentalGuidesListScreen(),
+                              if (!hasPersistentFrame)
+                                AppFooter(
+                                  onPrivacyTap: () => _navigateTo(
+                                    context,
+                                    const PegiInfoScreen(),
+                                    section: AppSection.controlParental,
+                                  ),
+                                  onAboutTap: () => _navigateTo(
+                                    context,
+                                    const PegiInfoScreen(),
+                                    section: AppSection.controlParental,
+                                  ),
+                                  onContactTap: () => _navigateTo(
+                                    context,
+                                    const ParentalGuidesListScreen(),
+                                    section: AppSection.controlParental,
+                                  ),
                                 ),
-                              ),
                             ],
                           ),
                         ),
@@ -259,10 +291,10 @@ class _HomeScreenState extends State<HomeScreen> {
       decoration: BoxDecoration(
         color: theme.cardColor,
         borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: theme.dividerColor.withOpacity(0.35)),
+        border: Border.all(color: theme.dividerColor.withValues(alpha: 0.35)),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF0B1020).withOpacity(0.06),
+            color: const Color(0xFF0B1020).withValues(alpha: 0.06),
             blurRadius: 30,
             offset: const Offset(0, 12),
           ),
@@ -283,7 +315,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Bienvenido, $userName!',
+                      _t(
+                        context,
+                        es: 'Bienvenido, $userName!',
+                        gl: 'Benvido, $userName!',
+                        en: 'Welcome, $userName!',
+                      ),
                       style:
                           Theme.of(context).textTheme.displayMedium?.copyWith(
                                 fontSize: 28,
@@ -292,7 +329,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      'Tienes $approvedTermsCount términos aprobados y $proposedTermsCount términos propuestos.',
+                      _t(
+                        context,
+                        es: 'Tienes $approvedTermsCount términos aprobados y $proposedTermsCount términos propuestos.',
+                        gl: 'Tes $approvedTermsCount termos aprobados e $proposedTermsCount termos propostos.',
+                        en: 'You have $approvedTermsCount approved terms and $proposedTermsCount proposed terms.',
+                      ),
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                             color: AppConfig.textSecondaryColor,
                             height: 1.35,
@@ -313,7 +355,12 @@ class _HomeScreenState extends State<HomeScreen> {
                               : const Color(0xFF8B5CF6),
                         ),
                         _buildBadge(
-                          text: '$totalActiveTerms términos activos',
+                          text: _t(
+                            context,
+                            es: '$totalActiveTerms términos activos',
+                            gl: '$totalActiveTerms termos activos',
+                            en: '$totalActiveTerms active terms',
+                          ),
                           background: isDark
                               ? const Color(0xFF1E3A33)
                               : const Color(0xFFEAFBF3),
@@ -336,26 +383,67 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildQuickActions(BuildContext context) {
     final actions = [
       _QuickActionData(
-        title: 'Buscar juegos por edad',
-        subtitle: 'Busca los juegos adecuados según la edad de tu hijo',
+        title: _t(
+          context,
+          es: 'Buscar juegos por edad',
+          gl: 'Buscar xogos por idade',
+          en: 'Find games by age',
+        ),
+        subtitle: _t(
+          context,
+          es: 'Busca los juegos adecuados según la edad de tu hijo',
+          gl: 'Busca os xogos axeitados segundo a idade do teu fillo',
+          en: 'Find games that fit your child\'s age',
+        ),
         icon: Icons.visibility_outlined,
         tint: const Color(0xFF22C1DC),
-        onTap: () => _navigateTo(context, const GamesSearchScreen()),
+        onTap: () => _navigateTo(
+          context,
+          const GamesSearchScreen(),
+          section: AppSection.videojuegos,
+        ),
       ),
       _QuickActionData(
-        title: 'Busca términos en el diccionario',
-        subtitle:
-            'Descubre qué significan las palabras que usa tu hijo cuando juega',
+        title: _t(
+          context,
+          es: 'Busca términos en el diccionario',
+          gl: 'Busca termos no dicionario',
+          en: 'Search dictionary terms',
+        ),
+        subtitle: _t(
+          context,
+          es: 'Descubre qué significan las palabras que usa tu hijo cuando juega',
+          gl: 'Descubre que significan as palabras que usa o teu fillo cando xoga',
+          en: 'Discover what the words your child uses while gaming mean',
+        ),
         icon: Icons.translate_outlined,
         tint: const Color(0xFFA855F7),
-        onTap: () => _navigateTo(context, const DictionaryListScreen()),
+        onTap: () => _navigateTo(
+          context,
+          const DictionaryListScreen(),
+          section: AppSection.diccionario,
+        ),
       ),
       _QuickActionData(
-        title: 'Configurar Control Parental',
-        subtitle: 'Configura los límites de edad y uso según la plataforma',
+        title: _t(
+          context,
+          es: 'Configurar Control Parental',
+          gl: 'Configurar Control Parental',
+          en: 'Set up Parental Controls',
+        ),
+        subtitle: _t(
+          context,
+          es: 'Configura los límites de edad y uso según la plataforma',
+          gl: 'Configura os límites de idade e uso segundo a plataforma',
+          en: 'Set age and usage limits based on the platform',
+        ),
         icon: Icons.tune_outlined,
         tint: const Color(0xFF0EA5E9),
-        onTap: () => _navigateTo(context, const ParentalGuidesListScreen()),
+        onTap: () => _navigateTo(
+          context,
+          const ParentalGuidesListScreen(),
+          section: AppSection.controlParental,
+        ),
       ),
     ];
 
@@ -400,10 +488,10 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.all(18),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(18),
-            border: Border.all(color: theme.dividerColor.withOpacity(0.35)),
+            border: Border.all(color: theme.dividerColor.withValues(alpha: 0.35)),
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFF0B1020).withOpacity(0.03),
+                color: const Color(0xFF0B1020).withValues(alpha: 0.03),
                 blurRadius: 16,
                 offset: const Offset(0, 8),
               ),
@@ -417,7 +505,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 width: 38,
                 height: 38,
                 decoration: BoxDecoration(
-                  color: action.tint.withOpacity(0.12),
+                  color: action.tint.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(action.icon, color: action.tint, size: 21),
@@ -490,7 +578,7 @@ class _HomeScreenState extends State<HomeScreen> {
       decoration: BoxDecoration(
         color: theme.cardColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: theme.dividerColor.withOpacity(0.35)),
+        border: Border.all(color: theme.dividerColor.withValues(alpha: 0.35)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -498,9 +586,14 @@ class _HomeScreenState extends State<HomeScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'Juego de la semana',
-                style: TextStyle(fontSize: 21, fontWeight: FontWeight.w800),
+              Text(
+                _t(
+                  context,
+                  es: 'Juego de la semana',
+                  gl: 'Xogo da semana',
+                  en: 'Game of the week',
+                ),
+                style: const TextStyle(fontSize: 21, fontWeight: FontWeight.w800),
               ),
               TextButton(
                 onPressed: () async {
@@ -508,9 +601,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       Provider.of<GamesProvider>(context, listen: false);
                   await gamesProvider.loadCurrentMonthGames();
                   if (!context.mounted) return;
-                  _navigateTo(context, const GamesSearchScreen());
+                  _navigateTo(
+                    context,
+                    const GamesSearchScreen(),
+                    section: AppSection.videojuegos,
+                  );
                 },
-                child: const Text('Ver los juegos del mes'),
+                child: Text(
+                  _t(
+                    context,
+                    es: 'Ver los juegos del mes',
+                    gl: 'Ver os xogos do mes',
+                    en: 'See this month\'s games',
+                  ),
+                ),
               ),
             ],
           ),
@@ -527,7 +631,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFF0B1020).withOpacity(0.16),
+                  color: const Color(0xFF0B1020).withValues(alpha: 0.16),
                   blurRadius: 20,
                   offset: const Offset(0, 12),
                 ),
@@ -545,7 +649,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       shape: BoxShape.circle,
                       gradient: RadialGradient(
                         colors: [
-                          AppConfig.primaryColor.withOpacity(0.22),
+                          AppConfig.primaryColor.withValues(alpha: 0.22),
                           Colors.transparent
                         ],
                       ),
@@ -559,9 +663,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
-                        _buildGameTopLabel(featuredGame),
+                        _buildGameTopLabel(context, featuredGame),
                         style: TextStyle(
-                          color: Colors.white.withOpacity(0.8),
+                          color: Colors.white.withValues(alpha: 0.8),
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
                         ),
@@ -578,9 +682,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        _buildGameSummary(featuredGame),
+                        _buildGameSummary(context, featuredGame),
                         style: TextStyle(
-                          color: Colors.white.withOpacity(0.72),
+                          color: Colors.white.withValues(alpha: 0.72),
                           height: 1.45,
                           fontSize: 14,
                         ),
@@ -589,6 +693,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       ElevatedButton(
                         onPressed: () {
                           if (featuredGame != null) {
+                            PersistentFrameScope.setSection(
+                              context,
+                              AppSection.videojuegos,
+                            );
                             _navigateTo(
                               context,
                               GameDetailScreen(
@@ -598,7 +706,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             );
                             return;
                           }
-                          _navigateTo(context, const GamesSearchScreen());
+                          _navigateTo(
+                            context,
+                            const GamesSearchScreen(),
+                            section: AppSection.videojuegos,
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
@@ -606,7 +718,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 18, vertical: 12),
                         ),
-                        child: const Text('Análisis completo'),
+                        child: Text(
+                          _t(
+                            context,
+                            es: 'Análisis completo',
+                            gl: 'Análise completo',
+                            en: 'Full analysis',
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -630,14 +749,19 @@ class _HomeScreenState extends State<HomeScreen> {
       decoration: BoxDecoration(
         color: theme.cardColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: theme.dividerColor.withOpacity(0.35)),
+        border: Border.all(color: theme.dividerColor.withValues(alpha: 0.35)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Últimas actualizaciones',
-            style: TextStyle(fontSize: 21, fontWeight: FontWeight.w800),
+          Text(
+            _t(
+              context,
+              es: 'Últimas actualizaciones',
+              gl: 'Últimas actualizacións',
+              en: 'Latest updates',
+            ),
+            style: const TextStyle(fontSize: 21, fontWeight: FontWeight.w800),
           ),
           const SizedBox(height: 16),
           StreamBuilder<List<ForumPost>>(
@@ -690,9 +814,16 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () => _navigateTo(context, const ForumListScreen()),
             style: OutlinedButton.styleFrom(
               minimumSize: const Size.fromHeight(46),
-              side: BorderSide(color: theme.dividerColor.withOpacity(0.5)),
+              side: BorderSide(color: theme.dividerColor.withValues(alpha: 0.5)),
             ),
-            child: const Text('Accede a la comunidad'),
+            child: Text(
+              _t(
+                context,
+                es: 'Accede a la comunidad',
+                gl: 'Accede á comunidade',
+                en: 'Go to the community',
+              ),
+            ),
           ),
         ],
       ),
@@ -708,9 +839,9 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: theme.colorScheme.surface.withOpacity(0.7),
+          color: theme.colorScheme.surface.withValues(alpha: 0.7),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: theme.dividerColor.withOpacity(0.35)),
+          border: Border.all(color: theme.dividerColor.withValues(alpha: 0.35)),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -719,7 +850,7 @@ class _HomeScreenState extends State<HomeScreen> {
               width: 46,
               height: 46,
               decoration: BoxDecoration(
-                color: item.tint.withOpacity(0.12),
+                color: item.tint.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(item.icon, color: item.tint, size: 22),
@@ -816,43 +947,59 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  void _navigateTo(BuildContext context, Widget screen) {
+  void _navigateTo(
+    BuildContext context,
+    Widget screen, {
+    AppSection? section,
+  }) {
+    if (section != null) {
+      PersistentFrameScope.setSection(context, section);
+    }
     Navigator.of(context).push(
       MaterialPageRoute(builder: (_) => screen),
     );
   }
 
-  String _buildGameSummary(Game? game) {
+  String _buildGameSummary(BuildContext context, Game? game) {
     if (game == null) {
-      return 'No hay juego destacado esta semana. Consulta los juegos del mes para ver las novedades.';
+      return _t(
+        context,
+        es: 'No hay juego destacado esta semana. Consulta los juegos del mes para ver las novedades.',
+        gl: 'Non hai un xogo destacado esta semana. Consulta os xogos do mes para ver as novidades.',
+        en: 'There is no featured game this week. Check this month\'s games to see the latest releases.',
+      );
     }
 
     final released = game.released != null && game.released!.isNotEmpty
-        ? 'Salida: ${game.released}'
-        : 'Salida: no disponible';
+        ? _t(context, es: 'Salida: ${game.released}', gl: 'Saída: ${game.released}', en: 'Released: ${game.released}')
+        : _t(context, es: 'Salida: no disponible', gl: 'Saída: non dispoñible', en: 'Released: unavailable');
     final rating = game.rating > 0
-        ? 'Rating: ${game.rating.toStringAsFixed(1)}'
-        : 'Rating: sin datos';
-    final genre = game.genres.isNotEmpty ? game.genres.first : 'Sin género';
+        ? _t(context, es: 'Rating: ${game.rating.toStringAsFixed(1)}', gl: 'Valoración: ${game.rating.toStringAsFixed(1)}', en: 'Rating: ${game.rating.toStringAsFixed(1)}')
+        : _t(context, es: 'Rating: sin datos', gl: 'Valoración: sen datos', en: 'Rating: no data');
+    final genre = game.genres.isNotEmpty
+        ? game.genres.first
+        : _t(context, es: 'Sin género', gl: 'Sen xénero', en: 'No genre');
     final ageRating = game.pegiRating != null
         ? 'PEGI ${game.pegiRating}+'
         : (game.esrbRating?.isNotEmpty == true
             ? 'ESRB ${game.esrbRating}'
-            : 'Clasificación pendiente');
-    return 'Género: $genre · $released · $rating · $ageRating';
+            : _t(context, es: 'Clasificación pendiente', gl: 'Clasificación pendente', en: 'Rating pending'));
+    return _t(context, es: 'Género: $genre · $released · $rating · $ageRating', gl: 'Xénero: $genre · $released · $rating · $ageRating', en: 'Genre: $genre · $released · $rating · $ageRating');
   }
 
-  String _buildGameTopLabel(Game? game) {
+  String _buildGameTopLabel(BuildContext context, Game? game) {
     if (game == null) {
-      return 'Selección semanal';
+      return _t(context, es: 'Selección semanal', gl: 'Selección semanal', en: 'Weekly pick');
     }
 
-    final genreText = game.genres.isNotEmpty ? game.genres.first : 'Sin género';
+    final genreText = game.genres.isNotEmpty
+        ? game.genres.first
+        : _t(context, es: 'Sin género', gl: 'Sen xénero', en: 'No genre');
     final ageRating = game.pegiRating != null
         ? 'PEGI ${game.pegiRating}+'
         : (game.esrbRating?.isNotEmpty == true
             ? 'ESRB ${game.esrbRating}'
-            : 'Sin clasificación');
+            : _t(context, es: 'Sin clasificación', gl: 'Sen clasificación', en: 'Unrated'));
 
     return '$ageRating  ·  $genreText';
   }
@@ -877,8 +1024,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }) {
     return _CommunityUpdateItem(
       title: title,
-      subtitle: latest?.title ?? 'Sin novedades recientes en esta sección.',
-      meta: latest != null ? 'Hilo actualizado recientemente' : 'Comunidad',
+      subtitle: latest?.title ?? _t(context, es: 'Sin novedades recientes en esta sección.', gl: 'Sen novidades recentes nesta sección.', en: 'No recent updates in this section.'),
+      meta: latest != null ? _t(context, es: 'Hilo actualizado recientemente', gl: 'Fío actualizado recentemente', en: 'Thread updated recently') : _t(context, es: 'Comunidad', gl: 'Comunidade', en: 'Community'),
       icon: icon,
       tint: tint,
       onTap: () =>
@@ -886,21 +1033,41 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  String _getCommunityLevel(UserModel? user, int? messagesCount) {
+  String _t(
+    BuildContext context, {
+    required String es,
+    required String gl,
+    required String en,
+  }) {
+    switch (Localizations.localeOf(context).languageCode) {
+      case 'gl':
+        return gl;
+      case 'en':
+        return en;
+      default:
+        return es;
+    }
+  }
+
+  String _getCommunityLevel(
+    BuildContext context,
+    UserModel? user,
+    int? messagesCount,
+  ) {
     if (user?.isAdmin ?? false) {
-      return 'Administrador';
+      return _t(context, es: 'Administrador', gl: 'Administrador', en: 'Administrator');
     }
     if (user?.isModerator ?? false) {
-      return 'Moderador';
+      return _t(context, es: 'Moderador', gl: 'Moderador', en: 'Moderator');
     }
 
     if (messagesCount == null) {
-      return 'Cargando...';
+      return _t(context, es: 'Cargando...', gl: 'Cargando...', en: 'Loading...');
     }
 
     // Sube 1 nivel por cada 10 mensajes en la comunidad.
     final level = 1 + (messagesCount / 10).floor();
-    return 'Nivel $level';
+    return _t(context, es: 'Nivel $level', gl: 'Nivel $level', en: 'Level $level');
   }
 }
 

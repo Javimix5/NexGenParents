@@ -1,0 +1,79 @@
+{
+    "@@locale": "en",
+    "appName": "NexGen Parents",
+    "loading": "Loading {appName}...",
+    "@loading": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+
+    "classificationSystemsTitle": "Classification Systems",
+    "pegiInfoSubtitle": "Learn to interpret PEGI and ESRB to choose age-appropriate games.",
+    "ageRatingsMeaningTitle": "What do age ratings mean?",
+    "pegiSystemEuropa": "PEGI System (Europe)",
+    "esrbSystemUsa": "ESRB System (USA)",
+    "esrbApiNote": "This is the system that usually appears in the video game API we use.",
+    "pegiContentDescriptorsTitle": "PEGI Content Descriptors",
+    "pegiContentDescriptorsSubtitle": "In addition to age, ratings include icons that indicate the type of content:",
+    "contentDescriptorViolence": "Violence",
+    "contentDescriptorFear": "Fear",
+    "contentDescriptorOnline": "Online",
+    "contentDescriptorDiscrimination": "Discrimination",
+    "contentDescriptorDrugs": "Drugs",
+    "contentDescriptorSex": "Sex",
+    "contentDescriptorBadLanguage": "Bad Language",
+    "contentDescriptorGambling": "Gambling",
+
+    "errorInvalidEmail": "The email is not valid",
+    "errorWeakPassword": "The password must have at least 8 characters, an uppercase letter, a lowercase letter and a number",
+    "errorUserNotFound": "No user exists with this email",
+    "errorWrongPassword": "The password is incorrect",
+    "errorUserDisabled": "This account has been disabled",
+    "errorEmailInUse": "This email is already registered",
+    "errorEmailInUseRecovery": "This email is already registered. If you only deleted the profile in the database, log in with your previous password to restore it.",
+    "errorDifferentCredential": "This email is already registered with another login method",
+    "errorInvalidCredential": "The credentials are not valid",
+    "errorPopupClosed": "You closed the Google window before completing the login",
+    "errorPopupBlocked": "The browser blocked the Google popup window. Try again",
+    "errorPermissionDenied": "There are no permissions to access the profile in Firestore. Check and deploy firestore.rules.",
+    "errorGeneric": "Unexpected error: {error}",
+    "@errorGeneric": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "errorCreatingUser": "Error creating user",
+    "errorCreatingProfile": "Failed to create user profile",
+    "errorLogin": "Error logging in",
+    "errorLoadingProfile": "Failed to load user profile",
+    "successUserRegistered": "User registered successfully",
+    "successLogin": "Login successful",
+    "successLoginGoogle": "Successfully logged in with Google",
+    "successPasswordReset": "Recovery email sent. Check your inbox",
+
+    "guideTypeEnable": "Enable Guide",
+    "guideTypeDisable": "Disable Guide",
+    "guideTypeApp": "App Guide",
+    "guideTypeTime": "Time Guide",
+    "guideTypeDefault": "Default Guide",
+    "psEnableGuideTitle": "How to enable parental guide",
+    "psEnableGuideDescription": "Follow these steps to enable parental guide on your device.",
+    "psEnableGuideStep1": "Open the settings application.",
+    "psEnableGuideStep2": "Select 'Parental Controls'.",
+    "psEnableGuideStep3": "Enable the parental guide option.",
+    "psEnableGuideStep4": "Configure restrictions according to your needs.",
+    "psEnableGuideStep5": "Save changes.",
+    "psEnableGuideStep6": "Verify that the guide is active.",
+    "psDisableGuideTitle": "How to disable parental guide",
+    "psDisableGuideDescription": "Follow these steps to disable parental guide on your device.",
+    "psDisableGuideStep1": "Open the settings application.",
+    "psDisableGuideStep2": "Select 'Parental Controls'.",
+    "psDisableGuideStep3": "Disable the parental guide option.",
+    "psDisableGuideStep4": "Save changes.",
+    "psDisableGuideStep5": "Verify that the guide is disabled."
+}

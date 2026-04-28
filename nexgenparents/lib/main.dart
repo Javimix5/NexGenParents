@@ -15,6 +15,7 @@ import 'providers/locale_provider.dart';
 import 'providers/theme_provider.dart';
 import 'screens/auth/login_screen.dart';
 import 'screens/home/home_screen.dart';
+import 'widgets/common/persistent_frame.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,6 +30,9 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
+  static final GlobalKey<NavigatorState> appNavigatorKey =
+      GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +50,7 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             title: AppConfig.appName,
             debugShowCheckedModeBanner: false,
+            navigatorKey: appNavigatorKey,
 
             // --- Configuración de Tema ---
             theme: AppTheme.lightTheme,
@@ -65,12 +70,20 @@ class MyApp extends StatelessWidget {
 
             builder: (context, child) {
               final content = child ?? const SizedBox.shrink();
+              final authProvider = Provider.of<AuthProvider>(context);
+              final frameAwareContent =
+                  authProvider.isAuthenticated && !authProvider.isLoading
+                      ? PersistentFrame(
+                          navigatorKey: appNavigatorKey,
+                          child: content,
+                        )
+                      : content;
 
               return LayoutBuilder(
                 builder: (context, constraints) {
                   // Vista móvil/tablet
                   if (constraints.maxWidth < 1200) {
-                    return content;
+                    return frameAwareContent;
                   }
 
                   // Vista de escritorio centrada
@@ -83,7 +96,7 @@ class MyApp extends StatelessWidget {
                           constraints: const BoxConstraints(maxWidth: 1200),
                           child: Material(
                             elevation: 16,
-                            child: content,
+                            child: frameAwareContent,
                           ),
                         ),
                         const Expanded(child: SizedBox()),

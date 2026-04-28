@@ -37,5 +37,6 @@ class L10n {
   static final all = [
     const Locale('es'),
     const Locale('gl'),
+    const Locale('en'),
   ];
 }

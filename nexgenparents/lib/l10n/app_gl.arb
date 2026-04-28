@@ -1,6 +1,9 @@
 {
     "@@locale": "gl",
     "appName": "NexGen Parents",
+    "@appName": {
+        "description": "Nome da aplicación"
+    },
     "loading": "Cargando {appName}...",
     "classificationSystemsTitle": "Sistemas de Clasificación",
     "pegiInfoSubtitle": "Aprende a interpretar PEGI e ESRB para elixir xogos axeitados para cada idade.",
@@ -39,5 +42,31 @@
     "successUserRegistered": "Usuario rexistrado correctamente",
     "successLogin": "Sesión iniciada correctamente",
     "successLoginGoogle": "Sesión iniciada correctamente con Google",
-    "successPasswordReset": "Correo de recuperación enviado. Revisa a túa bandexa de entrada"
+    "@successLoginGoogle": {
+        "description": "Mensaxe de éxito ao iniciar sesión con Google"
+    },
+    "successPasswordReset": "Correo de recuperación enviado. Revisa a túa bandexa de entrada",
+    "guideTypeEnable": "Habilitar guía",
+    "guideTypeDisable": "Deshabilitar guía",
+    "guideTypeApp": "Guía de aplicacións",
+    "guideTypeTime": "Guía de tempo",
+    "guideTypeDefault": "Guía por defecto",
+    "psEnableGuideTitle": "Como habilitar a guía parental",
+    "psEnableGuideDescription": "Sigue estes pasos para habilitar a guía parental no teu dispositivo.",
+    "psEnableGuideStep1": "Abre a aplicación de configuración.",
+    "psEnableGuideStep2": "Selecciona 'Controis parentais'.",
+    "psEnableGuideStep3": "Activa a opción de guía parental.",
+    "psEnableGuideStep4": "Configura as restricións segundo as túas necesidades.",
+    "psEnableGuideStep5": "Garda os cambios.",
+    "psEnableGuideStep6": "Verifica que a guía estea activa.",
+    "psDisableGuideTitle": "Como deshabilitar a guía parental",
+    "psDisableGuideDescription": "Sigue estes pasos para deshabilitar a guía parental no teu dispositivo.",
+    "psDisableGuideStep1": "Abre a aplicación de configuración.",
+    "psDisableGuideStep2": "Selecciona 'Controis parentais'.",
+    "psDisableGuideStep3": "Desactiva a opción de guía parental.",
+    "psDisableGuideStep4": "Garda os cambios.",
+    "psDisableGuideStep5": "Verifica que a guía estea desactivada.",
+    "@successPasswordReset": {
+        "description": "Mensaxe de éxito ao recuperar o contrasinal"
+    }
 }

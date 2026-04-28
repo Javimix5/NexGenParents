@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../l10n/app_localizations.dart';
 
 /// La barra de navegación inferior (footer) para la aplicación.
 /// Gestiona la navegación entre las secciones principales.
@@ -41,24 +40,22 @@ class CustomBottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-
     return BottomNavigationBar(
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: const Icon(Icons.home_outlined),
           activeIcon: const Icon(Icons.home),
-          label: l10n.navBarHome,
+          label: 'Home',
         ),
         BottomNavigationBarItem(
           icon: const Icon(Icons.search_outlined),
           activeIcon: const Icon(Icons.search),
-          label: l10n.navBarSearch,
+          label: 'Search',
         ),
         BottomNavigationBarItem(
           icon: const Icon(Icons.menu_book_outlined),
           activeIcon: const Icon(Icons.menu_book),
-          label: l10n.navBarGuides,
+          label: 'Guides',
         ),
       ],
       currentIndex: _getSelectedIndex(context),

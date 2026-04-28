@@ -17,7 +17,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get classificationSystemsTitle => 'Rating Systems';
+  String get classificationSystemsTitle => 'Classification Systems';
 
   @override
   String get pegiInfoSubtitle =>
@@ -41,7 +41,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pegiContentDescriptorsSubtitle =>
-      'In addition to age, ratings include icons indicating the type of content:';
+      'In addition to age, ratings include icons that indicate the type of content:';
 
   @override
   String get contentDescriptorViolence => 'Violence';
@@ -72,13 +72,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorWeakPassword =>
-      'Password must be at least 8 characters long, with one uppercase, one lowercase, and one number';
+      'The password must have at least 8 characters, an uppercase letter, a lowercase letter and a number';
 
   @override
-  String get errorUserNotFound => 'No user found with this email';
+  String get errorUserNotFound => 'No user exists with this email';
 
   @override
-  String get errorWrongPassword => 'Incorrect password';
+  String get errorWrongPassword => 'The password is incorrect';
 
   @override
   String get errorUserDisabled => 'This account has been disabled';
@@ -88,26 +88,26 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorEmailInUseRecovery =>
-      'This email is already registered. If you only deleted the database profile, log in with your old password to restore it.';
+      'This email is already registered. If you only deleted the profile in the database, log in with your previous password to restore it.';
 
   @override
   String get errorDifferentCredential =>
-      'This email is already registered with another sign-in method';
+      'This email is already registered with another login method';
 
   @override
   String get errorInvalidCredential => 'The credentials are not valid';
 
   @override
   String get errorPopupClosed =>
-      'You closed the Google window before completing the sign-in';
+      'You closed the Google window before completing the login';
 
   @override
   String get errorPopupBlocked =>
-      'The browser blocked the Google pop-up. Please try again';
+      'The browser blocked the Google popup window. Try again';
 
   @override
   String get errorPermissionDenied =>
-      'Permission denied to access the profile in Firestore. Please review and deploy firestore.rules.';
+      'There are no permissions to access the profile in Firestore. Check and deploy firestore.rules.';
 
   @override
   String errorGeneric(String error) {
@@ -118,122 +118,86 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorCreatingUser => 'Error creating user';
 
   @override
-  String get errorCreatingProfile => 'Could not create user profile';
+  String get errorCreatingProfile => 'Failed to create user profile';
 
   @override
-  String get errorLogin => 'Error signing in';
+  String get errorLogin => 'Error logging in';
 
   @override
-  String get errorLoadingProfile => 'Could not load user profile';
+  String get errorLoadingProfile => 'Failed to load user profile';
 
   @override
   String get successUserRegistered => 'User registered successfully';
 
   @override
-  String get successLogin => 'Logged in successfully';
+  String get successLogin => 'Login successful';
 
   @override
-  String get successLoginGoogle => 'Logged in successfully with Google';
+  String get successLoginGoogle => 'Successfully logged in with Google';
 
   @override
-  String get successPasswordReset =>
-      'Password recovery email sent. Check your inbox';
+  String get successPasswordReset => 'Recovery email sent. Check your inbox';
 
   @override
-  String get psEnableGuideTitle => 'Enable Parental Controls on PlayStation';
+  String get guideTypeEnable => 'Enable Guide';
+
+  @override
+  String get guideTypeDisable => 'Disable Guide';
+
+  @override
+  String get guideTypeApp => 'App Guide';
+
+  @override
+  String get guideTypeTime => 'Time Guide';
+
+  @override
+  String get guideTypeDefault => 'Default Guide';
+
+  @override
+  String get psEnableGuideTitle => 'How to enable parental guide';
 
   @override
   String get psEnableGuideDescription =>
-      'Learn how to enable and configure age restrictions, spending limits, and playtime schedules on PlayStation 4 and PlayStation 5.';
+      'Follow these steps to enable parental guide on your device.';
 
   @override
-  String get psEnableGuideStep1 =>
-      'From the home screen, go to "Settings" (toolbox icon in the top right).';
+  String get psEnableGuideStep1 => 'Open the settings application.';
 
   @override
-  String get psEnableGuideStep2 =>
-      'Select "Family and Parental Controls" → "Parental Controls/Family Management".';
+  String get psEnableGuideStep2 => 'Select \'Parental Controls\'.';
 
   @override
-  String get psEnableGuideStep3 => 'Choose the child\'s profile you want to configure.';
+  String get psEnableGuideStep3 => 'Enable the parental guide option.';
 
   @override
   String get psEnableGuideStep4 =>
-      'Set age restrictions for games, movies, and the web browser according to your child\'s age.';
+      'Configure restrictions according to your needs.';
 
   @override
-  String get psEnableGuideStep5 =>
-      'Set monthly spending limits and allowed playtime schedules.';
+  String get psEnableGuideStep5 => 'Save changes.';
 
   @override
-  String get psEnableGuideStep6 =>
-      'Save the changes, and the parental controls will be activated.';
+  String get psEnableGuideStep6 => 'Verify that the guide is active.';
 
   @override
-  String get psDisableGuideTitle => 'Disable Parental Controls on PlayStation';
+  String get psDisableGuideTitle => 'How to disable parental guide';
 
   @override
   String get psDisableGuideDescription =>
-      'Learn how to disable or modify parental control restrictions on PlayStation 4 and PlayStation 5.';
+      'Follow these steps to disable parental guide on your device.';
 
   @override
-  String get psDisableGuideStep1 => 'Go to "Settings" from the home screen.';
+  String get psDisableGuideStep1 => 'Open the settings application.';
 
   @override
-  String get psDisableGuideStep2 => 'Access "Family and Parental Controls".';
+  String get psDisableGuideStep2 => 'Select \'Parental Controls\'.';
 
   @override
-  String get psDisableGuideStep3 => 'Enter the parental control PIN code.';
+  String get psDisableGuideStep3 => 'Disable the parental guide option.';
 
   @override
-  String get psDisableGuideStep4 =>
-      'Select "Disable Restrictions" or modify the settings.';
+  String get psDisableGuideStep4 => 'Save changes.';
 
   @override
-  String get psDisableGuideStep5 => 'Confirm the deactivation and save the changes.';
-
-  @override
-  String get platformPlaystation => 'PlayStation (PS4/PS5)';
-
-  @override
-  String get platformXbox => 'Xbox (Series X/S)';
-
-  @override
-  String get guideTypeEnable => 'Enable';
-
-  @override
-  String get guideTypeDisable => 'Disable';
-
-  @override
-  String get guideTypeApp => 'Enable in App';
-
-  @override
-  String get guideTypeTime => 'Screen Time';
-
-  @override
-  String get guideTypeDefault => 'Guide';
-
-  @override
-  String get platformNintendo => 'Nintendo Switch';
-
-  @override
-  String get platformSteam => 'Steam (PC)';
-
-  @override
-  String get platformAndroid => 'Android';
-
-  @override
-  String get platformIos => 'iOS';
-
-  @override
-  String get profileTooltip => 'User Profile';
-
-  @override
-  String get navBarHome => 'Home';
-
-  @override
-  String get navBarSearch => 'Search';
-
-  @override
-  String get navBarGuides => 'Guides';
+  String get psDisableGuideStep5 => 'Verify that the guide is disabled.';
 }

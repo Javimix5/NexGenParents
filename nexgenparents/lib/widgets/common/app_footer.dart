@@ -27,7 +27,7 @@ class AppFooter extends StatelessWidget {
         builder: (context, constraints) {
           final stacked = constraints.maxWidth < 760;
           final textStyle =
-              TextStyle(color: Colors.white.withOpacity(0.78), fontSize: 13);
+              TextStyle(color: Colors.white.withValues(alpha: 0.78), fontSize: 13);
 
           if (stacked) {
             return Column(
@@ -157,7 +157,7 @@ class AppFooter extends StatelessWidget {
           width: 28,
           height: 28,
           decoration: BoxDecoration(
-            color: AppConfig.primaryColor.withOpacity(0.18),
+            color: AppConfig.primaryColor.withValues(alpha: 0.18),
             borderRadius: BorderRadius.circular(8),
           ),
           child: const Icon(
@@ -190,7 +190,7 @@ class AppFooter extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: TextStyle(color: Colors.white.withOpacity(0.78)),
+        style: TextStyle(color: Colors.white.withValues(alpha: 0.78)),
       ),
     );
   }

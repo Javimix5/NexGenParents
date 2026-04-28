@@ -47,10 +47,10 @@ class AppHeader extends StatelessWidget {
         decoration: BoxDecoration(
           color: const Color(0xFF060617),
           borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: Colors.white.withOpacity(0.08)),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFF060617).withOpacity(0.26),
+              color: const Color(0xFF060617).withValues(alpha: 0.26),
               blurRadius: 20,
               offset: const Offset(0, 10),
             ),
@@ -63,10 +63,10 @@ class AppHeader extends StatelessWidget {
               width: 32,
               height: 32,
               decoration: BoxDecoration(
-                color: AppConfig.primaryColor.withOpacity(0.18),
+                color: AppConfig.primaryColor.withValues(alpha: 0.18),
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
-                  color: AppConfig.primaryColor.withOpacity(0.35),
+                  color: AppConfig.primaryColor.withValues(alpha: 0.35),
                 ),
               ),
               child: const Icon(
@@ -90,27 +90,27 @@ class AppHeader extends StatelessWidget {
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
                       _buildNavLink(
-                        'Inicio',
+                        _t(context, es: 'Inicio', gl: 'Inicio', en: 'Home'),
                         activeSection == AppSection.inicio,
                         () => onNavigate(AppSection.inicio),
                       ),
                       _buildNavLink(
-                        'Diccionario',
+                        _t(context, es: 'Diccionario', gl: 'Dicionario', en: 'Dictionary'),
                         activeSection == AppSection.diccionario,
                         () => onNavigate(AppSection.diccionario),
                       ),
                       _buildNavLink(
-                        'Videojuegos',
+                        _t(context, es: 'Videojuegos', gl: 'Videoxogos', en: 'Games'),
                         activeSection == AppSection.videojuegos,
                         () => onNavigate(AppSection.videojuegos),
                       ),
                       _buildNavLink(
-                        'Control Parental',
+                        _t(context, es: 'Control Parental', gl: 'Control Parental', en: 'Parental Controls'),
                         activeSection == AppSection.controlParental,
                         () => onNavigate(AppSection.controlParental),
                       ),
                       _buildNavLink(
-                        'Comunidad',
+                        _t(context, es: 'Comunidad', gl: 'Comunidade', en: 'Community'),
                         activeSection == AppSection.comunidad,
                         () => onNavigate(AppSection.comunidad),
                       ),
@@ -127,18 +127,18 @@ class AppHeader extends StatelessWidget {
                 style: const TextStyle(color: Colors.white, fontSize: 14),
                 decoration: InputDecoration(
                   isDense: true,
-                  hintText: 'Buscar...',
+                  hintText: _t(context, es: 'Buscar...', gl: 'Buscar...', en: 'Search...'),
                   hintStyle: TextStyle(
-                    color: Colors.white.withOpacity(0.45),
+                    color: Colors.white.withValues(alpha: 0.45),
                     fontSize: 14,
                   ),
                   prefixIcon: Icon(
                     Icons.search,
                     size: 18,
-                    color: Colors.white.withOpacity(0.55),
+                    color: Colors.white.withValues(alpha: 0.55),
                   ),
                   filled: true,
-                  fillColor: Colors.white.withOpacity(0.05),
+                  fillColor: Colors.white.withValues(alpha: 0.05),
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 14,
                     vertical: 12,
@@ -146,19 +146,19 @@ class AppHeader extends StatelessWidget {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
                     borderSide: BorderSide(
-                      color: Colors.white.withOpacity(0.08),
+                      color: Colors.white.withValues(alpha: 0.08),
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
                     borderSide: BorderSide(
-                      color: Colors.white.withOpacity(0.08),
+                      color: Colors.white.withValues(alpha: 0.08),
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
                     borderSide: BorderSide(
-                      color: AppConfig.primaryColor.withOpacity(0.8),
+                      color: AppConfig.primaryColor.withValues(alpha: 0.8),
                     ),
                   ),
                 ),
@@ -179,47 +179,54 @@ class AppHeader extends StatelessWidget {
               child: _buildGaliciaFlag(),
             ),
             const SizedBox(width: 8),
+            _buildLocaleButton(
+              tooltip: 'English',
+              onTap: () => localeProvider.setLocale(const Locale('en')),
+              active: currentLanguage == 'en',
+              child: _buildUKFlag(),
+            ),
+            const SizedBox(width: 8),
             PopupMenuButton<String>(
               icon: UserAvatar(photoUrl: avatarUrl, size: 38),
               onSelected: onMenuSelected,
               itemBuilder: (context) => [
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: 'profile',
                   child: ListTile(
                     leading: Icon(Icons.person),
-                    title: Text('Editar perfil'),
+                    title: Text(_t(context, es: 'Editar perfil', gl: 'Editar perfil', en: 'Edit profile')),
                   ),
                 ),
                 PopupMenuItem(
                   value: 'my_terms',
                   child: ListTile(
                     leading: const Icon(Icons.article_outlined),
-                    title: const Text('Mis términos propuestos'),
-                    subtitle: Text('$proposedTermsCount términos'),
+                    title: Text(_t(context, es: 'Mis términos propuestos', gl: 'Os meus termos propostos', en: 'My proposed terms')),
+                    subtitle: Text(_t(context, es: '$proposedTermsCount términos', gl: '$proposedTermsCount termos', en: '$proposedTermsCount terms')),
                   ),
                 ),
                 if (isModerator)
-                  const PopupMenuItem(
+                  PopupMenuItem(
                     value: 'moderation',
                     child: ListTile(
                       leading: Icon(Icons.admin_panel_settings),
-                      title: Text('Moderación'),
+                      title: Text(_t(context, es: 'Moderación', gl: 'Moderación', en: 'Moderation')),
                     ),
                   ),
                 if (isAdmin)
-                  const PopupMenuItem(
+                  PopupMenuItem(
                     value: 'users_management',
                     child: ListTile(
                       leading: Icon(Icons.people),
-                      title: Text('Gestión de usuarios'),
+                      title: Text(_t(context, es: 'Gestión de usuarios', gl: 'Xestión de usuarios', en: 'User management')),
                     ),
                   ),
                 const PopupMenuDivider(),
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: 'logout',
                   child: ListTile(
                     leading: Icon(Icons.logout, color: AppConfig.errorColor),
-                    title: Text('Cerrar sesión'),
+                    title: Text(_t(context, es: 'Cerrar sesión', gl: 'Pechar sesión', en: 'Sign out')),
                   ),
                 ),
               ],
@@ -274,9 +281,9 @@ class AppHeader extends StatelessWidget {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(
-              color: active
+                color: active
                   ? const Color(0xFF3BF1E0)
-                  : Colors.white.withOpacity(0.25),
+                  : Colors.white.withValues(alpha: 0.25),
               width: active ? 1.6 : 1,
             ),
           ),
@@ -317,5 +324,61 @@ class AppHeader extends StatelessWidget {
         );
       },
     );
+  }
+
+  Widget _buildUKFlag() {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Stack(
+          children: [
+            const Positioned.fill(child: ColoredBox(color: Color(0xFF012169))),
+            Positioned(
+              top: constraints.maxHeight * 0.4,
+              left: 0,
+              right: 0,
+              height: constraints.maxHeight * 0.2,
+              child: const ColoredBox(color: Colors.white),
+            ),
+            Positioned(
+              left: constraints.maxWidth * 0.4,
+              top: 0,
+              bottom: 0,
+              width: constraints.maxWidth * 0.2,
+              child: const ColoredBox(color: Colors.white),
+            ),
+            Positioned(
+              top: constraints.maxHeight * 0.44,
+              left: 0,
+              right: 0,
+              height: constraints.maxHeight * 0.12,
+              child: const ColoredBox(color: Color(0xFFC8102E)),
+            ),
+            Positioned(
+              left: constraints.maxWidth * 0.44,
+              top: 0,
+              bottom: 0,
+              width: constraints.maxWidth * 0.12,
+              child: const ColoredBox(color: Color(0xFFC8102E)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  String _t(
+    BuildContext context, {
+    required String es,
+    required String gl,
+    required String en,
+  }) {
+    switch (Localizations.localeOf(context).languageCode) {
+      case 'gl':
+        return gl;
+      case 'en':
+        return en;
+      default:
+        return es;
+    }
   }
 }
