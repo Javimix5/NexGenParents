@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.company.nexgenparents"
-    compileSdk = 36
+    compileSdkVersion = 34
     ndkVersion = "28.2.13676358"
 
     compileOptions {
@@ -22,8 +22,8 @@ android {
 
     defaultConfig {
         applicationId = "com.company.nexgenparents"
-        minSdk = flutter.minSdkVersion
-        targetSdk = 36
+        minSdkVersion = 21
+        targetSdkVersion = 34
         versionCode = 1
         versionName = "1.0"
     }
