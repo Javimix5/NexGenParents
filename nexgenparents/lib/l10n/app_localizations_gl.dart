@@ -202,4 +202,173 @@ class AppLocalizationsGl extends AppLocalizations {
 
   @override
   String get psDisableGuideStep5 => 'Verifica que a guía estea desactivada.';
+
+  @override
+  String get xboxGuideTitle => 'Control Parental en Xbox';
+
+  @override
+  String get xboxGuideDescription =>
+      'Configura filtros de contido, restricións de compra e privacidade en Xbox Series X/S e Xbox One mediante a conta familiar de Microsoft.';
+
+  @override
+  String get xboxGuideStep1 =>
+      'Preme o botón Xbox no control e vai a "Perfil e sistema" → "Configuración".';
+
+  @override
+  String get xboxGuideStep2 => 'Selecciona "Conta" → "Familia".';
+
+  @override
+  String get xboxGuideStep3 =>
+      'Elixe a conta do neno e selecciona "Configuración de privacidade e seguridade en liña".';
+
+  @override
+  String get xboxGuideStep4 =>
+      'Configura restricións de contido, comunicación con outros xogadores e compras.';
+
+  @override
+  String get xboxGuideStep5 =>
+      'Confirma os cambios. A configuración aplícase automaticamente ao perfil do neno.';
+
+  @override
+  String get xboxTimeGuideTitle => 'Límites de Tempo de Uso en Xbox';
+
+  @override
+  String get xboxTimeGuideDescription =>
+      'Establece horarios e límites de tempo de xogo diario en Xbox para cada membro da familia desde a app Microsoft Family Safety.';
+
+  @override
+  String get xboxTimeGuideStep1 =>
+      'Descarga e instala a app "Microsoft Family Safety" no teu smartphone. Inicia sesión coa túa conta Microsoft.';
+
+  @override
+  String get xboxTimeGuideStep2 =>
+      'Selecciona o perfil do neno na app e accede a "Tempo de pantalla".';
+
+  @override
+  String get xboxTimeGuideStep3 =>
+      'Activa os límites de tempo e configura cantas horas pode usar Xbox cada día da semana.';
+
+  @override
+  String get xboxTimeGuideStep4 =>
+      'Establece as franxas horarias nas que a consola está dispoñible (por exemplo, só de 17:00 a 20:00).';
+
+  @override
+  String get xboxTimeGuideStep5 =>
+      'Garda a configuración. O neno recibirá avisos antes de que se acabe o seu tempo e necesitará a túa aprobación para pedir máis tempo.';
+
+  @override
+  String get nintendoGuideTitle => 'Control Parental en Nintendo Switch';
+
+  @override
+  String get nintendoGuideDescription =>
+      'Configura o control parental directamente na consola Nintendo Switch para restrinxir contido e establecer límites de idade.';
+
+  @override
+  String get nintendoGuideStep1 =>
+      'Accede a "Configuración da consola" desde o menú principal de Nintendo Switch.';
+
+  @override
+  String get nintendoGuideStep2 =>
+      'Desprázate cara abaixo e selecciona "Control parental".';
+
+  @override
+  String get nintendoGuideStep3 =>
+      'Elixe "Usar smartphone" para vincular a app, ou "Configurar agora" se prefires facelo desde a consola.';
+
+  @override
+  String get nintendoGuideStep4 =>
+      'Selecciona o nivel de restrición de contido segundo a idade do neno.';
+
+  @override
+  String get nintendoGuideStep5 =>
+      'Establece un PIN de 4 díxitos para protexer a configuración. Garda e confirma.';
+
+  @override
+  String get nintendoAppGuideTitle =>
+      'Configurar a App de Control Parental (Nintendo)';
+
+  @override
+  String get nintendoAppGuideDescription =>
+      'Aprende a vincular e configurar a app "Nintendo Switch Parental Controls" no teu smartphone para xestionar remotamente os límites de xogo.';
+
+  @override
+  String get nintendoAppGuideStep1 =>
+      'Descarga a app "Nintendo Switch Parental Controls" no teu smartphone (dispoñible en Android e iOS).';
+
+  @override
+  String get nintendoAppGuideStep2 =>
+      'Abre a app e acepta os termos de uso. Inicia sesión coa túa conta Nintendo ou crea unha nova.';
+
+  @override
+  String get nintendoAppGuideStep3 =>
+      'Na consola, vai a "Configuración" → "Control parental" → "Usar smartphone" e escanea o código QR coa app.';
+
+  @override
+  String get nintendoAppGuideStep4 =>
+      'Asigna un nome ao neno e selecciona o seu grupo de idade para aplicar restricións automáticas.';
+
+  @override
+  String get nintendoAppGuideStep5 =>
+      'Configura o límite de tempo de xogo diario. Podes establecer límites distintos para días de semana e fin de semana.';
+
+  @override
+  String get nintendoAppGuideStep6 =>
+      'Activa a restrición de xogo despois da hora límite e personaliza a mensaxe que verá o neno ao alcanzalo.';
+
+  @override
+  String get nintendoAppGuideStep7 =>
+      'Revisa o resumo mensual de actividade: xogos usados, tempo total e tendencias por día.';
+
+  @override
+  String get nintendoAppGuideStep8 =>
+      'Desde a app podes engadir tempo extra puntualmente ou suspender os límites temporalmente sen tocar a consola.';
+
+  @override
+  String get steamGuideTitle => 'Control Parental en Steam';
+
+  @override
+  String get steamGuideDescription =>
+      'Configura o Modo Familiar de Steam para controlar que xogos poden acceder os teus fillos.';
+
+  @override
+  String get steamGuideStep1 =>
+      'Abre Steam no PC e fai clic en "Steam" (arriba esquerda) → "Configuración".';
+
+  @override
+  String get steamGuideStep2 => 'Selecciona "Familia" no menú lateral.';
+
+  @override
+  String get steamGuideStep3 =>
+      'Activa "Vista Familiar" e establece un PIN de seguridade.';
+
+  @override
+  String get steamGuideStep4 =>
+      'Selecciona manualmente que xogos da túa biblioteca serán visibles no modo familiar.';
+
+  @override
+  String get steamGuideStep5 =>
+      'Os nenos só poderán acceder aos xogos aprobados. Para saír do modo, necesitarán o PIN.';
+
+  @override
+  String get iosGuideTitle => 'Activar Control Parental en iOS (iPhone/iPad)';
+
+  @override
+  String get iosGuideDescription =>
+      'Configura Tempo de uso, contido e privacidade en iPhone/iPad para protexer a menores.';
+
+  @override
+  String get iosGuideStep1 =>
+      'Abre Axustes no iPhone/iPad e entra en "Tempo de uso".';
+
+  @override
+  String get iosGuideStep2 =>
+      'Preme "Activar Tempo de uso" e selecciona "Este é o iPhone do meu fillo".';
+
+  @override
+  String get iosGuideStep3 =>
+      'Define un código de Tempo de uso distinto ao desbloqueo do móbil.';
+
+  @override
+  String get iosGuideStep4 =>
+      'Configura "Tempo de inactividade", "Límites de apps" e "Restricións de contido e privacidade".';
 }
