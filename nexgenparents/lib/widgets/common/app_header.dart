@@ -40,251 +40,405 @@ class AppHeader extends StatelessWidget {
     final localeProvider = context.watch<LocaleProvider>();
     final currentLanguage = localeProvider.locale?.languageCode ?? 'es';
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-      child: Container(
-        height: 58,
-        decoration: BoxDecoration(
-          color: const Color(0xFF060617),
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF060617).withValues(alpha: 0.26),
-              blurRadius: 20,
-              offset: const Offset(0, 10),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            const SizedBox(width: 12),
-            Container(
-              width: 32,
-              height: 32,
-              decoration: BoxDecoration(
-                color: AppConfig.primaryColor.withValues(alpha: 0.18),
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                  color: AppConfig.primaryColor.withValues(alpha: 0.35),
-                ),
-              ),
-              child: const Icon(
-                Icons.videogame_asset_outlined,
-                size: 18,
-                color: Colors.white,
-              ),
-            ),
-            const SizedBox(width: 18),
-            Expanded(
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  final compact = constraints.maxWidth < 760;
-                  if (compact) {
-                    return const SizedBox.shrink();
-                  }
+    return Material(
+      color: Colors.transparent,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final compact = constraints.maxWidth < 1100;
 
-                  return Wrap(
-                    spacing: 18,
-                    runSpacing: 8,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      _buildNavLink(
-                        _t(context, es: 'Inicio', gl: 'Inicio', en: 'Home'),
-                        activeSection == AppSection.inicio,
-                        () => onNavigate(AppSection.inicio),
-                      ),
-                      _buildNavLink(
-                        _t(context, es: 'Diccionario', gl: 'Dicionario', en: 'Dictionary'),
-                        activeSection == AppSection.diccionario,
-                        () => onNavigate(AppSection.diccionario),
-                      ),
-                      _buildNavLink(
-                        _t(context, es: 'Videojuegos', gl: 'Videoxogos', en: 'Games'),
-                        activeSection == AppSection.videojuegos,
-                        () => onNavigate(AppSection.videojuegos),
-                      ),
-                      _buildNavLink(
-                        _t(context, es: 'Control Parental', gl: 'Control Parental', en: 'Parental Controls'),
-                        activeSection == AppSection.controlParental,
-                        () => onNavigate(AppSection.controlParental),
-                      ),
-                      _buildNavLink(
-                        _t(context, es: 'Comunidad', gl: 'Comunidade', en: 'Community'),
-                        activeSection == AppSection.comunidad,
-                        () => onNavigate(AppSection.comunidad),
-                      ),
-                    ],
-                  );
-                },
+            return Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: compact ? 12 : 16,
+                vertical: compact ? 12 : 0,
               ),
-            ),
-            SizedBox(
-              width: 290,
-              child: TextField(
-                textInputAction: TextInputAction.search,
-                onSubmitted: onSearchSubmitted,
-                style: const TextStyle(color: Colors.white, fontSize: 14),
-                decoration: InputDecoration(
-                  isDense: true,
-                  hintText: _t(context, es: 'Buscar...', gl: 'Buscar...', en: 'Search...'),
-                  hintStyle: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.45),
-                    fontSize: 14,
-                  ),
-                  prefixIcon: Icon(
-                    Icons.search,
-                    size: 18,
-                    color: Colors.white.withValues(alpha: 0.55),
-                  ),
-                  filled: true,
-                  fillColor: Colors.white.withValues(alpha: 0.05),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 14,
-                    vertical: 12,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide: BorderSide(
-                      color: Colors.white.withValues(alpha: 0.08),
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide: BorderSide(
-                      color: Colors.white.withValues(alpha: 0.08),
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide: BorderSide(
-                      color: AppConfig.primaryColor.withValues(alpha: 0.8),
-                    ),
-                  ),
+              decoration: BoxDecoration(
+                color: const Color(0xFF060617),
+                borderRadius: BorderRadius.circular(18),
+                border: Border.all(
+                  color: Colors.white.withValues(alpha: 0.08),
                 ),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF060617).withValues(alpha: 0.26),
+                    blurRadius: 20,
+                    offset: const Offset(0, 10),
+                  ),
+                ],
               ),
+              child: compact
+                  ? _buildCompactLayout(context, localeProvider, currentLanguage)
+                  : _buildWideLayout(context, localeProvider, currentLanguage),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  // ──────────────────────────────────────────────
+  // LAYOUT ANCHO (≥ 1100px) — igual que la imagen
+  // ──────────────────────────────────────────────
+  Widget _buildWideLayout(
+    BuildContext context,
+    LocaleProvider localeProvider,
+    String currentLanguage,
+  ) {
+    return SizedBox(
+      height: 58,
+      child: Row(
+        children: [
+          // Logo / Brand
+          _buildBrandMark(),
+          const SizedBox(width: 24),
+
+          // Nav links centrados
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                _buildNavLink(
+                  context,
+                  label: _t(context, es: 'Inicio', gl: 'Inicio', en: 'Home'),
+                  active: activeSection == AppSection.inicio,
+                  onTap: () => onNavigate(AppSection.inicio),
+                ),
+                const SizedBox(width: 4),
+                _buildNavLink(
+                  context,
+                  label: _t(context,
+                      es: 'Diccionario',
+                      gl: 'Dicionario',
+                      en: 'Dictionary'),
+                  active: activeSection == AppSection.diccionario,
+                  onTap: () => onNavigate(AppSection.diccionario),
+                ),
+                const SizedBox(width: 4),
+                _buildNavLink(
+                  context,
+                  label: _t(context,
+                      es: 'Videojuegos',
+                      gl: 'Videoxogos',
+                      en: 'Game Search'),
+                  active: activeSection == AppSection.videojuegos,
+                  onTap: () => onNavigate(AppSection.videojuegos),
+                ),
+                const SizedBox(width: 4),
+                _buildNavLink(
+                  context,
+                  label: _t(context,
+                      es: 'Control Parental',
+                      gl: 'Control Parental',
+                      en: 'Parental Control'),
+                  active: activeSection == AppSection.controlParental,
+                  onTap: () => onNavigate(AppSection.controlParental),
+                ),
+                const SizedBox(width: 4),
+                _buildNavLink(
+                  context,
+                  label: _t(context,
+                      es: 'Comunidad',
+                      gl: 'Comunidade',
+                      en: 'Community'),
+                  active: activeSection == AppSection.comunidad,
+                  onTap: () => onNavigate(AppSection.comunidad),
+                ),
+              ],
             ),
-            const SizedBox(width: 10),
+          ),
+
+          // Buscador
+          _buildSearchField(context),
+          const SizedBox(width: 12),
+
+          // Banderas de idioma
+          _buildLocaleButton(
+            label: 'Español (España)',
+            onTap: () => localeProvider.setLocale(const Locale('es')),
+            active: currentLanguage == 'es',
+            child: _buildSpainFlag(),
+          ),
+          const SizedBox(width: 6),
+          _buildLocaleButton(
+            label: 'Galego',
+            onTap: () => localeProvider.setLocale(const Locale('gl')),
+            active: currentLanguage == 'gl',
+            child: _buildGaliciaFlag(),
+          ),
+          const SizedBox(width: 6),
+          _buildLocaleButton(
+            label: 'English',
+            onTap: () => localeProvider.setLocale(const Locale('en')),
+            active: currentLanguage == 'en',
+            child: _buildUKFlag(),
+          ),
+          const SizedBox(width: 10),
+
+          // ✅ Avatar con menú — directamente _AccountMenuButton
+          _AccountMenuButton(
+            avatarUrl: avatarUrl,
+            proposedTermsCount: proposedTermsCount,
+            isModerator: isModerator,
+            isAdmin: isAdmin,
+            onMenuSelected: onMenuSelected,
+          ),
+          const SizedBox(width: 8),
+        ],
+      ),
+    );
+  }
+
+  // ──────────────────────────────────────────────
+  // LAYOUT COMPACTO (< 1100px)
+  // ──────────────────────────────────────────────
+  Widget _buildCompactLayout(
+    BuildContext context,
+    LocaleProvider localeProvider,
+    String currentLanguage,
+  ) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Row(
+          children: [
+            _buildBrandMark(),
+            const SizedBox(width: 12),
+            Expanded(child: _buildCompactNavMenu(context)),
+            const SizedBox(width: 8),
             _buildLocaleButton(
-              tooltip: 'Español (España)',
+              label: 'Español (España)',
               onTap: () => localeProvider.setLocale(const Locale('es')),
               active: currentLanguage == 'es',
               child: _buildSpainFlag(),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: 6),
             _buildLocaleButton(
-              tooltip: 'Galego',
+              label: 'Galego',
               onTap: () => localeProvider.setLocale(const Locale('gl')),
               active: currentLanguage == 'gl',
               child: _buildGaliciaFlag(),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: 6),
             _buildLocaleButton(
-              tooltip: 'English',
+              label: 'English',
               onTap: () => localeProvider.setLocale(const Locale('en')),
               active: currentLanguage == 'en',
               child: _buildUKFlag(),
             ),
             const SizedBox(width: 8),
-            PopupMenuButton<String>(
-              icon: UserAvatar(photoUrl: avatarUrl, size: 38),
-              onSelected: onMenuSelected,
-              itemBuilder: (context) => [
-                PopupMenuItem(
-                  value: 'profile',
-                  child: ListTile(
-                    leading: Icon(Icons.person),
-                    title: Text(_t(context, es: 'Editar perfil', gl: 'Editar perfil', en: 'Edit profile')),
-                  ),
-                ),
-                PopupMenuItem(
-                  value: 'my_terms',
-                  child: ListTile(
-                    leading: const Icon(Icons.article_outlined),
-                    title: Text(_t(context, es: 'Mis términos propuestos', gl: 'Os meus termos propostos', en: 'My proposed terms')),
-                    subtitle: Text(_t(context, es: '$proposedTermsCount términos', gl: '$proposedTermsCount termos', en: '$proposedTermsCount terms')),
-                  ),
-                ),
-                if (isModerator)
-                  PopupMenuItem(
-                    value: 'moderation',
-                    child: ListTile(
-                      leading: Icon(Icons.admin_panel_settings),
-                      title: Text(_t(context, es: 'Moderación', gl: 'Moderación', en: 'Moderation')),
-                    ),
-                  ),
-                if (isAdmin)
-                  PopupMenuItem(
-                    value: 'users_management',
-                    child: ListTile(
-                      leading: Icon(Icons.people),
-                      title: Text(_t(context, es: 'Gestión de usuarios', gl: 'Xestión de usuarios', en: 'User management')),
-                    ),
-                  ),
-                const PopupMenuDivider(),
-                PopupMenuItem(
-                  value: 'logout',
-                  child: ListTile(
-                    leading: Icon(Icons.logout, color: AppConfig.errorColor),
-                    title: Text(_t(context, es: 'Cerrar sesión', gl: 'Pechar sesión', en: 'Sign out')),
-                  ),
-                ),
-              ],
+
+            // ✅ Avatar con menú — directamente _AccountMenuButton
+            _AccountMenuButton(
+              avatarUrl: avatarUrl,
+              proposedTermsCount: proposedTermsCount,
+              isModerator: isModerator,
+              isAdmin: isAdmin,
+              onMenuSelected: onMenuSelected,
             ),
-            const SizedBox(width: 8),
+          ],
+        ),
+        const SizedBox(height: 12),
+        _buildSearchField(context, expanded: true),
+      ],
+    );
+  }
+
+  // ──────────────────────────────────────────────
+  // WIDGETS AUXILIARES
+  // ──────────────────────────────────────────────
+
+  Widget _buildBrandMark() {
+    return Container(
+      width: 38,
+      height: 38,
+      decoration: BoxDecoration(
+        color: AppConfig.primaryColor.withValues(alpha: 0.18),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          color: AppConfig.primaryColor.withValues(alpha: 0.35),
+        ),
+      ),
+      child: const Icon(
+        Icons.videogame_asset_outlined,
+        size: 20,
+        color: Colors.white,
+      ),
+    );
+  }
+
+  /// Nav link con indicador activo (color + subrayado)
+  Widget _buildNavLink(
+    BuildContext context, {
+    required String label,
+    required bool active,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(8),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              label,
+              style: TextStyle(
+                // ✅ Color cambia según sección activa
+                color: active
+                    ? const Color(0xFF3BF1E0)
+                    : const Color(0xFFCBD5E1),
+                fontSize: 13.5,
+                fontWeight:
+                    active ? FontWeight.w700 : FontWeight.w500,
+                letterSpacing: active ? 0.2 : 0,
+              ),
+            ),
+            const SizedBox(height: 2),
+            // ✅ Subrayado animado bajo el link activo
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              height: 2,
+              width: active ? 24 : 0,
+              decoration: BoxDecoration(
+                color: const Color(0xFF3BF1E0),
+                borderRadius: BorderRadius.circular(999),
+                boxShadow: active
+                    ? [
+                        const BoxShadow(
+                          color: Color(0xFF3BF1E0),
+                          blurRadius: 6,
+                        )
+                      ]
+                    : null,
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildNavLink(String label, bool active, VoidCallback onTap) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(999),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-        child: Text(
-          label,
-          style: TextStyle(
-            color: active ? const Color(0xFF3BF1E0) : const Color(0xFFE7E7E7),
+  Widget _buildSearchField(BuildContext context, {bool expanded = false}) {
+    return SizedBox(
+      width: expanded ? double.infinity : 220,
+      child: TextField(
+        textInputAction: TextInputAction.search,
+        onSubmitted: onSearchSubmitted,
+        style: const TextStyle(color: Colors.white, fontSize: 13),
+        decoration: InputDecoration(
+          isDense: true,
+          hintText:
+              _t(context, es: 'Buscar...', gl: 'Buscar...', en: 'Search forum...'),
+          hintStyle: TextStyle(
+            color: Colors.white.withValues(alpha: 0.35),
             fontSize: 13,
-            fontWeight: active ? FontWeight.w700 : FontWeight.w500,
-            shadows: active
-                ? const [
-                    Shadow(
-                      color: Color(0xFF68409F),
-                      blurRadius: 8,
-                    ),
-                  ]
-                : null,
+          ),
+          prefixIcon: Icon(
+            Icons.search,
+            size: 17,
+            color: Colors.white.withValues(alpha: 0.45),
+          ),
+          filled: true,
+          fillColor: Colors.white.withValues(alpha: 0.05),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide:
+                BorderSide(color: Colors.white.withValues(alpha: 0.08)),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide:
+                BorderSide(color: Colors.white.withValues(alpha: 0.08)),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(
+              color: AppConfig.primaryColor.withValues(alpha: 0.8),
+            ),
           ),
         ),
       ),
     );
   }
 
+  Widget _buildCompactNavMenu(BuildContext context) {
+    return PopupMenuButton<AppSection>(
+      onSelected: onNavigate,
+      itemBuilder: (context) => [
+        PopupMenuItem(
+          value: AppSection.inicio,
+          child: Text(_t(context, es: 'Inicio', gl: 'Inicio', en: 'Home')),
+        ),
+        PopupMenuItem(
+          value: AppSection.diccionario,
+          child: Text(_t(context,
+              es: 'Diccionario', gl: 'Dicionario', en: 'Dictionary')),
+        ),
+        PopupMenuItem(
+          value: AppSection.videojuegos,
+          child: Text(_t(context,
+              es: 'Videojuegos', gl: 'Videoxogos', en: 'Games')),
+        ),
+        PopupMenuItem(
+          value: AppSection.controlParental,
+          child: Text(_t(context,
+              es: 'Control Parental',
+              gl: 'Control Parental',
+              en: 'Parental Controls')),
+        ),
+        PopupMenuItem(
+          value: AppSection.comunidad,
+          child: Text(_t(context,
+              es: 'Comunidad', gl: 'Comunidade', en: 'Community')),
+        ),
+      ],
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.menu, color: Colors.white),
+          const SizedBox(width: 8),
+          Flexible(
+            child: Text(
+              _t(context, es: 'Menú', gl: 'Menú', en: 'Menu'),
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildLocaleButton({
-    required String tooltip,
+    required String label,
     required VoidCallback onTap,
     required bool active,
     required Widget child,
   }) {
-    return Tooltip(
-      message: tooltip,
+    return Semantics(
+      label: label,
+      button: true,
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(999),
         child: Container(
-          width: 32,
-          height: 32,
+          width: 28,
+          height: 28,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(
-                color: active
+              color: active
                   ? const Color(0xFF3BF1E0)
                   : Colors.white.withValues(alpha: 0.25),
-              width: active ? 1.6 : 1,
+              width: active ? 1.8 : 1,
             ),
           ),
           child: ClipOval(child: child),
@@ -294,8 +448,8 @@ class AppHeader extends StatelessWidget {
   }
 
   Widget _buildSpainFlag() {
-    return Column(
-      children: const [
+    return const Column(
+      children: [
         Expanded(child: ColoredBox(color: Color(0xFFAA151B))),
         Expanded(flex: 2, child: ColoredBox(color: Color(0xFFF1BF00))),
         Expanded(child: ColoredBox(color: Color(0xFFAA151B))),
@@ -331,7 +485,8 @@ class AppHeader extends StatelessWidget {
       builder: (context, constraints) {
         return Stack(
           children: [
-            const Positioned.fill(child: ColoredBox(color: Color(0xFF012169))),
+            const Positioned.fill(
+                child: ColoredBox(color: Color(0xFF012169))),
             Positioned(
               top: constraints.maxHeight * 0.4,
               left: 0,
@@ -366,12 +521,154 @@ class AppHeader extends StatelessWidget {
     );
   }
 
-  String _t(
-    BuildContext context, {
-    required String es,
-    required String gl,
-    required String en,
-  }) {
+  String _t(BuildContext context,
+      {required String es, required String gl, required String en}) {
+    switch (Localizations.localeOf(context).languageCode) {
+      case 'gl':
+        return gl;
+      case 'en':
+        return en;
+      default:
+        return es;
+    }
+  }
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+// Widget de menú de cuenta — usa PopupMenuButton (no necesita Overlay manual)
+// ──────────────────────────────────────────────────────────────────────────────
+class _AccountMenuButton extends StatelessWidget {
+  const _AccountMenuButton({
+    required this.avatarUrl,
+    required this.proposedTermsCount,
+    required this.isModerator,
+    required this.isAdmin,
+    required this.onMenuSelected,
+  });
+
+  final String? avatarUrl;
+  final int proposedTermsCount;
+  final bool isModerator;
+  final bool isAdmin;
+  final ValueChanged<String> onMenuSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return PopupMenuButton<String>(
+      onSelected: onMenuSelected,
+      offset: const Offset(0, 46),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+      color: const Color(0xFF1E293B),
+      itemBuilder: _buildItems,
+      // ✅ El child es el avatar visible en el header
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          UserAvatar(photoUrl: avatarUrl, size: 34),
+          const SizedBox(width: 4),
+          const Icon(Icons.keyboard_arrow_down,
+              color: Colors.white54, size: 16),
+        ],
+      ),
+    );
+  }
+
+  List<PopupMenuEntry<String>> _buildItems(BuildContext context) {
+    final items = <PopupMenuEntry<String>>[
+      PopupMenuItem<String>(
+        value: 'profile',
+        child: ListTile(
+          dense: true,
+          leading: const Icon(Icons.person, color: Colors.white70),
+          title: Text(
+            _t(context,
+                es: 'Editar perfil',
+                gl: 'Editar perfil',
+                en: 'Edit profile'),
+            style: const TextStyle(color: Colors.white),
+          ),
+        ),
+      ),
+      PopupMenuItem<String>(
+        value: 'my_terms',
+        child: ListTile(
+          dense: true,
+          leading:
+              const Icon(Icons.article_outlined, color: Colors.white70),
+          title: Text(
+            _t(context,
+                es: 'Mis términos propuestos',
+                gl: 'Os meus termos propostos',
+                en: 'My proposed terms'),
+            style: const TextStyle(color: Colors.white),
+          ),
+          subtitle: Text(
+            _t(context,
+                es: '$proposedTermsCount términos',
+                gl: '$proposedTermsCount termos',
+                en: '$proposedTermsCount terms'),
+            style: const TextStyle(color: Colors.white54, fontSize: 11),
+          ),
+        ),
+      ),
+    ];
+
+    if (isModerator) {
+      items.add(PopupMenuItem<String>(
+        value: 'moderation',
+        child: ListTile(
+          dense: true,
+          leading: const Icon(Icons.admin_panel_settings,
+              color: Colors.white70),
+          title: Text(
+            _t(context,
+                es: 'Moderación', gl: 'Moderación', en: 'Moderation'),
+            style: const TextStyle(color: Colors.white),
+          ),
+        ),
+      ));
+    }
+
+    if (isAdmin) {
+      items.add(PopupMenuItem<String>(
+        value: 'users_management',
+        child: ListTile(
+          dense: true,
+          leading: const Icon(Icons.people, color: Colors.white70),
+          title: Text(
+            _t(context,
+                es: 'Gestión de usuarios',
+                gl: 'Xestión de usuarios',
+                en: 'User management'),
+            style: const TextStyle(color: Colors.white),
+          ),
+        ),
+      ));
+    }
+
+    items.addAll([
+      const PopupMenuDivider(),
+      PopupMenuItem<String>(
+        value: 'logout',
+        child: ListTile(
+          dense: true,
+          leading: const Icon(Icons.logout, color: Color(0xFFEF4444)),
+          title: Text(
+            _t(context,
+                es: 'Cerrar sesión',
+                gl: 'Pechar sesión',
+                en: 'Sign out'),
+            style: const TextStyle(color: Color(0xFFEF4444)),
+          ),
+        ),
+      ),
+    ]);
+
+    return items;
+  }
+
+  String _t(BuildContext context,
+      {required String es, required String gl, required String en}) {
     switch (Localizations.localeOf(context).languageCode) {
       case 'gl':
         return gl;

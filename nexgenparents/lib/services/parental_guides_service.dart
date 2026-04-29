@@ -256,49 +256,34 @@ class ParentalGuidesService {
       id: 'nintendo-app-guide',
       platform: 'nintendo',
       type: 'app',
-      title: l10n.nintendoAppGuideTitle,
-      description: l10n.nintendoAppGuideDescription,
+      title: l10n.nintendoGuideTitle,
+      description: l10n.nintendoGuideDescription,
       iconUrl: _asset('icons/nintendo.png'),
       steps: [
         ParentalGuideStep(
           stepNumber: 1,
-          instruction: l10n.nintendoAppGuideStep1,
+          instruction: l10n.nintendoGuideStep1,
           imageUrl: _asset('control-parental/nintendo/app/ns-App-paso1.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 2,
-          instruction: l10n.nintendoAppGuideStep2,
+          instruction: l10n.nintendoGuideStep2,
           imageUrl: _asset('control-parental/nintendo/app/ns-App-paso2.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 3,
-          instruction: l10n.nintendoAppGuideStep3,
+          instruction: l10n.nintendoGuideStep3,
           imageUrl: _asset('control-parental/nintendo/app/ns-App-paso3.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 4,
-          instruction: l10n.nintendoAppGuideStep4,
+          instruction: l10n.nintendoGuideStep4,
           imageUrl: _asset('control-parental/nintendo/app/ns-App-paso4.webp'),
         ),
         ParentalGuideStep(
           stepNumber: 5,
-          instruction: l10n.nintendoAppGuideStep5,
+          instruction: l10n.nintendoGuideStep5,
           imageUrl: _asset('control-parental/nintendo/app/ns-App-paso5.webp'),
-        ),
-        ParentalGuideStep(
-          stepNumber: 6,
-          instruction: l10n.nintendoAppGuideStep6,
-          imageUrl: _asset('control-parental/nintendo/app/ns-App-paso6.webp'),
-        ),
-        ParentalGuideStep(
-          stepNumber: 7,
-          instruction: l10n.nintendoAppGuideStep7,
-          imageUrl: _asset('control-parental/nintendo/app/ns-App-paso7.webp'),
-        ),
-        ParentalGuideStep(
-          stepNumber: 8,
-          instruction: l10n.nintendoAppGuideStep8,
-          imageUrl: _asset('control-parental/nintendo/app/ns-App-paso8.webp'),
         ),
       ],
     );

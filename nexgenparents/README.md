@@ -55,14 +55,6 @@ cd nexgenparents
 flutter pub get
 ```
 
-### 3. Configurar Firebase
-
-Sigue la [documentación de configuración de Firebase Parental Guides](docs/FIREBASE_PARENTAL_GUIDES_SETUP.md) para:
-- Crear un proyecto en Firebase Console
-- Descargar archivos de configuración (`google-services.json` para Android, `GoogleService-Info.plist` para iOS)
-- Configurar autenticación y Firestore
-- Habilitar las APIs necesarias
-
 ### 4. Ejecutar la aplicación
 
 **En desarrollo:**
@@ -110,7 +102,6 @@ main.dart               # Punto de entrada de la app
 ## Documentación adicional
 
 - [Resumen de arquitectura híbrida](docs/HYBRID_ARCHITECTURE_SUMMARY.md)
-- [Guía de configuración Firebase](docs/FIREBASE_PARENTAL_GUIDES_SETUP.md)
 - [Plan de negocio (EIE)](docs/EIE.md)
 - [Abstract en inglés](docs/ABSTRACT_EN.md)
 

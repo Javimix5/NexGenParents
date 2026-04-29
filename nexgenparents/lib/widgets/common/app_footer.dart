@@ -85,69 +85,59 @@ class AppFooter extends StatelessWidget {
   }
 
   Widget _buildSocialGrid(BuildContext context) {
-    const iconColor = Color(0xFFE7E7E7);
-    const backgroundColor = Color(0xFF475569);
+  const iconColor = Color(0xFFE7E7E7);
+  const backgroundColor = Color(0xFF475569);
 
-    final items = <_SocialItem>[
-      const _SocialItem(
-        name: 'Instagram',
-        icon: Icons.camera_alt_outlined,
-        url: 'https://www.instagram.com',
-      ),
-      const _SocialItem(
-        name: 'Facebook',
-        icon: Icons.facebook,
-        url: 'https://www.facebook.com',
-      ),
-      const _SocialItem(
-        name: 'X',
-        icon: Icons.close,
-        url: 'https://x.com',
-      ),
-      const _SocialItem(
-        name: 'YouTube',
-        icon: Icons.smart_display,
-        url: 'https://www.youtube.com',
-      ),
-      const _SocialItem(
-        name: 'TikTok',
-        icon: Icons.music_note,
-        url: 'https://www.tiktok.com',
-      ),
-      const _SocialItem(
-        name: 'Reddit',
-        icon: Icons.reddit,
-        url: 'https://www.reddit.com',
-      ),
-    ];
+  final items = <_SocialItem>[
+    const _SocialItem(
+      name: 'Instagram',
+      icon: Icons.camera_alt_outlined,
+      url: 'https://www.instagram.com',
+    ),
+    const _SocialItem(
+      name: 'Facebook',
+      icon: Icons.facebook,
+      url: 'https://www.facebook.com',
+    ),
+    const _SocialItem(
+      name: 'X',
+      icon: Icons.close,
+      url: 'https://x.com',
+    ),
+    const _SocialItem(
+      name: 'YouTube',
+      icon: Icons.smart_display,
+      url: 'https://www.youtube.com',
+    ),
+    const _SocialItem(
+      name: 'TikTok',
+      icon: Icons.music_note,
+      url: 'https://www.tiktok.com',
+    ),
+    const _SocialItem(
+      name: 'Reddit',
+      icon: Icons.reddit,
+      url: 'https://www.reddit.com',
+    ),
+  ];
 
-    return SizedBox(
-      width: 132,
-      child: Wrap(
-        spacing: 12,
-        runSpacing: 12,
-        children: [
-          for (final item in items)
-            Tooltip(
-              message: item.name,
-              child: InkWell(
-                onTap: () => _openExternalLink(context, item.url),
-                borderRadius: BorderRadius.circular(999),
-                child: Container(
-                  width: 36,
-                  height: 36,
-                  decoration: const BoxDecoration(
-                    color: backgroundColor,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(item.icon, color: iconColor, size: 18),
-                ),
-              ),
-            ),
-        ],
-      ),
-    );
-  }
+  return SizedBox(
+    width: 132,
+    child: Wrap(
+      spacing: 12,
+      runSpacing: 12,
+      children: [
+        for (final item in items)
+          _SocialButton(
+            item: item,
+            iconColor: iconColor,
+            backgroundColor: backgroundColor,
+            onTap: () => _openExternalLink(context, item.url),
+          ),
+      ],
+    ),
+  );
+}
 
   Widget _buildFooterBrand() {
     return Row(
@@ -219,4 +209,94 @@ class _SocialItem {
   final String name;
   final IconData icon;
   final String url;
+}
+
+/// Widget stateful para mostrar tooltip manual sin necesitar Overlay
+class _SocialButton extends StatefulWidget {
+  const _SocialButton({
+    required this.item,
+    required this.iconColor,
+    required this.backgroundColor,
+    required this.onTap,
+  });
+
+  final _SocialItem item;
+  final Color iconColor;
+  final Color backgroundColor;
+  final VoidCallback onTap;
+
+  @override
+  State<_SocialButton> createState() => _SocialButtonState();
+}
+
+class _SocialButtonState extends State<_SocialButton> {
+  bool _hovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      label: widget.item.name,
+      button: true,
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        onEnter: (_) => setState(() => _hovered = true),
+        onExit: (_) => setState(() => _hovered = false),
+        child: GestureDetector(
+          onTap: widget.onTap,
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              // Botón principal
+              Container(
+                width: 36,
+                height: 36,
+                decoration: BoxDecoration(
+                  color: _hovered
+                      ? widget.backgroundColor.withValues(alpha: 0.7)
+                      : widget.backgroundColor,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  widget.item.icon,
+                  color: widget.iconColor,
+                  size: 18,
+                ),
+              ),
+              // Tooltip manual (sin Overlay)
+              if (_hovered)
+                Positioned(
+                  bottom: 42,
+                  left: -10,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF1E293B),
+                      borderRadius: BorderRadius.circular(6),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.3),
+                          blurRadius: 8,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Text(
+                      widget.item.name,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 11,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

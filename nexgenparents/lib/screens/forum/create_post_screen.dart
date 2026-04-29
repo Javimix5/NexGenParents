@@ -79,7 +79,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               ),
               const SizedBox(height: AppConfig.paddingMedium),
               DropdownButtonFormField<String>(
-                value: _selectedSectionId,
+                initialValue: _selectedSectionId,
                 decoration: const InputDecoration(labelText: 'Sección'),
                 items: [
                   for (final section in ForumSections.all)

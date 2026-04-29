@@ -12,6 +12,8 @@ class UserModel {
   final String? photoUrl;
   final List<int>? childrenBirthYears;
   final List<String>? ownedPlatforms;
+  final int level; // Nivel del usuario basado en publicaciones
+  final int posts; // Número de publicaciones del usuario
 
   UserModel({
     required this.id,
@@ -25,6 +27,8 @@ class UserModel {
     this.photoUrl,
     this.childrenBirthYears,
     this.ownedPlatforms,
+    this.level = 1, // Nivel inicial por defecto
+    this.posts = 0, // Número de publicaciones inicial
   });
 
   static List<int>? _parseChildrenBirthYears(dynamic birthYearsData, dynamic legacyAgesData) {
@@ -62,6 +66,8 @@ class UserModel {
       ownedPlatforms: data['ownedPlatforms'] != null
           ? List<String>.from(data['ownedPlatforms'])
           : null,
+      level: data['level'] ?? 1, // Nivel inicial por defecto
+      posts: data['posts'] ?? 0, // Número de publicaciones inicial
     );
   }
 
@@ -84,6 +90,8 @@ class UserModel {
       ownedPlatforms: map['ownedPlatforms'] != null
           ? List<String>.from(map['ownedPlatforms'])
           : null,
+      level: map['level'] ?? 1, // Nivel inicial por defecto
+      posts: map['posts'] ?? 0, // Número de publicaciones inicial
     );
   }
 
@@ -100,6 +108,8 @@ class UserModel {
       'photoUrl': photoUrl,
       'childrenBirthYears': childrenBirthYears,
       'ownedPlatforms': ownedPlatforms,
+      'level': level,
+      'posts': posts,
     };
   }
 
@@ -116,6 +126,8 @@ class UserModel {
     String? photoUrl,
     List<int>? childrenBirthYears,
     List<String>? ownedPlatforms,
+    int? level,
+    int? posts,
   }) {
     return UserModel(
       id: id ?? this.id,
@@ -129,6 +141,8 @@ class UserModel {
       photoUrl: photoUrl ?? this.photoUrl,
       childrenBirthYears: childrenBirthYears ?? this.childrenBirthYears,
       ownedPlatforms: ownedPlatforms ?? this.ownedPlatforms,
+      level: level ?? this.level,
+      posts: posts ?? this.posts,
     );
   }
 
@@ -136,6 +150,19 @@ class UserModel {
   bool get isModerator => role.toLowerCase() == 'moderator' || role.toLowerCase() == 'admin';
   
   bool get isAdmin => role.toLowerCase() == 'admin';
+
+  // Método para calcular el nivel basado en el número de publicaciones
+  int calculateLevel() {
+    if (isModerator || isAdmin) {
+      return level; // Moderadores y admins mantienen su nivel
+    }
+    return (posts ~/ 10) + 1; // Cada 10 publicaciones, sube un nivel
+  }
+
+  // Método para actualizar el nivel del usuario
+  UserModel updateLevel() {
+    return copyWith(level: calculateLevel());
+  }
 
   @override
   String toString() {

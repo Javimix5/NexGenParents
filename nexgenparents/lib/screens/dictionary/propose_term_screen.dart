@@ -58,7 +58,7 @@ class _ProposeTermScreenState extends State<ProposeTermScreen> {
         context: context,
         barrierDismissible: false,
         builder: (context) => AlertDialog(
-          title: const Row(
+          title: Row(
             children: [
               Icon(Icons.check_circle, color: AppConfig.accentColor, size: 30),
               SizedBox(width: AppConfig.paddingSmall),
@@ -115,7 +115,7 @@ class _ProposeTermScreenState extends State<ProposeTermScreen> {
                   borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
                   border: Border.all(color: AppConfig.primaryColor),
                 ),
-                child: const Row(
+                child: Row(
                   children: [
                     Icon(Icons.lightbulb_outline, color: AppConfig.primaryColor),
                     SizedBox(width: AppConfig.paddingSmall),
@@ -262,7 +262,7 @@ class _ProposeTermScreenState extends State<ProposeTermScreen> {
                   color: AppConfig.warningColor.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
                 ),
-                child: const Row(
+                child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Icon(Icons.info_outline, color: AppConfig.warningColor, size: 20),

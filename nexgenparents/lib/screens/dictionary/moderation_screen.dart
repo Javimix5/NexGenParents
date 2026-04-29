@@ -334,7 +334,7 @@ class _ModerationScreenState extends State<ModerationScreen> {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Row(
+        title: Row(
           children: [
             Icon(Icons.check_circle, color: AppConfig.accentColor),
             SizedBox(width: AppConfig.paddingSmall),
@@ -393,7 +393,7 @@ class _ModerationScreenState extends State<ModerationScreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Row(
+        title: Row(
           children: [
             Icon(Icons.cancel, color: AppConfig.errorColor),
             SizedBox(width: AppConfig.paddingSmall),

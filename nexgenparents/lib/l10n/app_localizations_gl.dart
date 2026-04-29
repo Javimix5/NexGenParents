@@ -204,171 +204,134 @@ class AppLocalizationsGl extends AppLocalizations {
   String get psDisableGuideStep5 => 'Verifica que a guía estea desactivada.';
 
   @override
-  String get xboxGuideTitle => 'Control Parental en Xbox';
-
-  @override
-  String get xboxGuideDescription =>
-      'Configura filtros de contido, restricións de compra e privacidade en Xbox Series X/S e Xbox One mediante a conta familiar de Microsoft.';
-
-  @override
-  String get xboxGuideStep1 =>
-      'Preme o botón Xbox no control e vai a "Perfil e sistema" → "Configuración".';
-
-  @override
-  String get xboxGuideStep2 => 'Selecciona "Conta" → "Familia".';
-
-  @override
-  String get xboxGuideStep3 =>
-      'Elixe a conta do neno e selecciona "Configuración de privacidade e seguridade en liña".';
-
-  @override
-  String get xboxGuideStep4 =>
-      'Configura restricións de contido, comunicación con outros xogadores e compras.';
-
-  @override
-  String get xboxGuideStep5 =>
-      'Confirma os cambios. A configuración aplícase automaticamente ao perfil do neno.';
-
-  @override
-  String get xboxTimeGuideTitle => 'Límites de Tempo de Uso en Xbox';
-
-  @override
-  String get xboxTimeGuideDescription =>
-      'Establece horarios e límites de tempo de xogo diario en Xbox para cada membro da familia desde a app Microsoft Family Safety.';
-
-  @override
-  String get xboxTimeGuideStep1 =>
-      'Descarga e instala a app "Microsoft Family Safety" no teu smartphone. Inicia sesión coa túa conta Microsoft.';
-
-  @override
-  String get xboxTimeGuideStep2 =>
-      'Selecciona o perfil do neno na app e accede a "Tempo de pantalla".';
-
-  @override
-  String get xboxTimeGuideStep3 =>
-      'Activa os límites de tempo e configura cantas horas pode usar Xbox cada día da semana.';
-
-  @override
-  String get xboxTimeGuideStep4 =>
-      'Establece as franxas horarias nas que a consola está dispoñible (por exemplo, só de 17:00 a 20:00).';
-
-  @override
-  String get xboxTimeGuideStep5 =>
-      'Garda a configuración. O neno recibirá avisos antes de que se acabe o seu tempo e necesitará a túa aprobación para pedir máis tempo.';
-
-  @override
-  String get nintendoGuideTitle => 'Control Parental en Nintendo Switch';
-
-  @override
-  String get nintendoGuideDescription =>
-      'Configura o control parental directamente na consola Nintendo Switch para restrinxir contido e establecer límites de idade.';
-
-  @override
-  String get nintendoGuideStep1 =>
-      'Accede a "Configuración da consola" desde o menú principal de Nintendo Switch.';
-
-  @override
-  String get nintendoGuideStep2 =>
-      'Desprázate cara abaixo e selecciona "Control parental".';
-
-  @override
-  String get nintendoGuideStep3 =>
-      'Elixe "Usar smartphone" para vincular a app, ou "Configurar agora" se prefires facelo desde a consola.';
-
-  @override
-  String get nintendoGuideStep4 =>
-      'Selecciona o nivel de restrición de contido segundo a idade do neno.';
-
-  @override
-  String get nintendoGuideStep5 =>
-      'Establece un PIN de 4 díxitos para protexer a configuración. Garda e confirma.';
-
-  @override
-  String get nintendoAppGuideTitle =>
-      'Configurar a App de Control Parental (Nintendo)';
-
-  @override
-  String get nintendoAppGuideDescription =>
-      'Aprende a vincular e configurar a app "Nintendo Switch Parental Controls" no teu smartphone para xestionar remotamente os límites de xogo.';
-
-  @override
-  String get nintendoAppGuideStep1 =>
-      'Descarga a app "Nintendo Switch Parental Controls" no teu smartphone (dispoñible en Android e iOS).';
-
-  @override
-  String get nintendoAppGuideStep2 =>
-      'Abre a app e acepta os termos de uso. Inicia sesión coa túa conta Nintendo ou crea unha nova.';
+  String get nintendoAppGuideStep2 => 'Paso 2: Abre a aplicación de Nintendo.';
 
   @override
   String get nintendoAppGuideStep3 =>
-      'Na consola, vai a "Configuración" → "Control parental" → "Usar smartphone" e escanea o código QR coa app.';
+      'Paso 3: Vai á sección de controis parentais.';
 
   @override
   String get nintendoAppGuideStep4 =>
-      'Asigna un nome ao neno e selecciona o seu grupo de idade para aplicar restricións automáticas.';
+      'Paso 4: Configura as restricións segundo sexa necesario.';
 
   @override
-  String get nintendoAppGuideStep5 =>
-      'Configura o límite de tempo de xogo diario. Podes establecer límites distintos para días de semana e fin de semana.';
+  String get nintendoAppGuideStep5 => 'Paso 5: Garda a configuración.';
 
   @override
-  String get nintendoAppGuideStep6 =>
-      'Activa a restrición de xogo despois da hora límite e personaliza a mensaxe que verá o neno ao alcanzalo.';
+  String get nintendoAppGuideStep6 => 'Paso 6: Vincula a túa conta.';
 
   @override
-  String get nintendoAppGuideStep7 =>
-      'Revisa o resumo mensual de actividade: xogos usados, tempo total e tendencias por día.';
+  String get nintendoAppGuideStep7 => 'Paso 7: Confirma a configuración.';
 
   @override
-  String get nintendoAppGuideStep8 =>
-      'Desde a app podes engadir tempo extra puntualmente ou suspender os límites temporalmente sen tocar a consola.';
+  String get nintendoAppGuideStep8 => 'Paso 8: Proba os controis parentais.';
 
   @override
-  String get steamGuideTitle => 'Control Parental en Steam';
+  String get steamGuideTitle => 'Guía parental de Steam';
 
   @override
   String get steamGuideDescription =>
-      'Configura o Modo Familiar de Steam para controlar que xogos poden acceder os teus fillos.';
+      'Aprende a configurar os controis parentais en Steam.';
 
   @override
-  String get steamGuideStep1 =>
-      'Abre Steam no PC e fai clic en "Steam" (arriba esquerda) → "Configuración".';
+  String get steamGuideStep1 => 'Paso 1: Abre a configuración de Steam.';
 
   @override
-  String get steamGuideStep2 => 'Selecciona "Familia" no menú lateral.';
+  String get steamGuideStep2 => 'Paso 2: Vai á sección Familia.';
 
   @override
-  String get steamGuideStep3 =>
-      'Activa "Vista Familiar" e establece un PIN de seguridade.';
+  String get steamGuideStep3 => 'Paso 3: Habilita a Vista Familiar.';
 
   @override
-  String get steamGuideStep4 =>
-      'Selecciona manualmente que xogos da túa biblioteca serán visibles no modo familiar.';
+  String get steamGuideStep4 => 'Paso 4: Configura un PIN.';
 
   @override
   String get steamGuideStep5 =>
-      'Os nenos só poderán acceder aos xogos aprobados. Para saír do modo, necesitarán o PIN.';
+      'Paso 5: Restringe o contido segundo sexa necesario.';
 
   @override
-  String get iosGuideTitle => 'Activar Control Parental en iOS (iPhone/iPad)';
+  String get iosGuideTitle => 'Guía parental de iOS';
 
   @override
   String get iosGuideDescription =>
-      'Configura Tempo de uso, contido e privacidade en iPhone/iPad para protexer a menores.';
+      'Aprende a configurar os controis parentais en dispositivos iOS.';
 
   @override
-  String get iosGuideStep1 =>
-      'Abre Axustes no iPhone/iPad e entra en "Tempo de uso".';
+  String get iosGuideStep1 => 'Paso 1: Abre Configuración.';
 
   @override
-  String get iosGuideStep2 =>
-      'Preme "Activar Tempo de uso" e selecciona "Este é o iPhone do meu fillo".';
+  String get iosGuideStep2 => 'Paso 2: Vai a Tempo de Pantalla.';
 
   @override
-  String get iosGuideStep3 =>
-      'Define un código de Tempo de uso distinto ao desbloqueo do móbil.';
+  String get iosGuideStep3 => 'Paso 3: Habilita as restricións.';
 
   @override
-  String get iosGuideStep4 =>
-      'Configura "Tempo de inactividade", "Límites de apps" e "Restricións de contido e privacidade".';
+  String get iosGuideStep4 => 'Paso 4: Configura un código de acceso.';
+
+  @override
+  String get xboxGuideTitle => 'Guía parental de Xbox';
+
+  @override
+  String get xboxGuideDescription =>
+      'Aprende a configurar os controis parentais en Xbox.';
+
+  @override
+  String get xboxGuideStep1 => 'Paso 1: Abre a configuración de Xbox.';
+
+  @override
+  String get xboxGuideStep2 => 'Paso 2: Vai á sección Familia.';
+
+  @override
+  String get xboxGuideStep3 => 'Paso 3: Habilita os controis parentais.';
+
+  @override
+  String get xboxGuideStep4 => 'Paso 4: Configura as restricións.';
+
+  @override
+  String get xboxGuideStep5 => 'Paso 5: Garda a configuración.';
+
+  @override
+  String get xboxTimeGuideTitle => 'Guía de tempo de Xbox';
+
+  @override
+  String get xboxTimeGuideDescription =>
+      'Aprende a configurar límites de tempo en Xbox.';
+
+  @override
+  String get xboxTimeGuideStep1 => 'Paso 1: Abre a configuración de Xbox.';
+
+  @override
+  String get xboxTimeGuideStep2 => 'Paso 2: Vai á sección Familia.';
+
+  @override
+  String get xboxTimeGuideStep3 => 'Paso 3: Habilita os límites de tempo.';
+
+  @override
+  String get xboxTimeGuideStep4 => 'Paso 4: Configura os horarios.';
+
+  @override
+  String get xboxTimeGuideStep5 => 'Paso 5: Garda a configuración.';
+
+  @override
+  String get nintendoGuideTitle => 'Guía parental de Nintendo';
+
+  @override
+  String get nintendoGuideDescription =>
+      'Aprende a configurar os controis parentais en Nintendo.';
+
+  @override
+  String get nintendoGuideStep1 => 'Paso 1: Abre a configuración de Nintendo.';
+
+  @override
+  String get nintendoGuideStep2 =>
+      'Paso 2: Vai á sección de controis parentais.';
+
+  @override
+  String get nintendoGuideStep3 => 'Paso 3: Configura as restricións.';
+
+  @override
+  String get nintendoGuideStep4 => 'Paso 4: Garda a configuración.';
+
+  @override
+  String get nintendoGuideStep5 => 'Paso 5: Proba os controis parentais.';
 }

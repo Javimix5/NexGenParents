@@ -83,7 +83,7 @@ class _GamesFiltersScreenState extends State<GamesFiltersScreen> {
                 borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
                 border: Border.all(color: AppConfig.primaryColor),
               ),
-              child: const Row(
+              child: Row(
                 children: [
                   Icon(Icons.info_outline, color: AppConfig.primaryColor),
                   SizedBox(width: AppConfig.paddingSmall),

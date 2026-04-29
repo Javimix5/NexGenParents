@@ -205,7 +205,7 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
               Icon(Icons.description, color: AppConfig.primaryColor),
               SizedBox(width: AppConfig.paddingSmall),
@@ -241,7 +241,7 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
               Icon(Icons.format_quote, color: AppConfig.accentColor),
               SizedBox(width: AppConfig.paddingSmall),

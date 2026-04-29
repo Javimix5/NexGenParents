@@ -226,7 +226,7 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
                     borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
                     border: Border.all(color: AppConfig.accentColor, width: 2),
                   ),
-                  child: const Row(
+                  child: Row(
                     children: [
                       Icon(Icons.check_circle, color: AppConfig.accentColor, size: 30),
                       SizedBox(width: AppConfig.paddingMedium),

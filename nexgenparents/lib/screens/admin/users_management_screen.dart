@@ -221,7 +221,7 @@ class UsersManagementScreen extends StatelessWidget {
                                   PopupMenuItem(
                                     value: 'user',
                                     enabled: user.role != 'user',
-                                    child: const Row(
+                                    child: Row(
                                       children: [
                                         Icon(Icons.person, size: 20),
                                         SizedBox(width: AppConfig.paddingSmall),
@@ -232,7 +232,7 @@ class UsersManagementScreen extends StatelessWidget {
                                   PopupMenuItem(
                                     value: 'moderator',
                                     enabled: user.role != 'moderator',
-                                    child: const Row(
+                                    child: Row(
                                       children: [
                                         Icon(Icons.verified_user, size: 20),
                                         SizedBox(width: AppConfig.paddingSmall),
@@ -243,7 +243,7 @@ class UsersManagementScreen extends StatelessWidget {
                                   PopupMenuItem(
                                     value: 'admin',
                                     enabled: user.role != 'admin',
-                                    child: const Row(
+                                    child: Row(
                                       children: [
                                         Icon(Icons.admin_panel_settings, size: 20),
                                         SizedBox(width: AppConfig.paddingSmall),
@@ -385,7 +385,7 @@ class UsersManagementScreen extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Row(
+        title: Row(
           children: [
             Icon(Icons.info_outline, color: AppConfig.primaryColor),
             SizedBox(width: AppConfig.paddingSmall),

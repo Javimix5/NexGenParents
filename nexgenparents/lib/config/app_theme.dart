@@ -16,11 +16,9 @@ class AppTheme {
       tertiary: AppConfig.accentColor,
       tertiaryContainer: AppConfig.accentColor.withOpacity(0.1),
       error: AppConfig.errorColor,
-      background: AppConfig.backgroundLight,
       surface: Colors.white, // Tarjetas blancas sobre fondo gris claro
       onPrimary: Colors.white,
       onSecondary: Colors.white,
-      onBackground: AppConfig.textPrimaryColor,
       onSurface: AppConfig.textPrimaryColor,
     ),
 
@@ -198,11 +196,9 @@ class AppTheme {
       tertiary: AppConfig.accentColor,
       tertiaryContainer: AppConfig.accentColor.withOpacity(0.15),
       error: AppConfig.errorColor,
-      background: AppConfig.backgroundDark,
       surface: AppConfig.cardDark,
       onPrimary: Colors.white,
-      onSecondary: Colors.white,
-      onBackground: AppConfig.backgroundLight, // Texto claro sobre fondo oscuro
+      onSecondary: Colors.white, // Texto claro sobre fondo oscuro
       onSurface:
           AppConfig.backgroundLight, // Texto claro sobre tarjetas oscuras
     ),

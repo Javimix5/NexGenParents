@@ -83,196 +83,233 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final hasPersistentFrame = PersistentFrameScope.of(context);
-    final screenWidth = MediaQuery.sizeOf(context).width;
-    final horizontalPadding = screenWidth < 600
-        ? 12.0
-        : screenWidth < 1100
-            ? 16.0
-            : 24.0;
-    final contentMaxWidth = screenWidth < 980 ? double.infinity : 1440.0;
-    final authProvider = Provider.of<AuthProvider>(context);
-    final user = authProvider.currentUser;
-    final dictionaryProvider = Provider.of<DictionaryProvider>(context);
-    final gamesProvider = Provider.of<GamesProvider>(context);
-    final approvedTerms = dictionaryProvider.approvedTerms;
-    final popularGames = gamesProvider.popularGames;
-    final featuredGame = gamesProvider.weeklyTopGame ??
-        (popularGames.isNotEmpty ? popularGames.first : null);
-    final userName = user?.displayName;
-    final displayName =
-        userName != null && userName.trim().isNotEmpty ? userName : 'Usuario';
-    final approvedTermsCount = user?.termsApproved ?? 0;
-    final proposedTermsCount = user?.termsProposed ?? 0;
-    final totalActiveTerms = approvedTerms.length;
+Widget build(BuildContext context) {
+  return AnimatedBuilder(
+    animation: _homeViewModel,
+    builder: (context, child) {
+      return Scaffold(
+        body: _buildBody(context),
+      );
+    },
+  );
+}
 
-    return AnimatedBuilder(
-      animation: _homeViewModel,
-      builder: (context, child) {
-        return Scaffold(
-          body: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: isDark
-                    ? const [Color(0xFF0A0F1E), Color(0xFF141B2E)]
-                    : const [Color(0xFFF7F8FC), Color(0xFFFFFFFF)],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
-            ),
-            child: SafeArea(
-              child: Column(
-                children: [
-                  if (!hasPersistentFrame)
-                    AppHeader(
-                      activeSection: AppSection.inicio,
-                      avatarUrl: user?.photoUrl,
-                      proposedTermsCount: proposedTermsCount,
-                      isModerator: authProvider.isModerator,
-                      isAdmin: authProvider.isAdmin,
-                      onSearchSubmitted: (_) =>
-                          _navigateTo(context, const GamesSearchScreen()),
-                      onNavigate: (section) {
-                        switch (section) {
-                          case AppSection.inicio:
-                            break;
-                          case AppSection.diccionario:
-                            _navigateTo(context, const DictionaryListScreen());
-                            break;
-                          case AppSection.videojuegos:
-                            _navigateTo(context, const GamesSearchScreen());
-                            break;
-                          case AppSection.controlParental:
-                            _navigateTo(
-                                context, const ParentalGuidesListScreen());
-                            break;
-                          case AppSection.comunidad:
-                            _navigateTo(context, const ForumListScreen());
-                            break;
-                        }
-                      },
-                      onMenuSelected: (value) =>
-                          _handleMenuAction(context, authProvider, value),
-                    ),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      padding: EdgeInsets.fromLTRB(
-                        horizontalPadding,
-                        24,
-                        horizontalPadding,
-                        24,
-                      ),
-                      child: Center(
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(maxWidth: contentMaxWidth),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              FutureBuilder<int>(
-                                future: _userMessagesCountFuture,
-                                builder: (context, snapshot) {
-                                  final messagesCount = snapshot.data;
-                                    final userLevel =
-                                      _getCommunityLevel(context, user, messagesCount);
-
-                                  return _buildHero(
-                                    context,
-                                    userName: displayName,
-                                    approvedTermsCount: approvedTermsCount,
-                                    proposedTermsCount: proposedTermsCount,
-                                    userLevel: userLevel,
-                                    totalActiveTerms: totalActiveTerms,
-                                    avatarUrl: user?.photoUrl,
-                                  );
-                                },
-                              ),
-                              const SizedBox(height: 28),
-                              _buildSectionHeader(
-                                context,
-                                title: _t(
-                                  context,
-                                  es: 'Acceso rápido',
-                                  gl: 'Acceso rápido',
-                                  en: 'Quick access',
-                                ),
-                                subtitle: _t(
-                                  context,
-                                  es: 'Acceso a las zonas de la web más usadas',
-                                  gl: 'Acceso ás zonas da web máis usadas',
-                                  en: 'Access the most-used areas of the site',
-                                ),
-                              ),
-                              const SizedBox(height: 16),
-                              _buildQuickActions(context),
-                              const SizedBox(height: 28),
-                              LayoutBuilder(
-                                builder: (context, constraints) {
-                                  if (constraints.maxWidth < 960) {
-                                    return Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.stretch,
-                                      children: [
-                                        _buildGameFeature(
-                                            context, featuredGame),
-                                        const SizedBox(height: 20),
-                                        _buildUpdatesPanel(context),
-                                      ],
-                                    );
-                                  }
-
-                                  return Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        flex: 3,
-                                        child: _buildGameFeature(
-                                            context, featuredGame),
-                                      ),
-                                      const SizedBox(width: 24),
-                                      Expanded(
-                                        flex: 2,
-                                        child: _buildUpdatesPanel(context),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              ),
-                              const SizedBox(height: 28),
-                              if (!hasPersistentFrame)
-                                AppFooter(
-                                  onPrivacyTap: () => _navigateTo(
-                                    context,
-                                    const PegiInfoScreen(),
-                                    section: AppSection.controlParental,
-                                  ),
-                                  onAboutTap: () => _navigateTo(
-                                    context,
-                                    const PegiInfoScreen(),
-                                    section: AppSection.controlParental,
-                                  ),
-                                  onContactTap: () => _navigateTo(
-                                    context,
-                                    const ParentalGuidesListScreen(),
-                                    section: AppSection.controlParental,
-                                  ),
-                                ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+Widget _buildBody(BuildContext context) {
+  final isDark = Theme.of(context).brightness == Brightness.dark;
+  
+  // ✅ Wrap con Navigator local para proveer Overlay
+  return Navigator(
+    onGenerateRoute: (_) => PageRouteBuilder(
+      pageBuilder: (navContext, _, __) => Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: isDark
+                ? const [Color(0xFF0A0F1E), Color(0xFF141B2E)]
+                : const [Color(0xFFF7F8FC), Color(0xFFFFFFFF)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
-        );
-      },
+        ),
+        child: Column(
+          children: [
+            _buildHeader(navContext),
+            _buildMainContent(navContext),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+Widget _buildHeader(BuildContext context) {
+  final hasPersistentFrame = PersistentFrameScope.of(context);
+  final authProvider = Provider.of<AuthProvider>(context);
+  final proposedTermsCount = authProvider.currentUser?.termsProposed ?? 0;
+  
+  if (!hasPersistentFrame) {
+    return AppHeader(
+      activeSection: AppSection.inicio,
+      avatarUrl: authProvider.currentUser?.photoUrl,
+      proposedTermsCount: proposedTermsCount,
+      isModerator: authProvider.isModerator,
+      isAdmin: authProvider.isAdmin,
+      onSearchSubmitted: (_) =>
+          _navigateTo(context, const GamesSearchScreen()),
+      onNavigate: (section) => _handleNavigation(context, section),
+      onMenuSelected: (value) =>
+          _handleMenuAction(context, authProvider, value),
     );
   }
+  return const SizedBox.shrink();
+}
+
+Widget _buildMainContent(BuildContext context) {
+  final screenWidth = MediaQuery.sizeOf(context).width;
+  final horizontalPadding = screenWidth < 600
+      ? 12.0
+      : screenWidth < 1100
+          ? 16.0
+          : 24.0;
+  final contentMaxWidth = screenWidth < 980 ? double.infinity : 1440.0;
+
+  return Expanded(
+    child: SingleChildScrollView(
+      padding: EdgeInsets.fromLTRB(
+        horizontalPadding,
+        24,
+        horizontalPadding,
+        24,
+      ),
+      child: Center(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: contentMaxWidth),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _buildHeroSection(context),
+              const SizedBox(height: 28),
+              _buildQuickAccessSection(context),
+              const SizedBox(height: 28),
+              _buildFeaturedGameAndUpdates(context),
+              const SizedBox(height: 28),
+              _buildFooter(context),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+Widget _buildHeroSection(BuildContext context) {
+  final authProvider = Provider.of<AuthProvider>(context);
+  final user = authProvider.currentUser;
+  
+  return FutureBuilder<int>(
+    future: _userMessagesCountFuture,
+    builder: (context, snapshot) {
+      final messagesCount = snapshot.data;
+      final userLevel = _getCommunityLevel(context, user, messagesCount);
+
+      return _buildHero(
+        context,
+        userName: user?.displayName ?? 'Usuario',
+        approvedTermsCount: user?.termsApproved ?? 0,
+        proposedTermsCount: user?.termsProposed ?? 0,
+        userLevel: userLevel,
+        totalActiveTerms:
+            Provider.of<DictionaryProvider>(context).approvedTerms.length,
+        avatarUrl: user?.photoUrl,
+      );
+    },
+  );
+}
+
+Widget _buildQuickAccessSection(BuildContext context) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+      _buildSectionHeader(
+        context,
+        title: _t(
+          context,
+          es: 'Acceso rápido',
+          gl: 'Acceso rápido',
+          en: 'Quick access',
+        ),
+        subtitle: _t(
+          context,
+          es: 'Acceso a las zonas de la web más usadas',
+          gl: 'Acceso ás zonas da web máis usadas',
+          en: 'Access the most-used areas of the site',
+        ),
+      ),
+      const SizedBox(height: 16),
+      _buildQuickActions(context),
+    ],
+  );
+}
+
+Widget _buildFeaturedGameAndUpdates(BuildContext context) {
+  final gamesProvider = Provider.of<GamesProvider>(context);
+  final popularGames = gamesProvider.popularGames;
+  final featuredGame = gamesProvider.weeklyTopGame ??
+      (popularGames.isNotEmpty ? popularGames.first : null);
+
+  return LayoutBuilder(
+    builder: (context, constraints) {
+      if (constraints.maxWidth < 960) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _buildGameFeature(context, featuredGame),
+            const SizedBox(height: 20),
+            _buildUpdatesPanel(context),
+          ],
+        );
+      }
+
+      return Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            flex: 3,
+            child: _buildGameFeature(context, featuredGame),
+          ),
+          const SizedBox(width: 24),
+          Expanded(
+            flex: 2,
+            child: _buildUpdatesPanel(context),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+Widget _buildFooter(BuildContext context) {
+  final hasPersistentFrame = PersistentFrameScope.of(context);
+  
+  if (!hasPersistentFrame) {
+    return AppFooter(
+      onPrivacyTap: () => _navigateTo(
+        context,
+        const PegiInfoScreen(),
+        section: AppSection.controlParental,
+      ),
+      onAboutTap: () => _navigateTo(
+        context,
+        const PegiInfoScreen(),
+        section: AppSection.controlParental,
+      ),
+      onContactTap: () => _navigateTo(
+        context,
+        const ParentalGuidesListScreen(),
+        section: AppSection.controlParental,
+      ),
+    );
+  }
+  return const SizedBox.shrink();
+}
+
+void _handleNavigation(BuildContext context, AppSection section) {
+  switch (section) {
+    case AppSection.inicio:
+      break;
+    case AppSection.diccionario:
+      _navigateTo(context, const DictionaryListScreen());
+      break;
+    case AppSection.videojuegos:
+      _navigateTo(context, const GamesSearchScreen());
+      break;
+    case AppSection.controlParental:
+      _navigateTo(context, const ParentalGuidesListScreen());
+      break;
+    case AppSection.comunidad:
+      _navigateTo(context, const ForumListScreen());
+      break;
+  }
+}
 
   Widget _buildHero(
     BuildContext context, {
@@ -303,13 +340,82 @@ class _HomeScreenState extends State<HomeScreen> {
       child: LayoutBuilder(
         builder: (context, constraints) {
           final vertical = constraints.maxWidth < 760;
-          return Flex(
-            direction: vertical ? Axis.vertical : Axis.horizontal,
-            crossAxisAlignment:
-                vertical ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+          if (vertical) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                UserAvatar(photoUrl: avatarUrl, size: 70),
+                const SizedBox(height: 18),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      _t(
+                        context,
+                        es: 'Bienvenido, $userName!',
+                        gl: 'Benvido, $userName!',
+                        en: 'Welcome, $userName!',
+                      ),
+                      style:
+                          Theme.of(context).textTheme.displayMedium?.copyWith(
+                                fontSize: 28,
+                                fontWeight: FontWeight.w800,
+                              ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      _t(
+                        context,
+                        es: 'Tienes $approvedTermsCount términos aprobados y $proposedTermsCount términos propuestos.',
+                        gl: 'Tes $approvedTermsCount termos aprobados e $proposedTermsCount termos propostos.',
+                        en: 'You have $approvedTermsCount approved terms and $proposedTermsCount proposed terms.',
+                      ),
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            color: AppConfig.textSecondaryColor,
+                            height: 1.35,
+                          ),
+                    ),
+                    const SizedBox(height: 14),
+                    Wrap(
+                      spacing: 10,
+                      runSpacing: 10,
+                      children: [
+                        _buildBadge(
+                          text: userLevel,
+                          background: isDark
+                              ? const Color(0xFF392B53)
+                              : const Color(0xFFF3E8FF),
+                          foreground: isDark
+                              ? const Color(0xFFE2D5FF)
+                              : const Color(0xFF8B5CF6),
+                        ),
+                        _buildBadge(
+                          text: _t(
+                            context,
+                            es: '$totalActiveTerms términos activos',
+                            gl: '$totalActiveTerms termos activos',
+                            en: '$totalActiveTerms active terms',
+                          ),
+                          background: isDark
+                              ? const Color(0xFF1E3A33)
+                              : const Color(0xFFEAFBF3),
+                          foreground: isDark
+                              ? const Color(0xFFA7F3D0)
+                              : const Color(0xFF059669),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            );
+          }
+
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               UserAvatar(photoUrl: avatarUrl, size: 70),
-              SizedBox(width: vertical ? 0 : 18, height: vertical ? 18 : 0),
+              const SizedBox(width: 18),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

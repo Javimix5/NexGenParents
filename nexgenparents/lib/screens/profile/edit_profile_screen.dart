@@ -165,7 +165,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
               ),
               const SizedBox(height: AppConfig.paddingSmall),
-              const Row(
+              Row(
                 children: [
                   Icon(Icons.info_outline, size: 14, color: AppConfig.textSecondaryColor),
                   SizedBox(width: 4),
@@ -295,18 +295,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return Center(
       child: Column(
         children: [
-          Container(
-            width: 100,
-            height: 100,
-            decoration: BoxDecoration(
-              color: AppConfig.primaryColor.withOpacity(0.1),
-              shape: BoxShape.circle,
-              border: Border.all(color: AppConfig.primaryColor, width: 3),
-            ),
-            child: Center(
-              child: Text(
-                _selectedAvatar,
-                style: const TextStyle(fontSize: 50),
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 100, maxHeight: 100),
+            child: Container(
+              decoration: BoxDecoration(
+                color: AppConfig.primaryColor.withOpacity(0.1),
+                shape: BoxShape.circle,
+                border: Border.all(color: AppConfig.primaryColor, width: 3),
+              ),
+              child: Center(
+                child: Text(
+                  _selectedAvatar,
+                  style: const TextStyle(fontSize: 50),
+                ),
               ),
             ),
           ),
@@ -458,23 +459,24 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 });
                 Navigator.pop(context);
               },
-              child: Container(
-                width: 60,
-                height: 60,
-                decoration: BoxDecoration(
-                  color: _selectedAvatar == avatar
-                      ? AppConfig.primaryColor.withOpacity(0.2)
-                      : AppConfig.backgroundLight,
-                  shape: BoxShape.circle,
-                  border: Border.all(
+                child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 60, maxHeight: 60),
+                child: Container(
+                  decoration: BoxDecoration(
                     color: _selectedAvatar == avatar
-                        ? AppConfig.primaryColor
-                        : AppConfig.textSecondaryColor,
-                    width: 2,
+                        ? AppConfig.primaryColor.withOpacity(0.2)
+                        : AppConfig.backgroundLight,
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: _selectedAvatar == avatar
+                          ? AppConfig.primaryColor
+                          : AppConfig.textSecondaryColor,
+                      width: 2,
+                    ),
                   ),
-                ),
-                child: Center(
-                  child: Text(avatar, style: const TextStyle(fontSize: 30)),
+                  child: Center(
+                    child: Text(avatar, style: const TextStyle(fontSize: 30)),
+                  ),
                 ),
               ),
             );

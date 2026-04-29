@@ -16,4 +16,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "nexgenparents"
-apply from: new File(settings.projectDir.parent, "android/include_flutter.groovy")
+apply(from = "include_flutter.groovy")

@@ -202,168 +202,132 @@ class AppLocalizationsEn extends AppLocalizations {
   String get psDisableGuideStep5 => 'Verify that the guide is disabled.';
 
   @override
-  String get xboxGuideTitle => 'Parental Controls on Xbox';
-
-  @override
-  String get xboxGuideDescription =>
-      'Set up content filters, purchase restrictions, and privacy settings on Xbox Series X/S and Xbox One using your Microsoft family account.';
-
-  @override
-  String get xboxGuideStep1 =>
-      'Press the Xbox button on the controller and go to "Profile & system" → "Settings".';
-
-  @override
-  String get xboxGuideStep2 => 'Select "Account" → "Family settings".';
-
-  @override
-  String get xboxGuideStep3 =>
-      'Choose the child\'s account and select "Privacy & online safety".';
-
-  @override
-  String get xboxGuideStep4 =>
-      'Set up restrictions for content, communication with other players, and purchases.';
-
-  @override
-  String get xboxGuideStep5 =>
-      'Confirm the changes. The settings are automatically applied to the child\'s profile.';
-
-  @override
-  String get xboxTimeGuideTitle => 'Screen Time Limits on Xbox';
-
-  @override
-  String get xboxTimeGuideDescription =>
-      'Set schedules and daily game time limits on Xbox for each family member from the Microsoft Family Safety app.';
-
-  @override
-  String get xboxTimeGuideStep1 =>
-      'Download and install the "Microsoft Family Safety" app on your smartphone. Sign in with your Microsoft account.';
-
-  @override
-  String get xboxTimeGuideStep2 =>
-      'Select the child\'s profile in the app and go to "Screen time".';
-
-  @override
-  String get xboxTimeGuideStep3 =>
-      'Enable time limits and configure how many hours they can use Xbox each day of the week.';
-
-  @override
-  String get xboxTimeGuideStep4 =>
-      'Set the time slots when the console is available (e.g., only from 5:00 PM to 8:00 PM).';
-
-  @override
-  String get xboxTimeGuideStep5 =>
-      'Save the settings. The child will receive warnings before their time is up and will need your approval to request more time.';
-
-  @override
-  String get nintendoGuideTitle => 'Parental Controls on Nintendo Switch';
-
-  @override
-  String get nintendoGuideDescription =>
-      'Set up parental controls directly on the Nintendo Switch console to restrict content and set age limits.';
-
-  @override
-  String get nintendoGuideStep1 =>
-      'Access "System Settings" from the Nintendo Switch main menu.';
-
-  @override
-  String get nintendoGuideStep2 => 'Scroll down and select "Parental Controls".';
-
-  @override
-  String get nintendoGuideStep3 =>
-      'Choose "Use Smart Device" to link the app, or "Set up on this console" if you prefer to do it from the console.';
-
-  @override
-  String get nintendoGuideStep4 =>
-      'Select the content restriction level based on the child\'s age.';
-
-  @override
-  String get nintendoGuideStep5 =>
-      'Set a 4-digit PIN to protect the settings. Save and confirm.';
-
-  @override
-  String get nintendoAppGuideTitle => 'Set up the Parental Controls App (Nintendo)';
-
-  @override
-  String get nintendoAppGuideDescription =>
-      'Learn how to link and set up the "Nintendo Switch Parental Controls" app on your smartphone to remotely manage game time limits.';
-
-  @override
-  String get nintendoAppGuideStep1 =>
-      'Download the "Nintendo Switch Parental Controls" app on your smartphone (available on Android and iOS).';
-
-  @override
-  String get nintendoAppGuideStep2 =>
-      'Open the app and accept the terms of use. Sign in with your Nintendo Account or create a new one.';
+  String get nintendoAppGuideStep2 => 'Step 2: Open the Nintendo app.';
 
   @override
   String get nintendoAppGuideStep3 =>
-      'On the console, go to "System Settings" → "Parental Controls" → "Use Smart Device" and scan the QR code with the app.';
+      'Step 3: Go to the parental controls section.';
 
   @override
-  String get nintendoAppGuideStep4 =>
-      'Assign a name to the child and select their age group to apply automatic restrictions.';
+  String get nintendoAppGuideStep4 => 'Step 4: Set up restrictions as needed.';
 
   @override
-  String get nintendoAppGuideStep5 =>
-      'Set the daily game time limit. You can set different limits for weekdays and weekends.';
+  String get nintendoAppGuideStep5 => 'Step 5: Save your settings.';
 
   @override
-  String get nintendoAppGuideStep6 =>
-      'Enable the play restriction after the time limit and customize the message the child will see upon reaching it.';
+  String get nintendoAppGuideStep6 => 'Step 6: Link your account.';
 
   @override
-  String get nintendoAppGuideStep7 =>
-      'Review the monthly activity summary: games played, total time, and daily trends.';
+  String get nintendoAppGuideStep7 => 'Step 7: Confirm the setup.';
 
   @override
-  String get nintendoAppGuideStep8 =>
-      'From the app, you can add extra time on the spot or temporarily suspend limits without touching the console.';
+  String get nintendoAppGuideStep8 => 'Step 8: Test the parental controls.';
 
   @override
-  String get steamGuideTitle => 'Parental Controls on Steam';
+  String get steamGuideTitle => 'Steam Parental Guide';
 
   @override
   String get steamGuideDescription =>
-      'Set up Steam\'s Family View to control which games your children can access.';
+      'Learn how to set up parental controls on Steam.';
 
   @override
-  String get steamGuideStep1 =>
-      'Open Steam on the PC and click on "Steam" (top left) → "Settings".';
+  String get steamGuideStep1 => 'Step 1: Open Steam settings.';
 
   @override
-  String get steamGuideStep2 => 'Select "Family" from the side menu.';
+  String get steamGuideStep2 => 'Step 2: Go to the Family section.';
 
   @override
-  String get steamGuideStep3 => 'Enable "Family View" and set a security PIN.';
+  String get steamGuideStep3 => 'Step 3: Enable Family View.';
 
   @override
-  String get steamGuideStep4 =>
-      'Manually select which games from your library will be visible in family mode.';
+  String get steamGuideStep4 => 'Step 4: Set up a PIN.';
 
   @override
-  String get steamGuideStep5 =>
-      'Children will only be able to access approved games. To exit the mode, they will need the PIN.';
+  String get steamGuideStep5 => 'Step 5: Restrict content as needed.';
 
   @override
-  String get iosGuideTitle => 'Activate Parental Controls on iOS (iPhone/iPad)';
+  String get iosGuideTitle => 'iOS Parental Guide';
 
   @override
   String get iosGuideDescription =>
-      'Set up Screen Time, content, and privacy on iPhone/iPad to protect minors.';
+      'Learn how to set up parental controls on iOS devices.';
 
   @override
-  String get iosGuideStep1 =>
-      'Open Settings on the iPhone/iPad and go to "Screen Time".';
+  String get iosGuideStep1 => 'Step 1: Open Settings.';
 
   @override
-  String get iosGuideStep2 =>
-      'Tap "Turn On Screen Time" and select "This is My Child\'s iPhone".';
+  String get iosGuideStep2 => 'Step 2: Go to Screen Time.';
 
   @override
-  String get iosGuideStep3 =>
-      'Set a Screen Time passcode different from the device unlock code.';
+  String get iosGuideStep3 => 'Step 3: Enable restrictions.';
 
   @override
-  String get iosGuideStep4 =>
-      'Set up "Downtime", "App Limits", and "Content & Privacy Restrictions".';
+  String get iosGuideStep4 => 'Step 4: Set up a passcode.';
+
+  @override
+  String get xboxGuideTitle => 'Xbox Parental Guide';
+
+  @override
+  String get xboxGuideDescription =>
+      'Learn how to set up parental controls on Xbox.';
+
+  @override
+  String get xboxGuideStep1 => 'Step 1: Open Xbox settings.';
+
+  @override
+  String get xboxGuideStep2 => 'Step 2: Go to the Family section.';
+
+  @override
+  String get xboxGuideStep3 => 'Step 3: Enable parental controls.';
+
+  @override
+  String get xboxGuideStep4 => 'Step 4: Set up restrictions.';
+
+  @override
+  String get xboxGuideStep5 => 'Step 5: Save your settings.';
+
+  @override
+  String get xboxTimeGuideTitle => 'Xbox Time Guide';
+
+  @override
+  String get xboxTimeGuideDescription =>
+      'Learn how to set up time limits on Xbox.';
+
+  @override
+  String get xboxTimeGuideStep1 => 'Step 1: Open Xbox settings.';
+
+  @override
+  String get xboxTimeGuideStep2 => 'Step 2: Go to the Family section.';
+
+  @override
+  String get xboxTimeGuideStep3 => 'Step 3: Enable time limits.';
+
+  @override
+  String get xboxTimeGuideStep4 => 'Step 4: Set up schedules.';
+
+  @override
+  String get xboxTimeGuideStep5 => 'Step 5: Save your settings.';
+
+  @override
+  String get nintendoGuideTitle => 'Nintendo Parental Guide';
+
+  @override
+  String get nintendoGuideDescription =>
+      'Learn how to set up parental controls on Nintendo.';
+
+  @override
+  String get nintendoGuideStep1 => 'Step 1: Open Nintendo settings.';
+
+  @override
+  String get nintendoGuideStep2 =>
+      'Step 2: Go to the parental controls section.';
+
+  @override
+  String get nintendoGuideStep3 => 'Step 3: Set up restrictions.';
+
+  @override
+  String get nintendoGuideStep4 => 'Step 4: Save your settings.';
+
+  @override
+  String get nintendoGuideStep5 => 'Step 5: Test the parental controls.';
 }

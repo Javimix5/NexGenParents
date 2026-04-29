@@ -44,8 +44,8 @@ class PersistentFrameScope extends InheritedWidget {
 
   static void setSection(BuildContext context, AppSection section) {
     final scope = context
-        .getElementForInheritedWidgetOfExactType<PersistentFrameScope>()
-        ?.widget as PersistentFrameScope?;
+            .getElementForInheritedWidgetOfExactType<PersistentFrameScope>()
+            ?.widget as PersistentFrameScope?;
     scope?.setActiveSection(section);
   }
 
@@ -73,6 +73,9 @@ class PersistentFrame extends StatefulWidget {
 class _PersistentFrameState extends State<PersistentFrame> {
   AppSection _activeSection = AppSection.inicio;
 
+  // Clave para el Overlay local que provee contexto a Header y Footer
+  final _overlayKey = GlobalKey<OverlayState>();
+
   @override
   Widget build(BuildContext context) {
     final authProvider = context.watch<AuthProvider>();
@@ -82,77 +85,91 @@ class _PersistentFrameState extends State<PersistentFrame> {
       enabled: true,
       activeSection: _activeSection,
       setActiveSection: _setActiveSection,
-      child: SafeArea(
-        child: Column(
-          children: [
-            AppHeader(
-              activeSection: _activeSection,
-              avatarUrl: user?.photoUrl,
-              proposedTermsCount: user?.termsProposed ?? 0,
-              isModerator: authProvider.isModerator,
-              isAdmin: authProvider.isAdmin,
-              onSearchSubmitted: (_) => _navigateTo(const GamesSearchScreen()),
-              onNavigate: (section) {
-                _setActiveSection(section);
-                switch (section) {
-                  case AppSection.inicio:
-                    _navigateTo(const HomeScreen());
-                    break;
-                  case AppSection.diccionario:
-                    _navigateTo(const DictionaryListScreen());
-                    break;
-                  case AppSection.videojuegos:
-                    _navigateTo(const GamesSearchScreen());
-                    break;
-                  case AppSection.controlParental:
-                    _navigateTo(const ParentalGuidesListScreen());
-                    break;
-                  case AppSection.comunidad:
-                    _navigateTo(const ForumListScreen());
-                    break;
-                }
-              },
-              onMenuSelected: (value) async {
-                switch (value) {
-                  case 'profile':
-                    _navigateTo(const EditProfileScreen());
-                    break;
-                  case 'my_terms':
-                    _navigateTo(const MyProposedTermsScreen());
-                    break;
-                  case 'moderation':
-                    if (authProvider.isModerator) {
-                      _navigateTo(const ModerationScreen());
-                    }
-                    break;
-                  case 'users_management':
-                    if (authProvider.isAdmin) {
-                      _navigateTo(const UsersManagementScreen());
-                    }
-                    break;
-                  case 'logout':
-                    await authProvider.signOut();
-                    final nav = widget.navigatorKey.currentState;
-                    if (nav == null || !nav.mounted) return;
-                    nav.pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (_) => const LoginScreen()),
-                      (route) => false,
-                    );
-                    break;
-                }
-              },
-            ),
-            Expanded(child: widget.child),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-              child: AppFooter(
-                onPrivacyTap: () => _navigateTo(const PegiInfoScreen()),
-                onAboutTap: () => _navigateTo(const PegiInfoScreen()),
-                onContactTap: () => _navigateTo(const ParentalGuidesListScreen()),
+      // ✅ Overlay propio para Header y Footer
+      child: Overlay(
+        key: _overlayKey,
+        initialEntries: [
+          OverlayEntry(
+            builder: (overlayContext) => SafeArea(
+              child: Column(
+                children: [
+                  // ✅ AppHeader ahora tiene Overlay disponible
+                  AppHeader(
+                    activeSection: _activeSection,
+                    avatarUrl: user?.photoUrl,
+                    proposedTermsCount: user?.termsProposed ?? 0,
+                    isModerator: authProvider.isModerator,
+                    isAdmin: authProvider.isAdmin,
+                    onSearchSubmitted: (_) =>
+                        _navigateTo(const GamesSearchScreen()),
+                    onNavigate: (section) {
+                      _setActiveSection(section);
+                      switch (section) {
+                        case AppSection.inicio:
+                          _navigateTo(const HomeScreen());
+                          break;
+                        case AppSection.diccionario:
+                          _navigateTo(const DictionaryListScreen());
+                          break;
+                        case AppSection.videojuegos:
+                          _navigateTo(const GamesSearchScreen());
+                          break;
+                        case AppSection.controlParental:
+                          _navigateTo(const ParentalGuidesListScreen());
+                          break;
+                        case AppSection.comunidad:
+                          _navigateTo(const ForumListScreen());
+                          break;
+                      }
+                    },
+                    onMenuSelected: (value) async {
+                      switch (value) {
+                        case 'profile':
+                          _navigateTo(const EditProfileScreen());
+                          break;
+                        case 'my_terms':
+                          _navigateTo(const MyProposedTermsScreen());
+                          break;
+                        case 'moderation':
+                          if (authProvider.isModerator) {
+                            _navigateTo(const ModerationScreen());
+                          }
+                          break;
+                        case 'users_management':
+                          if (authProvider.isAdmin) {
+                            _navigateTo(const UsersManagementScreen());
+                          }
+                          break;
+                        case 'logout':
+                          await authProvider.signOut();
+                          final nav = widget.navigatorKey.currentState;
+                          if (nav == null || !nav.mounted) return;
+                          nav.pushAndRemoveUntil(
+                            MaterialPageRoute(
+                                builder: (_) => const LoginScreen()),
+                            (route) => false,
+                          );
+                          break;
+                      }
+                    },
+                  ),
+                  // ✅ Contenido principal (Navigator)
+                  Expanded(child: widget.child),
+                  // ✅ AppFooter ahora tiene Overlay disponible
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                    child: AppFooter(
+                      onPrivacyTap: () => _navigateTo(const PegiInfoScreen()),
+                      onAboutTap: () => _navigateTo(const PegiInfoScreen()),
+                      onContactTap: () =>
+                          _navigateTo(const ParentalGuidesListScreen()),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

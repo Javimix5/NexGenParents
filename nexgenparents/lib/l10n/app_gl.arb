@@ -68,5 +68,51 @@
     "psDisableGuideStep5": "Verifica que a guía estea desactivada.",
     "@successPasswordReset": {
         "description": "Mensaxe de éxito ao recuperar o contrasinal"
-    }
+    },
+    "nintendoAppGuideStep2": "Paso 2: Abre a aplicación de Nintendo.",
+    "nintendoAppGuideStep3": "Paso 3: Vai á sección de controis parentais.",
+    "nintendoAppGuideStep4": "Paso 4: Configura as restricións segundo sexa necesario.",
+    "nintendoAppGuideStep5": "Paso 5: Garda a configuración.",
+    "nintendoAppGuideStep6": "Paso 6: Vincula a túa conta.",
+    "nintendoAppGuideStep7": "Paso 7: Confirma a configuración.",
+    "nintendoAppGuideStep8": "Paso 8: Proba os controis parentais.",
+
+    "steamGuideTitle": "Guía parental de Steam",
+    "steamGuideDescription": "Aprende a configurar os controis parentais en Steam.",
+    "steamGuideStep1": "Paso 1: Abre a configuración de Steam.",
+    "steamGuideStep2": "Paso 2: Vai á sección Familia.",
+    "steamGuideStep3": "Paso 3: Habilita a Vista Familiar.",
+    "steamGuideStep4": "Paso 4: Configura un PIN.",
+    "steamGuideStep5": "Paso 5: Restringe o contido segundo sexa necesario.",
+
+    "iosGuideTitle": "Guía parental de iOS",
+    "iosGuideDescription": "Aprende a configurar os controis parentais en dispositivos iOS.",
+    "iosGuideStep1": "Paso 1: Abre Configuración.",
+    "iosGuideStep2": "Paso 2: Vai a Tempo de Pantalla.",
+    "iosGuideStep3": "Paso 3: Habilita as restricións.",
+    "iosGuideStep4": "Paso 4: Configura un código de acceso.",
+
+    "xboxGuideTitle": "Guía parental de Xbox",
+    "xboxGuideDescription": "Aprende a configurar os controis parentais en Xbox.",
+    "xboxGuideStep1": "Paso 1: Abre a configuración de Xbox.",
+    "xboxGuideStep2": "Paso 2: Vai á sección Familia.",
+    "xboxGuideStep3": "Paso 3: Habilita os controis parentais.",
+    "xboxGuideStep4": "Paso 4: Configura as restricións.",
+    "xboxGuideStep5": "Paso 5: Garda a configuración.",
+
+    "xboxTimeGuideTitle": "Guía de tempo de Xbox",
+    "xboxTimeGuideDescription": "Aprende a configurar límites de tempo en Xbox.",
+    "xboxTimeGuideStep1": "Paso 1: Abre a configuración de Xbox.",
+    "xboxTimeGuideStep2": "Paso 2: Vai á sección Familia.",
+    "xboxTimeGuideStep3": "Paso 3: Habilita os límites de tempo.",
+    "xboxTimeGuideStep4": "Paso 4: Configura os horarios.",
+    "xboxTimeGuideStep5": "Paso 5: Garda a configuración.",
+
+    "nintendoGuideTitle": "Guía parental de Nintendo",
+    "nintendoGuideDescription": "Aprende a configurar os controis parentais en Nintendo.",
+    "nintendoGuideStep1": "Paso 1: Abre a configuración de Nintendo.",
+    "nintendoGuideStep2": "Paso 2: Vai á sección de controis parentais.",
+    "nintendoGuideStep3": "Paso 3: Configura as restricións.",
+    "nintendoGuideStep4": "Paso 4: Garda a configuración.",
+    "nintendoGuideStep5": "Paso 5: Proba os controis parentais."
 }

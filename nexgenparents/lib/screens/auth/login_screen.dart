@@ -42,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (success && mounted) {
       // Login exitoso - navegar a pantalla principal
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const HomeScreen()),
+        MaterialPageRoute(builder: (_) => const HomeScreen()), // Navegar directamente a HomeScreen
       );
     } else if (mounted) {
       // Mostrar error
@@ -68,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (success && mounted) {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const HomeScreen()),
+        MaterialPageRoute(builder: (_) => const HomeScreen()), // Navegar directamente a HomeScreen
       );
     } else if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -101,15 +101,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         // Logo de la app
-                        Image.network(
-                          '${AppConfig.githubCdnBase}/icons/logo.webp',
-                          height: 100,
-                          width: 100,
-                          errorBuilder: (context, error, stackTrace) =>
-                              const Icon(
-                            Icons.videogame_asset_rounded,
-                            size: 100,
-                            color: AppConfig.primaryColor,
+                        ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 100, maxHeight: 100),
+                          child: Image.network(
+                            '${AppConfig.githubCdnBase}/icons/logo.webp',
+                            fit: BoxFit.contain,
+                            errorBuilder: (context, error, stackTrace) =>
+                                const Icon(
+                              Icons.videogame_asset_rounded,
+                              size: 100,
+                              color: AppConfig.primaryColor,
+                            ),
                           ),
                         ),
                         const SizedBox(height: AppConfig.paddingMedium),
@@ -245,7 +247,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         const SizedBox(height: AppConfig.paddingLarge),
 
                         // Divider
-                        const Row(
+                        Row(
                           children: [
                             Expanded(child: Divider()),
                             Padding(
