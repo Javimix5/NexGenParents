@@ -13,6 +13,7 @@ enum AppSection {
   comunidad,
 }
 
+
 class AppHeader extends StatelessWidget {
   const AppHeader({
     super.key,
@@ -77,9 +78,9 @@ class AppHeader extends StatelessWidget {
     );
   }
 
-  // ──────────────────────────────────────────────
-  // LAYOUT ANCHO (≥ 1100px) — igual que la imagen
-  // ──────────────────────────────────────────────
+  // ───────────────────────
+  // LAYOUT ANCHO (≥ 1100px)
+  // ───────────────────────
   Widget _buildWideLayout(
     BuildContext context,
     LocaleProvider localeProvider,
@@ -89,11 +90,9 @@ class AppHeader extends StatelessWidget {
       height: 58,
       child: Row(
         children: [
-          // Logo / Brand
           _buildBrandMark(),
           const SizedBox(width: 24),
 
-          // Nav links centrados
           Expanded(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -148,7 +147,6 @@ class AppHeader extends StatelessWidget {
             ),
           ),
 
-          // Buscador
           _buildSearchField(context),
           const SizedBox(width: 12),
 
@@ -175,7 +173,6 @@ class AppHeader extends StatelessWidget {
           ),
           const SizedBox(width: 10),
 
-          // ✅ Avatar con menú — directamente _AccountMenuButton
           _AccountMenuButton(
             avatarUrl: avatarUrl,
             proposedTermsCount: proposedTermsCount,
@@ -229,7 +226,6 @@ class AppHeader extends StatelessWidget {
             ),
             const SizedBox(width: 8),
 
-            // ✅ Avatar con menú — directamente _AccountMenuButton
             _AccountMenuButton(
               avatarUrl: avatarUrl,
               proposedTermsCount: proposedTermsCount,
@@ -244,10 +240,6 @@ class AppHeader extends StatelessWidget {
       ],
     );
   }
-
-  // ──────────────────────────────────────────────
-  // WIDGETS AUXILIARES
-  // ──────────────────────────────────────────────
 
   Widget _buildBrandMark() {
     return Container(
@@ -286,7 +278,6 @@ class AppHeader extends StatelessWidget {
             Text(
               label,
               style: TextStyle(
-                // ✅ Color cambia según sección activa
                 color: active
                     ? const Color(0xFF3BF1E0)
                     : const Color(0xFFCBD5E1),
@@ -297,7 +288,6 @@ class AppHeader extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 2),
-            // ✅ Subrayado animado bajo el link activo
             AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               height: 2,
@@ -534,9 +524,6 @@ class AppHeader extends StatelessWidget {
   }
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
-// Widget de menú de cuenta — usa PopupMenuButton (no necesita Overlay manual)
-// ──────────────────────────────────────────────────────────────────────────────
 class _AccountMenuButton extends StatelessWidget {
   const _AccountMenuButton({
     required this.avatarUrl,
@@ -560,7 +547,6 @@ class _AccountMenuButton extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
       color: const Color(0xFF1E293B),
       itemBuilder: _buildItems,
-      // ✅ El child es el avatar visible en el header
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

@@ -97,7 +97,6 @@ Widget build(BuildContext context) {
 Widget _buildBody(BuildContext context) {
   final isDark = Theme.of(context).brightness == Brightness.dark;
   
-  // ✅ Wrap con Navigator local para proveer Overlay
   return Navigator(
     onGenerateRoute: (_) => PageRouteBuilder(
       pageBuilder: (navContext, _, __) => Container(

@@ -85,7 +85,6 @@ class _PersistentFrameState extends State<PersistentFrame> {
       enabled: true,
       activeSection: _activeSection,
       setActiveSection: _setActiveSection,
-      // ✅ Overlay propio para Header y Footer
       child: Overlay(
         key: _overlayKey,
         initialEntries: [
@@ -93,7 +92,6 @@ class _PersistentFrameState extends State<PersistentFrame> {
             builder: (overlayContext) => SafeArea(
               child: Column(
                 children: [
-                  // ✅ AppHeader ahora tiene Overlay disponible
                   AppHeader(
                     activeSection: _activeSection,
                     avatarUrl: user?.photoUrl,
@@ -152,10 +150,8 @@ class _PersistentFrameState extends State<PersistentFrame> {
                           break;
                       }
                     },
-                  ),
-                  // ✅ Contenido principal (Navigator)
+                  ),                  
                   Expanded(child: widget.child),
-                  // ✅ AppFooter ahora tiene Overlay disponible
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
                     child: AppFooter(
