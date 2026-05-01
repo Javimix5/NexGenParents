@@ -29,7 +29,13 @@ class ForumSidebar extends StatelessWidget {
                 children: [
                   Container(width: 4, height: 18, decoration: BoxDecoration(color: const Color(0xFF8B5CF6), borderRadius: BorderRadius.circular(2))),
                   const SizedBox(width: 8),
-                  Text('Temas Seguidos', style: TextStyle(fontWeight: FontWeight.bold, color: textColor, fontSize: 14)),
+                  Expanded(
+                    child: Text(
+                      'Temas Seguidos',
+                      style: TextStyle(fontWeight: FontWeight.bold, color: textColor, fontSize: 14),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 12),
@@ -53,7 +59,13 @@ class ForumSidebar extends StatelessWidget {
                 children: [
                   Container(width: 4, height: 18, decoration: BoxDecoration(color: const Color(0xFF8B5CF6), borderRadius: BorderRadius.circular(2))),
                   const SizedBox(width: 8),
-                  Text('Respuestas para ti', style: TextStyle(fontWeight: FontWeight.bold, color: textColor, fontSize: 14)),
+                  Expanded(
+                    child: Text(
+                      'Respuestas para ti',
+                      style: TextStyle(fontWeight: FontWeight.bold, color: textColor, fontSize: 14),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 12),
@@ -77,7 +89,13 @@ class ForumSidebar extends StatelessWidget {
                 children: [
                   Icon(Icons.campaign_outlined, color: subColor, size: 16),
                   const SizedBox(width: 6),
-                  Text('Noticias Globales del Foro', style: TextStyle(fontWeight: FontWeight.bold, color: textColor, fontSize: 14)),
+                  Expanded(
+                    child: Text(
+                      'Noticias Globales del Foro',
+                      style: TextStyle(fontWeight: FontWeight.bold, color: textColor, fontSize: 14),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 12),

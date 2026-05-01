@@ -7,9 +7,9 @@ import 'create_post_screen.dart';
 import '../../widgets/common/app_footer.dart';
 import '../info/pegi_info_screen.dart';
 import '../parental_guides/parental_guides_list_screen.dart';
-import '../../widgets/forum/forum_categories_grid.dart';
-import '../../widgets/forum/forum_platforms_section.dart';
-import '../../widgets/forum/forum_sidebar.dart';
+import 'forum_categories_grid.dart';
+import 'forum_platforms_section.dart';
+import 'forum_sidebar.dart';
 
 class ForumListScreen extends StatelessWidget {
   final String? topicFilter;

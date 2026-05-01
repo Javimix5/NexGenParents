@@ -51,7 +51,7 @@ class ForumCategoriesGrid extends StatelessWidget {
                 crossAxisCount: crossCount,
                 crossAxisSpacing: 12,
                 mainAxisSpacing: 12,
-                childAspectRatio: constraints.maxWidth > 500 ? 1.3 : 1.05,
+                childAspectRatio: constraints.maxWidth > 500 ? 1.6 : 1.15,
               ),
               itemCount: ForumSections.all.length,
               itemBuilder: (context, index) {

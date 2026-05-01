@@ -21,8 +21,6 @@ class ForumCategoryPostsScreen extends StatefulWidget {
 }
 
 class _ForumCategoryPostsScreenState extends State<ForumCategoryPostsScreen> {
-  bool _isGridView = false; // Por defecto lo mostramos como lista que queda mejor
-
   @override
   Widget build(BuildContext context) {
     final authProvider = context.watch<AuthProvider>();
@@ -34,16 +32,6 @@ class _ForumCategoryPostsScreenState extends State<ForumCategoryPostsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.section.localizedName(languageCode)),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.grid_view, color: _isGridView ? AppConfig.accentColor : null),
-            onPressed: () => setState(() => _isGridView = true),
-          ),
-          IconButton(
-            icon: Icon(Icons.list, color: !_isGridView ? AppConfig.accentColor : null),
-            onPressed: () => setState(() => _isGridView = false),
-          ),
-        ],
       ),
       // Leemos directamente del stream para que la lista se actualice en tiempo real
       body: StreamBuilder<List<ForumPost>>(
