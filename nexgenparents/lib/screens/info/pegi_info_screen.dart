@@ -3,8 +3,35 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../../l10n/app_localizations.dart';
 import '../../config/app_config.dart';
 
-class PegiInfoScreen extends StatelessWidget {
+class PegiInfoScreen extends StatefulWidget {
   const PegiInfoScreen({super.key});
+
+  @override
+  State<PegiInfoScreen> createState() => _PegiInfoScreenState();
+}
+
+class _PegiInfoScreenState extends State<PegiInfoScreen> {
+  final ScrollController _scrollController = ScrollController();
+  bool _showBackToTopButton = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(() {
+      if (!_scrollController.hasClients) return;
+      if (_scrollController.offset >= 300 && !_showBackToTopButton) {
+        setState(() => _showBackToTopButton = true);
+      } else if (_scrollController.offset < 300 && _showBackToTopButton) {
+        setState(() => _showBackToTopButton = false);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   String _t(BuildContext context,
       {required String es, required String gl, required String en}) {
@@ -26,6 +53,7 @@ class PegiInfoScreen extends StatelessWidget {
         title: Text(l10n.classificationSystemsTitle),
       ),
       body: SingleChildScrollView(
+        controller: _scrollController,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -37,6 +65,23 @@ class PegiInfoScreen extends StatelessWidget {
           ],
         ),
       ),
+      floatingActionButton: _showBackToTopButton
+          ? FloatingActionButton.small(
+              heroTag: 'pegi_info_back_to_top_btn',
+              onPressed: () {
+                if (_scrollController.hasClients) {
+                  _scrollController.animateTo(
+                    0,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                  );
+                }
+              },
+              backgroundColor: AppConfig.primaryColor,
+              foregroundColor: Colors.white,
+              child: const Icon(Icons.arrow_upward),
+            )
+          : null,
     );
   }
 

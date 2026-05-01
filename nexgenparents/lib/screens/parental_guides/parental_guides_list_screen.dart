@@ -8,8 +8,47 @@ import 'parental_guide_detail_screen.dart';
 import '../info/pegi_info_screen.dart';
 import '../../widgets/common/app_footer.dart';
 
-class ParentalGuidesListScreen extends StatelessWidget {
+class ParentalGuidesListScreen extends StatefulWidget {
   const ParentalGuidesListScreen({super.key});
+
+  @override
+  State<ParentalGuidesListScreen> createState() => _ParentalGuidesListScreenState();
+}
+
+class _ParentalGuidesListScreenState extends State<ParentalGuidesListScreen> {
+  final ScrollController _scrollController = ScrollController();
+  bool _showBackToTopButton = false;
+  Future<List<ParentalGuide>>? _guidesFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(() {
+      if (!_scrollController.hasClients) return;
+      if (_scrollController.offset >= 300 && !_showBackToTopButton) {
+        setState(() => _showBackToTopButton = true);
+      } else if (_scrollController.offset < 300 && _showBackToTopButton) {
+        setState(() => _showBackToTopButton = false);
+      }
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Cacheamos el Future aquí para que un setState() no reinicie el FutureBuilder
+    if (_guidesFuture == null) {
+      final guidesService = ParentalGuidesService();
+      final l10n = AppLocalizations.of(context)!;
+      _guidesFuture = guidesService.getAllGuides(l10n);
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   String _t(BuildContext context,
       {required String es, required String gl, required String en}) {
@@ -74,12 +113,11 @@ class ParentalGuidesListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final guidesService = ParentalGuidesService();
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       body: FutureBuilder<List<ParentalGuide>>(
-        future: guidesService.getAllGuides(l10n),
+        future: _guidesFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -109,6 +147,7 @@ class ParentalGuidesListScreen extends StatelessWidget {
           }
 
           return SingleChildScrollView(
+            controller: _scrollController,
             child: Center(
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 980),
@@ -152,6 +191,23 @@ class ParentalGuidesListScreen extends StatelessWidget {
           );
         },
       ),
+      floatingActionButton: _showBackToTopButton
+          ? FloatingActionButton.small(
+              heroTag: 'parental_guides_back_to_top_btn',
+              onPressed: () {
+                if (_scrollController.hasClients) {
+                  _scrollController.animateTo(
+                    0,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                  );
+                }
+              },
+              backgroundColor: AppConfig.primaryColor,
+              foregroundColor: Colors.white,
+              child: const Icon(Icons.arrow_upward),
+            )
+          : null,
     );
   }
 

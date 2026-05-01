@@ -4,6 +4,7 @@ import '../../providers/games_provider.dart';
 import '../../models/game_filters.dart';
 import '../../config/app_config.dart';
 import '../../widgets/common/app_empty_state.dart';
+import '../../l10n/app_localizations.dart';
 import 'game_detail_screen.dart';
 import 'games_filters_screen.dart';
 import '../../widgets/common/app_footer.dart';
@@ -19,6 +20,8 @@ class GamesSearchScreen extends StatefulWidget {
 
 class _GamesSearchScreenState extends State<GamesSearchScreen> {
   final _searchController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+  bool _showBackToTopButton = false;
 
   @override
   void initState() {
@@ -26,8 +29,18 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // Cargar los juegos del último año por defecto solo si no hay una lista precargada.
       final gamesProvider = Provider.of<GamesProvider>(context, listen: false);
-      if (gamesProvider.popularGames.isEmpty) {
-        gamesProvider.loadNewGames();
+      if (gamesProvider.searchResults.isEmpty && !gamesProvider.currentFilters.hasActiveFilters) {
+        final currentYear = DateTime.now().year;
+        final defaultFilters = GameFilters(yearFrom: currentYear, yearTo: currentYear);
+        gamesProvider.searchWithFilters(defaultFilters);
+      }
+    });
+    _scrollController.addListener(() {
+      if (!_scrollController.hasClients) return;
+      if (_scrollController.offset >= 300 && !_showBackToTopButton) {
+        setState(() => _showBackToTopButton = true);
+      } else if (_scrollController.offset < 300 && _showBackToTopButton) {
+        setState(() => _showBackToTopButton = false);
       }
     });
   }
@@ -35,11 +48,13 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
   @override
   void dispose() {
     _searchController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
       body: Column(
         children: [
@@ -52,7 +67,7 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                   child: TextField(
                     controller: _searchController,
                     decoration: InputDecoration(
-                      hintText: 'Buscar juego por nombre...',
+                      hintText: l10n?.searchGamesHint ?? 'Buscar juego por nombre...',
                       prefixIcon: const Icon(Icons.search),
                       suffixIcon: _searchController.text.isNotEmpty
                           ? IconButton(
@@ -97,7 +112,7 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                                 ? AppConfig.primaryColor.withOpacity(0.1)
                                 : null,
                           ),
-                          tooltip: 'Filtros avanzados',
+                          tooltip: l10n?.searchGamesAdvancedFilters ?? 'Filtros avanzados',
                         ),
                         if (hasFilters)
                           Positioned(
@@ -123,8 +138,17 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
           // Mensaje informativo
           Consumer<GamesProvider>(
             builder: (context, gamesProvider, child) {
+              final filters = gamesProvider.currentFilters;
+              final currentYear = DateTime.now().year;
+              
+              final isDefaultFilter = filters.yearFrom == currentYear && 
+                                      filters.yearTo == currentYear && 
+                                      filters.pegiAge == null &&
+                                      filters.selectedGenres.isEmpty &&
+                                      filters.selectedPlatforms.isEmpty;
+
               final showMessage = _searchController.text.isEmpty &&
-                  !gamesProvider.currentFilters.hasActiveFilters;
+                  (!filters.hasActiveFilters || isDefaultFilter);
 
               if (!showMessage) {
                 return const SizedBox.shrink();
@@ -134,7 +158,7 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                 padding: const EdgeInsets.fromLTRB(AppConfig.paddingMedium, 0,
                     AppConfig.paddingMedium, AppConfig.paddingSmall),
                 child: Text(
-                  'Mostrando los juegos más recientes del último año',
+                  l10n?.searchGamesShowingRecent ?? 'Mostrando los juegos más recientes del último año',
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               );
@@ -145,8 +169,15 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
           Consumer<GamesProvider>(
             builder: (context, gamesProvider, child) {
               final filters = gamesProvider.currentFilters;
+              final currentYear = DateTime.now().year;
+              
+              final isDefaultFilter = filters.yearFrom == currentYear && 
+                                      filters.yearTo == currentYear && 
+                                      filters.pegiAge == null &&
+                                      filters.selectedGenres.isEmpty &&
+                                      filters.selectedPlatforms.isEmpty;
 
-              if (!filters.hasActiveFilters) {
+              if (!filters.hasActiveFilters || (_searchController.text.isEmpty && isDefaultFilter)) {
                 return const SizedBox.shrink();
               }
 
@@ -159,7 +190,7 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                   children: [
                     if (filters.yearFrom != null)
                       Chip(
-                        label: Text('Desde ${filters.yearFrom}'),
+                        label: Text('${l10n?.searchGamesFilterFrom ?? "Desde"} ${filters.yearFrom}'),
                         deleteIcon: const Icon(Icons.close, size: 18),
                         onDeleted: () {
                           final newFilters = filters.copyWith(yearFrom: null);
@@ -170,7 +201,7 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                       ),
                     if (filters.yearTo != null)
                       Chip(
-                        label: Text('Hasta ${filters.yearTo}'),
+                        label: Text('${l10n?.searchGamesFilterTo ?? "Hasta"} ${filters.yearTo}'),
                         deleteIcon: const Icon(Icons.close, size: 18),
                         onDeleted: () {
                           final newFilters = filters.copyWith(yearTo: null);
@@ -193,7 +224,7 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                     if (filters.selectedGenres.isNotEmpty)
                       Chip(
                         label:
-                            Text('${filters.selectedGenres.length} género(s)'),
+                            Text('${filters.selectedGenres.length} ${l10n?.searchGamesFilterGenres ?? "género(s)"}'),
                         deleteIcon: const Icon(Icons.close, size: 18),
                         onDeleted: () {
                           final newFilters =
@@ -206,7 +237,7 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                     if (filters.selectedPlatforms.isNotEmpty)
                       Chip(
                         label: Text(
-                            '${filters.selectedPlatforms.length} plataforma(s)'),
+                            '${filters.selectedPlatforms.length} ${l10n?.searchGamesFilterPlatforms ?? "plataforma(s)"}'),
                         deleteIcon: const Icon(Icons.close, size: 18),
                         onDeleted: () {
                           final newFilters =
@@ -219,9 +250,11 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
 
                     // Botón limpiar todos
                     ActionChip(
-                      label: const Text('Limpiar todo'),
+                      label: Text(l10n?.searchGamesClearAll ?? 'Limpiar todo'),
                       onPressed: () {
-                        gamesProvider.clearFilters();
+                        final currentYear = DateTime.now().year;
+                        final defaultFilters = GameFilters(yearFrom: currentYear, yearTo: currentYear);
+                        gamesProvider.searchWithFilters(defaultFilters);
                         _searchController.clear();
                         setState(() {});
                       },
@@ -247,14 +280,15 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                     : gamesProvider.searchResults;
 
                 if (games.isEmpty) {
-                  return const AppEmptyState(
+                  return AppEmptyState(
                     icon: Icons.videogame_asset_off,
-                    title: 'No se encontraron juegos',
-                    message: 'Intenta ajustar los filtros o busca otro término',
+                    title: l10n?.searchGamesEmptyTitle ?? 'No se encontraron juegos',
+                    message: l10n?.searchGamesEmptyMessage ?? 'Intenta ajustar los filtros o busca otro término',
                   );
                 }
 
                 return ListView.builder(
+                  controller: _scrollController,
                   padding: const EdgeInsets.symmetric(
                       horizontal: AppConfig.paddingMedium),
                   itemCount: games.length + 1,
@@ -386,6 +420,23 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
           ),
         ],
       ),
+      floatingActionButton: _showBackToTopButton
+          ? FloatingActionButton.small(
+              heroTag: 'games_search_back_to_top_btn',
+              onPressed: () {
+                if (_scrollController.hasClients) {
+                  _scrollController.animateTo(
+                    0,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                  );
+                }
+              },
+              backgroundColor: AppConfig.primaryColor,
+              foregroundColor: Colors.white,
+              child: const Icon(Icons.arrow_upward),
+            )
+          : null,
     );
   }
 

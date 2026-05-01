@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../config/app_config.dart';
 import '../../models/forum_section.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/forum_provider.dart';
+import '../../l10n/app_localizations.dart';
 
 class CreatePostScreen extends StatefulWidget {
-  const CreatePostScreen({super.key});
+  final String? initialSectionId;
+
+  const CreatePostScreen({super.key, this.initialSectionId});
 
   @override
   State<CreatePostScreen> createState() => _CreatePostScreenState();
@@ -16,25 +20,43 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   final _formKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
   final _contentController = TextEditingController();
-  String _selectedSectionId = ForumSections.general.id;
+  late String _selectedSectionId;
+  final ScrollController _scrollController = ScrollController();
+  bool _showBackToTopButton = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedSectionId = widget.initialSectionId ?? ForumSections.general.id;
+    _scrollController.addListener(() {
+      if (!_scrollController.hasClients) return;
+      if (_scrollController.offset >= 300 && !_showBackToTopButton) {
+        setState(() => _showBackToTopButton = true);
+      } else if (_scrollController.offset < 300 && _showBackToTopButton) {
+        setState(() => _showBackToTopButton = false);
+      }
+    });
+  }
 
   @override
   void dispose() {
     _titleController.dispose();
     _contentController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
   Future<void> _handleSubmit() async {
     if (!_formKey.currentState!.validate()) return;
 
+    final l10n = AppLocalizations.of(context)!;
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final forumProvider = Provider.of<ForumProvider>(context, listen: false);
 
     final user = authProvider.currentUser;
     if (user == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Debes iniciar sesión para publicar')),
+        SnackBar(content: Text(l10n.forumCreateLoginRequired)),
       );
       return;
     }
@@ -48,11 +70,12 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     );
 
     if (success && mounted) {
+      HapticFeedback.lightImpact();
       Navigator.of(context).pop();
     } else if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text(forumProvider.errorMessage ?? 'Error desconocido')),
+            content: Text(forumProvider.errorMessage ?? l10n.forumCreateUnknownError)),
       );
     }
   }
@@ -60,10 +83,12 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   @override
   Widget build(BuildContext context) {
     final languageCode = Localizations.localeOf(context).languageCode;
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Crear Nuevo Hilo')),
+      appBar: AppBar(title: Text(l10n.forumCreateTitle)),
       body: SingleChildScrollView(
+        controller: _scrollController,
         padding: const EdgeInsets.all(AppConfig.paddingMedium),
         child: Form(
           key: _formKey,
@@ -72,15 +97,15 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             children: [
               TextFormField(
                 controller: _titleController,
-                decoration: const InputDecoration(labelText: 'Título'),
+                decoration: InputDecoration(labelText: l10n.forumCreateFieldTitle),
                 validator: (value) => (value == null || value.isEmpty)
-                    ? 'El título es obligatorio'
+                    ? l10n.forumCreateErrorTitle
                     : null,
               ),
               const SizedBox(height: AppConfig.paddingMedium),
               DropdownButtonFormField<String>(
                 initialValue: _selectedSectionId,
-                decoration: const InputDecoration(labelText: 'Sección'),
+                decoration: InputDecoration(labelText: l10n.forumCreateFieldSection),
                 items: [
                   for (final section in ForumSections.all)
                     DropdownMenuItem(
@@ -98,13 +123,13 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               const SizedBox(height: AppConfig.paddingMedium),
               TextFormField(
                 controller: _contentController,
-                decoration: const InputDecoration(
-                  labelText: 'Contenido',
+                decoration: InputDecoration(
+                  labelText: l10n.forumCreateFieldContent,
                   alignLabelWithHint: true,
                 ),
                 maxLines: 8,
                 validator: (value) => (value == null || value.isEmpty)
-                    ? 'El contenido es obligatorio'
+                    ? l10n.forumCreateErrorContent
                     : null,
               ),
               const SizedBox(height: AppConfig.paddingLarge),
@@ -119,7 +144,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                             child: CircularProgressIndicator(strokeWidth: 2))
                         : const Icon(Icons.send),
                     label:
-                        Text(provider.isLoading ? 'Publicando...' : 'Publicar'),
+                        Text(provider.isLoading ? l10n.forumCreatePublishingBtn : l10n.forumCreatePublishBtn),
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(
                           vertical: AppConfig.paddingMedium),
@@ -131,6 +156,23 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
           ),
         ),
       ),
+      floatingActionButton: _showBackToTopButton
+          ? FloatingActionButton.small(
+              heroTag: 'create_post_back_to_top_btn',
+              onPressed: () {
+                if (_scrollController.hasClients) {
+                  _scrollController.animateTo(
+                    0,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                  );
+                }
+              },
+              backgroundColor: AppConfig.primaryColor,
+              foregroundColor: Colors.white,
+              child: const Icon(Icons.arrow_upward),
+            )
+          : null,
     );
   }
 }

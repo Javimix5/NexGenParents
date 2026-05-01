@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/dictionary_provider.dart';
 import '../../models/dictionary_term_model.dart';
 import '../../config/app_config.dart';
+import '../../widgets/common/back_to_top_scaffold.dart';
+import '../../l10n/app_localizations.dart';
 
 class ModerationScreen extends StatefulWidget {
   const ModerationScreen({super.key});
@@ -24,11 +27,12 @@ class _ModerationScreenState extends State<ModerationScreen> {
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
+    final l10n = AppLocalizations.of(context)!;
 
     // Verificar permisos de moderador
     if (!authProvider.isModerator) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Acceso Denegado')),
+        appBar: AppBar(title: Text(l10n.dictModAccessDeniedTitle)),
         body: Center(
           child: Padding(
             padding: const EdgeInsets.all(AppConfig.paddingLarge),
@@ -42,13 +46,13 @@ class _ModerationScreenState extends State<ModerationScreen> {
                 ),
                 const SizedBox(height: AppConfig.paddingMedium),
                 Text(
-                  'No tienes permisos para acceder a esta sección',
+                l10n.dictModAccessDeniedMessage,
                   style: Theme.of(context).textTheme.displayMedium,
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: AppConfig.paddingSmall),
                 Text(
-                  'Solo los moderadores pueden revisar términos propuestos',
+                l10n.dictModAccessDeniedSubtitle,
                   style: Theme.of(context).textTheme.bodyMedium,
                   textAlign: TextAlign.center,
                 ),
@@ -59,9 +63,10 @@ class _ModerationScreenState extends State<ModerationScreen> {
       );
     }
 
-    return Scaffold(
+    return BackToTopScaffold(
+      heroTag: 'moderation_back_to_top_btn',
       appBar: AppBar(
-        title: const Text('Panel de Moderación'),
+        title: Text(l10n.dictModTitle),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
@@ -69,20 +74,21 @@ class _ModerationScreenState extends State<ModerationScreen> {
               Provider.of<DictionaryProvider>(context, listen: false)
                   .loadPendingTerms();
             },
-            tooltip: 'Actualizar',
+            tooltip: l10n.dictModRefreshTooltip,
           ),
         ],
       ),
-      body: Consumer<DictionaryProvider>(
+      builder: (context, scrollController) {
+        return Consumer<DictionaryProvider>(
         builder: (context, dictionaryProvider, child) {
           if (dictionaryProvider.isLoading) {
-            return const Center(
+            return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CircularProgressIndicator(),
-                  SizedBox(height: AppConfig.paddingMedium),
-                  Text('Cargando términos pendientes...'),
+                  const CircularProgressIndicator(),
+                  const SizedBox(height: AppConfig.paddingMedium),
+                  Text(l10n.dictModLoading),
                 ],
               ),
             );
@@ -104,13 +110,13 @@ class _ModerationScreenState extends State<ModerationScreen> {
                     ),
                     const SizedBox(height: AppConfig.paddingMedium),
                     Text(
-                      '¡Todo revisado!',
+                    l10n.dictModAllReviewedTitle,
                       style: Theme.of(context).textTheme.displayLarge,
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: AppConfig.paddingSmall),
                     Text(
-                      'No hay términos pendientes de revisar',
+                    l10n.dictModAllReviewedMessage,
                       style: Theme.of(context).textTheme.bodyMedium,
                       textAlign: TextAlign.center,
                     ),
@@ -139,7 +145,7 @@ class _ModerationScreenState extends State<ModerationScreen> {
                     const Icon(Icons.pending_actions, color: AppConfig.warningColor),
                     const SizedBox(width: AppConfig.paddingSmall),
                     Text(
-                      '${pendingTerms.length} términos pendientes de revisión',
+                      l10n.dictModPendingCount(pendingTerms.length),
                       style: const TextStyle(
                         fontSize: AppConfig.fontSizeBody,
                         fontWeight: FontWeight.bold,
@@ -152,183 +158,199 @@ class _ModerationScreenState extends State<ModerationScreen> {
 
               // Lista de términos pendientes
               Expanded(
-                child: ListView.builder(
-                  padding: const EdgeInsets.all(AppConfig.paddingMedium),
-                  itemCount: pendingTerms.length,
-                  itemBuilder: (context, index) {
-                    final term = pendingTerms[index];
-                    return Card(
-                      margin: const EdgeInsets.only(bottom: AppConfig.paddingMedium),
-                      child: ExpansionTile(
-                        leading: const CircleAvatar(
-                          backgroundColor: AppConfig.primaryColor,
-                          child: Icon(Icons.article, color: Colors.white),
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    Provider.of<DictionaryProvider>(context, listen: false).loadPendingTerms();
+                    await Future.delayed(const Duration(milliseconds: 600));
+                  },
+                  child: ListView.builder(
+                    controller: scrollController,
+                    padding: const EdgeInsets.all(AppConfig.paddingMedium),
+                    itemCount: pendingTerms.length,
+                    itemBuilder: (context, index) {
+                      final term = pendingTerms[index];
+                      return Dismissible(
+                        key: Key(term.id),
+                        direction: DismissDirection.horizontal,
+                        background: Container(
+                          color: AppConfig.accentColor,
+                          alignment: Alignment.centerLeft,
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: const Icon(Icons.check_circle, color: Colors.white, size: 30),
                         ),
-                        title: Text(
-                          term.term,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: AppConfig.fontSizeBody,
-                          ),
+                        secondaryBackground: Container(
+                          color: AppConfig.errorColor,
+                          alignment: Alignment.centerRight,
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: const Icon(Icons.cancel, color: Colors.white, size: 30),
                         ),
-                        subtitle: Text(
-                          term.categoryDisplayName,
-                          style: const TextStyle(
-                            fontSize: AppConfig.fontSizeCaption,
-                            color: AppConfig.textSecondaryColor,
-                          ),
-                        ),
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(AppConfig.paddingMedium),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                // Definición
-                                const Text(
-                                  'Definición:',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: AppConfig.fontSizeBody,
-                                  ),
-                                ),
-                                const SizedBox(height: AppConfig.paddingSmall / 2),
-                                Container(
-                                  padding: const EdgeInsets.all(AppConfig.paddingSmall),
-                                  decoration: BoxDecoration(
-                                    color: AppConfig.backgroundLight,
-                                    borderRadius: BorderRadius.circular(
-                                      AppConfig.borderRadiusSmall,
-                                    ),
-                                  ),
-                                  child: Text(
-                                    term.definition,
-                                    style: const TextStyle(fontSize: AppConfig.fontSizeBody),
-                                  ),
-                                ),
-                                const SizedBox(height: AppConfig.paddingMedium),
-
-                                // Ejemplo de uso
-                                if (term.example.isNotEmpty) ...[
-                                  const Text(
-                                    'Ejemplo de uso:',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: AppConfig.fontSizeBody,
-                                    ),
-                                  ),
-                                  const SizedBox(height: AppConfig.paddingSmall / 2),
-                                  Container(
-                                    padding: const EdgeInsets.all(AppConfig.paddingSmall),
-                                    decoration: BoxDecoration(
-                                      color: AppConfig.accentColor.withOpacity(0.1),
-                                      borderRadius: BorderRadius.circular(
-                                        AppConfig.borderRadiusSmall,
-                                      ),
-                                    ),
-                                    child: Text(
-                                      '"${term.example}"',
-                                      style: const TextStyle(
+                        confirmDismiss: (direction) async {
+                          HapticFeedback.selectionClick();
+                          if (direction == DismissDirection.startToEnd) {
+                            await _approveTerm(context, term.id, term.term);
+                          } else {
+                            await _showRejectDialog(context, term.id, term.term);
+                          }
+                          // Devolvemos false porque el Stream actualizará y eliminará la tarjeta sola
+                          return false;
+                        },
+                        child: Card(
+                          margin: const EdgeInsets.only(bottom: AppConfig.paddingMedium),
+                          child: ExpansionTile(
+                            leading: const CircleAvatar(
+                              backgroundColor: AppConfig.primaryColor,
+                              child: Icon(Icons.article, color: Colors.white),
+                            ),
+                            title: Text(
+                              term.term,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: AppConfig.fontSizeBody,
+                              ),
+                            ),
+                            subtitle: Text(
+                              term.categoryDisplayName,
+                              style: const TextStyle(
+                                fontSize: AppConfig.fontSizeCaption,
+                                color: AppConfig.textSecondaryColor,
+                              ),
+                            ),
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(AppConfig.paddingMedium),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    // Definición
+                                Text(
+                                  l10n.dictModDefinitionLabel,
+                                  style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
                                         fontSize: AppConfig.fontSizeBody,
-                                        fontStyle: FontStyle.italic,
                                       ),
                                     ),
-                                  ),
-                                  const SizedBox(height: AppConfig.paddingMedium),
-                                ],
-
-                                // Información adicional
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.calendar_today,
-                                      size: 14,
-                                      color: AppConfig.textSecondaryColor,
-                                    ),
-                                    const SizedBox(width: AppConfig.paddingSmall / 2),
-                                    Text(
-                                      'Propuesto el ${_formatDate(term.createdAt)}',
-                                      style: const TextStyle(
-                                        fontSize: AppConfig.fontSizeCaption,
-                                        color: AppConfig.textSecondaryColor,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: AppConfig.paddingMedium),
-
-                                if (authProvider.isAdmin) ...[
-                                  SizedBox(
-                                    width: double.infinity,
-                                    child: OutlinedButton.icon(
-                                      onPressed: () => _showEditTermDialog(context, term),
-                                      icon: const Icon(Icons.edit),
-                                      label: const Text('Editar término'),
-                                    ),
-                                  ),
-                                  const SizedBox(height: AppConfig.paddingMedium),
-                                ],
-
-                                // Botones de acción
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: OutlinedButton.icon(
-                                        onPressed: () => _showRejectDialog(
-                                          context,
-                                          term.id,
-                                          term.term,
+                                    const SizedBox(height: AppConfig.paddingSmall / 2),
+                                    Container(
+                                      padding: const EdgeInsets.all(AppConfig.paddingSmall),
+                                      decoration: BoxDecoration(
+                                        color: AppConfig.backgroundLight,
+                                        borderRadius: BorderRadius.circular(
+                                          AppConfig.borderRadiusSmall,
                                         ),
-                                        icon: const Icon(Icons.cancel),
-                                        label: const Text('Rechazar'),
-                                        style: OutlinedButton.styleFrom(
-                                          foregroundColor: AppConfig.errorColor,
-                                          side: const BorderSide(
-                                            color: AppConfig.errorColor,
+                                      ),
+                                      child: Text(
+                                        term.definition,
+                                        style: const TextStyle(fontSize: AppConfig.fontSizeBody),
+                                      ),
+                                    ),
+                                    const SizedBox(height: AppConfig.paddingMedium),
+
+                                    // Ejemplo de uso
+                                    if (term.example.isNotEmpty) ...[
+                                  Text(
+                                    l10n.dictModExampleLabel,
+                                    style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: AppConfig.fontSizeBody,
+                                        ),
+                                      ),
+                                      const SizedBox(height: AppConfig.paddingSmall / 2),
+                                      Container(
+                                        padding: const EdgeInsets.all(AppConfig.paddingSmall),
+                                        decoration: BoxDecoration(
+                                          color: AppConfig.accentColor.withOpacity(0.1),
+                                          borderRadius: BorderRadius.circular(
+                                            AppConfig.borderRadiusSmall,
+                                          ),
+                                        ),
+                                        child: Text(
+                                          '"${term.example}"',
+                                          style: const TextStyle(
+                                            fontSize: AppConfig.fontSizeBody,
+                                            fontStyle: FontStyle.italic,
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    const SizedBox(width: AppConfig.paddingMedium),
-                                    Expanded(
-                                      child: ElevatedButton.icon(
-                                        onPressed: () => _approveTerm(
-                                          context,
-                                          term.id,
-                                          term.term,
+                                      const SizedBox(height: AppConfig.paddingMedium),
+                                    ],
+
+                                    // Información adicional
+                                    Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.calendar_today,
+                                          size: 14,
+                                          color: AppConfig.textSecondaryColor,
                                         ),
-                                        icon: const Icon(Icons.check_circle),
-                                        label: const Text('Aprobar'),
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: AppConfig.accentColor,
+                                        const SizedBox(width: AppConfig.paddingSmall / 2),
+                                        Text(
+                                      l10n.dictModProposedOn(_formatDate(term.createdAt)),
+                                          style: const TextStyle(
+                                            fontSize: AppConfig.fontSizeCaption,
+                                            color: AppConfig.textSecondaryColor,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: AppConfig.paddingMedium),
+
+                                    if (authProvider.isAdmin) ...[
+                                      SizedBox(
+                                        width: double.infinity,
+                                        child: OutlinedButton.icon(
+                                          onPressed: () => _showEditTermDialog(context, term),
+                                          icon: const Icon(Icons.edit),
+                                      label: Text(l10n.dictModEditBtn),
                                         ),
                                       ),
+                                      const SizedBox(height: AppConfig.paddingMedium),
+                                    ],
+
+                                    // Pista visual para Swipe
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        const Icon(Icons.swipe_left, size: 16, color: AppConfig.textSecondaryColor),
+                                        const SizedBox(width: 8),
+                                        const Text(
+                                          'Desliza para aprobar o rechazar',
+                                          style: TextStyle(
+                                            fontSize: AppConfig.fontSizeCaption,
+                                            color: AppConfig.textSecondaryColor,
+                                            fontStyle: FontStyle.italic,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 8),
+                                        const Icon(Icons.swipe_right, size: 16, color: AppConfig.textSecondaryColor),
+                                      ],
                                     ),
                                   ],
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    );
-                  },
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             ],
           );
         },
-      ),
+      ); },
     );
   }
+
 
   String _formatDate(DateTime date) {
     return '${date.day}/${date.month}/${date.year}';
   }
 
-  Future<void> _approveTerm(BuildContext context, String termId, String termName) async {
+  Future<bool> _approveTerm(BuildContext context, String termId, String termName) async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final dictionaryProvider = Provider.of<DictionaryProvider>(context, listen: false);
+    final l10n = AppLocalizations.of(context)!;
 
     // Mostrar diálogo de confirmación
     final confirm = await showDialog<bool>(
@@ -336,68 +358,72 @@ class _ModerationScreenState extends State<ModerationScreen> {
       builder: (context) => AlertDialog(
         title: Row(
           children: [
-            Icon(Icons.check_circle, color: AppConfig.accentColor),
-            SizedBox(width: AppConfig.paddingSmall),
-            Text('Aprobar término'),
+            const Icon(Icons.check_circle, color: AppConfig.accentColor),
+            const SizedBox(width: AppConfig.paddingSmall),
+            Text(l10n.dictModApproveTitle),
           ],
         ),
         content: Text(
-          '¿Estás seguro de que deseas aprobar el término "$termName"?\n\n'
-          'Será visible para todos los usuarios.',
+          l10n.dictModApproveConfirm(termName),
           style: const TextStyle(fontSize: AppConfig.fontSizeBody),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Cancelar'),
+            child: Text(l10n.dictModCancelBtn),
           ),
           ElevatedButton(
             onPressed: () => Navigator.of(context).pop(true),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppConfig.accentColor,
             ),
-            child: const Text('Aprobar'),
+            child: Text(l10n.dictModApproveBtn),
           ),
         ],
       ),
     );
 
-    if (confirm != true) return;
+    if (confirm != true) return false;
 
     final success = await dictionaryProvider.approveTerm(
       termId: termId,
       moderatorId: authProvider.currentUser!.id,
     );
 
+    if (success) HapticFeedback.lightImpact();
+
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
             success
-                ? '✓ Término "$termName" aprobado correctamente'
-                : '✗ Error al aprobar el término',
+                ? l10n.dictModApproveSuccess(termName)
+                : l10n.dictModApproveError,
           ),
           backgroundColor: success ? AppConfig.accentColor : AppConfig.errorColor,
         ),
       );
     }
+
+    return success;
   }
 
-  Future<void> _showRejectDialog(
+  Future<bool> _showRejectDialog(
     BuildContext context,
     String termId,
     String termName,
   ) async {
     final reasonController = TextEditingController();
+    final l10n = AppLocalizations.of(context)!;
 
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
         title: Row(
           children: [
-            Icon(Icons.cancel, color: AppConfig.errorColor),
-            SizedBox(width: AppConfig.paddingSmall),
-            Text('Rechazar término'),
+            const Icon(Icons.cancel, color: AppConfig.errorColor),
+            const SizedBox(width: AppConfig.paddingSmall),
+            Text(l10n.dictModRejectTitle),
           ],
         ),
         content: Column(
@@ -405,21 +431,21 @@ class _ModerationScreenState extends State<ModerationScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '¿Por qué rechazas el término "$termName"?',
+              l10n.dictModRejectReasonTitle(termName),
               style: const TextStyle(fontSize: AppConfig.fontSizeBody),
             ),
             const SizedBox(height: AppConfig.paddingMedium),
             TextField(
               controller: reasonController,
               maxLines: 3,
-              decoration: const InputDecoration(
-                hintText: 'Escribe el motivo del rechazo...',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                hintText: l10n.dictModRejectHint,
+                border: const OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: AppConfig.paddingSmall),
-            const Text(
-              'El usuario verá este motivo en sus términos propuestos',
+            Text(
+              l10n.dictModRejectWarning,
               style: TextStyle(
                 fontSize: AppConfig.fontSizeCaption,
                 color: AppConfig.textSecondaryColor,
@@ -431,14 +457,14 @@ class _ModerationScreenState extends State<ModerationScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Cancelar'),
+            child: Text(l10n.dictModCancelBtn),
           ),
           ElevatedButton(
             onPressed: () {
               if (reasonController.text.trim().isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Debes indicar un motivo para rechazar'),
+                  SnackBar(
+                    content: Text(l10n.dictModRejectErrorEmpty),
                     backgroundColor: AppConfig.errorColor,
                   ),
                 );
@@ -449,13 +475,13 @@ class _ModerationScreenState extends State<ModerationScreen> {
             style: ElevatedButton.styleFrom(
               backgroundColor: AppConfig.errorColor,
             ),
-            child: const Text('Rechazar'),
+            child: Text(l10n.dictModRejectBtn),
           ),
         ],
       ),
     );
 
-    if (confirmed != true) return;
+    if (confirmed != true) return false;
 
     final dictionaryProvider = Provider.of<DictionaryProvider>(context, listen: false);
 
@@ -464,18 +490,22 @@ class _ModerationScreenState extends State<ModerationScreen> {
       reason: reasonController.text.trim(),
     );
 
+    if (success) HapticFeedback.lightImpact();
+
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
             success
-                ? '✓ Término "$termName" rechazado'
-                : '✗ Error al rechazar el término',
+                ? l10n.dictModRejectSuccess(termName)
+                : l10n.dictModRejectError,
           ),
           backgroundColor: success ? AppConfig.warningColor : AppConfig.errorColor,
         ),
       );
     }
+
+    return success;
   }
 
   Future<void> _showEditTermDialog(
@@ -486,13 +516,14 @@ class _ModerationScreenState extends State<ModerationScreen> {
     final definitionController = TextEditingController(text: term.definition);
     final exampleController = TextEditingController(text: term.example);
     String selectedCategory = term.category;
+    final l10n = AppLocalizations.of(context)!;
 
     final updated = await showDialog<bool>(
       context: context,
       builder: (dialogContext) {
         return StatefulBuilder(
           builder: (context, setDialogState) => AlertDialog(
-            title: const Text('Editar término'),
+            title: Text(l10n.dictModEditTitle),
             content: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -500,41 +531,41 @@ class _ModerationScreenState extends State<ModerationScreen> {
                 children: [
                   TextField(
                     controller: termController,
-                    decoration: const InputDecoration(
-                      labelText: 'Término',
-                      border: OutlineInputBorder(),
+                    decoration: InputDecoration(
+                      labelText: l10n.dictModEditFieldTerm,
+                      border: const OutlineInputBorder(),
                     ),
                   ),
                   const SizedBox(height: AppConfig.paddingMedium),
                   TextField(
                     controller: definitionController,
                     maxLines: 3,
-                    decoration: const InputDecoration(
-                      labelText: 'Definición',
-                      border: OutlineInputBorder(),
+                    decoration: InputDecoration(
+                      labelText: l10n.dictModEditFieldDef,
+                      border: const OutlineInputBorder(),
                     ),
                   ),
                   const SizedBox(height: AppConfig.paddingMedium),
                   TextField(
                     controller: exampleController,
                     maxLines: 2,
-                    decoration: const InputDecoration(
-                      labelText: 'Ejemplo (opcional)',
-                      border: OutlineInputBorder(),
+                    decoration: InputDecoration(
+                      labelText: l10n.dictModEditFieldEx,
+                      border: const OutlineInputBorder(),
                     ),
                   ),
                   const SizedBox(height: AppConfig.paddingMedium),
                   DropdownButtonFormField<String>(
                     initialValue: selectedCategory,
-                    decoration: const InputDecoration(
-                      labelText: 'Categoría',
-                      border: OutlineInputBorder(),
+                    decoration: InputDecoration(
+                      labelText: l10n.dictModEditFieldCat,
+                      border: const OutlineInputBorder(),
                     ),
                     items: AppConfig.dictionaryCategories
                         .map(
                           (category) => DropdownMenuItem<String>(
                             value: category,
-                            child: Text(_getCategoryLabel(category)),
+                            child: Text(_getCategoryLabel(category, l10n)),
                           ),
                         )
                         .toList(),
@@ -551,15 +582,15 @@ class _ModerationScreenState extends State<ModerationScreen> {
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(dialogContext).pop(false),
-                child: const Text('Cancelar'),
+                child: Text(l10n.dictModCancelBtn),
               ),
               ElevatedButton(
                 onPressed: () async {
                   if (termController.text.trim().isEmpty ||
                       definitionController.text.trim().isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Término y definición son obligatorios'),
+                      SnackBar(
+                        content: Text(l10n.dictModEditErrorEmpty),
                         backgroundColor: AppConfig.errorColor,
                       ),
                     );
@@ -588,13 +619,13 @@ class _ModerationScreenState extends State<ModerationScreen> {
                     SnackBar(
                       content: Text(
                         dictionaryProvider.errorMessage ??
-                            'No se pudo actualizar el término',
+                            l10n.dictModEditErrorGeneric,
                       ),
                       backgroundColor: AppConfig.errorColor,
                     ),
                   );
                 },
-                child: const Text('Guardar cambios'),
+                child: Text(l10n.dictModEditSaveBtn),
               ),
             ],
           ),
@@ -604,22 +635,22 @@ class _ModerationScreenState extends State<ModerationScreen> {
 
     if (updated == true && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('✓ Término actualizado correctamente'),
+        SnackBar(
+          content: Text(l10n.dictModEditSuccess),
           backgroundColor: AppConfig.accentColor,
         ),
       );
     }
   }
 
-  String _getCategoryLabel(String category) {
+  String _getCategoryLabel(String category, AppLocalizations l10n) {
     switch (category) {
       case 'jerga_gamer':
-        return 'Jerga Gamer';
+        return l10n.dictCategoryJerga;
       case 'mecánicas_juego':
-        return 'Mecánicas de Juego';
+        return l10n.dictCategoryMechanics;
       case 'plataformas':
-        return 'Plataformas';
+        return l10n.dictCategoryPlatforms;
       default:
         return category;
     }

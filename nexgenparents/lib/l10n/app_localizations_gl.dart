@@ -334,4 +334,644 @@ class AppLocalizationsGl extends AppLocalizations {
 
   @override
   String get nintendoGuideStep5 => 'Paso 5: Proba os controis parentais.';
+
+  @override
+  String get searchGamesHint => 'Buscar xogo por nome...';
+
+  @override
+  String get searchGamesAdvancedFilters => 'Filtros avanzados';
+
+  @override
+  String get searchGamesShowingRecent =>
+      'Mostrando os xogos máis recentes do último ano';
+
+  @override
+  String get searchGamesFilterFrom => 'Desde';
+
+  @override
+  String get searchGamesFilterTo => 'Ata';
+
+  @override
+  String get searchGamesFilterGenres => 'xénero(s)';
+
+  @override
+  String get searchGamesFilterPlatforms => 'plataforma(s)';
+
+  @override
+  String get searchGamesClearAll => 'Limpar todo';
+
+  @override
+  String get searchGamesEmptyTitle => 'Non se atoparon xogos';
+
+  @override
+  String get searchGamesEmptyMessage =>
+      'Tenta axustar os filtros ou busca outro termo';
+
+  @override
+  String get filtersTitle => 'Filtros de Busca';
+
+  @override
+  String get filtersClear => 'Limpar';
+
+  @override
+  String get filtersInfoBanner =>
+      'Combina múltiples filtros para atopar o xogo perfecto';
+
+  @override
+  String get filtersYearTitle => 'Ano de lanzamento';
+
+  @override
+  String get filtersYearSubtitle => 'Filtra xogos polo seu ano de saída';
+
+  @override
+  String get filtersYearFrom => 'Desde';
+
+  @override
+  String get filtersYearTo => 'Ata';
+
+  @override
+  String get filtersYearAny => 'Calquera';
+
+  @override
+  String get filtersPegiTitle => 'Idade recomendada (PEGI)';
+
+  @override
+  String get filtersPegiSubtitle =>
+      'Selecciona a idade do teu fillo para ver xogos apropiados';
+
+  @override
+  String get filtersPlatformTitle => 'Plataforma';
+
+  @override
+  String get filtersPlatformSubtitle =>
+      'Selecciona en que dispositivos queres que estea dispoñible';
+
+  @override
+  String get filtersGenreTitle => 'Xénero de xogo';
+
+  @override
+  String get filtersGenreSubtitle => 'Elixe o tipo de xogos que che interesan';
+
+  @override
+  String get filtersApplyBtn => 'Aplicar Filtros';
+
+  @override
+  String get forumSearchHint => 'Buscar fíos por título...';
+
+  @override
+  String get forumEmptySearchTitle => 'Sen resultados';
+
+  @override
+  String get forumEmptySearchMessage =>
+      'Non se atoparon fíos que coincidan coa túa busca.';
+
+  @override
+  String get forumEmptyCategoryTitle => 'Categoría baleira';
+
+  @override
+  String get forumEmptyCategoryMessage =>
+      'Aínda non hai novidades nesta sección. Anímate e publica algo!';
+
+  @override
+  String forumPostSubtitle(String author, int count) {
+    return 'por $author • $count respostas';
+  }
+
+  @override
+  String get forumDeleteTooltip => 'Eliminar';
+
+  @override
+  String get forumDeletePostTitle => 'Eliminar publicación';
+
+  @override
+  String forumDeletePostContent(String title) {
+    return 'Queres eliminar \"$title\" e todas as súas respostas?';
+  }
+
+  @override
+  String get forumCancelBtn => 'Cancelar';
+
+  @override
+  String get forumDeleteBtn => 'Eliminar';
+
+  @override
+  String get forumNewPostBtn => 'Novo Fío';
+
+  @override
+  String get forumPostDeletedSuccess => 'Publicación eliminada';
+
+  @override
+  String get forumPostDeletedError => 'Non se puido eliminar a publicación';
+
+  @override
+  String get forumCreateLoginRequired => 'Debes iniciar sesión para publicar';
+
+  @override
+  String get forumCreateUnknownError => 'Erro descoñecido';
+
+  @override
+  String get forumCreateTitle => 'Crear Novo Fío';
+
+  @override
+  String get forumCreateFieldTitle => 'Título';
+
+  @override
+  String get forumCreateErrorTitle => 'O título é obrigatorio';
+
+  @override
+  String get forumCreateFieldSection => 'Sección';
+
+  @override
+  String get forumCreateFieldContent => 'Contido';
+
+  @override
+  String get forumCreateErrorContent => 'O contido é obrigatorio';
+
+  @override
+  String get forumCreatePublishingBtn => 'Publicando...';
+
+  @override
+  String get forumCreatePublishBtn => 'Publicar';
+
+  @override
+  String forumPostByAuthor(String author) {
+    return 'por $author';
+  }
+
+  @override
+  String get forumDetailRepliesTitle => 'Respostas';
+
+  @override
+  String get forumDetailEmptyReplies => 'Aínda non hai respostas.';
+
+  @override
+  String get forumDeleteReplyTooltip => 'Eliminar resposta';
+
+  @override
+  String get forumDeleteReplyTitle => 'Eliminar resposta';
+
+  @override
+  String get forumDeleteReplyContent => 'Queres eliminar esta resposta?';
+
+  @override
+  String get forumReplyDeletedSuccess => 'Resposta eliminada';
+
+  @override
+  String get forumReplyDeletedError => 'Non se puido eliminar a resposta';
+
+  @override
+  String get forumDetailReplyInputHint => 'Escribe unha resposta...';
+
+  @override
+  String get dictDetailTitle => 'Detalle do Termo';
+
+  @override
+  String get dictEditTooltip => 'Editar Termo';
+
+  @override
+  String get dictDeleteTooltip => 'Eliminar Termo';
+
+  @override
+  String get dictLoadingTerm => 'Cargando termo...';
+
+  @override
+  String get dictErrorLoadingTerm => 'Non se puido cargar o termo';
+
+  @override
+  String get dictBackBtn => 'Volver';
+
+  @override
+  String get dictDefinitionLabel => 'Definición';
+
+  @override
+  String get dictExampleLabel => 'Exemplo de uso';
+
+  @override
+  String get dictUsefulQuestion => 'Fóiche útil este termo?';
+
+  @override
+  String get dictVoteThanks => 'Grazas polo teu voto!';
+
+  @override
+  String get dictVoteRegistered => 'Voto rexistrado';
+
+  @override
+  String get dictVoteBtn => 'Si, axudoume';
+
+  @override
+  String get dictUsefulVotes => 'Votos útiles';
+
+  @override
+  String get dictViews => 'Visualizacións';
+
+  @override
+  String get dictAdditionalInfo => 'Información adicional';
+
+  @override
+  String get dictAddedOn => 'Engadido o';
+
+  @override
+  String get dictLastUpdate => 'Última actualización';
+
+  @override
+  String get dictStatusLabel => 'Estado';
+
+  @override
+  String get dictStatusApproved => 'Aprobado';
+
+  @override
+  String get dictStatusPending => 'Pendente';
+
+  @override
+  String get dictStatusRejected => 'Rexeitado';
+
+  @override
+  String get dictEditDialogTitle => 'Editar Termo';
+
+  @override
+  String get dictEditFieldTerm => 'Termo';
+
+  @override
+  String get dictEditErrorTerm => 'O termo non pode estar baleiro';
+
+  @override
+  String get dictEditFieldDefinition => 'Definición';
+
+  @override
+  String get dictEditErrorDefinition => 'A definición non pode estar baleira';
+
+  @override
+  String get dictEditFieldExample => 'Exemplo (opcional)';
+
+  @override
+  String get dictEditFieldCategory => 'Categoría';
+
+  @override
+  String get dictCancelBtn => 'Cancelar';
+
+  @override
+  String get dictSaveChangesBtn => 'Gardar Cambios';
+
+  @override
+  String get dictUpdateSuccess => 'Termo actualizado correctamente';
+
+  @override
+  String get dictUpdateError => 'Erro ao actualizar o termo';
+
+  @override
+  String get dictDeleteConfirmTitle => 'Confirmar Eliminación';
+
+  @override
+  String get dictDeleteConfirmContent =>
+      'Estás seguro de que queres eliminar este termo de forma permanente? Esta acción non se pode desfacer.';
+
+  @override
+  String get dictDeleteBtn => 'Eliminar';
+
+  @override
+  String get dictDeleteSuccess => 'Termo eliminado correctamente';
+
+  @override
+  String get dictDeleteError => 'Erro ao eliminar o termo';
+
+  @override
+  String get dictListEmptyTitle => 'Non hai termos no dicionario';
+
+  @override
+  String get dictListEmptyMessage => 'Sé o primeiro en propoñer un termo';
+
+  @override
+  String get dictListProposeBtn => 'Propoñer termo';
+
+  @override
+  String get dictProposeErrorAuth => 'Erro: Usuario non autenticado';
+
+  @override
+  String get dictProposeSuccessTitle => 'Termo enviado!';
+
+  @override
+  String get dictProposeSuccessMessage =>
+      'O teu termo foi proposto correctamente e será revisado por un moderador. Notificarémosche cando sexa aprobado.';
+
+  @override
+  String get dictProposeUnderstoodBtn => 'Entendido';
+
+  @override
+  String get dictProposeErrorGeneric => 'Erro ao propoñer termo';
+
+  @override
+  String get dictProposeTitle => 'Propoñer Termo';
+
+  @override
+  String get dictProposeHelpText =>
+      'Axuda a outros pais engadindo termos que coñezas';
+
+  @override
+  String get dictProposeFieldTerm => 'Termo ou palabra';
+
+  @override
+  String get dictProposeFieldTermHint => 'Ex: GG, Nerf, Farming';
+
+  @override
+  String get dictProposeErrorTermEmpty => 'Por favor, introduce o termo';
+
+  @override
+  String get dictProposeErrorTermLength =>
+      'O termo debe ter polo menos 2 caracteres';
+
+  @override
+  String get dictProposeFieldCategory => 'Categoría';
+
+  @override
+  String get dictProposeFieldDefinition => 'Definición';
+
+  @override
+  String get dictProposeFieldDefinitionHint =>
+      'Explica que significa este termo de forma clara e sinxela';
+
+  @override
+  String get dictProposeErrorDefinitionEmpty =>
+      'Por favor, introduce a definición';
+
+  @override
+  String get dictProposeErrorDefinitionLength =>
+      'A definición debe ter polo menos 10 caracteres';
+
+  @override
+  String get dictProposeFieldExample => 'Exemplo de uso';
+
+  @override
+  String get dictProposeFieldExampleHint =>
+      'Ex: \"Os nenos din GG ao final de cada partida\"';
+
+  @override
+  String get dictProposeErrorExampleEmpty =>
+      'Por favor, introduce un exemplo de uso';
+
+  @override
+  String get dictProposeErrorExampleLength =>
+      'O exemplo debe ter polo menos 10 caracteres';
+
+  @override
+  String get dictProposeWarningText =>
+      'O teu termo será revisado por un moderador antes de aparecer no dicionario. Isto axuda a manter a calidade do contido.';
+
+  @override
+  String get dictProposeSendingBtn => 'Enviando...';
+
+  @override
+  String get dictProposeSubmitBtn => 'Propoñer termo';
+
+  @override
+  String get dictCategoryJerga => 'Xerga Gamer';
+
+  @override
+  String get dictCategoryMechanics => 'Mecánicas de Xogo';
+
+  @override
+  String get dictCategoryPlatforms => 'Plataformas';
+
+  @override
+  String get dictModAccessDeniedTitle => 'Acceso Denegado';
+
+  @override
+  String get dictModAccessDeniedMessage =>
+      'Non tes permisos para acceder a esta sección';
+
+  @override
+  String get dictModAccessDeniedSubtitle =>
+      'Só os moderadores poden revisar termos propostos';
+
+  @override
+  String get dictModTitle => 'Panel de Moderación';
+
+  @override
+  String get dictModRefreshTooltip => 'Actualizar';
+
+  @override
+  String get dictModLoading => 'Cargando termos pendentes...';
+
+  @override
+  String get dictModAllReviewedTitle => 'Todo revisado!';
+
+  @override
+  String get dictModAllReviewedMessage => 'Non hai termos pendentes de revisar';
+
+  @override
+  String dictModPendingCount(int count) {
+    return '$count termos pendentes de revisión';
+  }
+
+  @override
+  String get dictModDefinitionLabel => 'Definición:';
+
+  @override
+  String get dictModExampleLabel => 'Exemplo de uso:';
+
+  @override
+  String dictModProposedOn(String date) {
+    return 'Proposto o $date';
+  }
+
+  @override
+  String get dictModEditBtn => 'Editar termo';
+
+  @override
+  String get dictModSwipeHint => 'Desliza para aprobar ou rexeitar';
+
+  @override
+  String get dictModApproveTitle => 'Aprobar termo';
+
+  @override
+  String dictModApproveConfirm(String term) {
+    return 'Estás seguro de que desexas aprobar o termo \"$term\"?\n\nSerá visible para todos os usuarios.';
+  }
+
+  @override
+  String get dictModCancelBtn => 'Cancelar';
+
+  @override
+  String get dictModApproveBtn => 'Aprobar';
+
+  @override
+  String dictModApproveSuccess(String term) {
+    return '✓ Termo \"$term\" aprobado correctamente';
+  }
+
+  @override
+  String get dictModApproveError => '✗ Erro ao aprobar o termo';
+
+  @override
+  String get dictModRejectTitle => 'Rexeitar termo';
+
+  @override
+  String dictModRejectReasonTitle(String term) {
+    return 'Por que rexeitas o termo \"$term\"?';
+  }
+
+  @override
+  String get dictModRejectHint => 'Escribe o motivo do rexeitamento...';
+
+  @override
+  String get dictModRejectWarning =>
+      'O usuario verá este motivo nos seus termos propostos';
+
+  @override
+  String get dictModRejectErrorEmpty => 'Debes indicar un motivo para rexeitar';
+
+  @override
+  String get dictModRejectBtn => 'Rexeitar';
+
+  @override
+  String dictModRejectSuccess(String term) {
+    return '✓ Termo \"$term\" rexeitado';
+  }
+
+  @override
+  String get dictModRejectError => '✗ Erro ao rexeitar o termo';
+
+  @override
+  String get dictModEditTitle => 'Editar termo';
+
+  @override
+  String get dictModEditFieldTerm => 'Termo';
+
+  @override
+  String get dictModEditFieldDef => 'Definición';
+
+  @override
+  String get dictModEditFieldEx => 'Exemplo (opcional)';
+
+  @override
+  String get dictModEditFieldCat => 'Categoría';
+
+  @override
+  String get dictModEditErrorEmpty => 'Termo e definición son obrigatorios';
+
+  @override
+  String get dictModEditErrorGeneric => 'Non se puido actualizar o termo';
+
+  @override
+  String get dictModEditSaveBtn => 'Gardar cambios';
+
+  @override
+  String get dictModEditSuccess => '✓ Termo actualizado correctamente';
+
+  @override
+  String get myTermsTitle => 'Os Meus Termos Propostos';
+
+  @override
+  String get myTermsLoading => 'Cargando os teus termos...';
+
+  @override
+  String get myTermsEmptyTitle => 'Aínda non propuxeches termos';
+
+  @override
+  String get myTermsEmptyMessage =>
+      'Contribúe ao dicionario propoñendo novos termos';
+
+  @override
+  String get myTermsProposedCount => 'Termos propostos';
+
+  @override
+  String get myTermsApproved => 'Aprobados';
+
+  @override
+  String get myTermsPending => 'Pendentes';
+
+  @override
+  String get myTermsViewReason => 'Ver motivo';
+
+  @override
+  String get adminAccessDeniedTitle => 'Acceso Denegado';
+
+  @override
+  String get adminAccessDeniedMessage => 'Só os administradores poden acceder';
+
+  @override
+  String get adminUsersTitle => 'Xestión de Usuarios';
+
+  @override
+  String get adminUsersInfoTooltip => 'Información';
+
+  @override
+  String get adminUsersLoading => 'Cargando usuarios...';
+
+  @override
+  String get adminUsersError => 'Erro ao cargar usuarios';
+
+  @override
+  String get adminUsersEmpty => 'Non hai usuarios rexistrados';
+
+  @override
+  String get adminUsersStatTotal => 'Total';
+
+  @override
+  String get adminUsersStatAdmins => 'Admins';
+
+  @override
+  String get adminUsersStatMods => 'Moderadores';
+
+  @override
+  String get adminUsersStatUsers => 'Usuarios';
+
+  @override
+  String get adminUsersBadgeYou => 'Ti';
+
+  @override
+  String adminUsersProposedApproved(Object approved, Object proposed) {
+    return '$proposed propostos | $approved aprobados';
+  }
+
+  @override
+  String get adminUsersActionMakeUser => 'Cambiar a Usuario';
+
+  @override
+  String get adminUsersActionMakeMod => 'Cambiar a Moderador';
+
+  @override
+  String get adminUsersActionMakeAdmin => 'Cambiar a Admin';
+
+  @override
+  String get adminRoleAdmin => 'Admin';
+
+  @override
+  String get adminRoleModerator => 'Moderador';
+
+  @override
+  String get adminRoleUser => 'Usuario';
+
+  @override
+  String get adminChangeRoleTitle => 'Confirmar cambio de rol';
+
+  @override
+  String adminChangeRoleConfirm(Object role, Object user) {
+    return 'Estás seguro de que desexas cambiar o rol de \"$user\" a \"$role\"?';
+  }
+
+  @override
+  String get adminCancelBtn => 'Cancelar';
+
+  @override
+  String get adminConfirmBtn => 'Confirmar';
+
+  @override
+  String get adminInfoDialogTitle => 'Xestión de Roles';
+
+  @override
+  String get adminInfoDialogSubtitle => 'Roles dispoñibles:';
+
+  @override
+  String get adminInfoUserDesc =>
+      'Pode consultar o dicionario e propoñer termos';
+
+  @override
+  String get adminInfoModDesc => 'Pode aprobar ou rexeitar termos propostos';
+
+  @override
+  String get adminInfoAdminDesc =>
+      'Ten acceso completo, incluída a xestión de usuarios';
+
+  @override
+  String get adminInfoUnderstoodBtn => 'Entendido';
 }

@@ -9,11 +9,8 @@ import '../../screens/dictionary/moderation_screen.dart';
 import '../../screens/dictionary/my_proposed_terms_screen.dart';
 import '../../screens/forum/forum_list_screen.dart';
 import '../../screens/games/games_search_screen.dart';
-import '../../screens/home/home_screen.dart';
-import '../../screens/info/pegi_info_screen.dart';
 import '../../screens/parental_guides/parental_guides_list_screen.dart';
 import '../../screens/profile/edit_profile_screen.dart';
-import 'app_footer.dart';
 import 'app_header.dart';
 
 class PersistentFrameScope extends InheritedWidget {

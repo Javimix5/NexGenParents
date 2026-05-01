@@ -21,6 +21,7 @@ import '../dictionary/dictionary_list_screen.dart';
 import '../dictionary/moderation_screen.dart';
 import '../dictionary/my_proposed_terms_screen.dart';
 import '../forum/forum_list_screen.dart';
+import '../forum/forum_category_posts_screen.dart';
 import '../games/game_detail_screen.dart';
 import '../games/games_search_screen.dart';
 import '../info/pegi_info_screen.dart';
@@ -39,6 +40,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<int>? _userMessagesCountFuture;
   String? _lastUserId;
   final GlobalKey<AccountMenuButtonState> _accountMenuKey = GlobalKey<AccountMenuButtonState>();
+  final ScrollController _scrollController = ScrollController();
+  bool _showBackToTopButton = false;
 
   void _closeUserMenu(BuildContext context) {
     _accountMenuKey.currentState?.closeMenu();
@@ -47,6 +50,15 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    _scrollController.addListener(() {
+      if (!_scrollController.hasClients) return;
+      if (_scrollController.offset >= 400 && !_showBackToTopButton) {
+        setState(() => _showBackToTopButton = true);
+      } else if (_scrollController.offset < 400 && _showBackToTopButton) {
+        setState(() => _showBackToTopButton = false);
+      }
+    });
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final dictionaryProvider =
           Provider.of<DictionaryProvider>(context, listen: false);
@@ -84,18 +96,37 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void dispose() {
     _homeViewModel.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
   @override
 Widget build(BuildContext context) {
-  return AnimatedBuilder(
-    animation: _homeViewModel,
-    builder: (context, child) {
-      return Scaffold(
-        body: _buildBody(context),
-      );
-    },
+  return Scaffold(
+    body: AnimatedBuilder(
+      animation: _homeViewModel,
+      builder: (context, child) {
+        return _buildBody(context);
+      },
+    ),
+    floatingActionButton: _showBackToTopButton
+        ? FloatingActionButton(
+            heroTag: 'home_back_to_top_btn', // Etiqueta única para evitar colisiones
+            onPressed: () {
+              if (_scrollController.hasClients) {
+                _scrollController.animateTo(
+                  0,
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.easeInOut,
+                );
+              }
+            },
+            backgroundColor: AppConfig.primaryColor,
+            foregroundColor: Colors.white,
+            mini: true,
+            child: const Icon(Icons.arrow_upward),
+          )
+        : null,
   );
 }
 
@@ -162,6 +193,7 @@ Widget _buildMainContent(BuildContext context) {
         return false;
       },
     child: SingleChildScrollView(
+      controller: _scrollController,
       padding: EdgeInsets.fromLTRB(
         horizontalPadding,
         24,
@@ -258,20 +290,22 @@ Widget _buildFeaturedGameAndUpdates(BuildContext context) {
         );
       }
 
-      return Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            flex: 3,
-            child: _buildGameFeature(context, featuredGame),
-          ),
-          const SizedBox(width: 24),
-          Expanded(
-            flex: 2,
-            child: _buildUpdatesPanel(context),
-          ),
-        ],
-      );
+              return IntrinsicHeight(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(
+                      flex: 3,
+                      child: _buildGameFeature(context, featuredGame),
+                    ),
+                    const SizedBox(width: 24),
+                    Expanded(
+                      flex: 2,
+                      child: _buildUpdatesPanel(context),
+                    ),
+                  ],
+                ),
+              );
     },
   );
 }
@@ -581,13 +615,16 @@ void _handleNavigation(BuildContext context, AppSection section) {
           );
         }
 
-        return Row(
-          children: [
-            for (var index = 0; index < actions.length; index++) ...[
-              Expanded(child: _buildQuickActionCard(context, actions[index])),
-              if (index < actions.length - 1) const SizedBox(width: 16),
+        return IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              for (var index = 0; index < actions.length; index++) ...[
+                Expanded(child: _buildQuickActionCard(context, actions[index])),
+                if (index < actions.length - 1) const SizedBox(width: 16),
+              ],
             ],
-          ],
+          ),
         );
       },
     );
@@ -632,6 +669,8 @@ void _handleNavigation(BuildContext context, AppSection section) {
               const SizedBox(height: 18),
               Text(
                 action.title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       fontWeight: FontWeight.w800,
                     ),
@@ -639,6 +678,8 @@ void _handleNavigation(BuildContext context, AppSection section) {
               const SizedBox(height: 6),
               Text(
                 action.subtitle,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontSize: 13.5,
                       height: 1.35,
@@ -665,25 +706,27 @@ void _handleNavigation(BuildContext context, AppSection section) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                    fontSize: 21,
-                    fontWeight: FontWeight.w800,
-                  ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              subtitle,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(fontSize: 13.5),
-            ),
-          ],
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                      fontSize: 21,
+                      fontWeight: FontWeight.w800,
+                    ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                subtitle,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium
+                    ?.copyWith(fontSize: 13.5),
+              ),
+            ],
+          ),
         ),
       ],
     );
@@ -705,14 +748,16 @@ void _handleNavigation(BuildContext context, AppSection section) {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                _t(
-                  context,
-                  es: 'Juego de la semana',
-                  gl: 'Xogo da semana',
-                  en: 'Game of the week',
+              Expanded(
+                child: Text(
+                  _t(
+                    context,
+                    es: 'Juego de la semana',
+                    gl: 'Xogo da semana',
+                    en: 'Game of the week',
+                  ),
+                  style: const TextStyle(fontSize: 21, fontWeight: FontWeight.w800),
                 ),
-                style: const TextStyle(fontSize: 21, fontWeight: FontWeight.w800),
               ),
               TextButton(
                 onPressed: () async {
@@ -739,7 +784,7 @@ void _handleNavigation(BuildContext context, AppSection section) {
           ),
           const SizedBox(height: 14),
           Container(
-            height: 250,
+              constraints: const BoxConstraints(minHeight: 250),
             width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
@@ -775,11 +820,12 @@ void _handleNavigation(BuildContext context, AppSection section) {
                     ),
                   ),
                 ),
-                Padding(
+                Container(
+                  alignment: Alignment.bottomLeft,
                   padding: const EdgeInsets.all(22),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
                         _buildGameTopLabel(context, featuredGame),
@@ -792,6 +838,8 @@ void _handleNavigation(BuildContext context, AppSection section) {
                       const SizedBox(height: 10),
                       Text(
                         featuredGame?.name ?? 'Starlight Echoes',
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 28,
@@ -802,6 +850,8 @@ void _handleNavigation(BuildContext context, AppSection section) {
                       const SizedBox(height: 10),
                       Text(
                         _buildGameSummary(context, featuredGame),
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           color: Colors.white.withValues(alpha: 0.72),
                           height: 1.45,
@@ -883,11 +933,10 @@ void _handleNavigation(BuildContext context, AppSection section) {
             style: const TextStyle(fontSize: 21, fontWeight: FontWeight.w800),
           ),
           const SizedBox(height: 16),
-          StreamBuilder<List<ForumPost>>(
-            stream: forumProvider.postsStream,
-            builder: (context, snapshot) {
+        Consumer<ForumProvider>(
+          builder: (context, forumProvider, child) {
               final languageCode = Localizations.localeOf(context).languageCode;
-              final posts = snapshot.data ?? const <ForumPost>[];
+            final posts = forumProvider.posts;
               final items = <_CommunityUpdateItem>[
                 _createCommunityUpdateItem(
                   context,
@@ -1153,7 +1202,7 @@ void _handleNavigation(BuildContext context, AppSection section) {
       icon: icon,
       tint: tint,
       onTap: () =>
-          _navigateTo(context, ForumListScreen(topicFilter: sectionId)),
+          _navigateTo(context, ForumCategoryPostsScreen(section: ForumSections.byId(sectionId))),
     );
   }
 

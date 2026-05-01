@@ -11,98 +11,157 @@ import 'forum_categories_grid.dart';
 import 'forum_platforms_section.dart';
 import 'forum_sidebar.dart';
 
-class ForumListScreen extends StatelessWidget {
+class ForumListScreen extends StatefulWidget {
   final String? topicFilter;
 
   const ForumListScreen({super.key, this.topicFilter});
 
   @override
+  State<ForumListScreen> createState() => _ForumListScreenState();
+}
+
+class _ForumListScreenState extends State<ForumListScreen> {
+  final ScrollController _scrollController = ScrollController();
+  bool _showBackToTopButton = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(() {
+      if (!_scrollController.hasClients) return;
+      if (_scrollController.offset >= 300 && !_showBackToTopButton) {
+        setState(() => _showBackToTopButton = true);
+      } else if (_scrollController.offset < 300 && _showBackToTopButton) {
+        setState(() => _showBackToTopButton = false);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  String _t(BuildContext context, {required String es, required String gl, required String en}) {
+    switch (Localizations.localeOf(context).languageCode) {
+      case 'gl': return gl;
+      case 'en': return en;
+      default: return es;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final forumProvider = context.read<ForumProvider>();
+    final forumProvider = context.watch<ForumProvider>();
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
       backgroundColor:
           isDark ? const Color(0xFF0F0F1A) : const Color(0xFFF0F4FF),
-      body: StreamBuilder<List<ForumPost>>(
-        stream: forumProvider.postsStream,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          }
-
-          final allPosts = snapshot.data ?? [];
-
-          return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  final isWide = constraints.maxWidth > 700;
-                  return Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // ── Contenido principal ──
-                      Expanded(
-                        flex: 3,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ForumCategoriesGrid(
-                              allPosts: allPosts,
-                              initialTopicFilter: topicFilter,
-                            ),
-                            const SizedBox(height: 24),
-                            ForumPlatformsSection(
-                              isDark: isDark,
-                            ),
-                            const SizedBox(height: 24),
-                            AppFooter(
-                              onPrivacyTap: () => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (_) => const PegiInfoScreen()),
+      body: forumProvider.isPostsLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Builder(
+              builder: (context) {
+                final allPosts = forumProvider.posts;
+                return RefreshIndicator(
+            onRefresh: () async {
+              await Future.delayed(const Duration(milliseconds: 600));
+            },
+            child: SingleChildScrollView(
+              controller: _scrollController,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16, top: 16, right: 16, bottom: 120),
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final isWide = constraints.maxWidth > 700;
+                    return Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // ── Contenido principal ──
+                        Expanded(
+                          flex: 3,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ForumCategoriesGrid(
+                                allPosts: allPosts,
+                                  initialTopicFilter: widget.topicFilter,
                               ),
-                              onAboutTap: () => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (_) => const PegiInfoScreen()),
+                              const SizedBox(height: 24),
+                              ForumPlatformsSection(
+                                isDark: isDark,
                               ),
-                              onContactTap: () => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (_) =>
-                                        const ParentalGuidesListScreen()),
+                              const SizedBox(height: 24),
+                              AppFooter(
+                                onPrivacyTap: () => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (_) => const PegiInfoScreen()),
+                                ),
+                                onAboutTap: () => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (_) => const PegiInfoScreen()),
+                                ),
+                                onContactTap: () => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (_) =>
+                                          const ParentalGuidesListScreen()),
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      if (isWide) ...[
-                        const SizedBox(width: 16),
-                        // ── Sidebar derecho ──
-                        SizedBox(
-                          width: 220,
-                          child: ForumSidebar(isDark: isDark),
-                        ),
+                        if (isWide) ...[
+                          const SizedBox(width: 16),
+                          // ── Sidebar derecho ──
+                          SizedBox(
+                            width: 220,
+                            child: ForumSidebar(isDark: isDark),
+                          ),
+                        ],
                       ],
-                    ],
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             ),
           );
         },
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(builder: (_) => const CreatePostScreen()),
-          );
-        },
-        label: const Text('Nuevo Hilo'),
-        icon: const Icon(Icons.add),
-        backgroundColor: AppConfig.accentColor,
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          if (_showBackToTopButton) ...[
+            FloatingActionButton.small(
+              heroTag: 'forum_list_back_to_top_btn',
+              onPressed: () {
+                if (_scrollController.hasClients) {
+                  _scrollController.animateTo(
+                    0,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                  );
+                }
+              },
+              backgroundColor: AppConfig.primaryColor,
+              foregroundColor: Colors.white,
+              child: const Icon(Icons.arrow_upward),
+            ),
+            const SizedBox(height: 16),
+          ],
+          FloatingActionButton.extended(
+            heroTag: 'forum_list_create_post_btn',
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const CreatePostScreen()),
+              );
+            },
+            label: Text(_t(context, es: 'Nuevo Hilo', gl: 'Novo Fío', en: 'New Thread')),
+            icon: const Icon(Icons.add),
+            backgroundColor: AppConfig.accentColor,
+          ),
+        ],
       ),
     );
   }

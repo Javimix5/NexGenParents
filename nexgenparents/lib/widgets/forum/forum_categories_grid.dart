@@ -43,6 +43,14 @@ class _ForumCategoriesGridState extends State<ForumCategoriesGrid> {
         : ForumSections.idFromLegacyTopic(widget.initialTopicFilter);
   }
 
+  String _t(BuildContext context, {required String es, required String gl, required String en}) {
+    switch (Localizations.localeOf(context).languageCode) {
+      case 'gl': return gl;
+      case 'en': return en;
+      default: return es;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final authProvider = context.watch<AuthProvider>();
@@ -59,7 +67,7 @@ class _ForumCategoriesGridState extends State<ForumCategoriesGrid> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'General Categories',
+              _t(context, es: 'Categorías Principales', gl: 'Categorías Principais', en: 'Main Categories'),
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -69,7 +77,7 @@ class _ForumCategoriesGridState extends State<ForumCategoriesGrid> {
             TextButton.icon(
               onPressed: () => setState(() => _selectedSectionId = null),
               icon: Text(
-                'View All',
+                _t(context, es: 'Ver todo', gl: 'Ver todo', en: 'View All'),
                 style: TextStyle(
                   color: isDark ? const Color(0xFF8B5CF6) : const Color(0xFF6366F1),
                   fontWeight: FontWeight.w600,
@@ -143,8 +151,8 @@ class _ForumCategoriesGridState extends State<ForumCategoriesGrid> {
     if (posts.isEmpty) {
       return AppEmptyState(
         icon: Icons.forum_outlined,
-        title: 'No hay publicaciones en esta sección',
-        message: 'Todavía no hay novedades aquí.',
+        title: _t(context, es: 'No hay publicaciones en esta sección', gl: 'Non hai publicacións nesta sección', en: 'No posts in this section'),
+        message: _t(context, es: 'Todavía no hay novedades aquí.', gl: 'Aínda non hai novidades aquí.', en: 'Nothing new here yet.'),
       );
     }
 
@@ -203,7 +211,7 @@ class _ForumCategoriesGridState extends State<ForumCategoriesGrid> {
                   style: TextStyle(fontWeight: FontWeight.bold, color: isDark ? Colors.white : Colors.black87, fontSize: 14),
                 ),
                 subtitle: Text(
-                  'por ${post.authorName} • ${post.replyCount} respuestas',
+                  _t(context, es: 'por ${post.authorName} • ${post.replyCount} respuestas', gl: 'por ${post.authorName} • ${post.replyCount} respostas', en: 'by ${post.authorName} • ${post.replyCount} replies'),
                   style: TextStyle(color: subtitleColor, fontSize: 12),
                 ),
                 trailing: Row(
@@ -211,7 +219,7 @@ class _ForumCategoriesGridState extends State<ForumCategoriesGrid> {
                   children: [
                     if (isAdmin)
                       IconButton(
-                        tooltip: 'Eliminar',
+                        tooltip: _t(context, es: 'Eliminar', gl: 'Eliminar', en: 'Delete'),
                         icon: const Icon(Icons.delete_outline, color: AppConfig.errorColor, size: 18),
                         onPressed: () => _confirmDeletePost(context, forumProvider, post),
                       ),
@@ -229,13 +237,13 @@ class _ForumCategoriesGridState extends State<ForumCategoriesGrid> {
     final shouldDelete = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text('Eliminar publicación'),
-        content: Text('¿Quieres eliminar "${post.title}" y todas sus respuestas?'),
+        title: Text(_t(context, es: 'Eliminar publicación', gl: 'Eliminar publicación', en: 'Delete post')),
+        content: Text(_t(context, es: '¿Quieres eliminar "${post.title}" y todas sus respuestas?', gl: 'Queres eliminar "${post.title}" e todas as súas respostas?', en: 'Do you want to delete "${post.title}" and all its replies?')),
         actions: [
-          TextButton(onPressed: () => Navigator.of(dialogContext).pop(false), child: const Text('Cancelar')),
+          TextButton(onPressed: () => Navigator.of(dialogContext).pop(false), child: Text(_t(context, es: 'Cancelar', gl: 'Cancelar', en: 'Cancel'))),
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(true),
-            child: const Text('Eliminar', style: TextStyle(color: AppConfig.errorColor)),
+            child: Text(_t(context, es: 'Eliminar', gl: 'Eliminar', en: 'Delete'), style: const TextStyle(color: AppConfig.errorColor)),
           ),
         ],
       ),
@@ -245,7 +253,7 @@ class _ForumCategoriesGridState extends State<ForumCategoriesGrid> {
     final success = await forumProvider.deletePost(post.id);
     if (!context.mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(forumProvider.errorMessage ?? (success ? 'Publicación eliminada' : 'No se pudo eliminar la publicación')),
+      content: Text(forumProvider.errorMessage ?? (success ? _t(context, es: 'Publicación eliminada', gl: 'Publicación eliminada', en: 'Post deleted') : _t(context, es: 'No se pudo eliminar la publicación', gl: 'Non se puido eliminar a publicación', en: 'Could not delete the post'))),
     ));
   }
 }
@@ -264,22 +272,25 @@ class _SectionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        decoration: BoxDecoration(
-          color: isDark ? const Color(0xFF1A1A2E) : Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: isSelected ? const Color(0xFF8B5CF6) : (isDark ? Colors.white10 : Colors.black.withOpacity(0.08)), width: isSelected ? 2 : 1),
-          boxShadow: [BoxShadow(color: isDark ? Colors.black.withOpacity(0.3) : Colors.black.withOpacity(0.06), blurRadius: 8, offset: const Offset(0, 2))],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(borderRadius: const BorderRadius.vertical(top: Radius.circular(15)), child: Image.network(imageUrl, height: 100, width: double.infinity, fit: BoxFit.cover, errorBuilder: (_, __, ___) => Container(height: 100, color: isDark ? const Color(0xFF252540) : Colors.grey[200], child: Icon(Icons.image_outlined, color: isDark ? Colors.white24 : Colors.black26, size: 32)))),
-            Expanded(child: Padding(padding: const EdgeInsets.all(10), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text(section.localizedName(languageCode), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: isDark ? Colors.white : Colors.black87), maxLines: 1, overflow: TextOverflow.ellipsis), const SizedBox(height: 4), Text(section.localizedDescription(languageCode), style: TextStyle(fontSize: 11, color: isDark ? Colors.white54 : Colors.black54), maxLines: 2, overflow: TextOverflow.ellipsis), const Spacer(), Row(children: [Icon(Icons.chat_bubble_outline, size: 11, color: isDark ? Colors.white38 : Colors.black38), const SizedBox(width: 3), Text(postCount.toString(), style: TextStyle(fontSize: 10, color: isDark ? Colors.white38 : Colors.black38)), const SizedBox(width: 8), Icon(Icons.people_outline, size: 11, color: isDark ? Colors.white38 : Colors.black38), const SizedBox(width: 3), Text(replyCount.toString(), style: TextStyle(fontSize: 10, color: isDark ? Colors.white38 : Colors.black38))])]))),
-          ],
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          decoration: BoxDecoration(
+            color: isDark ? const Color(0xFF1A1A2E) : Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: isDark ? Colors.white10 : Colors.black.withOpacity(0.08)),
+            boxShadow: [BoxShadow(color: isDark ? Colors.black.withOpacity(0.3) : Colors.black.withOpacity(0.06), blurRadius: 8, offset: const Offset(0, 2))],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(borderRadius: const BorderRadius.vertical(top: Radius.circular(15)), child: Image.network(imageUrl, height: 80, width: double.infinity, fit: BoxFit.cover, errorBuilder: (_, __, ___) => Container(height: 80, color: isDark ? const Color(0xFF252540) : Colors.grey[200], child: Icon(Icons.image_outlined, color: isDark ? Colors.white24 : Colors.black26, size: 32)))),
+              Expanded(child: Padding(padding: const EdgeInsets.all(10), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text(section.localizedName(languageCode), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: isDark ? Colors.white : Colors.black87), maxLines: 1, overflow: TextOverflow.ellipsis), const SizedBox(height: 4), Text(section.localizedDescription(languageCode), style: TextStyle(fontSize: 11, color: isDark ? Colors.white54 : Colors.black54), maxLines: 2, overflow: TextOverflow.ellipsis), const Spacer(), Row(children: [Icon(Icons.chat_bubble_outline, size: 11, color: isDark ? Colors.white38 : Colors.black38), const SizedBox(width: 3), Text(postCount.toString(), style: TextStyle(fontSize: 10, color: isDark ? Colors.white38 : Colors.black38)), const SizedBox(width: 8), Icon(Icons.people_outline, size: 11, color: isDark ? Colors.white38 : Colors.black38), const SizedBox(width: 3), Text(replyCount.toString(), style: TextStyle(fontSize: 10, color: isDark ? Colors.white38 : Colors.black38))])]))),
+            ],
+          ),
         ),
       ),
     );

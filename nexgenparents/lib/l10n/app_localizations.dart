@@ -699,6 +699,1194 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Paso 5: Prueba los controles parentales.'**
   String get nintendoGuideStep5;
+
+  /// No description provided for @searchGamesHint.
+  ///
+  /// In es, this message translates to:
+  /// **'Buscar juego por nombre...'**
+  String get searchGamesHint;
+
+  /// No description provided for @searchGamesAdvancedFilters.
+  ///
+  /// In es, this message translates to:
+  /// **'Filtros avanzados'**
+  String get searchGamesAdvancedFilters;
+
+  /// No description provided for @searchGamesShowingRecent.
+  ///
+  /// In es, this message translates to:
+  /// **'Mostrando los juegos más recientes del último año'**
+  String get searchGamesShowingRecent;
+
+  /// No description provided for @searchGamesFilterFrom.
+  ///
+  /// In es, this message translates to:
+  /// **'Desde'**
+  String get searchGamesFilterFrom;
+
+  /// No description provided for @searchGamesFilterTo.
+  ///
+  /// In es, this message translates to:
+  /// **'Hasta'**
+  String get searchGamesFilterTo;
+
+  /// No description provided for @searchGamesFilterGenres.
+  ///
+  /// In es, this message translates to:
+  /// **'género(s)'**
+  String get searchGamesFilterGenres;
+
+  /// No description provided for @searchGamesFilterPlatforms.
+  ///
+  /// In es, this message translates to:
+  /// **'plataforma(s)'**
+  String get searchGamesFilterPlatforms;
+
+  /// No description provided for @searchGamesClearAll.
+  ///
+  /// In es, this message translates to:
+  /// **'Limpiar todo'**
+  String get searchGamesClearAll;
+
+  /// No description provided for @searchGamesEmptyTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'No se encontraron juegos'**
+  String get searchGamesEmptyTitle;
+
+  /// No description provided for @searchGamesEmptyMessage.
+  ///
+  /// In es, this message translates to:
+  /// **'Intenta ajustar los filtros o busca otro término'**
+  String get searchGamesEmptyMessage;
+
+  /// No description provided for @filtersTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Filtros de Búsqueda'**
+  String get filtersTitle;
+
+  /// No description provided for @filtersClear.
+  ///
+  /// In es, this message translates to:
+  /// **'Limpiar'**
+  String get filtersClear;
+
+  /// No description provided for @filtersInfoBanner.
+  ///
+  /// In es, this message translates to:
+  /// **'Combina múltiples filtros para encontrar el juego perfecto'**
+  String get filtersInfoBanner;
+
+  /// No description provided for @filtersYearTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Año de lanzamiento'**
+  String get filtersYearTitle;
+
+  /// No description provided for @filtersYearSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Filtra juegos por su año de salida'**
+  String get filtersYearSubtitle;
+
+  /// No description provided for @filtersYearFrom.
+  ///
+  /// In es, this message translates to:
+  /// **'Desde'**
+  String get filtersYearFrom;
+
+  /// No description provided for @filtersYearTo.
+  ///
+  /// In es, this message translates to:
+  /// **'Hasta'**
+  String get filtersYearTo;
+
+  /// No description provided for @filtersYearAny.
+  ///
+  /// In es, this message translates to:
+  /// **'Cualquiera'**
+  String get filtersYearAny;
+
+  /// No description provided for @filtersPegiTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Edad recomendada (PEGI)'**
+  String get filtersPegiTitle;
+
+  /// No description provided for @filtersPegiSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Selecciona la edad de tu hijo para ver juegos apropiados'**
+  String get filtersPegiSubtitle;
+
+  /// No description provided for @filtersPlatformTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Plataforma'**
+  String get filtersPlatformTitle;
+
+  /// No description provided for @filtersPlatformSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Selecciona en qué dispositivos quieres que esté disponible'**
+  String get filtersPlatformSubtitle;
+
+  /// No description provided for @filtersGenreTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Género de juego'**
+  String get filtersGenreTitle;
+
+  /// No description provided for @filtersGenreSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Elige el tipo de juegos que te interesan'**
+  String get filtersGenreSubtitle;
+
+  /// No description provided for @filtersApplyBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Aplicar Filtros'**
+  String get filtersApplyBtn;
+
+  /// No description provided for @forumSearchHint.
+  ///
+  /// In es, this message translates to:
+  /// **'Buscar hilos por título...'**
+  String get forumSearchHint;
+
+  /// No description provided for @forumEmptySearchTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Sin resultados'**
+  String get forumEmptySearchTitle;
+
+  /// No description provided for @forumEmptySearchMessage.
+  ///
+  /// In es, this message translates to:
+  /// **'No se encontraron hilos que coincidan con tu búsqueda.'**
+  String get forumEmptySearchMessage;
+
+  /// No description provided for @forumEmptyCategoryTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Categoría vacía'**
+  String get forumEmptyCategoryTitle;
+
+  /// No description provided for @forumEmptyCategoryMessage.
+  ///
+  /// In es, this message translates to:
+  /// **'Todavía no hay novedades en esta sección. ¡Anímate y publica algo!'**
+  String get forumEmptyCategoryMessage;
+
+  /// No description provided for @forumPostSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'por {author} • {count} respuestas'**
+  String forumPostSubtitle(String author, int count);
+
+  /// No description provided for @forumDeleteTooltip.
+  ///
+  /// In es, this message translates to:
+  /// **'Eliminar'**
+  String get forumDeleteTooltip;
+
+  /// No description provided for @forumDeletePostTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Eliminar publicación'**
+  String get forumDeletePostTitle;
+
+  /// No description provided for @forumDeletePostContent.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Quieres eliminar \"{title}\" y todas sus respuestas?'**
+  String forumDeletePostContent(String title);
+
+  /// No description provided for @forumCancelBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Cancelar'**
+  String get forumCancelBtn;
+
+  /// No description provided for @forumDeleteBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Eliminar'**
+  String get forumDeleteBtn;
+
+  /// No description provided for @forumNewPostBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Nuevo Hilo'**
+  String get forumNewPostBtn;
+
+  /// No description provided for @forumPostDeletedSuccess.
+  ///
+  /// In es, this message translates to:
+  /// **'Publicación eliminada'**
+  String get forumPostDeletedSuccess;
+
+  /// No description provided for @forumPostDeletedError.
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo eliminar la publicación'**
+  String get forumPostDeletedError;
+
+  /// No description provided for @forumCreateLoginRequired.
+  ///
+  /// In es, this message translates to:
+  /// **'Debes iniciar sesión para publicar'**
+  String get forumCreateLoginRequired;
+
+  /// No description provided for @forumCreateUnknownError.
+  ///
+  /// In es, this message translates to:
+  /// **'Error desconocido'**
+  String get forumCreateUnknownError;
+
+  /// No description provided for @forumCreateTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Crear Nuevo Hilo'**
+  String get forumCreateTitle;
+
+  /// No description provided for @forumCreateFieldTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Título'**
+  String get forumCreateFieldTitle;
+
+  /// No description provided for @forumCreateErrorTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'El título es obligatorio'**
+  String get forumCreateErrorTitle;
+
+  /// No description provided for @forumCreateFieldSection.
+  ///
+  /// In es, this message translates to:
+  /// **'Sección'**
+  String get forumCreateFieldSection;
+
+  /// No description provided for @forumCreateFieldContent.
+  ///
+  /// In es, this message translates to:
+  /// **'Contenido'**
+  String get forumCreateFieldContent;
+
+  /// No description provided for @forumCreateErrorContent.
+  ///
+  /// In es, this message translates to:
+  /// **'El contenido es obligatorio'**
+  String get forumCreateErrorContent;
+
+  /// No description provided for @forumCreatePublishingBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Publicando...'**
+  String get forumCreatePublishingBtn;
+
+  /// No description provided for @forumCreatePublishBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Publicar'**
+  String get forumCreatePublishBtn;
+
+  /// No description provided for @forumPostByAuthor.
+  ///
+  /// In es, this message translates to:
+  /// **'por {author}'**
+  String forumPostByAuthor(String author);
+
+  /// No description provided for @forumDetailRepliesTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Respuestas'**
+  String get forumDetailRepliesTitle;
+
+  /// No description provided for @forumDetailEmptyReplies.
+  ///
+  /// In es, this message translates to:
+  /// **'No hay respuestas todavía.'**
+  String get forumDetailEmptyReplies;
+
+  /// No description provided for @forumDeleteReplyTooltip.
+  ///
+  /// In es, this message translates to:
+  /// **'Eliminar respuesta'**
+  String get forumDeleteReplyTooltip;
+
+  /// No description provided for @forumDeleteReplyTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Eliminar respuesta'**
+  String get forumDeleteReplyTitle;
+
+  /// No description provided for @forumDeleteReplyContent.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Quieres eliminar esta respuesta?'**
+  String get forumDeleteReplyContent;
+
+  /// No description provided for @forumReplyDeletedSuccess.
+  ///
+  /// In es, this message translates to:
+  /// **'Respuesta eliminada'**
+  String get forumReplyDeletedSuccess;
+
+  /// No description provided for @forumReplyDeletedError.
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo eliminar la respuesta'**
+  String get forumReplyDeletedError;
+
+  /// No description provided for @forumDetailReplyInputHint.
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe una respuesta...'**
+  String get forumDetailReplyInputHint;
+
+  /// No description provided for @dictDetailTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Detalle del Término'**
+  String get dictDetailTitle;
+
+  /// No description provided for @dictEditTooltip.
+  ///
+  /// In es, this message translates to:
+  /// **'Editar Término'**
+  String get dictEditTooltip;
+
+  /// No description provided for @dictDeleteTooltip.
+  ///
+  /// In es, this message translates to:
+  /// **'Eliminar Término'**
+  String get dictDeleteTooltip;
+
+  /// No description provided for @dictLoadingTerm.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando término...'**
+  String get dictLoadingTerm;
+
+  /// No description provided for @dictErrorLoadingTerm.
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo cargar el término'**
+  String get dictErrorLoadingTerm;
+
+  /// No description provided for @dictBackBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Volver'**
+  String get dictBackBtn;
+
+  /// No description provided for @dictDefinitionLabel.
+  ///
+  /// In es, this message translates to:
+  /// **'Definición'**
+  String get dictDefinitionLabel;
+
+  /// No description provided for @dictExampleLabel.
+  ///
+  /// In es, this message translates to:
+  /// **'Ejemplo de uso'**
+  String get dictExampleLabel;
+
+  /// No description provided for @dictUsefulQuestion.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Te ha sido útil este término?'**
+  String get dictUsefulQuestion;
+
+  /// No description provided for @dictVoteThanks.
+  ///
+  /// In es, this message translates to:
+  /// **'¡Gracias por tu voto!'**
+  String get dictVoteThanks;
+
+  /// No description provided for @dictVoteRegistered.
+  ///
+  /// In es, this message translates to:
+  /// **'Voto registrado'**
+  String get dictVoteRegistered;
+
+  /// No description provided for @dictVoteBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Sí, me ha ayudado'**
+  String get dictVoteBtn;
+
+  /// No description provided for @dictUsefulVotes.
+  ///
+  /// In es, this message translates to:
+  /// **'Votos útiles'**
+  String get dictUsefulVotes;
+
+  /// No description provided for @dictViews.
+  ///
+  /// In es, this message translates to:
+  /// **'Visualizaciones'**
+  String get dictViews;
+
+  /// No description provided for @dictAdditionalInfo.
+  ///
+  /// In es, this message translates to:
+  /// **'Información adicional'**
+  String get dictAdditionalInfo;
+
+  /// No description provided for @dictAddedOn.
+  ///
+  /// In es, this message translates to:
+  /// **'Añadido el'**
+  String get dictAddedOn;
+
+  /// No description provided for @dictLastUpdate.
+  ///
+  /// In es, this message translates to:
+  /// **'Última actualización'**
+  String get dictLastUpdate;
+
+  /// No description provided for @dictStatusLabel.
+  ///
+  /// In es, this message translates to:
+  /// **'Estado'**
+  String get dictStatusLabel;
+
+  /// No description provided for @dictStatusApproved.
+  ///
+  /// In es, this message translates to:
+  /// **'Aprobado'**
+  String get dictStatusApproved;
+
+  /// No description provided for @dictStatusPending.
+  ///
+  /// In es, this message translates to:
+  /// **'Pendiente'**
+  String get dictStatusPending;
+
+  /// No description provided for @dictStatusRejected.
+  ///
+  /// In es, this message translates to:
+  /// **'Rechazado'**
+  String get dictStatusRejected;
+
+  /// No description provided for @dictEditDialogTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Editar Término'**
+  String get dictEditDialogTitle;
+
+  /// No description provided for @dictEditFieldTerm.
+  ///
+  /// In es, this message translates to:
+  /// **'Término'**
+  String get dictEditFieldTerm;
+
+  /// No description provided for @dictEditErrorTerm.
+  ///
+  /// In es, this message translates to:
+  /// **'El término no puede estar vacío'**
+  String get dictEditErrorTerm;
+
+  /// No description provided for @dictEditFieldDefinition.
+  ///
+  /// In es, this message translates to:
+  /// **'Definición'**
+  String get dictEditFieldDefinition;
+
+  /// No description provided for @dictEditErrorDefinition.
+  ///
+  /// In es, this message translates to:
+  /// **'La definición no puede estar vacía'**
+  String get dictEditErrorDefinition;
+
+  /// No description provided for @dictEditFieldExample.
+  ///
+  /// In es, this message translates to:
+  /// **'Ejemplo (opcional)'**
+  String get dictEditFieldExample;
+
+  /// No description provided for @dictEditFieldCategory.
+  ///
+  /// In es, this message translates to:
+  /// **'Categoría'**
+  String get dictEditFieldCategory;
+
+  /// No description provided for @dictCancelBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Cancelar'**
+  String get dictCancelBtn;
+
+  /// No description provided for @dictSaveChangesBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Guardar Cambios'**
+  String get dictSaveChangesBtn;
+
+  /// No description provided for @dictUpdateSuccess.
+  ///
+  /// In es, this message translates to:
+  /// **'Término actualizado correctamente'**
+  String get dictUpdateSuccess;
+
+  /// No description provided for @dictUpdateError.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al actualizar el término'**
+  String get dictUpdateError;
+
+  /// No description provided for @dictDeleteConfirmTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Confirmar Eliminación'**
+  String get dictDeleteConfirmTitle;
+
+  /// No description provided for @dictDeleteConfirmContent.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Estás seguro de que quieres eliminar este término de forma permanente? Esta acción no se puede deshacer.'**
+  String get dictDeleteConfirmContent;
+
+  /// No description provided for @dictDeleteBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Eliminar'**
+  String get dictDeleteBtn;
+
+  /// No description provided for @dictDeleteSuccess.
+  ///
+  /// In es, this message translates to:
+  /// **'Término eliminado correctamente'**
+  String get dictDeleteSuccess;
+
+  /// No description provided for @dictDeleteError.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al eliminar el término'**
+  String get dictDeleteError;
+
+  /// No description provided for @dictListEmptyTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'No hay términos en el diccionario'**
+  String get dictListEmptyTitle;
+
+  /// No description provided for @dictListEmptyMessage.
+  ///
+  /// In es, this message translates to:
+  /// **'Sé el primero en proponer un término'**
+  String get dictListEmptyMessage;
+
+  /// No description provided for @dictListProposeBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Proponer término'**
+  String get dictListProposeBtn;
+
+  /// No description provided for @dictProposeErrorAuth.
+  ///
+  /// In es, this message translates to:
+  /// **'Error: Usuario no autenticado'**
+  String get dictProposeErrorAuth;
+
+  /// No description provided for @dictProposeSuccessTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'¡Término enviado!'**
+  String get dictProposeSuccessTitle;
+
+  /// No description provided for @dictProposeSuccessMessage.
+  ///
+  /// In es, this message translates to:
+  /// **'Tu término ha sido propuesto correctamente y será revisado por un moderador. Te notificaremos cuando sea aprobado.'**
+  String get dictProposeSuccessMessage;
+
+  /// No description provided for @dictProposeUnderstoodBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Entendido'**
+  String get dictProposeUnderstoodBtn;
+
+  /// No description provided for @dictProposeErrorGeneric.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al proponer término'**
+  String get dictProposeErrorGeneric;
+
+  /// No description provided for @dictProposeTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Proponer Término'**
+  String get dictProposeTitle;
+
+  /// No description provided for @dictProposeHelpText.
+  ///
+  /// In es, this message translates to:
+  /// **'Ayuda a otros padres añadiendo términos que conozcas'**
+  String get dictProposeHelpText;
+
+  /// No description provided for @dictProposeFieldTerm.
+  ///
+  /// In es, this message translates to:
+  /// **'Término o palabra'**
+  String get dictProposeFieldTerm;
+
+  /// No description provided for @dictProposeFieldTermHint.
+  ///
+  /// In es, this message translates to:
+  /// **'Ej: GG, Nerf, Farming'**
+  String get dictProposeFieldTermHint;
+
+  /// No description provided for @dictProposeErrorTermEmpty.
+  ///
+  /// In es, this message translates to:
+  /// **'Por favor, introduce el término'**
+  String get dictProposeErrorTermEmpty;
+
+  /// No description provided for @dictProposeErrorTermLength.
+  ///
+  /// In es, this message translates to:
+  /// **'El término debe tener al menos 2 caracteres'**
+  String get dictProposeErrorTermLength;
+
+  /// No description provided for @dictProposeFieldCategory.
+  ///
+  /// In es, this message translates to:
+  /// **'Categoría'**
+  String get dictProposeFieldCategory;
+
+  /// No description provided for @dictProposeFieldDefinition.
+  ///
+  /// In es, this message translates to:
+  /// **'Definición'**
+  String get dictProposeFieldDefinition;
+
+  /// No description provided for @dictProposeFieldDefinitionHint.
+  ///
+  /// In es, this message translates to:
+  /// **'Explica qué significa este término de forma clara y sencilla'**
+  String get dictProposeFieldDefinitionHint;
+
+  /// No description provided for @dictProposeErrorDefinitionEmpty.
+  ///
+  /// In es, this message translates to:
+  /// **'Por favor, introduce la definición'**
+  String get dictProposeErrorDefinitionEmpty;
+
+  /// No description provided for @dictProposeErrorDefinitionLength.
+  ///
+  /// In es, this message translates to:
+  /// **'La definición debe tener al menos 10 caracteres'**
+  String get dictProposeErrorDefinitionLength;
+
+  /// No description provided for @dictProposeFieldExample.
+  ///
+  /// In es, this message translates to:
+  /// **'Ejemplo de uso'**
+  String get dictProposeFieldExample;
+
+  /// No description provided for @dictProposeFieldExampleHint.
+  ///
+  /// In es, this message translates to:
+  /// **'Ej: \"Los niños dicen GG al final de cada partida\"'**
+  String get dictProposeFieldExampleHint;
+
+  /// No description provided for @dictProposeErrorExampleEmpty.
+  ///
+  /// In es, this message translates to:
+  /// **'Por favor, introduce un ejemplo de uso'**
+  String get dictProposeErrorExampleEmpty;
+
+  /// No description provided for @dictProposeErrorExampleLength.
+  ///
+  /// In es, this message translates to:
+  /// **'El ejemplo debe tener al menos 10 caracteres'**
+  String get dictProposeErrorExampleLength;
+
+  /// No description provided for @dictProposeWarningText.
+  ///
+  /// In es, this message translates to:
+  /// **'Tu término será revisado por un moderador antes de aparecer en el diccionario. Esto ayuda a mantener la calidad del contenido.'**
+  String get dictProposeWarningText;
+
+  /// No description provided for @dictProposeSendingBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviando...'**
+  String get dictProposeSendingBtn;
+
+  /// No description provided for @dictProposeSubmitBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Proponer término'**
+  String get dictProposeSubmitBtn;
+
+  /// No description provided for @dictCategoryJerga.
+  ///
+  /// In es, this message translates to:
+  /// **'Jerga Gamer'**
+  String get dictCategoryJerga;
+
+  /// No description provided for @dictCategoryMechanics.
+  ///
+  /// In es, this message translates to:
+  /// **'Mecánicas de Juego'**
+  String get dictCategoryMechanics;
+
+  /// No description provided for @dictCategoryPlatforms.
+  ///
+  /// In es, this message translates to:
+  /// **'Plataformas'**
+  String get dictCategoryPlatforms;
+
+  /// No description provided for @dictModAccessDeniedTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Acceso Denegado'**
+  String get dictModAccessDeniedTitle;
+
+  /// No description provided for @dictModAccessDeniedMessage.
+  ///
+  /// In es, this message translates to:
+  /// **'No tienes permisos para acceder a esta sección'**
+  String get dictModAccessDeniedMessage;
+
+  /// No description provided for @dictModAccessDeniedSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Solo los moderadores pueden revisar términos propuestos'**
+  String get dictModAccessDeniedSubtitle;
+
+  /// No description provided for @dictModTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Panel de Moderación'**
+  String get dictModTitle;
+
+  /// No description provided for @dictModRefreshTooltip.
+  ///
+  /// In es, this message translates to:
+  /// **'Actualizar'**
+  String get dictModRefreshTooltip;
+
+  /// No description provided for @dictModLoading.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando términos pendientes...'**
+  String get dictModLoading;
+
+  /// No description provided for @dictModAllReviewedTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'¡Todo revisado!'**
+  String get dictModAllReviewedTitle;
+
+  /// No description provided for @dictModAllReviewedMessage.
+  ///
+  /// In es, this message translates to:
+  /// **'No hay términos pendientes de revisar'**
+  String get dictModAllReviewedMessage;
+
+  /// No description provided for @dictModPendingCount.
+  ///
+  /// In es, this message translates to:
+  /// **'{count} términos pendientes de revisión'**
+  String dictModPendingCount(int count);
+
+  /// No description provided for @dictModDefinitionLabel.
+  ///
+  /// In es, this message translates to:
+  /// **'Definición:'**
+  String get dictModDefinitionLabel;
+
+  /// No description provided for @dictModExampleLabel.
+  ///
+  /// In es, this message translates to:
+  /// **'Ejemplo de uso:'**
+  String get dictModExampleLabel;
+
+  /// No description provided for @dictModProposedOn.
+  ///
+  /// In es, this message translates to:
+  /// **'Propuesto el {date}'**
+  String dictModProposedOn(String date);
+
+  /// No description provided for @dictModEditBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Editar término'**
+  String get dictModEditBtn;
+
+  /// No description provided for @dictModSwipeHint.
+  ///
+  /// In es, this message translates to:
+  /// **'Desliza para aprobar o rechazar'**
+  String get dictModSwipeHint;
+
+  /// No description provided for @dictModApproveTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Aprobar término'**
+  String get dictModApproveTitle;
+
+  /// No description provided for @dictModApproveConfirm.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Estás seguro de que deseas aprobar el término \"{term}\"?\n\nSerá visible para todos los usuarios.'**
+  String dictModApproveConfirm(String term);
+
+  /// No description provided for @dictModCancelBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Cancelar'**
+  String get dictModCancelBtn;
+
+  /// No description provided for @dictModApproveBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Aprobar'**
+  String get dictModApproveBtn;
+
+  /// No description provided for @dictModApproveSuccess.
+  ///
+  /// In es, this message translates to:
+  /// **'✓ Término \"{term}\" aprobado correctamente'**
+  String dictModApproveSuccess(String term);
+
+  /// No description provided for @dictModApproveError.
+  ///
+  /// In es, this message translates to:
+  /// **'✗ Error al aprobar el término'**
+  String get dictModApproveError;
+
+  /// No description provided for @dictModRejectTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Rechazar término'**
+  String get dictModRejectTitle;
+
+  /// No description provided for @dictModRejectReasonTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Por qué rechazas el término \"{term}\"?'**
+  String dictModRejectReasonTitle(String term);
+
+  /// No description provided for @dictModRejectHint.
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe el motivo del rechazo...'**
+  String get dictModRejectHint;
+
+  /// No description provided for @dictModRejectWarning.
+  ///
+  /// In es, this message translates to:
+  /// **'El usuario verá este motivo en sus términos propuestos'**
+  String get dictModRejectWarning;
+
+  /// No description provided for @dictModRejectErrorEmpty.
+  ///
+  /// In es, this message translates to:
+  /// **'Debes indicar un motivo para rechazar'**
+  String get dictModRejectErrorEmpty;
+
+  /// No description provided for @dictModRejectBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Rechazar'**
+  String get dictModRejectBtn;
+
+  /// No description provided for @dictModRejectSuccess.
+  ///
+  /// In es, this message translates to:
+  /// **'✓ Término \"{term}\" rechazado'**
+  String dictModRejectSuccess(String term);
+
+  /// No description provided for @dictModRejectError.
+  ///
+  /// In es, this message translates to:
+  /// **'✗ Error al rechazar el término'**
+  String get dictModRejectError;
+
+  /// No description provided for @dictModEditTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Editar término'**
+  String get dictModEditTitle;
+
+  /// No description provided for @dictModEditFieldTerm.
+  ///
+  /// In es, this message translates to:
+  /// **'Término'**
+  String get dictModEditFieldTerm;
+
+  /// No description provided for @dictModEditFieldDef.
+  ///
+  /// In es, this message translates to:
+  /// **'Definición'**
+  String get dictModEditFieldDef;
+
+  /// No description provided for @dictModEditFieldEx.
+  ///
+  /// In es, this message translates to:
+  /// **'Ejemplo (opcional)'**
+  String get dictModEditFieldEx;
+
+  /// No description provided for @dictModEditFieldCat.
+  ///
+  /// In es, this message translates to:
+  /// **'Categoría'**
+  String get dictModEditFieldCat;
+
+  /// No description provided for @dictModEditErrorEmpty.
+  ///
+  /// In es, this message translates to:
+  /// **'Término y definición son obligatorios'**
+  String get dictModEditErrorEmpty;
+
+  /// No description provided for @dictModEditErrorGeneric.
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo actualizar el término'**
+  String get dictModEditErrorGeneric;
+
+  /// No description provided for @dictModEditSaveBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Guardar cambios'**
+  String get dictModEditSaveBtn;
+
+  /// No description provided for @dictModEditSuccess.
+  ///
+  /// In es, this message translates to:
+  /// **'✓ Término actualizado correctamente'**
+  String get dictModEditSuccess;
+
+  /// No description provided for @myTermsTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Mis Términos Propuestos'**
+  String get myTermsTitle;
+
+  /// No description provided for @myTermsLoading.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando tus términos...'**
+  String get myTermsLoading;
+
+  /// No description provided for @myTermsEmptyTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'No has propuesto términos aún'**
+  String get myTermsEmptyTitle;
+
+  /// No description provided for @myTermsEmptyMessage.
+  ///
+  /// In es, this message translates to:
+  /// **'Contribuye al diccionario proponiendo nuevos términos'**
+  String get myTermsEmptyMessage;
+
+  /// No description provided for @myTermsProposedCount.
+  ///
+  /// In es, this message translates to:
+  /// **'Términos propuestos'**
+  String get myTermsProposedCount;
+
+  /// No description provided for @myTermsApproved.
+  ///
+  /// In es, this message translates to:
+  /// **'Aprobados'**
+  String get myTermsApproved;
+
+  /// No description provided for @myTermsPending.
+  ///
+  /// In es, this message translates to:
+  /// **'Pendientes'**
+  String get myTermsPending;
+
+  /// No description provided for @myTermsViewReason.
+  ///
+  /// In es, this message translates to:
+  /// **'Ver motivo'**
+  String get myTermsViewReason;
+
+  /// No description provided for @adminAccessDeniedTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Acceso Denegado'**
+  String get adminAccessDeniedTitle;
+
+  /// No description provided for @adminAccessDeniedMessage.
+  ///
+  /// In es, this message translates to:
+  /// **'Solo los administradores pueden acceder'**
+  String get adminAccessDeniedMessage;
+
+  /// No description provided for @adminUsersTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Gestión de Usuarios'**
+  String get adminUsersTitle;
+
+  /// No description provided for @adminUsersInfoTooltip.
+  ///
+  /// In es, this message translates to:
+  /// **'Información'**
+  String get adminUsersInfoTooltip;
+
+  /// No description provided for @adminUsersLoading.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando usuarios...'**
+  String get adminUsersLoading;
+
+  /// No description provided for @adminUsersError.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al cargar usuarios'**
+  String get adminUsersError;
+
+  /// No description provided for @adminUsersEmpty.
+  ///
+  /// In es, this message translates to:
+  /// **'No hay usuarios registrados'**
+  String get adminUsersEmpty;
+
+  /// No description provided for @adminUsersStatTotal.
+  ///
+  /// In es, this message translates to:
+  /// **'Total'**
+  String get adminUsersStatTotal;
+
+  /// No description provided for @adminUsersStatAdmins.
+  ///
+  /// In es, this message translates to:
+  /// **'Admins'**
+  String get adminUsersStatAdmins;
+
+  /// No description provided for @adminUsersStatMods.
+  ///
+  /// In es, this message translates to:
+  /// **'Moderadores'**
+  String get adminUsersStatMods;
+
+  /// No description provided for @adminUsersStatUsers.
+  ///
+  /// In es, this message translates to:
+  /// **'Usuarios'**
+  String get adminUsersStatUsers;
+
+  /// No description provided for @adminUsersBadgeYou.
+  ///
+  /// In es, this message translates to:
+  /// **'Tú'**
+  String get adminUsersBadgeYou;
+
+  /// No description provided for @adminUsersProposedApproved.
+  ///
+  /// In es, this message translates to:
+  /// **'{proposed} propuestos | {approved} aprobados'**
+  String adminUsersProposedApproved(Object approved, Object proposed);
+
+  /// No description provided for @adminUsersActionMakeUser.
+  ///
+  /// In es, this message translates to:
+  /// **'Cambiar a Usuario'**
+  String get adminUsersActionMakeUser;
+
+  /// No description provided for @adminUsersActionMakeMod.
+  ///
+  /// In es, this message translates to:
+  /// **'Cambiar a Moderador'**
+  String get adminUsersActionMakeMod;
+
+  /// No description provided for @adminUsersActionMakeAdmin.
+  ///
+  /// In es, this message translates to:
+  /// **'Cambiar a Admin'**
+  String get adminUsersActionMakeAdmin;
+
+  /// No description provided for @adminRoleAdmin.
+  ///
+  /// In es, this message translates to:
+  /// **'Admin'**
+  String get adminRoleAdmin;
+
+  /// No description provided for @adminRoleModerator.
+  ///
+  /// In es, this message translates to:
+  /// **'Moderador'**
+  String get adminRoleModerator;
+
+  /// No description provided for @adminRoleUser.
+  ///
+  /// In es, this message translates to:
+  /// **'Usuario'**
+  String get adminRoleUser;
+
+  /// No description provided for @adminChangeRoleTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Confirmar cambio de rol'**
+  String get adminChangeRoleTitle;
+
+  /// No description provided for @adminChangeRoleConfirm.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Estás seguro de que deseas cambiar el rol de \"{user}\" a \"{role}\"?'**
+  String adminChangeRoleConfirm(Object role, Object user);
+
+  /// No description provided for @adminCancelBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Cancelar'**
+  String get adminCancelBtn;
+
+  /// No description provided for @adminConfirmBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Confirmar'**
+  String get adminConfirmBtn;
+
+  /// No description provided for @adminInfoDialogTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Gestión de Roles'**
+  String get adminInfoDialogTitle;
+
+  /// No description provided for @adminInfoDialogSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Roles disponibles:'**
+  String get adminInfoDialogSubtitle;
+
+  /// No description provided for @adminInfoUserDesc.
+  ///
+  /// In es, this message translates to:
+  /// **'Puede consultar el diccionario y proponer términos'**
+  String get adminInfoUserDesc;
+
+  /// No description provided for @adminInfoModDesc.
+  ///
+  /// In es, this message translates to:
+  /// **'Puede aprobar o rechazar términos propuestos'**
+  String get adminInfoModDesc;
+
+  /// No description provided for @adminInfoAdminDesc.
+  ///
+  /// In es, this message translates to:
+  /// **'Tiene acceso completo, incluida la gestión de usuarios'**
+  String get adminInfoAdminDesc;
+
+  /// No description provided for @adminInfoUnderstoodBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Entendido'**
+  String get adminInfoUnderstoodBtn;
 }
 
 class _AppLocalizationsDelegate

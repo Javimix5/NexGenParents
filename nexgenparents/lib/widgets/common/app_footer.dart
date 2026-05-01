@@ -64,28 +64,20 @@ class AppFooter extends StatelessWidget {
           Divider(color: Colors.white.withValues(alpha: 0.08), height: 1),
           const SizedBox(height: 20),
 
-          // Links y redes en fila
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          // Links de navegación
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Links de navegación
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildFooterLink(_t(context, es: 'Política de privacidad', gl: 'Política de privacidade', en: 'Privacy Policy'), onPrivacyTap),
-                    _buildFooterLink(_t(context, es: 'Quienes somos', gl: 'Quen somos', en: 'About us'), onAboutTap),
-                    _buildFooterLink(_t(context, es: 'Contáctanos', gl: 'Contacta connosco', en: 'Contact us'), onContactTap),
-                  ],
-                ),
-              ),
-
-              const SizedBox(width: 16),
-
-              // Redes sociales
-              _buildSocialGrid(context),
+              _buildFooterLink(_t(context, es: 'Política de privacidad', gl: 'Política de privacidade', en: 'Privacy Policy'), onPrivacyTap),
+              _buildFooterLink(_t(context, es: 'Quienes somos', gl: 'Quen somos', en: 'About us'), onAboutTap),
+              _buildFooterLink(_t(context, es: 'Contáctanos', gl: 'Contacta connosco', en: 'Contact us'), onContactTap),
             ],
           ),
+
+          const SizedBox(height: 24),
+
+          // Redes sociales
+          _buildSocialGrid(context),
 
           const SizedBox(height: 20),
           Divider(color: Colors.white.withValues(alpha: 0.08), height: 1),
@@ -272,6 +264,7 @@ class AppFooter extends StatelessWidget {
     return SizedBox(
       width: 132,
       child: Wrap(
+        alignment: WrapAlignment.center,
         spacing: 10,
         runSpacing: 10,
         children: [

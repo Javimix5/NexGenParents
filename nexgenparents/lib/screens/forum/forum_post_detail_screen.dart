@@ -5,6 +5,7 @@ import '../../models/forum_post_model.dart';
 import '../../models/forum_reply_model.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/forum_provider.dart';
+import '../../l10n/app_localizations.dart';
 
 class ForumPostDetailScreen extends StatefulWidget {
   final ForumPost post;
@@ -16,6 +17,28 @@ class ForumPostDetailScreen extends StatefulWidget {
 
 class _ForumPostDetailScreenState extends State<ForumPostDetailScreen> {
   final _replyController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+  bool _showBackToTopButton = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(() {
+      if (!_scrollController.hasClients) return;
+      if (_scrollController.offset >= 300 && !_showBackToTopButton) {
+        setState(() => _showBackToTopButton = true);
+      } else if (_scrollController.offset < 300 && _showBackToTopButton) {
+        setState(() => _showBackToTopButton = false);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _replyController.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   void _sendReply() {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
@@ -45,6 +68,7 @@ class _ForumPostDetailScreenState extends State<ForumPostDetailScreen> {
     final forumProvider = Provider.of<ForumProvider>(context, listen: false);
     final authProvider = context.watch<AuthProvider>();
     final isAdmin = authProvider.isAdmin;
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
@@ -52,7 +76,7 @@ class _ForumPostDetailScreenState extends State<ForumPostDetailScreen> {
         actions: [
           if (isAdmin)
             IconButton(
-              tooltip: 'Eliminar publicación',
+              tooltip: l10n.forumDeleteTooltip,
               icon: const Icon(Icons.delete_outline),
               onPressed: () => _confirmDeletePost(context, forumProvider),
             ),
@@ -62,6 +86,7 @@ class _ForumPostDetailScreenState extends State<ForumPostDetailScreen> {
         children: [
           Expanded(
             child: CustomScrollView(
+              controller: _scrollController,
               slivers: [
                 // Contenido de la publicación original
                 SliverToBoxAdapter(
@@ -73,13 +98,13 @@ class _ForumPostDetailScreenState extends State<ForumPostDetailScreen> {
                         Text(widget.post.title,
                             style: Theme.of(context).textTheme.headlineSmall),
                         const SizedBox(height: AppConfig.paddingSmall),
-                        Text('por ${widget.post.authorName}',
+                        Text(l10n.forumPostByAuthor(widget.post.authorName),
                             style: Theme.of(context).textTheme.bodySmall),
                         const Divider(height: AppConfig.paddingLarge),
                         Text(widget.post.content,
                             style: Theme.of(context).textTheme.bodyLarge),
                         const Divider(height: AppConfig.paddingLarge),
-                        Text('Respuestas',
+                        Text(l10n.forumDetailRepliesTitle,
                             style: Theme.of(context).textTheme.titleMedium),
                       ],
                     ),
@@ -94,11 +119,11 @@ class _ForumPostDetailScreenState extends State<ForumPostDetailScreen> {
                           child: Center(child: CircularProgressIndicator()));
                     }
                     if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return const SliverToBoxAdapter(
+                      return SliverToBoxAdapter(
                         child: Padding(
-                          padding: EdgeInsets.all(AppConfig.paddingMedium),
+                          padding: const EdgeInsets.all(AppConfig.paddingMedium),
                           child:
-                              Center(child: Text('No hay respuestas todavía.')),
+                              Center(child: Text(l10n.forumDetailEmptyReplies)),
                         ),
                       );
                     }
@@ -109,10 +134,10 @@ class _ForumPostDetailScreenState extends State<ForumPostDetailScreen> {
                           final reply = replies[index];
                           return ListTile(
                             title: Text(reply.content),
-                            subtitle: Text('por ${reply.authorName}'),
+                            subtitle: Text(l10n.forumPostByAuthor(reply.authorName)),
                             trailing: isAdmin
                                 ? IconButton(
-                                    tooltip: 'Eliminar respuesta',
+                                    tooltip: l10n.forumDeleteReplyTooltip,
                                     icon: const Icon(Icons.delete_outline,
                                         color: AppConfig.errorColor),
                                     onPressed: () => _confirmDeleteReply(
@@ -133,25 +158,42 @@ class _ForumPostDetailScreenState extends State<ForumPostDetailScreen> {
           _buildReplyInput(),
         ],
       ),
+      floatingActionButton: _showBackToTopButton
+          ? FloatingActionButton.small(
+              heroTag: 'post_detail_back_to_top_btn',
+              onPressed: () {
+                if (_scrollController.hasClients) {
+                  _scrollController.animateTo(
+                    0,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                  );
+                }
+              },
+              backgroundColor: AppConfig.primaryColor,
+              foregroundColor: Colors.white,
+              child: const Icon(Icons.arrow_upward),
+            )
+          : null,
     );
   }
 
   Future<void> _confirmDeletePost(
       BuildContext context, ForumProvider forumProvider) async {
+    final l10n = AppLocalizations.of(context)!;
     final shouldDelete = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text('Eliminar publicación'),
-        content: const Text(
-            '¿Quieres eliminar esta publicación y todas sus respuestas?'),
+        title: Text(l10n.forumDeletePostTitle),
+        content: Text(l10n.forumDeletePostContent(widget.post.title)),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(false),
-            child: const Text('Cancelar'),
+            child: Text(l10n.forumCancelBtn),
           ),
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(true),
-            child: const Text('Eliminar',
+            child: Text(l10n.forumDeleteBtn,
                 style: TextStyle(color: AppConfig.errorColor)),
           ),
         ],
@@ -167,8 +209,8 @@ class _ForumPostDetailScreenState extends State<ForumPostDetailScreen> {
       SnackBar(
           content: Text(forumProvider.errorMessage ??
               (success
-                  ? 'Publicación eliminada'
-                  : 'No se pudo eliminar la publicación'))),
+                  ? l10n.forumPostDeletedSuccess
+                  : l10n.forumPostDeletedError))),
     );
 
     if (success && context.mounted) {
@@ -181,19 +223,20 @@ class _ForumPostDetailScreenState extends State<ForumPostDetailScreen> {
     ForumProvider forumProvider,
     ForumReply reply,
   ) async {
+    final l10n = AppLocalizations.of(context)!;
     final shouldDelete = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text('Eliminar respuesta'),
-        content: const Text('¿Quieres eliminar esta respuesta?'),
+        title: Text(l10n.forumDeleteReplyTitle),
+        content: Text(l10n.forumDeleteReplyContent),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(false),
-            child: const Text('Cancelar'),
+            child: Text(l10n.forumCancelBtn),
           ),
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(true),
-            child: const Text('Eliminar',
+            child: Text(l10n.forumDeleteBtn,
                 style: TextStyle(color: AppConfig.errorColor)),
           ),
         ],
@@ -210,12 +253,13 @@ class _ForumPostDetailScreenState extends State<ForumPostDetailScreen> {
       SnackBar(
           content: Text(forumProvider.errorMessage ??
               (success
-                  ? 'Respuesta eliminada'
-                  : 'No se pudo eliminar la respuesta'))),
+                  ? l10n.forumReplyDeletedSuccess
+                  : l10n.forumReplyDeletedError))),
     );
   }
 
   Widget _buildReplyInput() {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.all(AppConfig.paddingSmall),
       decoration: BoxDecoration(
@@ -228,8 +272,8 @@ class _ForumPostDetailScreenState extends State<ForumPostDetailScreen> {
             Expanded(
               child: TextField(
                 controller: _replyController,
-                decoration: const InputDecoration(
-                  hintText: 'Escribe una respuesta...',
+                decoration: InputDecoration(
+                  hintText: l10n.forumDetailReplyInputHint,
                   border: InputBorder.none,
                 ),
                 maxLines: null,

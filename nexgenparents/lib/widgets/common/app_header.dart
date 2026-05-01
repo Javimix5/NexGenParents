@@ -952,9 +952,12 @@ class AccountMenuButtonState extends State<AccountMenuButton> {
   Widget build(BuildContext context) {
     return TapRegion(
       groupId: 'account_menu',
-      child: GestureDetector(
-        onTap: _toggleMenu,
-        child: UserAvatar(photoUrl: widget.avatarUrl, size: 38),
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: GestureDetector(
+          onTap: _toggleMenu,
+          child: UserAvatar(photoUrl: widget.avatarUrl, size: 38),
+        ),
       ),
     );
   }

@@ -13,6 +13,14 @@ class ForumPlatformsSection extends StatelessWidget {
     return '${AppConfig.githubRawBase}/$path?v=20260311';
   }
 
+  String _t(BuildContext context, {required String es, required String gl, required String en}) {
+    switch (Localizations.localeOf(context).languageCode) {
+      case 'gl': return gl;
+      case 'en': return en;
+      default: return es;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // Configuramos las plataformas utilizando los mismos logos que en la guía de control parental
@@ -49,7 +57,7 @@ class ForumPlatformsSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Plataformas',
+          _t(context, es: 'Plataformas', gl: 'Plataformas', en: 'Platforms'),
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,

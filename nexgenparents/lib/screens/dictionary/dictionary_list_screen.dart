@@ -5,6 +5,7 @@ import '../../config/app_config.dart';
 import '../../widgets/common/app_empty_state.dart';
 import 'propose_term_screen.dart';
 import 'term_detail_screen.dart';
+import '../../l10n/app_localizations.dart';
 import '../../widgets/common/app_footer.dart';
 import '../info/pegi_info_screen.dart';
 import '../parental_guides/parental_guides_list_screen.dart';
@@ -17,6 +18,9 @@ class DictionaryListScreen extends StatefulWidget {
 }
 
 class _DictionaryListScreenState extends State<DictionaryListScreen> {
+  final ScrollController _scrollController = ScrollController();
+  bool _showBackToTopButton = false;
+
   @override
   void initState() {
     super.initState();
@@ -25,10 +29,26 @@ class _DictionaryListScreenState extends State<DictionaryListScreen> {
       Provider.of<DictionaryProvider>(context, listen: false)
           .loadApprovedTerms();
     });
+    _scrollController.addListener(() {
+      if (!_scrollController.hasClients) return;
+      if (_scrollController.offset >= 300 && !_showBackToTopButton) {
+        setState(() => _showBackToTopButton = true);
+      } else if (_scrollController.offset < 300 && _showBackToTopButton) {
+        setState(() => _showBackToTopButton = false);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       body: Consumer<DictionaryProvider>(
         builder: (context, dictionaryProvider, child) {
@@ -39,14 +59,15 @@ class _DictionaryListScreenState extends State<DictionaryListScreen> {
           final terms = dictionaryProvider.approvedTerms;
 
           if (terms.isEmpty) {
-            return const AppEmptyState(
+            return AppEmptyState(
               icon: Icons.book_outlined,
-              title: 'No hay términos en el diccionario',
-              message: 'Sé el primero en proponer un término',
+              title: l10n.dictListEmptyTitle,
+              message: l10n.dictListEmptyMessage,
             );
           }
 
           return ListView.builder(
+            controller: _scrollController,
             padding: const EdgeInsets.all(AppConfig.paddingMedium),
             itemCount: terms.length + 1,
             itemBuilder: (context, index) {
@@ -93,16 +114,41 @@ class _DictionaryListScreenState extends State<DictionaryListScreen> {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (_) => const ProposeTermScreen(),
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          if (_showBackToTopButton) ...[
+            FloatingActionButton.small(
+              heroTag: 'dictionary_list_back_to_top_btn',
+              onPressed: () {
+                if (_scrollController.hasClients) {
+                  _scrollController.animateTo(
+                    0,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                  );
+                }
+              },
+              backgroundColor: AppConfig.primaryColor,
+              foregroundColor: Colors.white,
+              child: const Icon(Icons.arrow_upward),
             ),
-          );
-        },
-        icon: const Icon(Icons.add),
-        label: const Text('Proponer término'),
+            const SizedBox(height: AppConfig.paddingMedium),
+          ],
+          FloatingActionButton.extended(
+            heroTag: 'dictionary_propose_btn',
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const ProposeTermScreen(),
+                ),
+              );
+            },
+            icon: const Icon(Icons.add),
+            label: Text(l10n.dictListProposeBtn),
+          ),
+        ],
       ),
     );
   }

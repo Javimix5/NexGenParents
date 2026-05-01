@@ -22,6 +22,14 @@ class ForumCategoriesGrid extends StatelessWidget {
     'offtopic': 'https://images.unsplash.com/photo-1560419015-7c427e8ae5ba?w=400',
   };
 
+  String _t(BuildContext context, {required String es, required String gl, required String en}) {
+    switch (Localizations.localeOf(context).languageCode) {
+      case 'gl': return gl;
+      case 'en': return en;
+      default: return es;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final languageCode = Localizations.localeOf(context).languageCode;
@@ -31,7 +39,7 @@ class ForumCategoriesGrid extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Categorías Generales',
+          _t(context, es: 'Categorías Principales', gl: 'Categorías Principais', en: 'Main Categories'),
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -51,7 +59,11 @@ class ForumCategoriesGrid extends StatelessWidget {
                 crossAxisCount: crossCount,
                 crossAxisSpacing: 12,
                 mainAxisSpacing: 12,
-                childAspectRatio: constraints.maxWidth > 500 ? 1.6 : 1.15,
+                childAspectRatio: constraints.maxWidth > 800 
+                    ? 1.6 
+                    : (constraints.maxWidth > 500 
+                        ? 1.05 
+                        : 0.85), // Proporción más vertical para móviles
               ),
               itemCount: ForumSections.all.length,
               itemBuilder: (context, index) {
@@ -113,8 +125,37 @@ class _SectionCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ClipRRect(borderRadius: const BorderRadius.vertical(top: Radius.circular(15)), child: Image.network(imageUrl, height: 80, width: double.infinity, fit: BoxFit.cover, errorBuilder: (_, __, ___) => Container(height: 80, color: isDark ? const Color(0xFF252540) : Colors.grey[200], child: Icon(Icons.image_outlined, color: isDark ? Colors.white24 : Colors.black26, size: 32)))),
-            Expanded(child: Padding(padding: const EdgeInsets.all(10), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text(section.localizedName(languageCode), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: isDark ? Colors.white : Colors.black87), maxLines: 1, overflow: TextOverflow.ellipsis), const SizedBox(height: 4), Text(section.localizedDescription(languageCode), style: TextStyle(fontSize: 11, color: isDark ? Colors.white54 : Colors.black54), maxLines: 2, overflow: TextOverflow.ellipsis), const Spacer(), Row(children: [Icon(Icons.chat_bubble_outline, size: 11, color: isDark ? Colors.white38 : Colors.black38), const SizedBox(width: 3), Text(postCount.toString(), style: TextStyle(fontSize: 10, color: isDark ? Colors.white38 : Colors.black38)), const SizedBox(width: 8), Icon(Icons.people_outline, size: 11, color: isDark ? Colors.white38 : Colors.black38), const SizedBox(width: 3), Text(replyCount.toString(), style: TextStyle(fontSize: 10, color: isDark ? Colors.white38 : Colors.black38))])]))),
+            ClipRRect(borderRadius: const BorderRadius.vertical(top: Radius.circular(15)), child: Image.network(imageUrl, height: 70, width: double.infinity, fit: BoxFit.cover, errorBuilder: (_, __, ___) => Container(height: 70, color: isDark ? const Color(0xFF252540) : Colors.grey[200], child: Icon(Icons.image_outlined, color: isDark ? Colors.white24 : Colors.black26, size: 32)))),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      section.localizedName(languageCode),
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: isDark ? Colors.white : Colors.black87),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 4),
+                    Expanded(
+                      child: Text(
+                        section.localizedDescription(languageCode),
+                        style: TextStyle(fontSize: 11, color: isDark ? Colors.white54 : Colors.black54),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Icon(Icons.chat_bubble_outline, size: 11, color: isDark ? Colors.white38 : Colors.black38), const SizedBox(width: 3), Text(postCount.toString(), style: TextStyle(fontSize: 10, color: isDark ? Colors.white38 : Colors.black38)), const SizedBox(width: 8), Icon(Icons.people_outline, size: 11, color: isDark ? Colors.white38 : Colors.black38), const SizedBox(width: 3), Text(replyCount.toString(), style: TextStyle(fontSize: 10, color: isDark ? Colors.white38 : Colors.black38))
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),

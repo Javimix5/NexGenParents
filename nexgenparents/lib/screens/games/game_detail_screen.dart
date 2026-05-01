@@ -21,6 +21,9 @@ class GameDetailScreen extends StatefulWidget {
 }
 
 class _GameDetailScreenState extends State<GameDetailScreen> {
+  final ScrollController _scrollController = ScrollController();
+  bool _showBackToTopButton = false;
+
   @override
   void initState() {
     super.initState();
@@ -29,6 +32,20 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
       Provider.of<GamesProvider>(context, listen: false)
           .loadGameDetails(widget.gameId);
     });
+    _scrollController.addListener(() {
+      if (!_scrollController.hasClients) return;
+      if (_scrollController.offset >= 300 && !_showBackToTopButton) {
+        setState(() => _showBackToTopButton = true);
+      } else if (_scrollController.offset < 300 && _showBackToTopButton) {
+        setState(() => _showBackToTopButton = false);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -74,6 +91,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
           }
 
           return CustomScrollView(
+            controller: _scrollController,
             slivers: [
               // AppBar con imagen de fondo
               _buildAppBar(game),
@@ -114,6 +132,23 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
           );
         },
       ),
+      floatingActionButton: _showBackToTopButton
+          ? FloatingActionButton.small(
+              heroTag: 'game_detail_back_to_top_btn',
+              onPressed: () {
+                if (_scrollController.hasClients) {
+                  _scrollController.animateTo(
+                    0,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                  );
+                }
+              },
+              backgroundColor: AppConfig.primaryColor,
+              foregroundColor: Colors.white,
+              child: const Icon(Icons.arrow_upward),
+            )
+          : null,
     );
   }
 

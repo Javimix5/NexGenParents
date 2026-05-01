@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import '../models/forum_post_model.dart';
 import '../models/forum_section.dart';
@@ -6,19 +7,42 @@ import '../services/firestore_service.dart';
 
 class ForumProvider with ChangeNotifier {
   final FirestoreService _firestoreService;
+  StreamSubscription<List<ForumPost>>? _postsSubscription;
 
   ForumProvider({FirestoreService? firestoreService})
-      : _firestoreService = firestoreService ?? FirestoreService();
+      : _firestoreService = firestoreService ?? FirestoreService() {
+    _init();
+  }
 
   bool _isLoading = false;
   String? _errorMessage;
+  List<ForumPost>? _posts;
 
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
+  List<ForumPost> get posts => _posts ?? [];
+  bool get isPostsLoading => _posts == null;
+
+  void _init() {
+    _postsSubscription = _firestoreService.getForumPosts().listen(
+      (postList) {
+        _posts = postList;
+        notifyListeners();
+      },
+      onError: (e) {
+        _errorMessage = 'Error al cargar las publicaciones: $e';
+        notifyListeners();
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _postsSubscription?.cancel();
+    super.dispose();
+  }
 
   // --- Lógica para las publicaciones ---
-
-  Stream<List<ForumPost>> get postsStream => _firestoreService.getForumPosts();
 
   Future<bool> createPost({
     required String title,

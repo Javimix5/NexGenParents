@@ -5,6 +5,7 @@ import '../../providers/dictionary_provider.dart';
 import '../../models/dictionary_term_model.dart';
 import '../../config/app_config.dart';
 import '../../config/app_theme.dart';
+import '../../l10n/app_localizations.dart';
 
 class TermDetailScreen extends StatefulWidget {
   final String termId;
@@ -39,23 +40,24 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
     final isModeratorOrAdmin =
         ['moderator', 'admin'].contains(currentUser?.role);
     final isAdmin = currentUser?.isAdmin ?? false;
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Detalle del Término'),
+        title: Text(l10n.dictDetailTitle),
         actions: [
           // Mostramos los botones solo si el usuario tiene el rol adecuado
           if (isModeratorOrAdmin && dictionaryProvider.selectedTerm != null)
             IconButton(
               icon: const Icon(Icons.edit),
-              tooltip: 'Editar Término',
+              tooltip: l10n.dictEditTooltip,
               onPressed: () =>
                   _showEditTermDialog(context, dictionaryProvider.selectedTerm!),
             ),
           if (isAdmin && dictionaryProvider.selectedTerm != null)
             IconButton(
               icon: const Icon(Icons.delete, color: AppConfig.errorColor),
-              tooltip: 'Eliminar Término',
+              tooltip: l10n.dictDeleteTooltip,
               onPressed: () => _showDeleteConfirmationDialog(
                   context, dictionaryProvider.selectedTerm!.id),
             ),
@@ -66,14 +68,15 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
   }
 
   Widget _buildBody(BuildContext context, DictionaryProvider dictionaryProvider) {
+    final l10n = AppLocalizations.of(context)!;
     if (dictionaryProvider.isLoading) {
-      return const Center(
+      return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CircularProgressIndicator(),
-            SizedBox(height: AppConfig.paddingMedium),
-            Text('Cargando término...'),
+            const CircularProgressIndicator(),
+            const SizedBox(height: AppConfig.paddingMedium),
+            Text(l10n.dictLoadingTerm),
           ],
         ),
       );
@@ -92,11 +95,11 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
               color: AppConfig.errorColor,
             ),
             const SizedBox(height: AppConfig.paddingMedium),
-            const Text('No se pudo cargar el término'),
+            Text(l10n.dictErrorLoadingTerm),
             const SizedBox(height: AppConfig.paddingMedium),
             ElevatedButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Volver'),
+              child: Text(l10n.dictBackBtn),
             ),
           ],
         ),
@@ -200,6 +203,7 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
   }
 
   Widget _buildDefinitionSection(DictionaryTerm term) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.all(AppConfig.paddingLarge),
       child: Column(
@@ -207,11 +211,11 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
         children: [
           Row(
             children: [
-              Icon(Icons.description, color: AppConfig.primaryColor),
-              SizedBox(width: AppConfig.paddingSmall),
+              const Icon(Icons.description, color: AppConfig.primaryColor),
+              const SizedBox(width: AppConfig.paddingSmall),
               Text(
-                'Definición',
-                style: TextStyle(
+                l10n.dictDefinitionLabel,
+                style: const TextStyle(
                   fontSize: AppConfig.fontSizeHeading,
                   fontWeight: FontWeight.bold,
                 ),
@@ -234,6 +238,7 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
   Widget _buildExampleSection(DictionaryTerm term) {
     if (term.example.isEmpty) return const SizedBox.shrink();
 
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(AppConfig.paddingLarge),
@@ -243,11 +248,11 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
         children: [
           Row(
             children: [
-              Icon(Icons.format_quote, color: AppConfig.accentColor),
-              SizedBox(width: AppConfig.paddingSmall),
+              const Icon(Icons.format_quote, color: AppConfig.accentColor),
+              const SizedBox(width: AppConfig.paddingSmall),
               Text(
-                'Ejemplo de uso',
-                style: TextStyle(
+                l10n.dictExampleLabel,
+                style: const TextStyle(
                   fontSize: AppConfig.fontSizeHeading,
                   fontWeight: FontWeight.bold,
                 ),
@@ -280,14 +285,15 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
   }
 
   Widget _buildStatsSection(DictionaryTerm term, DictionaryProvider provider) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.all(AppConfig.paddingLarge),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            '¿Te ha sido útil este término?',
-            style: TextStyle(
+          Text(
+            l10n.dictUsefulQuestion,
+            style: const TextStyle(
               fontSize: AppConfig.fontSizeHeading,
               fontWeight: FontWeight.bold,
             ),
@@ -308,8 +314,8 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
                           });
                           if (mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('¡Gracias por tu voto!'),
+                              SnackBar(
+                                content: Text(l10n.dictVoteThanks),
                                 backgroundColor: AppConfig.accentColor,
                                 duration: Duration(seconds: 2),
                               ),
@@ -318,7 +324,7 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
                         },
                   icon: Icon(_hasVoted ? Icons.check_circle : Icons.thumb_up),
                   label: Text(
-                    _hasVoted ? 'Voto registrado' : 'Sí, me ha ayudado',
+                    _hasVoted ? l10n.dictVoteRegistered : l10n.dictVoteBtn,
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor:
@@ -339,13 +345,13 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
             children: [
               _buildStatCard(
                 icon: Icons.thumb_up,
-                label: 'Votos útiles',
+                label: l10n.dictUsefulVotes,
                 value: '${term.votes}',
                 color: AppConfig.accentColor,
               ),
               _buildStatCard(
                 icon: Icons.visibility,
-                label: 'Visualizaciones',
+                label: l10n.dictViews,
                 value: '${term.viewCount}',
                 color: AppConfig.primaryColor,
               ),
@@ -395,14 +401,15 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
   }
 
   Widget _buildAdditionalInfo(DictionaryTerm term) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.all(AppConfig.paddingLarge),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Información adicional',
-            style: TextStyle(
+          Text(
+            l10n.dictAdditionalInfo,
+            style: const TextStyle(
               fontSize: AppConfig.fontSizeHeading,
               fontWeight: FontWeight.bold,
             ),
@@ -411,22 +418,22 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
 
           _buildInfoRow(
             icon: Icons.calendar_today,
-            label: 'Añadido el',
+            label: l10n.dictAddedOn,
             value: _formatDate(term.createdAt),
           ),
           const SizedBox(height: AppConfig.paddingSmall),
 
           _buildInfoRow(
             icon: Icons.update,
-            label: 'Última actualización',
+            label: l10n.dictLastUpdate,
             value: _formatDate(term.updatedAt),
           ),
           const SizedBox(height: AppConfig.paddingSmall),
 
           _buildInfoRow(
             icon: Icons.verified,
-            label: 'Estado',
-            value: _getStatusText(term.status),
+            label: l10n.dictStatusLabel,
+            value: _getStatusText(term.status, l10n),
             valueColor: AppTheme.getStatusColor(term.status),
           ),
         ],
@@ -480,14 +487,14 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
     return '${date.day}/${date.month}/${date.year}';
   }
 
-  String _getStatusText(String status) {
+  String _getStatusText(String status, AppLocalizations l10n) {
     switch (status) {
       case 'approved':
-        return 'Aprobado';
+        return l10n.dictStatusApproved;
       case 'pending':
-        return 'Pendiente';
+        return l10n.dictStatusPending;
       case 'rejected':
-        return 'Rechazado';
+        return l10n.dictStatusRejected;
       default:
         return status;
     }
@@ -495,6 +502,7 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
 
   // Diálogo para editar el término (solo para Admin/Moderator)
   void _showEditTermDialog(BuildContext context, DictionaryTerm currentTerm) {
+    final l10n = AppLocalizations.of(context)!;
     final formKey = GlobalKey<FormState>();
     final termController = TextEditingController(text: currentTerm.term);
     final definitionController =
@@ -506,7 +514,7 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Editar Término'),
+          title: Text(l10n.dictEditDialogTitle),
           content: Form(
             key: formKey,
             child: SingleChildScrollView(
@@ -515,24 +523,23 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
                 children: [
                   TextFormField(
                     controller: termController,
-                    decoration: const InputDecoration(labelText: 'Término'),
+                    decoration: InputDecoration(labelText: l10n.dictEditFieldTerm),
                     validator: (value) =>
-                        value!.isEmpty ? 'El término no puede estar vacío' : null,
+                        value!.isEmpty ? l10n.dictEditErrorTerm : null,
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
                     controller: definitionController,
-                    decoration: const InputDecoration(labelText: 'Definición'),
+                    decoration: InputDecoration(labelText: l10n.dictEditFieldDefinition),
                     maxLines: 3,
                     validator: (value) => value!.isEmpty
-                        ? 'La definición no puede estar vacía'
+                        ? l10n.dictEditErrorDefinition
                         : null,
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
                     controller: exampleController,
-                    decoration:
-                        const InputDecoration(labelText: 'Ejemplo (opcional)'),
+                    decoration: InputDecoration(labelText: l10n.dictEditFieldExample),
                     maxLines: 2,
                   ),
                   const SizedBox(height: 16),
@@ -547,7 +554,7 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
                         selectedCategory = value;
                       }
                     },
-                    decoration: const InputDecoration(labelText: 'Categoría'),
+                    decoration: InputDecoration(labelText: l10n.dictEditFieldCategory),
                   ),
                 ],
               ),
@@ -556,7 +563,7 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Cancelar'),
+              child: Text(l10n.dictCancelBtn),
             ),
             ElevatedButton(
               onPressed: () async {
@@ -577,21 +584,21 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
                     if (success) {
                       _showSnackBar(
                         context,
-                        'Término actualizado correctamente',
+                        l10n.dictUpdateSuccess,
                         AppConfig.accentColor,
                       );
                     } else {
                       _showSnackBar(
                         context,
                         dictionaryProvider.errorMessage ??
-                            'Error al actualizar el término',
+                            l10n.dictUpdateError,
                         AppConfig.errorColor,
                       );
                     }
                   }
                 }
               },
-              child: const Text('Guardar Cambios'),
+              child: Text(l10n.dictSaveChangesBtn),
             ),
           ],
         );
@@ -601,17 +608,17 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
 
   // Diálogo de confirmación para eliminar (solo para Admin)
   void _showDeleteConfirmationDialog(BuildContext context, String termId) {
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Confirmar Eliminación'),
-          content: const Text(
-              '¿Estás seguro de que quieres eliminar este término de forma permanente? Esta acción no se puede deshacer.'),
+          title: Text(l10n.dictDeleteConfirmTitle),
+          content: Text(l10n.dictDeleteConfirmContent),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Cancelar'),
+              child: Text(l10n.dictCancelBtn),
             ),
             ElevatedButton(
               style:
@@ -631,20 +638,20 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
                   if (success) {
                     _showSnackBar(
                       context,
-                      'Término eliminado correctamente',
+                      l10n.dictDeleteSuccess,
                       AppConfig.accentColor,
                     );
                   } else {
                     _showSnackBar(
                       context,
                       dictionaryProvider.errorMessage ??
-                          'Error al eliminar el término',
+                          l10n.dictDeleteError,
                       AppConfig.errorColor,
                     );
                   }
                 }
               },
-              child: const Text('Eliminar'),
+              child: Text(l10n.dictDeleteBtn),
             ),
           ],
         );
