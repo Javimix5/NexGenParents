@@ -215,6 +215,7 @@ class ParentalGuidesListScreen extends StatelessWidget {
 
   Widget _buildPlatformSection(
       BuildContext context, List<ParentalGuide> guides) {
+    final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.only(bottom: AppConfig.paddingMedium),
       child: Column(
@@ -232,9 +233,9 @@ class ParentalGuidesListScreen extends StatelessWidget {
                     width: 28,
                     height: 28,
                     fit: BoxFit.contain,
-                    errorBuilder: (_, __, ___) => const Icon(
+                    errorBuilder: (_, __, ___) => Icon(
                       Icons.sports_esports,
-                      color: AppConfig.primaryColor,
+                      color: theme.colorScheme.primary,
                       size: 24,
                     ),
                   ),
@@ -242,10 +243,10 @@ class ParentalGuidesListScreen extends StatelessWidget {
                 const SizedBox(width: AppConfig.paddingSmall),
                 Text(
                   _getTranslatedPlatform(context, guides.first),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: AppConfig.fontSizeBody,
                     fontWeight: FontWeight.bold,
-                    color: AppConfig.primaryColor,
+                    color: theme.colorScheme.primary,
                   ),
                 ),
               ],
@@ -259,6 +260,7 @@ class ParentalGuidesListScreen extends StatelessWidget {
   }
 
   Widget _buildGuideCard(BuildContext context, ParentalGuide guide) {
+    final theme = Theme.of(context);
     return Card(
       margin: const EdgeInsets.symmetric(
         horizontal: AppConfig.paddingMedium,
@@ -288,11 +290,11 @@ class ParentalGuidesListScreen extends StatelessWidget {
                   errorBuilder: (_, __, ___) => Container(
                     width: 48,
                     height: 48,
-                    color: AppConfig.primaryColor.withValues(alpha: 0.08),
-                    child: const Icon(
+                    color: theme.colorScheme.primary.withValues(alpha: 0.08),
+                    child: Icon(
                       Icons.sports_esports,
                       size: 24,
-                      color: AppConfig.primaryColor,
+                      color: theme.colorScheme.primary,
                     ),
                   ),
                 ),
@@ -312,18 +314,18 @@ class ParentalGuidesListScreen extends StatelessWidget {
                     const SizedBox(height: AppConfig.paddingSmall / 2),
                     Text(
                       '${_resolveClosureOrString(context, guide.typeDisplayName)} • ${guide.steps.length} ${_t(context, es: 'pasos', gl: 'pasos', en: 'steps')}',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: AppConfig.fontSizeCaption,
-                        color: AppConfig.textSecondaryColor,
+                        color: theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.7),
                       ),
                     ),
                   ],
                 ),
               ),
-              const Icon(
+              Icon(
                 Icons.arrow_forward_ios,
                 size: 16,
-                color: AppConfig.textSecondaryColor,
+                color: theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.4),
               ),
             ],
           ),
@@ -377,18 +379,19 @@ class ParentalGuidesListScreen extends StatelessWidget {
     required String title,
     required String description,
   }) {
+    final theme = Theme.of(context);
     return Container(
       padding: const EdgeInsets.all(AppConfig.paddingMedium),
       decoration: BoxDecoration(
-        color: AppConfig.backgroundLight,
+        color: theme.cardColor,
         borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
         border: Border.all(
-            color: AppConfig.textSecondaryColor.withValues(alpha: 0.2)),
+            color: theme.dividerColor.withValues(alpha: 0.2)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, color: AppConfig.primaryColor, size: 28),
+          Icon(icon, color: theme.colorScheme.primary, size: 28),
           const SizedBox(width: AppConfig.paddingMedium),
           Expanded(
             child: Column(
@@ -404,9 +407,9 @@ class ParentalGuidesListScreen extends StatelessWidget {
                 const SizedBox(height: AppConfig.paddingSmall / 2),
                 Text(
                   description,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: AppConfig.fontSizeCaption,
-                    color: AppConfig.textSecondaryColor,
+                    color: theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.7),
                   ),
                 ),
               ],

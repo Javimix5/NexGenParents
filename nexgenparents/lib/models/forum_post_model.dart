@@ -44,7 +44,7 @@ class ForumPost {
       topic: legacyTopic,
       createdAt: (map['createdAt'] as Timestamp? ?? Timestamp.now()).toDate(),
       updatedAt: (map['updatedAt'] as Timestamp? ?? Timestamp.now()).toDate(),
-      replyCount: map['replyCount'] ?? 0,
+      replyCount: int.tryParse(map['replyCount']?.toString() ?? '0') ?? 0,
     );
   }
 
