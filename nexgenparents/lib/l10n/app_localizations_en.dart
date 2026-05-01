@@ -969,4 +969,383 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get adminInfoUnderstoodBtn => 'Understood';
+
+  @override
+  String get navHome => 'Home';
+
+  @override
+  String get navSearch => 'Search';
+
+  @override
+  String get navGuides => 'Guides';
+
+  @override
+  String get navDictionary => 'Dictionary';
+
+  @override
+  String get navGames => 'Games';
+
+  @override
+  String get navParentalControl => 'Parental Control';
+
+  @override
+  String get navCommunity => 'Community';
+
+  @override
+  String get headerSearchHint => 'Search...';
+
+  @override
+  String get headerMenuBtn => 'Menu';
+
+  @override
+  String get accountMenuProfile => 'My Profile';
+
+  @override
+  String get accountMenuMyTerms => 'My Proposed Terms';
+
+  @override
+  String accountMenuTermsCount(int count) {
+    return '$count terms';
+  }
+
+  @override
+  String get accountMenuModeration => 'Moderation';
+
+  @override
+  String get accountMenuUsers => 'User Management';
+
+  @override
+  String get accountMenuLogout => 'Log out';
+
+  @override
+  String get footerTaglineMobile =>
+      'Empowering the next generation\nof parents in the digital age';
+
+  @override
+  String get footerPrivacy => 'Privacy Policy';
+
+  @override
+  String get footerAbout => 'About us';
+
+  @override
+  String get footerContact => 'Contact us';
+
+  @override
+  String footerCopyright(String year, String appName) {
+    return '© $year $appName. All rights reserved.';
+  }
+
+  @override
+  String get footerTaglineDesktop =>
+      'Empowering the next generation of parents in the digital age';
+
+  @override
+  String get footerErrorLink => 'Could not open the external link.';
+
+  @override
+  String get genreAction => 'Action';
+
+  @override
+  String get genreAdventure => 'Adventure';
+
+  @override
+  String get genreRPG => 'RPG';
+
+  @override
+  String get genreStrategy => 'Strategy';
+
+  @override
+  String get genreShooter => 'Shooter';
+
+  @override
+  String get genrePuzzle => 'Puzzle';
+
+  @override
+  String get genreSports => 'Sports';
+
+  @override
+  String get genreRacing => 'Racing';
+
+  @override
+  String get genreSimulation => 'Simulation';
+
+  @override
+  String get genrePlatformer => 'Platformer';
+
+  @override
+  String get genreFighting => 'Fighting';
+
+  @override
+  String get genreArcade => 'Arcade';
+
+  @override
+  String get gameDetailLoading => 'Loading game information...';
+
+  @override
+  String get gameDetailError => 'Failed to load game information';
+
+  @override
+  String get gameDetailBackBtn => 'Back';
+
+  @override
+  String gameDetailRelease(String date) {
+    return 'Release: $date';
+  }
+
+  @override
+  String get gameDetailPegiTitle => 'Age rating (PEGI)';
+
+  @override
+  String gameDetailPegiWarning(int pegi) {
+    return 'Recommended for ages $pegi and up';
+  }
+
+  @override
+  String get gameDetailPegiNotAvailable =>
+      'No PEGI rating information available';
+
+  @override
+  String get gameDetailDescriptionTitle => 'Game description';
+
+  @override
+  String get gameDetailDescriptionEmpty => 'No description available';
+
+  @override
+  String get gameDetailGenresTitle => 'Genres';
+
+  @override
+  String get gameDetailPlatformsTitle => 'Available platforms';
+
+  @override
+  String get gameDetailScreenshotsTitle => 'Screenshots';
+
+  @override
+  String get pegiDescription3 =>
+      'Content suitable for all ages. No violence or inappropriate language.';
+
+  @override
+  String get pegiDescription7 =>
+      'May contain scenes or sounds that can frighten young children.';
+
+  @override
+  String get pegiDescription12 =>
+      'May include non-realistic violence towards fantasy characters or mild realistic violence.';
+
+  @override
+  String get pegiDescription16 =>
+      'May contain realistic violence, strong language or mild sexual content.';
+
+  @override
+  String get pegiDescription18 =>
+      'Adult content. May include intense violence, strong language, explicit sexual content, or drug use.';
+
+  @override
+  String get pegiDescriptionUnknown =>
+      'No description available for this PEGI rating.';
+
+  @override
+  String get homeDefaultUser => 'User';
+
+  @override
+  String homeWelcomeUser(String userName) {
+    return 'Welcome, $userName!';
+  }
+
+  @override
+  String homeUserStats(int approved, int proposed) {
+    return 'You have $approved approved terms and $proposed proposed terms.';
+  }
+
+  @override
+  String homeActiveTerms(int count) {
+    return '$count active terms';
+  }
+
+  @override
+  String get homeQuickAccessTitle => 'Quick access';
+
+  @override
+  String get homeQuickAccessSubtitle =>
+      'Access the most-used areas of the site';
+
+  @override
+  String get homeQuickActionGamesTitle => 'Find games by age';
+
+  @override
+  String get homeQuickActionGamesSubtitle =>
+      'Find games that fit your child\'s age';
+
+  @override
+  String get homeQuickActionDictTitle => 'Search dictionary terms';
+
+  @override
+  String get homeQuickActionDictSubtitle =>
+      'Discover what the words your child uses while gaming mean';
+
+  @override
+  String get homeQuickActionGuidesTitle => 'Set up Parental Controls';
+
+  @override
+  String get homeQuickActionGuidesSubtitle =>
+      'Set age and usage limits based on the platform';
+
+  @override
+  String get homeGameOfTheWeek => 'Game of the week';
+
+  @override
+  String get homeSeeMonthsGames => 'See this month\'s games';
+
+  @override
+  String get homeFullAnalysisBtn => 'Full analysis';
+
+  @override
+  String get homeLatestUpdatesTitle => 'Latest updates';
+
+  @override
+  String get forumSectionGeneral => 'General';
+
+  @override
+  String get forumSectionNews => 'News';
+
+  @override
+  String get forumSectionQnA => 'Q&A';
+
+  @override
+  String get homeGoToCommunityBtn => 'Go to the community';
+
+  @override
+  String get homeGameSummaryEmpty =>
+      'There is no featured game this week. Check this month\'s games to see the latest releases.';
+
+  @override
+  String homeGameSummaryReleased(String date) {
+    return 'Released: $date';
+  }
+
+  @override
+  String get homeGameSummaryReleasedEmpty => 'Released: unavailable';
+
+  @override
+  String homeGameSummaryRating(String rating) {
+    return 'Rating: $rating';
+  }
+
+  @override
+  String get homeGameSummaryRatingEmpty => 'Rating: no data';
+
+  @override
+  String get homeGameSummaryNoGenre => 'No genre';
+
+  @override
+  String get homeGameSummaryRatingPending => 'Rating pending';
+
+  @override
+  String homeGameSummaryFull(
+      String genre, String released, String rating, String ageRating) {
+    return 'Genre: $genre · $released · $rating · $ageRating';
+  }
+
+  @override
+  String get homeGameTopLabelWeekly => 'Weekly pick';
+
+  @override
+  String get homeGameTopLabelUnrated => 'Unrated';
+
+  @override
+  String get homeUpdateNoNews => 'No recent updates in this section.';
+
+  @override
+  String get homeUpdateThreadUpdated => 'Thread updated recently';
+
+  @override
+  String get homeUpdateCommunity => 'Community';
+
+  @override
+  String get roleAdmin => 'Administrator';
+
+  @override
+  String get roleModerator => 'Moderator';
+
+  @override
+  String get commonLoading => 'Loading...';
+
+  @override
+  String userLevel(int level) {
+    return 'Level $level';
+  }
+
+  @override
+  String get forumSidebarFollowedTopics => 'Followed Topics';
+
+  @override
+  String get forumSidebarTopic1Title => 'Screen time limits for 10 year olds?';
+
+  @override
+  String get forumSidebarTopic1Subtitle => '24 new replies today';
+
+  @override
+  String get forumSidebarTopic2Title => 'Best educational games on Switch';
+
+  @override
+  String get forumSidebarTopic2Subtitle => '15 new replies today';
+
+  @override
+  String get forumSidebarTopic3Title => 'Dealing with online chat safety';
+
+  @override
+  String get forumSidebarTopic3Subtitle => '8 new replies today';
+
+  @override
+  String get forumSidebarRepliesToYou => 'Replies to you';
+
+  @override
+  String get forumSidebarReply1Link => 'Fortnite Safety';
+
+  @override
+  String get forumSidebarReply1Action => 'replied to your co...';
+
+  @override
+  String get forumSidebarReply1Time => '2 minutes ago';
+
+  @override
+  String get forumSidebarReply2Link => 'Console Comparison';
+
+  @override
+  String get forumSidebarReply2Action => 'tagged you in...';
+
+  @override
+  String get forumSidebarReply2Time => '1 hour ago';
+
+  @override
+  String get forumSidebarReply3Link => 'Welcome Thread';
+
+  @override
+  String get forumSidebarReply3Action => 'liked your reply i...';
+
+  @override
+  String get forumSidebarReply3Time => '3 hours ago';
+
+  @override
+  String get forumSidebarGlobalNews => 'Global Forum News';
+
+  @override
+  String get forumSidebarNews1Tag => 'Update';
+
+  @override
+  String get forumSidebarNews1Text =>
+      'New parental control guides added to the Dictionary.';
+
+  @override
+  String get forumSidebarNews2Tag => 'Event';
+
+  @override
+  String get forumSidebarNews2Text =>
+      'Live Q&A with child psychologist this Thursday at 6PM.';
+
+  @override
+  String get forumSidebarNews3Tag => 'Feature';
+
+  @override
+  String get forumSidebarNews3Text =>
+      'Dark mode is now available in user settings!';
 }

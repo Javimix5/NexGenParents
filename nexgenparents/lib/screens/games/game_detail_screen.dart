@@ -5,6 +5,7 @@ import '../../providers/games_provider.dart';
 import '../../models/game_model.dart';
 import '../../config/app_config.dart';
 import '../../config/app_theme.dart';
+import '../../l10n/app_localizations.dart';
 
 class GameDetailScreen extends StatefulWidget {
   final int gameId;
@@ -50,17 +51,18 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
       body: Consumer<GamesProvider>(
         builder: (context, gamesProvider, child) {
           if (gamesProvider.isLoadingDetails) {
-            return const Center(
+            return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CircularProgressIndicator(),
-                  SizedBox(height: AppConfig.paddingMedium),
-                  Text('Cargando información del juego...'),
+                  const CircularProgressIndicator(),
+                  const SizedBox(height: AppConfig.paddingMedium),
+                  Text(l10n?.gameDetailLoading ?? 'Cargando información del juego...'),
                 ],
               ),
             );
@@ -79,11 +81,11 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                     color: AppConfig.errorColor,
                   ),
                   const SizedBox(height: AppConfig.paddingMedium),
-                  const Text('No se pudo cargar la información del juego'),
+                  Text(l10n?.gameDetailError ?? 'No se pudo cargar la información del juego'),
                   const SizedBox(height: AppConfig.paddingMedium),
                   ElevatedButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    child: const Text('Volver'),
+                    child: Text(l10n?.gameDetailBackBtn ?? 'Volver'),
                   ),
                 ],
               ),
@@ -255,7 +257,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                 const Icon(Icons.calendar_today, size: 16, color: AppConfig.textSecondaryColor),
                 const SizedBox(width: AppConfig.paddingSmall / 2),
                 Text(
-                  'Lanzamiento: ${game.released}',
+                  _t(context, es: 'Lanzamiento: ${game.released}', gl: 'Lanzamento: ${game.released}', en: 'Release: ${game.released}'),
                   style: const TextStyle(color: AppConfig.textSecondaryColor),
                 ),
               ],
@@ -278,8 +280,8 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Clasificación por edad (PEGI)',
+          Text(
+            _t(context, es: 'Clasificación por edad (PEGI)', gl: 'Clasificación por idade (PEGI)', en: 'Age rating (PEGI)'),
             style: TextStyle(
               fontSize: AppConfig.fontSizeHeading,
               fontWeight: FontWeight.bold,
@@ -312,7 +314,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                 const SizedBox(width: AppConfig.paddingMedium),
                 Expanded(
                   child: Text(
-                    _getPegiDescription(pegi),
+                    _getPegiDescription(context, pegi),
                     style: const TextStyle(fontSize: AppConfig.fontSizeBody),
                   ),
                 ),
@@ -334,7 +336,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                   const SizedBox(width: AppConfig.paddingSmall),
                   Expanded(
                     child: Text(
-                      'Recomendado para mayores de $pegi años',
+                      _t(context, es: 'Recomendado para mayores de $pegi años', gl: 'Recomendado para maiores de $pegi anos', en: 'Recommended for ages $pegi and up'),
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: AppConfig.fontSizeBody,
@@ -345,8 +347,8 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
               ),
             ),
           ] else ...[
-            const Text(
-              'No hay información de clasificación PEGI disponible',
+            Text(
+              _t(context, es: 'No hay información de clasificación PEGI disponible', gl: 'Non hai información de clasificación PEGI dispoñible', en: 'No PEGI rating information available'),
               style: TextStyle(
                 color: AppConfig.textSecondaryColor,
                 fontStyle: FontStyle.italic,
@@ -364,8 +366,8 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Descripción del juego',
+          Text(
+            _t(context, es: 'Descripción del juego', gl: 'Descrición do xogo', en: 'Game description'),
             style: TextStyle(
               fontSize: AppConfig.fontSizeHeading,
               fontWeight: FontWeight.bold,
@@ -373,7 +375,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
           ),
           const SizedBox(height: AppConfig.paddingSmall),
           Text(
-            game.description ?? 'No hay descripción disponible',
+            game.description ?? _t(context, es: 'No hay descripción disponible', gl: 'Non hai descrición dispoñible', en: 'No description available'),
             style: const TextStyle(
               fontSize: AppConfig.fontSizeBody,
               height: 1.5,
@@ -392,8 +394,8 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Géneros',
+          Text(
+            _t(context, es: 'Géneros', gl: 'Xéneros', en: 'Genres'),
             style: TextStyle(
               fontSize: AppConfig.fontSizeHeading,
               fontWeight: FontWeight.bold,
@@ -424,8 +426,8 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Plataformas disponibles',
+          Text(
+            _t(context, es: 'Plataformas disponibles', gl: 'Plataformas dispoñibles', en: 'Available platforms'),
             style: TextStyle(
               fontSize: AppConfig.fontSizeHeading,
               fontWeight: FontWeight.bold,
@@ -454,8 +456,8 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Capturas de pantalla',
+          Text(
+            _t(context, es: 'Capturas de pantalla', gl: 'Capturas de pantalla', en: 'Screenshots'),
             style: TextStyle(
               fontSize: AppConfig.fontSizeHeading,
               fontWeight: FontWeight.bold,
@@ -503,20 +505,31 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
     return Colors.red;
   }
 
-  String _getPegiDescription(int pegi) {
+  String _getPegiDescription(BuildContext context, int pegi) {
     switch (pegi) {
       case 3:
-        return 'Contenido apropiado para todas las edades. Sin violencia ni lenguaje inapropiado.';
+        return _t(context, es: 'Contenido apropiado para todas las edades. Sin violencia ni lenguaje inapropiado.', gl: 'Contido apropiado para todas as idades. Sen violencia nin linguaxe inapropiada.', en: 'Content suitable for all ages. No violence or inappropriate language.');
       case 7:
-        return 'Puede contener escenas o sonidos que asusten a niños pequeños.';
+        return _t(context, es: 'Puede contener escenas o sonidos que asusten a niños pequeños.', gl: 'Pode conter escenas ou sons que asusten a nenos pequenos.', en: 'May contain scenes or sounds that can frighten young children.');
       case 12:
-        return 'Puede incluir violencia no realista hacia personajes de fantasía o violencia realista leve.';
-        case 16:
-        return 'Puede contener violencia realista, lenguaje fuerte o contenido sexual leve.';
-        case 18:
-        return 'Contenido para adultos. Puede incluir violencia intensa, lenguaje fuerte, contenido sexual explícito o uso de drogas.';
-        default:
-        return 'No hay una descripción disponible para esta clasificación PEGI.';
+        return _t(context, es: 'Puede incluir violencia no realista hacia personajes de fantasía o violencia realista leve.', gl: 'Pode incluír violencia non realista cara a personaxes de fantasía ou violencia realista leve.', en: 'May include non-realistic violence towards fantasy characters or mild realistic violence.');
+      case 16:
+        return _t(context, es: 'Puede contener violencia realista, lenguaje fuerte o contenido sexual leve.', gl: 'Pode conter violencia realista, linguaxe forte ou contido sexual leve.', en: 'May contain realistic violence, strong language or mild sexual content.');
+      case 18:
+        return _t(context, es: 'Contenido para adultos. Puede incluir violencia intensa, lenguaje fuerte, contenido sexual explícito o uso de drogas.', gl: 'Contido para adultos. Pode incluír violencia intensa, linguaxe forte, contido sexual explícito ou uso de drogas.', en: 'Adult content. May include intense violence, strong language, explicit sexual content, or drug use.');
+      default:
+        return _t(context, es: 'No hay una descripción disponible para esta clasificación PEGI.', gl: 'Non hai unha descrición dispoñible para esta clasificación PEGI.', en: 'No description available for this PEGI rating.');
+    }
+  }
+
+  String _t(BuildContext context, {required String es, required String gl, required String en}) {
+    switch (Localizations.localeOf(context).languageCode) {
+      case 'gl':
+        return gl;
+      case 'en':
+        return en;
+      default:
+        return es;
     }
   }
 }

@@ -977,4 +977,386 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get adminInfoUnderstoodBtn => 'Entendido';
+
+  @override
+  String get navHome => 'Inicio';
+
+  @override
+  String get navSearch => 'Buscar';
+
+  @override
+  String get navGuides => 'Guías';
+
+  @override
+  String get navDictionary => 'Diccionario';
+
+  @override
+  String get navGames => 'Videojuegos';
+
+  @override
+  String get navParentalControl => 'Control Parental';
+
+  @override
+  String get navCommunity => 'Comunidad';
+
+  @override
+  String get headerSearchHint => 'Buscar...';
+
+  @override
+  String get headerMenuBtn => 'Menú';
+
+  @override
+  String get accountMenuProfile => 'Mi perfil';
+
+  @override
+  String get accountMenuMyTerms => 'Mis términos propuestos';
+
+  @override
+  String accountMenuTermsCount(int count) {
+    return '$count términos';
+  }
+
+  @override
+  String get accountMenuModeration => 'Moderación';
+
+  @override
+  String get accountMenuUsers => 'Gestión de usuarios';
+
+  @override
+  String get accountMenuLogout => 'Cerrar sesión';
+
+  @override
+  String get footerTaglineMobile =>
+      'Empoderando a la próxima generación\nde padres en la era digital';
+
+  @override
+  String get footerPrivacy => 'Política de privacidad';
+
+  @override
+  String get footerAbout => 'Quienes somos';
+
+  @override
+  String get footerContact => 'Contáctanos';
+
+  @override
+  String footerCopyright(String year, String appName) {
+    return '© $year $appName. Todos los derechos reservados.';
+  }
+
+  @override
+  String get footerTaglineDesktop =>
+      'Empoderando a la próxima generación de padres en la era digital';
+
+  @override
+  String get footerErrorLink => 'No se pudo abrir el enlace externo.';
+
+  @override
+  String get genreAction => 'Acción';
+
+  @override
+  String get genreAdventure => 'Aventura';
+
+  @override
+  String get genreRPG => 'RPG';
+
+  @override
+  String get genreStrategy => 'Estrategia';
+
+  @override
+  String get genreShooter => 'Shooter';
+
+  @override
+  String get genrePuzzle => 'Puzzle';
+
+  @override
+  String get genreSports => 'Deportes';
+
+  @override
+  String get genreRacing => 'Carreras';
+
+  @override
+  String get genreSimulation => 'Simulación';
+
+  @override
+  String get genrePlatformer => 'Plataformas';
+
+  @override
+  String get genreFighting => 'Lucha';
+
+  @override
+  String get genreArcade => 'Arcade';
+
+  @override
+  String get gameDetailLoading => 'Cargando información del juego...';
+
+  @override
+  String get gameDetailError => 'No se pudo cargar la información del juego';
+
+  @override
+  String get gameDetailBackBtn => 'Volver';
+
+  @override
+  String gameDetailRelease(String date) {
+    return 'Lanzamiento: $date';
+  }
+
+  @override
+  String get gameDetailPegiTitle => 'Clasificación por edad (PEGI)';
+
+  @override
+  String gameDetailPegiWarning(int pegi) {
+    return 'Recomendado para mayores de $pegi años';
+  }
+
+  @override
+  String get gameDetailPegiNotAvailable =>
+      'No hay información de clasificación PEGI disponible';
+
+  @override
+  String get gameDetailDescriptionTitle => 'Descripción del juego';
+
+  @override
+  String get gameDetailDescriptionEmpty => 'No hay descripción disponible';
+
+  @override
+  String get gameDetailGenresTitle => 'Géneros';
+
+  @override
+  String get gameDetailPlatformsTitle => 'Plataformas disponibles';
+
+  @override
+  String get gameDetailScreenshotsTitle => 'Capturas de pantalla';
+
+  @override
+  String get pegiDescription3 =>
+      'Contenido apropiado para todas las edades. Sin violencia ni lenguaje inapropiado.';
+
+  @override
+  String get pegiDescription7 =>
+      'Puede contener escenas o sonidos que asusten a niños pequeños.';
+
+  @override
+  String get pegiDescription12 =>
+      'Puede incluir violencia no realista hacia personajes de fantasía o violencia realista leve.';
+
+  @override
+  String get pegiDescription16 =>
+      'Puede contener violencia realista, lenguaje fuerte o contenido sexual leve.';
+
+  @override
+  String get pegiDescription18 =>
+      'Contenido para adultos. Puede incluir violencia intensa, lenguaje fuerte, contenido sexual explícito o uso de drogas.';
+
+  @override
+  String get pegiDescriptionUnknown =>
+      'No hay una descripción disponible para esta clasificación PEGI.';
+
+  @override
+  String get homeDefaultUser => 'Usuario';
+
+  @override
+  String homeWelcomeUser(String userName) {
+    return 'Bienvenido, $userName!';
+  }
+
+  @override
+  String homeUserStats(int approved, int proposed) {
+    return 'Tienes $approved términos aprobados y $proposed términos propuestos.';
+  }
+
+  @override
+  String homeActiveTerms(int count) {
+    return '$count términos activos';
+  }
+
+  @override
+  String get homeQuickAccessTitle => 'Acceso rápido';
+
+  @override
+  String get homeQuickAccessSubtitle =>
+      'Acceso a las zonas de la web más usadas';
+
+  @override
+  String get homeQuickActionGamesTitle => 'Buscar juegos por edad';
+
+  @override
+  String get homeQuickActionGamesSubtitle =>
+      'Busca los juegos adecuados según la edad de tu hijo';
+
+  @override
+  String get homeQuickActionDictTitle => 'Busca términos en el diccionario';
+
+  @override
+  String get homeQuickActionDictSubtitle =>
+      'Descubre qué significan las palabras que usa tu hijo cuando juega';
+
+  @override
+  String get homeQuickActionGuidesTitle => 'Configurar Control Parental';
+
+  @override
+  String get homeQuickActionGuidesSubtitle =>
+      'Configura los límites de edad y uso según la plataforma';
+
+  @override
+  String get homeGameOfTheWeek => 'Juego de la semana';
+
+  @override
+  String get homeSeeMonthsGames => 'Ver los juegos del mes';
+
+  @override
+  String get homeFullAnalysisBtn => 'Análisis completo';
+
+  @override
+  String get homeLatestUpdatesTitle => 'Últimas actualizaciones';
+
+  @override
+  String get forumSectionGeneral => 'General';
+
+  @override
+  String get forumSectionNews => 'Noticias';
+
+  @override
+  String get forumSectionQnA => 'Preguntas y respuestas';
+
+  @override
+  String get homeGoToCommunityBtn => 'Accede a la comunidad';
+
+  @override
+  String get homeGameSummaryEmpty =>
+      'No hay juego destacado esta semana. Consulta los juegos del mes para ver las novedades.';
+
+  @override
+  String homeGameSummaryReleased(String date) {
+    return 'Salida: $date';
+  }
+
+  @override
+  String get homeGameSummaryReleasedEmpty => 'Salida: no disponible';
+
+  @override
+  String homeGameSummaryRating(String rating) {
+    return 'Rating: $rating';
+  }
+
+  @override
+  String get homeGameSummaryRatingEmpty => 'Rating: sin datos';
+
+  @override
+  String get homeGameSummaryNoGenre => 'Sin género';
+
+  @override
+  String get homeGameSummaryRatingPending => 'Clasificación pendiente';
+
+  @override
+  String homeGameSummaryFull(
+      String genre, String released, String rating, String ageRating) {
+    return 'Género: $genre · $released · $rating · $ageRating';
+  }
+
+  @override
+  String get homeGameTopLabelWeekly => 'Selección semanal';
+
+  @override
+  String get homeGameTopLabelUnrated => 'Sin clasificación';
+
+  @override
+  String get homeUpdateNoNews => 'Sin novedades recientes en esta sección.';
+
+  @override
+  String get homeUpdateThreadUpdated => 'Hilo actualizado recientemente';
+
+  @override
+  String get homeUpdateCommunity => 'Comunidad';
+
+  @override
+  String get roleAdmin => 'Administrador';
+
+  @override
+  String get roleModerator => 'Moderador';
+
+  @override
+  String get commonLoading => 'Cargando...';
+
+  @override
+  String userLevel(int level) {
+    return 'Nivel $level';
+  }
+
+  @override
+  String get forumSidebarFollowedTopics => 'Temas Seguidos';
+
+  @override
+  String get forumSidebarTopic1Title =>
+      '¿Límites de tiempo para niños de 10 años?';
+
+  @override
+  String get forumSidebarTopic1Subtitle => '24 respuestas nuevas hoy';
+
+  @override
+  String get forumSidebarTopic2Title =>
+      'Los mejores juegos educativos en Switch';
+
+  @override
+  String get forumSidebarTopic2Subtitle => '15 respuestas nuevas hoy';
+
+  @override
+  String get forumSidebarTopic3Title =>
+      'Cómo gestionar la seguridad en chats online';
+
+  @override
+  String get forumSidebarTopic3Subtitle => '8 respuestas nuevas hoy';
+
+  @override
+  String get forumSidebarRepliesToYou => 'Respuestas para ti';
+
+  @override
+  String get forumSidebarReply1Link => 'Seguridad en Fortnite';
+
+  @override
+  String get forumSidebarReply1Action => 'respondió a tu co...';
+
+  @override
+  String get forumSidebarReply1Time => 'hace 2 minutos';
+
+  @override
+  String get forumSidebarReply2Link => 'Comparativa de consolas';
+
+  @override
+  String get forumSidebarReply2Action => 'te etiquetó en...';
+
+  @override
+  String get forumSidebarReply2Time => 'hace 1 hora';
+
+  @override
+  String get forumSidebarReply3Link => 'Hilo de Bienvenida';
+
+  @override
+  String get forumSidebarReply3Action => 'le gustó tu respue...';
+
+  @override
+  String get forumSidebarReply3Time => 'hace 3 horas';
+
+  @override
+  String get forumSidebarGlobalNews => 'Noticias Globales del Foro';
+
+  @override
+  String get forumSidebarNews1Tag => 'Actualización';
+
+  @override
+  String get forumSidebarNews1Text =>
+      'Nuevas guías de control parental añadidas al Diccionario.';
+
+  @override
+  String get forumSidebarNews2Tag => 'Evento';
+
+  @override
+  String get forumSidebarNews2Text =>
+      'Q&A en vivo con psicólogo infantil este jueves a las 18:00.';
+
+  @override
+  String get forumSidebarNews3Tag => 'Novedad';
+
+  @override
+  String get forumSidebarNews3Text =>
+      '¡El modo oscuro ya está disponible en los ajustes de usuario!';
 }

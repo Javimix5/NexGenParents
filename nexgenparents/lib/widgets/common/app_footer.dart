@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../config/app_config.dart';
+import '../../l10n/app_localizations.dart';
 
 class AppFooter extends StatelessWidget {
   const AppFooter({
@@ -37,6 +38,7 @@ class AppFooter extends StatelessWidget {
   // LAYOUT MÓVIL
   // ─────────────────────────────────────────
   Widget _buildMobileLayout(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
       child: Column(
@@ -48,10 +50,7 @@ class AppFooter extends StatelessWidget {
 
           // Tagline centrado
           Text(
-            _t(context,
-                es: 'Empoderando a la próxima generación\nde padres en la era digital',
-                gl: 'Empoderando á vindeira xeración\nde pais na era dixital',
-                en: 'Empowering the next generation\nof parents in the digital age'),
+            l10n?.footerTaglineMobile ?? 'Empoderando a la próxima generación\nde padres en la era digital',
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.white.withValues(alpha: 0.65),
@@ -68,9 +67,9 @@ class AppFooter extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              _buildFooterLink(_t(context, es: 'Política de privacidad', gl: 'Política de privacidade', en: 'Privacy Policy'), onPrivacyTap),
-              _buildFooterLink(_t(context, es: 'Quienes somos', gl: 'Quen somos', en: 'About us'), onAboutTap),
-              _buildFooterLink(_t(context, es: 'Contáctanos', gl: 'Contacta connosco', en: 'Contact us'), onContactTap),
+              _buildFooterLink(l10n?.footerPrivacy ?? 'Política de privacidad', onPrivacyTap),
+              _buildFooterLink(l10n?.footerAbout ?? 'Quienes somos', onAboutTap),
+              _buildFooterLink(l10n?.footerContact ?? 'Contáctanos', onContactTap),
             ],
           ),
 
@@ -85,10 +84,7 @@ class AppFooter extends StatelessWidget {
 
           // Copyright centrado
           Text(
-            _t(context,
-                es: '© ${DateTime.now().year} ${AppConfig.appName}. Todos los derechos reservados.',
-                gl: '© ${DateTime.now().year} ${AppConfig.appName}. Todos os dereitos reservados.',
-                en: '© ${DateTime.now().year} ${AppConfig.appName}. All rights reserved.'),
+            l10n?.footerCopyright(DateTime.now().year.toString(), AppConfig.appName) ?? '© ${DateTime.now().year} ${AppConfig.appName}. Todos los derechos reservados.',
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.white.withValues(alpha: 0.35),
@@ -104,6 +100,7 @@ class AppFooter extends StatelessWidget {
   // LAYOUT DESKTOP
   // ─────────────────────────────────────────
   Widget _buildDesktopLayout(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
       child: Column(
@@ -119,10 +116,7 @@ class AppFooter extends StatelessWidget {
                     _buildFooterBrand(),
                     const SizedBox(height: 10),
                     Text(
-                      _t(context,
-                          es: 'Empoderando a la próxima generación de padres en la era digital',
-                          gl: 'Empoderando á vindeira xeración de pais na era dixital',
-                          en: 'Empowering the next generation of parents in the digital age'),
+                      l10n?.footerTaglineDesktop ?? 'Empoderando a la próxima generación de padres en la era digital',
                       style: TextStyle(
                         color: Colors.white.withValues(alpha: 0.65),
                         fontSize: 13,
@@ -150,10 +144,7 @@ class AppFooter extends StatelessWidget {
 
           // Copyright
           Text(
-            _t(context,
-                es: '© ${DateTime.now().year} ${AppConfig.appName}. Todos los derechos reservados.',
-                gl: '© ${DateTime.now().year} ${AppConfig.appName}. Todos os dereitos reservados.',
-                en: '© ${DateTime.now().year} ${AppConfig.appName}. All rights reserved.'),
+            l10n?.footerCopyright(DateTime.now().year.toString(), AppConfig.appName) ?? '© ${DateTime.now().year} ${AppConfig.appName}. Todos los derechos reservados.',
             style: TextStyle(
               color: Colors.white.withValues(alpha: 0.35),
               fontSize: 11,
@@ -198,12 +189,13 @@ class AppFooter extends StatelessWidget {
   }
 
   Widget _buildFooterLinksColumn(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildFooterLink(_t(context, es: 'Política de privacidad', gl: 'Política de privacidade', en: 'Privacy Policy'), onPrivacyTap),
-        _buildFooterLink(_t(context, es: 'Quienes somos', gl: 'Quen somos', en: 'About us'), onAboutTap),
-        _buildFooterLink(_t(context, es: 'Contáctanos', gl: 'Contacta connosco', en: 'Contact us'), onContactTap),
+        _buildFooterLink(l10n?.footerPrivacy ?? 'Política de privacidad', onPrivacyTap),
+        _buildFooterLink(l10n?.footerAbout ?? 'Quienes somos', onAboutTap),
+        _buildFooterLink(l10n?.footerContact ?? 'Contáctanos', onContactTap),
       ],
     );
   }
@@ -290,24 +282,9 @@ class AppFooter extends StatelessWidget {
     if (!context.mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(_t(context,
-            es: 'No se pudo abrir el enlace externo.',
-            gl: 'Non se puido abrir a ligazón externa.',
-            en: 'Could not open external link.')),
+        content: Text(AppLocalizations.of(context)?.footerErrorLink ?? 'No se pudo abrir el enlace externo.'),
       ),
     );
-  }
-
-  String _t(BuildContext context,
-      {required String es, required String gl, required String en}) {
-    switch (Localizations.localeOf(context).languageCode) {
-      case 'gl':
-        return gl;
-      case 'en':
-        return en;
-      default:
-        return es;
-    }
   }
 }
 

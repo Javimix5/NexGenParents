@@ -31,20 +31,24 @@ class _GamesFiltersScreenState extends State<GamesFiltersScreen> {
   };
 
   // Opciones de géneros principales
-  final Map<String, String> genres = {
-    'Acción': 'action',
-    'Aventura': 'adventure',
-    'RPG': 'role-playing-games-rpg',
-    'Estrategia': 'strategy',
-    'Shooter': 'shooter',
-    'Puzzle': 'puzzle',
-    'Deportes': 'sports',
-    'Carreras': 'racing',
-    'Simulación': 'simulation',
-    'Plataformas': 'platformer',
-    'Lucha': 'fighting',
-    'Arcade': 'arcade',
-  };
+  Map<String, String> _getGenres(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return {
+      l10n?.genreAction ?? 'Acción': 'action',
+      l10n?.genreAdventure ?? 'Aventura': 'adventure',
+      l10n?.genreRPG ?? 'RPG': 'role-playing-games-rpg',
+      l10n?.genreStrategy ?? 'Estrategia': 'strategy',
+      l10n?.genreShooter ?? 'Shooter': 'shooter',
+      l10n?.genrePuzzle ?? 'Puzzle': 'puzzle',
+      l10n?.genreSports ?? 'Deportes': 'sports',
+      l10n?.genreRacing ?? 'Carreras': 'racing',
+      l10n?.genreSimulation ?? 'Simulación': 'simulation',
+      l10n?.genrePlatformer ?? 'Plataformas': 'platformer',
+      l10n?.genreFighting ?? 'Lucha': 'fighting',
+      l10n?.genreArcade ?? 'Arcade': 'arcade',
+    };
+  }
+
 
   @override
   void initState() {
@@ -215,7 +219,7 @@ class _GamesFiltersScreenState extends State<GamesFiltersScreen> {
             Wrap(
               spacing: AppConfig.paddingSmall,
               runSpacing: AppConfig.paddingSmall,
-              children: genres.entries.map((entry) {
+              children: _getGenres(context).entries.map((entry) {
                 final isSelected = _filters.selectedGenres.contains(entry.value);
                 return FilterChip(
                   label: Text(entry.key),

@@ -79,7 +79,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     final authProvider = Provider.of<AuthProvider>(context);
-    final forumProvider = Provider.of<ForumProvider>(context, listen: false);
+    final forumProvider = Provider.of<ForumProvider>(context);
+
     final user = authProvider.currentUser;
 
     if (user?.id != _lastUserId) {
@@ -234,7 +235,12 @@ Widget _buildHeroSection(BuildContext context) {
 
       return _buildHero(
         context,
-        userName: user?.displayName ?? 'Usuario',
+        userName: user?.displayName ?? _t(
+          context,
+          es: 'Usuario',
+          gl: 'Usuario',
+          en: 'User',
+        ),
         approvedTermsCount: user?.termsApproved ?? 0,
         proposedTermsCount: user?.termsProposed ?? 0,
         userLevel: userLevel,
@@ -911,7 +917,6 @@ void _handleNavigation(BuildContext context, AppSection section) {
     BuildContext context,
   ) {
     final theme = Theme.of(context);
-    final forumProvider = Provider.of<ForumProvider>(context, listen: false);
 
     return Container(
       padding: const EdgeInsets.all(20),
@@ -935,7 +940,6 @@ void _handleNavigation(BuildContext context, AppSection section) {
           const SizedBox(height: 16),
         Consumer<ForumProvider>(
           builder: (context, forumProvider, child) {
-              final languageCode = Localizations.localeOf(context).languageCode;
             final posts = forumProvider.posts;
               final items = <_CommunityUpdateItem>[
                 _createCommunityUpdateItem(
@@ -943,7 +947,7 @@ void _handleNavigation(BuildContext context, AppSection section) {
                   sectionId: ForumSections.general.id,
                   icon: Icons.forum_outlined,
                   tint: const Color(0xFF3B82F6),
-                  title: ForumSections.general.localizedName(languageCode),
+                  title: _t(context, es: 'General', gl: 'Xeral', en: 'General'),
                   latest: _getLatestPostBySectionId(
                       posts, ForumSections.general.id),
                 ),
@@ -952,7 +956,7 @@ void _handleNavigation(BuildContext context, AppSection section) {
                   sectionId: ForumSections.news.id,
                   icon: Icons.newspaper_outlined,
                   tint: const Color(0xFFF59E0B),
-                  title: ForumSections.news.localizedName(languageCode),
+                  title: _t(context, es: 'Noticias', gl: 'Novas', en: 'News'),
                   latest:
                       _getLatestPostBySectionId(posts, ForumSections.news.id),
                 ),
@@ -961,7 +965,7 @@ void _handleNavigation(BuildContext context, AppSection section) {
                   sectionId: ForumSections.qna.id,
                   icon: Icons.help_outline,
                   tint: const Color(0xFF10B981),
-                  title: ForumSections.qna.localizedName(languageCode),
+                  title: _t(context, es: 'Preguntas y respuestas', gl: 'Preguntas e respostas', en: 'Q&A'),
                   latest:
                       _getLatestPostBySectionId(posts, ForumSections.qna.id),
                 ),
