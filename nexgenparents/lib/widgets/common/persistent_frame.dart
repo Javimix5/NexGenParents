@@ -29,6 +29,7 @@ class PersistentFrameScope extends InheritedWidget {
   final AppSection activeSection;
   final ValueChanged<AppSection> setActiveSection;
 
+
   static bool of(BuildContext context) {
     return context
             .dependOnInheritedWidgetOfExactType<PersistentFrameScope>()
@@ -70,11 +71,11 @@ class PersistentFrame extends StatefulWidget {
   State<PersistentFrame> createState() => _PersistentFrameState();
 }
 
+// persistent_frame.dart
+
 class _PersistentFrameState extends State<PersistentFrame> {
   AppSection _activeSection = AppSection.inicio;
-
-  // Clave para el Overlay local que provee contexto a Header y Footer
-  final _overlayKey = GlobalKey<OverlayState>();
+  final GlobalKey<AccountMenuButtonState> headerKey = GlobalKey<AccountMenuButtonState>();
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +87,6 @@ class _PersistentFrameState extends State<PersistentFrame> {
       activeSection: _activeSection,
       setActiveSection: _setActiveSection,
       child: Overlay(
-        key: _overlayKey,
         initialEntries: [
           OverlayEntry(
             builder: (overlayContext) => SafeArea(
@@ -98,25 +98,33 @@ class _PersistentFrameState extends State<PersistentFrame> {
                     proposedTermsCount: user?.termsProposed ?? 0,
                     isModerator: authProvider.isModerator,
                     isAdmin: authProvider.isAdmin,
+                      accountMenuKey: headerKey,
+
+                    // Proveemos el contexto del Navigator raíz via getter
+                    navigatorContextGetter: () =>
+                        widget.navigatorKey.currentContext,
                     onSearchSubmitted: (_) =>
-                        _navigateTo(const GamesSearchScreen()),
+                        _navigateWithSection(const GamesSearchScreen(), AppSection.videojuegos),
                     onNavigate: (section) {
-                      _setActiveSection(section);
                       switch (section) {
                         case AppSection.inicio:
-                          _navigateTo(const HomeScreen());
+                          final nav = widget.navigatorKey.currentState;
+                          if (nav != null) {
+                            nav.popUntil((route) => route.isFirst);
+                            _setActiveSection(AppSection.inicio);
+                          }
                           break;
                         case AppSection.diccionario:
-                          _navigateTo(const DictionaryListScreen());
+                          _navigateWithSection(const DictionaryListScreen(), section);
                           break;
                         case AppSection.videojuegos:
-                          _navigateTo(const GamesSearchScreen());
+                          _navigateWithSection(const GamesSearchScreen(), section);
                           break;
                         case AppSection.controlParental:
-                          _navigateTo(const ParentalGuidesListScreen());
+                          _navigateWithSection(const ParentalGuidesListScreen(), section);
                           break;
                         case AppSection.comunidad:
-                          _navigateTo(const ForumListScreen());
+                          _navigateWithSection(const ForumListScreen(), section);
                           break;
                       }
                     },
@@ -150,17 +158,17 @@ class _PersistentFrameState extends State<PersistentFrame> {
                           break;
                       }
                     },
-                  ),                  
-                  Expanded(child: widget.child),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-                    child: AppFooter(
-                      onPrivacyTap: () => _navigateTo(const PegiInfoScreen()),
-                      onAboutTap: () => _navigateTo(const PegiInfoScreen()),
-                      onContactTap: () =>
-                          _navigateTo(const ParentalGuidesListScreen()),
-                    ),
                   ),
+                  Expanded(child: NotificationListener<ScrollNotification>(
+    onNotification: (n) {
+      if (n is ScrollStartNotification) {
+        headerKey.currentState?.closeMenu();
+      }
+      return false;
+    },
+    child: widget.child,
+  ),
+),
                 ],
               ),
             ),
@@ -179,5 +187,17 @@ class _PersistentFrameState extends State<PersistentFrame> {
     final nav = widget.navigatorKey.currentState;
     if (nav == null || !nav.mounted) return;
     nav.push(MaterialPageRoute(builder: (_) => screen));
+  }
+
+  void _navigateWithSection(Widget screen, AppSection targetSection) {
+    final nav = widget.navigatorKey.currentState;
+    if (nav == null || !nav.mounted) return;
+    final previousSection = _activeSection;
+    _setActiveSection(targetSection);
+    nav.push(MaterialPageRoute(builder: (_) => screen)).then((_) {
+      if (mounted) {
+        _setActiveSection(previousSection);
+      }
+    });
   }
 }

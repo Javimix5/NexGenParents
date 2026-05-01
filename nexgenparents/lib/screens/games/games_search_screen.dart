@@ -6,6 +6,9 @@ import '../../config/app_config.dart';
 import '../../widgets/common/app_empty_state.dart';
 import 'game_detail_screen.dart';
 import 'games_filters_screen.dart';
+import '../../widgets/common/app_footer.dart';
+import '../info/pegi_info_screen.dart';
+import '../parental_guides/parental_guides_list_screen.dart';
 
 class GamesSearchScreen extends StatefulWidget {
   const GamesSearchScreen({super.key});
@@ -38,9 +41,6 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Buscar Videojuegos'),
-      ),
       body: Column(
         children: [
           // Barra de búsqueda y botón de filtros
@@ -257,8 +257,21 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                 return ListView.builder(
                   padding: const EdgeInsets.symmetric(
                       horizontal: AppConfig.paddingMedium),
-                  itemCount: games.length,
+                  itemCount: games.length + 1,
                   itemBuilder: (context, index) {
+                    if (index == games.length) {
+                      return Padding(
+                        padding: const EdgeInsets.only(top: AppConfig.paddingLarge, bottom: AppConfig.paddingLarge),
+                        child: AppFooter(
+                          onPrivacyTap: () => Navigator.of(context).push(
+                              MaterialPageRoute(builder: (_) => const PegiInfoScreen())),
+                          onAboutTap: () => Navigator.of(context).push(
+                              MaterialPageRoute(builder: (_) => const PegiInfoScreen())),
+                          onContactTap: () => Navigator.of(context).push(
+                              MaterialPageRoute(builder: (_) => const ParentalGuidesListScreen())),
+                        ),
+                      );
+                    }
                     final game = games[index];
                     return Card(
                       margin: const EdgeInsets.only(

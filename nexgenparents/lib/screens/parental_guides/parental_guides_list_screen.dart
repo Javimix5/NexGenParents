@@ -5,9 +5,72 @@ import '../../models/parental_guide_model.dart';
 import '../../services/parental_guides_service.dart';
 import '../../widgets/common/app_empty_state.dart';
 import 'parental_guide_detail_screen.dart';
+import '../info/pegi_info_screen.dart';
+import '../../widgets/common/app_footer.dart';
 
 class ParentalGuidesListScreen extends StatelessWidget {
   const ParentalGuidesListScreen({super.key});
+
+  String _t(BuildContext context,
+      {required String es, required String gl, required String en}) {
+    switch (Localizations.localeOf(context).languageCode) {
+      case 'gl':
+        return gl;
+      case 'en':
+        return en;
+      default:
+        return es;
+    }
+  }
+
+  String _resolveClosureOrString(BuildContext context, dynamic value) {
+    if (value is Function) {
+      try {
+        return value(AppLocalizations.of(context)!).toString();
+      } catch (_) {}
+    }
+    return value.toString();
+  }
+
+  String _sanitizeUrl(String url) {
+    if (url.isEmpty || url.contains('tu-usuario') || url.contains('tu-repositorio')) {
+      return ''; // Corta en seco URLs de prueba para evitar error 404 en consola
+    }
+    return url;
+  }
+
+  String _getTranslatedTitle(BuildContext context, ParentalGuide guide) {
+    final l10n = AppLocalizations.of(context)!;
+    final titleStr = _resolveClosureOrString(context, guide.title).toLowerCase();
+    final platform = guide.platform.toLowerCase();
+    final type = guide.type.toLowerCase();
+
+    if (platform == 'ps' || platform == 'playstation' || titleStr.contains('playstation')) {
+      if (type == 'disable' || titleStr.contains('disable') || titleStr.contains('deshabilitar')) return l10n.psDisableGuideTitle;
+      return l10n.psEnableGuideTitle;
+    }
+    if (platform == 'nintendo' || titleStr.contains('nintendo')) return l10n.nintendoGuideTitle;
+    if (platform == 'steam' || titleStr.contains('steam')) return l10n.steamGuideTitle;
+    if (platform == 'ios' || titleStr.contains('ios')) return l10n.iosGuideTitle;
+    if (platform == 'xbox' || titleStr.contains('xbox')) {
+      if (type == 'time' || titleStr.contains('time') || titleStr.contains('tiempo')) return l10n.xboxTimeGuideTitle;
+      return l10n.xboxGuideTitle;
+    }
+    return _resolveClosureOrString(context, guide.title);
+  }
+
+  String _getTranslatedPlatform(BuildContext context, ParentalGuide guide) {
+    final platformDisplay = _resolveClosureOrString(context, guide.platformDisplayName);
+    final platform = guide.platform.toLowerCase();
+    
+    if (platform == 'ps' || platform == 'playstation') return 'PlayStation';
+    if (platform == 'xbox') return 'Xbox';
+    if (platform == 'nintendo') return 'Nintendo';
+    if (platform == 'steam') return 'Steam';
+    if (platform == 'ios') return 'iOS';
+    if (platform == 'android') return 'Android';
+    return platformDisplay;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +78,6 @@ class ParentalGuidesListScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Control Parental'),
-      ),
       body: FutureBuilder<List<ParentalGuide>>(
         future: guidesService.getAllGuides(l10n),
         builder: (context, snapshot) {
@@ -28,17 +88,17 @@ class ParentalGuidesListScreen extends StatelessWidget {
           if (snapshot.hasError) {
             return Center(
               child: Text(
-                'Error al cargar guías: ${snapshot.error}',
+                _t(context, es: 'Error al cargar guías: ${snapshot.error}', gl: 'Erro ao cargar guías: ${snapshot.error}', en: 'Error loading guides: ${snapshot.error}'),
                 textAlign: TextAlign.center,
               ),
             );
           }
 
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const AppEmptyState(
+            return AppEmptyState(
               icon: Icons.shield_outlined,
-              title: 'No hay guías disponibles',
-              message: 'Vuelve a intentarlo más tarde.',
+              title: _t(context, es: 'No hay guías disponibles', gl: 'Non hai guías dispoñibles', en: 'No guides available'),
+              message: _t(context, es: 'Vuelve a intentarlo más tarde.', gl: 'Volve intentalo máis tarde.', en: 'Please try again later.'),
             );
           }
 
@@ -55,13 +115,13 @@ class ParentalGuidesListScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildBanner(),
+                    _buildBanner(context),
                     const SizedBox(height: AppConfig.paddingLarge),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: AppConfig.paddingMedium),
                       child: Text(
-                        'Selecciona tu plataforma (${allGuides.length} guía${allGuides.length != 1 ? 's' : ''})',
+                        _t(context, es: 'Selecciona tu plataforma (${allGuides.length} guía${allGuides.length != 1 ? 's' : ''})', gl: 'Selecciona a túa plataforma (${allGuides.length} guía${allGuides.length != 1 ? 's' : ''})', en: 'Select your platform (${allGuides.length} guide${allGuides.length != 1 ? 's' : ''})'),
                         style: const TextStyle(
                           fontSize: AppConfig.fontSizeHeading,
                           fontWeight: FontWeight.bold,
@@ -73,8 +133,18 @@ class ParentalGuidesListScreen extends StatelessWidget {
                       (entry) => _buildPlatformSection(context, entry.value),
                     ),
                     const SizedBox(height: AppConfig.paddingLarge),
-                    _buildInfoSection(),
+                    _buildInfoSection(context),
                     const SizedBox(height: AppConfig.paddingLarge * 2),
+                    AppFooter(
+                      onPrivacyTap: () => Navigator.of(context).push(
+                          MaterialPageRoute(builder: (_) => const PegiInfoScreen())),
+                      onAboutTap: () => Navigator.of(context).push(
+                          MaterialPageRoute(builder: (_) => const PegiInfoScreen())),
+                      onContactTap: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (_) => const ParentalGuidesListScreen())),
+                    ),
+                    const SizedBox(height: AppConfig.paddingLarge),
                   ],
                 ),
               ),
@@ -85,7 +155,7 @@ class ParentalGuidesListScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBanner() {
+  Widget _buildBanner(BuildContext context) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(AppConfig.paddingLarge),
@@ -102,11 +172,10 @@ class ParentalGuidesListScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(Icons.security, size: 50, color: Colors.white),
           const SizedBox(height: AppConfig.paddingMedium),
-          const Text(
-            'Guías de Control Parental',
-            style: TextStyle(
+          Text(
+            _t(context, es: 'Guías de Control Parental', gl: 'Guías de Control Parental', en: 'Parental Control Guides'),
+            style: const TextStyle(
               fontSize: AppConfig.fontSizeTitle,
               fontWeight: FontWeight.bold,
               color: Colors.white,
@@ -114,10 +183,29 @@ class ParentalGuidesListScreen extends StatelessWidget {
           ),
           const SizedBox(height: AppConfig.paddingSmall),
           Text(
-            'Aprende a configurar controles de seguridad en las plataformas más populares.',
+            _t(context, es: 'Aprende a configurar controles de seguridad en las plataformas más populares.', gl: 'Aprende a configurar controis de seguridade nas plataformas máis populares.', en: 'Learn how to set up security controls on the most popular platforms.'),
             style: TextStyle(
               fontSize: AppConfig.fontSizeBody,
               color: Colors.white.withValues(alpha: 0.9),
+            ),
+          ),
+          const SizedBox(height: AppConfig.paddingMedium),
+          OutlinedButton.icon(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const PegiInfoScreen()),
+              );
+            },
+            icon: const Icon(Icons.info_outline, color: Colors.white),
+            label: Text(
+              _t(context, es: 'Saber más sobre PEGI/ESRB', gl: 'Saber máis sobre PEGI/ESRB', en: 'Learn about PEGI/ESRB'),
+              style: const TextStyle(color: Colors.white),
+            ),
+            style: OutlinedButton.styleFrom(
+              side: BorderSide(color: Colors.white.withOpacity(0.5)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
+              ),
             ),
           ),
         ],
@@ -140,7 +228,7 @@ class ParentalGuidesListScreen extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8),
                   child: Image.network(
-                    guides.first.iconUrl,
+                    _sanitizeUrl(guides.first.iconUrl),
                     width: 28,
                     height: 28,
                     fit: BoxFit.contain,
@@ -153,7 +241,7 @@ class ParentalGuidesListScreen extends StatelessWidget {
                 ),
                 const SizedBox(width: AppConfig.paddingSmall),
                 Text(
-                  guides.first.platformDisplayName,
+                  _getTranslatedPlatform(context, guides.first),
                   style: const TextStyle(
                     fontSize: AppConfig.fontSizeBody,
                     fontWeight: FontWeight.bold,
@@ -193,7 +281,7 @@ class ParentalGuidesListScreen extends StatelessWidget {
                 borderRadius:
                     BorderRadius.circular(AppConfig.borderRadiusSmall),
                 child: Image.network(
-                  guide.iconUrl,
+                  _sanitizeUrl(guide.iconUrl),
                   width: 48,
                   height: 48,
                   fit: BoxFit.cover,
@@ -215,7 +303,7 @@ class ParentalGuidesListScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      guide.title,
+                      _getTranslatedTitle(context, guide),
                       style: const TextStyle(
                         fontSize: AppConfig.fontSizeBody,
                         fontWeight: FontWeight.bold,
@@ -223,7 +311,7 @@ class ParentalGuidesListScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: AppConfig.paddingSmall / 2),
                     Text(
-                      '${guide.typeDisplayName} • ${guide.steps.length} pasos',
+                      '${_resolveClosureOrString(context, guide.typeDisplayName)} • ${guide.steps.length} ${_t(context, es: 'pasos', gl: 'pasos', en: 'steps')}',
                       style: const TextStyle(
                         fontSize: AppConfig.fontSizeCaption,
                         color: AppConfig.textSecondaryColor,
@@ -244,46 +332,47 @@ class ParentalGuidesListScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoSection() {
+  Widget _buildInfoSection(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppConfig.paddingMedium),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            '¿Por qué es importante?',
-            style: TextStyle(
+          Text(
+            _t(context, es: '¿Por qué es importante?', gl: 'Por que é importante?', en: 'Why is it important?'),
+            style: const TextStyle(
               fontSize: AppConfig.fontSizeHeading,
               fontWeight: FontWeight.bold,
             ),
           ),
           const SizedBox(height: AppConfig.paddingMedium),
           _buildInfoCard(
+            context,
             icon: Icons.child_care,
-            title: 'Protección infantil',
-            description:
-                'Evita que tus hijos accedan a contenido no apropiado para su edad.',
+            title: _t(context, es: 'Protección infantil', gl: 'Protección infantil', en: 'Child protection'),
+            description: _t(context, es: 'Evita que tus hijos accedan a contenido no apropiado para su edad.', gl: 'Evita que os teus fillos accedan a contido non apropiado para a súa idade.', en: 'Prevent your children from accessing age-inappropriate content.'),
           ),
           const SizedBox(height: AppConfig.paddingSmall),
           _buildInfoCard(
+            context,
             icon: Icons.schedule,
-            title: 'Gestión del tiempo',
-            description:
-                'Establece límites de tiempo de juego para mantener un equilibrio saludable.',
+            title: _t(context, es: 'Gestión del tiempo', gl: 'Xestión do tempo', en: 'Time management'),
+            description: _t(context, es: 'Establece límites de tiempo de juego para mantener un equilibrio saludable.', gl: 'Establece límites de tempo de xogo para manter un equilibrio saudable.', en: 'Set playtime limits to maintain a healthy balance.'),
           ),
           const SizedBox(height: AppConfig.paddingSmall),
           _buildInfoCard(
+            context,
             icon: Icons.credit_card,
-            title: 'Control de gastos',
-            description:
-                'Previene compras no autorizadas dentro de los juegos.',
+            title: _t(context, es: 'Control de gastos', gl: 'Control de gastos', en: 'Spending control'),
+            description: _t(context, es: 'Previene compras no autorizadas dentro de los juegos.', gl: 'Prevén compras non autorizadas dentro dos xogos.', en: 'Prevent unauthorized in-game purchases.'),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildInfoCard({
+  Widget _buildInfoCard(
+    BuildContext context, {
     required IconData icon,
     required String title,
     required String description,

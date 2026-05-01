@@ -6,7 +6,6 @@ class CustomBottomNavBar extends StatelessWidget {
   const CustomBottomNavBar({super.key});
 
   // Determina el índice seleccionado basándose en la ruta actual.
-  // NOTA: Para una app más compleja, este estado debería ser manejado por un Provider.
   int _getSelectedIndex(BuildContext context) {
     final String? currentRoute = ModalRoute.of(context)?.settings.name;
     switch (currentRoute) {

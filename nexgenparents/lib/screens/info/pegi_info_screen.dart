@@ -6,6 +6,18 @@ import '../../config/app_config.dart';
 class PegiInfoScreen extends StatelessWidget {
   const PegiInfoScreen({super.key});
 
+  String _t(BuildContext context,
+      {required String es, required String gl, required String en}) {
+    switch (Localizations.localeOf(context).languageCode) {
+      case 'gl':
+        return gl;
+      case 'en':
+        return en;
+      default:
+        return es;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -100,40 +112,50 @@ class PegiInfoScreen extends StatelessWidget {
             age: '3',
             imageUrl: '${AppConfig.githubCdnBase}/info/pegi/PEGI_3.webp',
             title: 'PEGI 3',
-            description:
-                'Contenido apto para todas las edades. Sin violencia ni lenguaje soez.',
+            description: _t(context,
+                es: 'Contenido apto para todas las edades. Sin violencia ni lenguaje soez.',
+                gl: 'Contido apto para todas as idades. Sen violencia nin linguaxe soez.',
+                en: 'Content suitable for all ages. No violence or bad language.'),
           ),
           _buildPegiCard(
             context,
             age: '7',
             imageUrl: '${AppConfig.githubCdnBase}/info/pegi/PEGI_7.webp',
             title: 'PEGI 7',
-            description:
-                'Puede contener escenas o sonidos que asusten a niños pequeños.',
+            description: _t(context,
+                es: 'Puede contener escenas o sonidos que asusten a niños pequeños.',
+                gl: 'Pode conter escenas ou sons que asusten a nenos pequenos.',
+                en: 'May contain scenes or sounds that frighten young children.'),
           ),
           _buildPegiCard(
             context,
             age: '12',
             imageUrl: '${AppConfig.githubCdnBase}/info/pegi/PEGI_12.webp',
             title: 'PEGI 12',
-            description:
-                'Violencia en un entorno de fantasía o violencia no realista hacia personajes.',
+            description: _t(context,
+                es: 'Violencia en un entorno de fantasía o violencia no realista hacia personajes.',
+                gl: 'Violencia nun contorno de fantasía ou violencia non realista cara a personaxes.',
+                en: 'Violence in a fantasy environment or non-realistic violence towards characters.'),
           ),
           _buildPegiCard(
             context,
             age: '16',
             imageUrl: '${AppConfig.githubCdnBase}/info/pegi/PEGI_16.webp',
             title: 'PEGI 16',
-            description:
-                'Violencia realista, lenguaje soez fuerte o escenas sexuales.',
+            description: _t(context,
+                es: 'Violencia realista, lenguaje soez fuerte o escenas sexuales.',
+                gl: 'Violencia realista, linguaxe soez forte ou escenas sexuais.',
+                en: 'Realistic violence, strong bad language or sexual scenes.'),
           ),
           _buildPegiCard(
             context,
             age: '18',
             imageUrl: '${AppConfig.githubCdnBase}/info/pegi/PEGI_18.webp',
             title: 'PEGI 18',
-            description:
-                'Violencia extrema, contenido sexual explícito o apuestas con dinero real.',
+            description: _t(context,
+                es: 'Violencia extrema, contenido sexual explícito o apuestas con dinero real.',
+                gl: 'Violencia extrema, contido sexual explícito ou apostas con diñeiro real.',
+                en: 'Extreme violence, explicit sexual content or real-money gambling.'),
           ),
         ],
       ),
@@ -173,42 +195,42 @@ class PegiInfoScreen extends StatelessWidget {
             context,
             'E',
             'Everyone',
-            'Contenido para todos. Equivalente a PEGI 3.',
+            _t(context, es: 'Contenido para todos. Equivalente a PEGI 3.', gl: 'Contido para todos. Equivalente a PEGI 3.', en: 'Content for everyone. Equivalent to PEGI 3.'),
             '${AppConfig.githubCdnBase}/info/esrb/ESRB_E.webp',
           ),
           _buildEsrbCard(
             context,
             'E10+',
             'Everyone 10+',
-            'Para mayores de 10 años. Similar a PEGI 7.',
+            _t(context, es: 'Para mayores de 10 años. Similar a PEGI 7.', gl: 'Para maiores de 10 anos. Similar a PEGI 7.', en: 'For ages 10 and up. Similar to PEGI 7.'),
             '${AppConfig.githubCdnBase}/info/esrb/ESRB_Early_Childhood.webp',
           ),
           _buildEsrbCard(
             context,
             'T',
             'Teen',
-            'Adolescentes. Equivalente a PEGI 12.',
+            _t(context, es: 'Adolescentes. Equivalente a PEGI 12.', gl: 'Adolescentes. Equivalente a PEGI 12.', en: 'Teens. Equivalent to PEGI 12.'),
             '${AppConfig.githubCdnBase}/info/esrb/ESRB_Teen.webp',
           ),
           _buildEsrbCard(
             context,
             'M',
             'Mature 17+',
-            'Mayores de 17 años. Similar a PEGI 16.',
+            _t(context, es: 'Mayores de 17 años. Similar a PEGI 16.', gl: 'Maiores de 17 anos. Similar a PEGI 16.', en: 'Mature 17+. Similar to PEGI 16.'),
             '${AppConfig.githubCdnBase}/info/esrb/ESRB_Mature_17+.webp',
           ),
           _buildEsrbCard(
             context,
             'AO',
             'Adults Only',
-            'Solo adultos. Equivalente a PEGI 18.',
+            _t(context, es: 'Solo adultos. Equivalente a PEGI 18.', gl: 'Só adultos. Equivalente a PEGI 18.', en: 'Adults only. Equivalent to PEGI 18.'),
             '${AppConfig.githubCdnBase}/info/esrb/ESRB_Adults_Only_18+.webp',
           ),
           _buildEsrbCard(
             context,
             'RP',
             'Rating Pending',
-            'Clasificación pendiente (juegos en preventa).',
+            _t(context, es: 'Clasificación pendiente (juegos en preventa).', gl: 'Clasificación pendente (xogos en preventa).', en: 'Rating pending (pre-release games).'),
             '${AppConfig.githubCdnBase}/info/esrb/ESRB_RP.webp',
           ),
         ],

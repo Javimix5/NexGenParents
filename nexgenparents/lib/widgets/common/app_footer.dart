@@ -18,37 +18,108 @@ class AppFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
       decoration: BoxDecoration(
         color: const Color(0xFF060617),
         borderRadius: BorderRadius.circular(22),
       ),
       child: LayoutBuilder(
         builder: (context, constraints) {
-          final stacked = constraints.maxWidth < 760;
-          final textStyle =
-              TextStyle(color: Colors.white.withValues(alpha: 0.78), fontSize: 13);
+          final isMobile = constraints.maxWidth < 760;
+          return isMobile
+              ? _buildMobileLayout(context)
+              : _buildDesktopLayout(context);
+        },
+      ),
+    );
+  }
 
-          if (stacked) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildFooterBrand(),
-                const SizedBox(height: 16),
-                Text(
-                  'Empoderando a la próxima generación de padres en la era digital',
-                  style: textStyle,
-                ),
-                const SizedBox(height: 16),
-                _buildFooterLinksColumn(),
-                const SizedBox(height: 16),
-                _buildSocialGrid(context),
-              ],
-            );
-          }
+  // ─────────────────────────────────────────
+  // LAYOUT MÓVIL
+  // ─────────────────────────────────────────
+  Widget _buildMobileLayout(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // Marca centrada
+          _buildFooterBrand(),
+          const SizedBox(height: 10),
 
-          return Row(
+          // Tagline centrado
+          Text(
+            _t(context,
+                es: 'Empoderando a la próxima generación\nde padres en la era digital',
+                gl: 'Empoderando á vindeira xeración\nde pais na era dixital',
+                en: 'Empowering the next generation\nof parents in the digital age'),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.65),
+              fontSize: 13,
+              height: 1.5,
+            ),
+          ),
+
+          const SizedBox(height: 20),
+          Divider(color: Colors.white.withValues(alpha: 0.08), height: 1),
+          const SizedBox(height: 20),
+
+          // Links y redes en fila
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Links de navegación
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildFooterLink(_t(context, es: 'Política de privacidad', gl: 'Política de privacidade', en: 'Privacy Policy'), onPrivacyTap),
+                    _buildFooterLink(_t(context, es: 'Quienes somos', gl: 'Quen somos', en: 'About us'), onAboutTap),
+                    _buildFooterLink(_t(context, es: 'Contáctanos', gl: 'Contacta connosco', en: 'Contact us'), onContactTap),
+                  ],
+                ),
+              ),
+
+              const SizedBox(width: 16),
+
+              // Redes sociales
+              _buildSocialGrid(context),
+            ],
+          ),
+
+          const SizedBox(height: 20),
+          Divider(color: Colors.white.withValues(alpha: 0.08), height: 1),
+          const SizedBox(height: 14),
+
+          // Copyright centrado
+          Text(
+            _t(context,
+                es: '© ${DateTime.now().year} ${AppConfig.appName}. Todos los derechos reservados.',
+                gl: '© ${DateTime.now().year} ${AppConfig.appName}. Todos os dereitos reservados.',
+                en: '© ${DateTime.now().year} ${AppConfig.appName}. All rights reserved.'),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.35),
+              fontSize: 11,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ─────────────────────────────────────────
+  // LAYOUT DESKTOP
+  // ─────────────────────────────────────────
+  Widget _buildDesktopLayout(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+      child: Column(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // Marca + tagline
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,89 +127,54 @@ class AppFooter extends StatelessWidget {
                     _buildFooterBrand(),
                     const SizedBox(height: 10),
                     Text(
-                      'Empoderando a la próxima generación de padres en la era digital',
-                      style: textStyle,
+                      _t(context,
+                          es: 'Empoderando a la próxima generación de padres en la era digital',
+                          gl: 'Empoderando á vindeira xeración de pais na era dixital',
+                          en: 'Empowering the next generation of parents in the digital age'),
+                      style: TextStyle(
+                        color: Colors.white.withValues(alpha: 0.65),
+                        fontSize: 13,
+                      ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(width: 24),
-              _buildFooterLinksColumn(),
-              const SizedBox(width: 24),
+
+              const SizedBox(width: 32),
+
+              // Links
+              _buildFooterLinksColumn(context),
+
+              const SizedBox(width: 32),
+
+              // Redes sociales
               _buildSocialGrid(context),
             ],
-          );
-        },
+          ),
+
+          const SizedBox(height: 16),
+          Divider(color: Colors.white.withValues(alpha: 0.08), height: 1),
+          const SizedBox(height: 12),
+
+          // Copyright
+          Text(
+            _t(context,
+                es: '© ${DateTime.now().year} ${AppConfig.appName}. Todos los derechos reservados.',
+                gl: '© ${DateTime.now().year} ${AppConfig.appName}. Todos os dereitos reservados.',
+                en: '© ${DateTime.now().year} ${AppConfig.appName}. All rights reserved.'),
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.35),
+              fontSize: 11,
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildFooterLinksColumn() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildFooterLink('Política de privacidad', onPrivacyTap),
-        _buildFooterLink('Quienes somos', onAboutTap),
-        _buildFooterLink('Contáctanos', onContactTap),
-      ],
-    );
-  }
-
-  Widget _buildSocialGrid(BuildContext context) {
-  const iconColor = Color(0xFFE7E7E7);
-  const backgroundColor = Color(0xFF475569);
-
-  final items = <_SocialItem>[
-    const _SocialItem(
-      name: 'Instagram',
-      icon: Icons.camera_alt_outlined,
-      url: 'https://www.instagram.com',
-    ),
-    const _SocialItem(
-      name: 'Facebook',
-      icon: Icons.facebook,
-      url: 'https://www.facebook.com',
-    ),
-    const _SocialItem(
-      name: 'X',
-      icon: Icons.close,
-      url: 'https://x.com',
-    ),
-    const _SocialItem(
-      name: 'YouTube',
-      icon: Icons.smart_display,
-      url: 'https://www.youtube.com',
-    ),
-    const _SocialItem(
-      name: 'TikTok',
-      icon: Icons.music_note,
-      url: 'https://www.tiktok.com',
-    ),
-    const _SocialItem(
-      name: 'Reddit',
-      icon: Icons.reddit,
-      url: 'https://www.reddit.com',
-    ),
-  ];
-
-  return SizedBox(
-    width: 132,
-    child: Wrap(
-      spacing: 12,
-      runSpacing: 12,
-      children: [
-        for (final item in items)
-          _SocialButton(
-            item: item,
-            iconColor: iconColor,
-            backgroundColor: backgroundColor,
-            onTap: () => _openExternalLink(context, item.url),
-          ),
-      ],
-    ),
-  );
-}
-
+  // ─────────────────────────────────────────
+  // WIDGETS COMPARTIDOS
+  // ─────────────────────────────────────────
   Widget _buildFooterBrand() {
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -169,6 +205,17 @@ class AppFooter extends StatelessWidget {
     );
   }
 
+  Widget _buildFooterLinksColumn(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildFooterLink(_t(context, es: 'Política de privacidad', gl: 'Política de privacidade', en: 'Privacy Policy'), onPrivacyTap),
+        _buildFooterLink(_t(context, es: 'Quienes somos', gl: 'Quen somos', en: 'About us'), onAboutTap),
+        _buildFooterLink(_t(context, es: 'Contáctanos', gl: 'Contacta connosco', en: 'Contact us'), onContactTap),
+      ],
+    );
+  }
+
   Widget _buildFooterLink(String label, VoidCallback onTap) {
     return TextButton(
       onPressed: onTap,
@@ -185,6 +232,61 @@ class AppFooter extends StatelessWidget {
     );
   }
 
+  Widget _buildSocialGrid(BuildContext context) {
+    const iconColor = Color(0xFFE7E7E7);
+    const backgroundColor = Color(0xFF475569);
+
+    final items = <_SocialItem>[
+      const _SocialItem(
+        name: 'Instagram',
+        icon: Icons.camera_alt_outlined,
+        url: 'https://www.instagram.com',
+      ),
+      const _SocialItem(
+        name: 'Facebook',
+        icon: Icons.facebook,
+        url: 'https://www.facebook.com',
+      ),
+      const _SocialItem(
+        name: 'X',
+        icon: Icons.close,
+        url: 'https://x.com',
+      ),
+      const _SocialItem(
+        name: 'YouTube',
+        icon: Icons.smart_display,
+        url: 'https://www.youtube.com',
+      ),
+      const _SocialItem(
+        name: 'TikTok',
+        icon: Icons.music_note,
+        url: 'https://www.tiktok.com',
+      ),
+      const _SocialItem(
+        name: 'Reddit',
+        icon: Icons.reddit,
+        url: 'https://www.reddit.com',
+      ),
+    ];
+
+    return SizedBox(
+      width: 132,
+      child: Wrap(
+        spacing: 10,
+        runSpacing: 10,
+        children: [
+          for (final item in items)
+            _SocialButton(
+              item: item,
+              iconColor: iconColor,
+              backgroundColor: backgroundColor,
+              onTap: () => _openExternalLink(context, item.url),
+            ),
+        ],
+      ),
+    );
+  }
+
   Future<void> _openExternalLink(BuildContext context, String rawUrl) async {
     final uri = Uri.parse(rawUrl);
     if (await canLaunchUrl(uri)) {
@@ -194,10 +296,31 @@ class AppFooter extends StatelessWidget {
 
     if (!context.mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('No se pudo abrir el enlace externo.')),
+      SnackBar(
+        content: Text(_t(context,
+            es: 'No se pudo abrir el enlace externo.',
+            gl: 'Non se puido abrir a ligazón externa.',
+            en: 'Could not open external link.')),
+      ),
     );
   }
+
+  String _t(BuildContext context,
+      {required String es, required String gl, required String en}) {
+    switch (Localizations.localeOf(context).languageCode) {
+      case 'gl':
+        return gl;
+      case 'en':
+        return en;
+      default:
+        return es;
+    }
+  }
 }
+
+// ─────────────────────────────────────────────────────────────
+// CLASES AUXILIARES
+// ─────────────────────────────────────────────────────────────
 
 class _SocialItem {
   const _SocialItem({
@@ -211,7 +334,6 @@ class _SocialItem {
   final String url;
 }
 
-/// Widget stateful para mostrar tooltip manual sin necesitar Overlay
 class _SocialButton extends StatefulWidget {
   const _SocialButton({
     required this.item,
@@ -246,7 +368,6 @@ class _SocialButtonState extends State<_SocialButton> {
           child: Stack(
             clipBehavior: Clip.none,
             children: [
-              // Botón principal
               Container(
                 width: 36,
                 height: 36,
@@ -262,7 +383,6 @@ class _SocialButtonState extends State<_SocialButton> {
                   size: 18,
                 ),
               ),
-              // Tooltip manual (sin Overlay)
               if (_hovered)
                 Positioned(
                   bottom: 42,

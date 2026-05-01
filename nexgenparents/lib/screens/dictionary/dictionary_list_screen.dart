@@ -5,6 +5,9 @@ import '../../config/app_config.dart';
 import '../../widgets/common/app_empty_state.dart';
 import 'propose_term_screen.dart';
 import 'term_detail_screen.dart';
+import '../../widgets/common/app_footer.dart';
+import '../info/pegi_info_screen.dart';
+import '../parental_guides/parental_guides_list_screen.dart';
 
 class DictionaryListScreen extends StatefulWidget {
   const DictionaryListScreen({super.key});
@@ -27,9 +30,6 @@ class _DictionaryListScreenState extends State<DictionaryListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Diccionario Gamer'),
-      ),
       body: Consumer<DictionaryProvider>(
         builder: (context, dictionaryProvider, child) {
           if (dictionaryProvider.isLoading) {
@@ -48,8 +48,21 @@ class _DictionaryListScreenState extends State<DictionaryListScreen> {
 
           return ListView.builder(
             padding: const EdgeInsets.all(AppConfig.paddingMedium),
-            itemCount: terms.length,
+            itemCount: terms.length + 1,
             itemBuilder: (context, index) {
+              if (index == terms.length) {
+                return Padding(
+                  padding: const EdgeInsets.only(top: AppConfig.paddingLarge),
+                  child: AppFooter(
+                    onPrivacyTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const PegiInfoScreen())),
+                    onAboutTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const PegiInfoScreen())),
+                    onContactTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const ParentalGuidesListScreen())),
+                  ),
+                );
+              }
               final term = terms[index];
               return Card(
                 child: ListTile(

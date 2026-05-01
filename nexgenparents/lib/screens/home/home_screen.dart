@@ -38,6 +38,11 @@ class _HomeScreenState extends State<HomeScreen> {
   final HomeViewModel _homeViewModel = HomeViewModel();
   Future<int>? _userMessagesCountFuture;
   String? _lastUserId;
+  final GlobalKey<AccountMenuButtonState> _accountMenuKey = GlobalKey<AccountMenuButtonState>();
+
+  void _closeUserMenu(BuildContext context) {
+    _accountMenuKey.currentState?.closeMenu();
+  }
 
   @override
   void initState() {
@@ -97,25 +102,21 @@ Widget build(BuildContext context) {
 Widget _buildBody(BuildContext context) {
   final isDark = Theme.of(context).brightness == Brightness.dark;
   
-  return Navigator(
-    onGenerateRoute: (_) => PageRouteBuilder(
-      pageBuilder: (navContext, _, __) => Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: isDark
-                ? const [Color(0xFF0A0F1E), Color(0xFF141B2E)]
-                : const [Color(0xFFF7F8FC), Color(0xFFFFFFFF)],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: Column(
-          children: [
-            _buildHeader(navContext),
-            _buildMainContent(navContext),
-          ],
-        ),
+  return Container(
+    decoration: BoxDecoration(
+      gradient: LinearGradient(
+        colors: isDark
+            ? const [Color(0xFF0A0F1E), Color(0xFF141B2E)]
+            : const [Color(0xFFF7F8FC), Color(0xFFFFFFFF)],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
       ),
+    ),
+    child: Column(
+      children: [
+        _buildHeader(context),
+        _buildMainContent(context),
+      ],
     ),
   );
 }
@@ -132,6 +133,7 @@ Widget _buildHeader(BuildContext context) {
       proposedTermsCount: proposedTermsCount,
       isModerator: authProvider.isModerator,
       isAdmin: authProvider.isAdmin,
+      accountMenuKey: _accountMenuKey,
       onSearchSubmitted: (_) =>
           _navigateTo(context, const GamesSearchScreen()),
       onNavigate: (section) => _handleNavigation(context, section),
@@ -152,6 +154,13 @@ Widget _buildMainContent(BuildContext context) {
   final contentMaxWidth = screenWidth < 980 ? double.infinity : 1440.0;
 
   return Expanded(
+    child: NotificationListener<ScrollNotification>(
+      onNotification: (notification) {
+        if (notification is ScrollStartNotification) {
+          _closeUserMenu(context);
+        }
+        return false;
+      },
     child: SingleChildScrollView(
       padding: EdgeInsets.fromLTRB(
         horizontalPadding,
@@ -176,6 +185,7 @@ Widget _buildMainContent(BuildContext context) {
           ),
         ),
       ),
+    ),
     ),
   );
 }
@@ -267,9 +277,6 @@ Widget _buildFeaturedGameAndUpdates(BuildContext context) {
 }
 
 Widget _buildFooter(BuildContext context) {
-  final hasPersistentFrame = PersistentFrameScope.of(context);
-  
-  if (!hasPersistentFrame) {
     return AppFooter(
       onPrivacyTap: () => _navigateTo(
         context,
@@ -287,8 +294,6 @@ Widget _buildFooter(BuildContext context) {
         section: AppSection.controlParental,
       ),
     );
-  }
-  return const SizedBox.shrink();
 }
 
 void _handleNavigation(BuildContext context, AppSection section) {
@@ -323,7 +328,6 @@ void _handleNavigation(BuildContext context, AppSection section) {
     final isDark = theme.brightness == Brightness.dark;
 
     return Container(
-      padding: const EdgeInsets.all(28),
       decoration: BoxDecoration(
         color: theme.cardColor,
         borderRadius: BorderRadius.circular(28),
@@ -336,20 +340,27 @@ void _handleNavigation(BuildContext context, AppSection section) {
           ),
         ],
       ),
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          final vertical = constraints.maxWidth < 760;
-          if (vertical) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                UserAvatar(photoUrl: avatarUrl, size: 70),
-                const SizedBox(height: 18),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      _t(
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () => _navigateTo(context, const EditProfileScreen()),
+          borderRadius: BorderRadius.circular(28),
+          child: Padding(
+            padding: const EdgeInsets.all(28),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final vertical = constraints.maxWidth < 760;
+                if (vertical) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      UserAvatar(photoUrl: avatarUrl, size: 70),
+                      const SizedBox(height: 18),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            _t(
                         context,
                         es: 'Bienvenido, $userName!',
                         gl: 'Benvido, $userName!',
@@ -482,7 +493,10 @@ void _handleNavigation(BuildContext context, AppSection section) {
           );
         },
       ),
-    );
+            ),
+          ),
+        ),
+      );
   }
 
   Widget _buildQuickActions(BuildContext context) {
@@ -1057,12 +1071,17 @@ void _handleNavigation(BuildContext context, AppSection section) {
     Widget screen, {
     AppSection? section,
   }) {
+    final previousSection = PersistentFrameScope.activeSectionOf(context);
     if (section != null) {
       PersistentFrameScope.setSection(context, section);
     }
     Navigator.of(context).push(
       MaterialPageRoute(builder: (_) => screen),
-    );
+    ).then((_) {
+      if (context.mounted && section != null && previousSection != null) {
+        PersistentFrameScope.setSection(context, previousSection);
+      }
+    });
   }
 
   String _buildGameSummary(BuildContext context, Game? game) {

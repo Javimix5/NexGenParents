@@ -25,6 +25,9 @@ class AppHeader extends StatelessWidget {
     required this.onNavigate,
     required this.onSearchSubmitted,
     required this.onMenuSelected,
+    this.navigatorContextGetter,
+    this.onCloseMenu,
+    this.accountMenuKey,
   });
 
   final AppSection activeSection;
@@ -35,6 +38,11 @@ class AppHeader extends StatelessWidget {
   final ValueChanged<AppSection> onNavigate;
   final ValueChanged<String> onSearchSubmitted;
   final ValueChanged<String> onMenuSelected;
+  final BuildContext? Function()? navigatorContextGetter;
+  final VoidCallback? onCloseMenu;
+  final GlobalKey<AccountMenuButtonState>? accountMenuKey;
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -151,36 +159,44 @@ class AppHeader extends StatelessWidget {
           const SizedBox(width: 12),
 
           // Banderas de idioma
-          _buildLocaleButton(
-            label: 'Español (España)',
-            onTap: () => localeProvider.setLocale(const Locale('es')),
-            active: currentLanguage == 'es',
-            child: _buildSpainFlag(),
-          ),
-          const SizedBox(width: 6),
-          _buildLocaleButton(
-            label: 'Galego',
-            onTap: () => localeProvider.setLocale(const Locale('gl')),
-            active: currentLanguage == 'gl',
-            child: _buildGaliciaFlag(),
-          ),
-          const SizedBox(width: 6),
-          _buildLocaleButton(
-            label: 'English',
-            onTap: () => localeProvider.setLocale(const Locale('en')),
-            active: currentLanguage == 'en',
-            child: _buildUKFlag(),
-          ),
-          const SizedBox(width: 10),
+            _buildLocaleButton(
+  label: 'Español (España)',
+  onTap: () {
+    localeProvider.setLocale(const Locale('es'));
+  },
+  active: currentLanguage == 'es',
+  child: _buildSpainFlag(),
+),
+_buildLocaleButton(
+  label: 'Galego',
+  onTap: () { 
+    localeProvider.setLocale(const Locale('gl'));
+  },
+  active: currentLanguage == 'gl',
+  child: _buildGaliciaFlag(),
+),
+_buildLocaleButton(
+  label: 'English',
+  onTap: () {
+    localeProvider.setLocale(const Locale('en'));
+  },
+  active: currentLanguage == 'en',
+  child: _buildUKFlag(),
+),
+          const SizedBox(width: 12),
 
-          _AccountMenuButton(
-            avatarUrl: avatarUrl,
-            proposedTermsCount: proposedTermsCount,
-            isModerator: isModerator,
-            isAdmin: isAdmin,
-            onMenuSelected: onMenuSelected,
-          ),
-          const SizedBox(width: 8),
+                    
+
+          AccountMenuButton(
+    key: accountMenuKey,
+    avatarUrl: avatarUrl,
+    proposedTermsCount: proposedTermsCount,
+    isModerator: isModerator,
+    isAdmin: isAdmin,
+    onMenuSelected: onMenuSelected,
+    navigatorContextGetter: navigatorContextGetter,
+    onCloseMenu: () => accountMenuKey?.currentState?.closeMenu(),
+  ),
         ],
       ),
     );
@@ -194,50 +210,47 @@ class AppHeader extends StatelessWidget {
     LocaleProvider localeProvider,
     String currentLanguage,
   ) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Row(
-          children: [
-            _buildBrandMark(),
-            const SizedBox(width: 12),
-            Expanded(child: _buildCompactNavMenu(context)),
-            const SizedBox(width: 8),
-            _buildLocaleButton(
-              label: 'Español (España)',
-              onTap: () => localeProvider.setLocale(const Locale('es')),
-              active: currentLanguage == 'es',
-              child: _buildSpainFlag(),
-            ),
-            const SizedBox(width: 6),
-            _buildLocaleButton(
-              label: 'Galego',
-              onTap: () => localeProvider.setLocale(const Locale('gl')),
-              active: currentLanguage == 'gl',
-              child: _buildGaliciaFlag(),
-            ),
-            const SizedBox(width: 6),
-            _buildLocaleButton(
-              label: 'English',
-              onTap: () => localeProvider.setLocale(const Locale('en')),
-              active: currentLanguage == 'en',
-              child: _buildUKFlag(),
-            ),
-            const SizedBox(width: 8),
-
-            _AccountMenuButton(
-              avatarUrl: avatarUrl,
-              proposedTermsCount: proposedTermsCount,
-              isModerator: isModerator,
-              isAdmin: isAdmin,
-              onMenuSelected: onMenuSelected,
-            ),
-          ],
+    return _CompactHeaderRow(
+      brandMark: _buildBrandMark(),
+      navMenu: _buildCompactNavMenu(context),
+      localeButtons: [
+        _buildLocaleButton(
+          label: 'Español (España)',
+          onTap: () {
+            localeProvider.setLocale(const Locale('es'));
+          },
+          active: currentLanguage == 'es',
+          child: _buildSpainFlag(),
         ),
-        const SizedBox(height: 12),
-        _buildSearchField(context, expanded: true),
+        _buildLocaleButton(
+          label: 'Galego',
+          onTap: () {
+            localeProvider.setLocale(const Locale('gl'));
+          },
+          active: currentLanguage == 'gl',
+          child: _buildGaliciaFlag(),
+        ),
+        _buildLocaleButton(
+          label: 'English',
+          onTap: () {
+            localeProvider.setLocale(const Locale('en'));
+          },
+          active: currentLanguage == 'en',
+          child: _buildUKFlag(),
+        ),
       ],
+      accountMenu: AccountMenuButton(
+        key: accountMenuKey,
+        avatarUrl: avatarUrl,
+        proposedTermsCount: proposedTermsCount,
+        isModerator: isModerator,
+        isAdmin: isAdmin,
+        onMenuSelected: onMenuSelected,
+        navigatorContextGetter: navigatorContextGetter,
+        onCloseMenu: () => accountMenuKey?.currentState?.closeMenu(),
+      ),
+      onSearchSubmitted: onSearchSubmitted,
+      hintText: _t(context, es: 'Buscar...', gl: 'Buscar...', en: 'Search forum...'),
     );
   }
 
@@ -357,53 +370,10 @@ class AppHeader extends StatelessWidget {
   }
 
   Widget _buildCompactNavMenu(BuildContext context) {
-    return PopupMenuButton<AppSection>(
-      onSelected: onNavigate,
-      itemBuilder: (context) => [
-        PopupMenuItem(
-          value: AppSection.inicio,
-          child: Text(_t(context, es: 'Inicio', gl: 'Inicio', en: 'Home')),
-        ),
-        PopupMenuItem(
-          value: AppSection.diccionario,
-          child: Text(_t(context,
-              es: 'Diccionario', gl: 'Dicionario', en: 'Dictionary')),
-        ),
-        PopupMenuItem(
-          value: AppSection.videojuegos,
-          child: Text(_t(context,
-              es: 'Videojuegos', gl: 'Videoxogos', en: 'Games')),
-        ),
-        PopupMenuItem(
-          value: AppSection.controlParental,
-          child: Text(_t(context,
-              es: 'Control Parental',
-              gl: 'Control Parental',
-              en: 'Parental Controls')),
-        ),
-        PopupMenuItem(
-          value: AppSection.comunidad,
-          child: Text(_t(context,
-              es: 'Comunidad', gl: 'Comunidade', en: 'Community')),
-        ),
-      ],
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Icon(Icons.menu, color: Colors.white),
-          const SizedBox(width: 8),
-          Flexible(
-            child: Text(
-              _t(context, es: 'Menú', gl: 'Menú', en: 'Menu'),
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ],
-      ),
+    return CompactNavMenuButton(
+      activeSection: activeSection,
+      onNavigate: onNavigate,
+      navigatorContextGetter: navigatorContextGetter,
     );
   }
 
@@ -413,25 +383,28 @@ class AppHeader extends StatelessWidget {
     required bool active,
     required Widget child,
   }) {
-    return Semantics(
-      label: label,
-      button: true,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(999),
-        child: Container(
-          width: 28,
-          height: 28,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: active
-                  ? const Color(0xFF3BF1E0)
-                  : Colors.white.withValues(alpha: 0.25),
-              width: active ? 1.8 : 1,
+    return TapRegion(
+      groupId: 'account_menu',
+      child: Semantics(
+        label: label,
+        button: true,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(999),
+          child: Container(
+            width: 28,
+            height: 28,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: active
+                    ? const Color(0xFF3BF1E0)
+                    : Colors.white.withValues(alpha: 0.25),
+                width: active ? 1.8 : 1,
+              ),
             ),
+            child: ClipOval(child: child),
           ),
-          child: ClipOval(child: child),
         ),
       ),
     );
@@ -524,13 +497,345 @@ class AppHeader extends StatelessWidget {
   }
 }
 
-class _AccountMenuButton extends StatelessWidget {
-  const _AccountMenuButton({
+class _CompactHeaderRow extends StatefulWidget {
+  const _CompactHeaderRow({
+    required this.brandMark,
+    required this.navMenu,
+    required this.localeButtons,
+    required this.accountMenu,
+    required this.onSearchSubmitted,
+    required this.hintText,
+  });
+
+  final Widget brandMark;
+  final Widget navMenu;
+  final List<Widget> localeButtons;
+  final Widget accountMenu;
+  final ValueChanged<String> onSearchSubmitted;
+  final String hintText;
+
+  @override
+  State<_CompactHeaderRow> createState() => _CompactHeaderRowState();
+}
+
+class _CompactHeaderRowState extends State<_CompactHeaderRow> {
+  bool _isSearchExpanded = false;
+  final FocusNode _focusNode = FocusNode();
+  final TextEditingController _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        if (!_isSearchExpanded) ...[
+          widget.brandMark,
+          const SizedBox(width: 12),
+          Expanded(child: widget.navMenu),
+          IconButton(
+            icon: const Icon(Icons.search, color: Colors.white, size: 22),
+            onPressed: () {
+              setState(() {
+                _isSearchExpanded = true;
+              });
+              _focusNode.requestFocus();
+            },
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            constraints: const BoxConstraints(),
+          ),
+          const SizedBox(width: 4),
+        ] else ...[
+          Expanded(
+            child: TextField(
+              controller: _controller,
+              focusNode: _focusNode,
+              textInputAction: TextInputAction.search,
+              onSubmitted: (val) {
+                widget.onSearchSubmitted(val);
+                setState(() {
+                  _isSearchExpanded = false;
+                });
+                _controller.clear();
+              },
+              style: const TextStyle(color: Colors.white, fontSize: 13),
+              decoration: InputDecoration(
+                isDense: true,
+                hintText: widget.hintText,
+                hintStyle: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.35),
+                  fontSize: 13,
+                ),
+                prefixIcon: IconButton(
+                  icon: const Icon(Icons.arrow_back, size: 17),
+                  color: Colors.white.withValues(alpha: 0.8),
+                  onPressed: () {
+                    setState(() {
+                      _isSearchExpanded = false;
+                    });
+                    _controller.clear();
+                  },
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+                ),
+                filled: true,
+                fillColor: Colors.white.withValues(alpha: 0.05),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.08)),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.08)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: AppConfig.primaryColor.withValues(alpha: 0.8)),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 8),
+        ],
+        ...widget.localeButtons,
+        const SizedBox(width: 8),
+        widget.accountMenu,
+      ],
+    );
+  }
+}
+
+class CompactNavMenuButton extends StatefulWidget {
+  const CompactNavMenuButton({
+    super.key,
+    required this.activeSection,
+    required this.onNavigate,
+    this.navigatorContextGetter,
+  });
+
+  final AppSection activeSection;
+  final ValueChanged<AppSection> onNavigate;
+  final BuildContext? Function()? navigatorContextGetter;
+
+  @override
+  State<CompactNavMenuButton> createState() => _CompactNavMenuButtonState();
+}
+
+class _CompactNavMenuButtonState extends State<CompactNavMenuButton> {
+  OverlayEntry? _overlayEntry;
+  bool _isOpen = false;
+
+  void closeMenu() {
+    if (_isOpen) {
+      _overlayEntry?.remove();
+      _overlayEntry = null;
+      if (mounted) {
+        setState(() {
+          _isOpen = false;
+        });
+      }
+    }
+  }
+
+  void _toggleMenu() {
+    if (_isOpen) {
+      closeMenu();
+    } else {
+      _showMenu();
+    }
+  }
+
+  void _showMenu() {
+    final navContext = widget.navigatorContextGetter?.call() ?? context;
+    final RenderBox overlay =
+        Navigator.of(navContext).overlay!.context.findRenderObject()! as RenderBox;
+    final RenderBox button = context.findRenderObject()! as RenderBox;
+
+    final Offset offset = button.localToGlobal(Offset.zero, ancestor: overlay);
+
+    _overlayEntry = OverlayEntry(
+      builder: (overlayContext) {
+        return Positioned(
+          top: offset.dy + button.size.height + 8,
+          left: offset.dx,
+          child: TapRegion(
+            groupId: 'nav_menu',
+            onTapOutside: (event) {
+              closeMenu();
+            },
+            child: Material(
+              color: Colors.transparent,
+              child: Container(
+                width: 200,
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF1E293B),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.1),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.2),
+                      blurRadius: 10,
+                      offset: const Offset(0, 5),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: _buildMenuItems(context),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+
+    Navigator.of(navContext).overlay!.insert(_overlayEntry!);
+    setState(() {
+      _isOpen = true;
+    });
+  }
+
+  @override
+  void didUpdateWidget(CompactNavMenuButton oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (_isOpen) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted && _isOpen) {
+          _overlayEntry?.markNeedsBuild();
+        }
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _overlayEntry?.remove();
+    _overlayEntry = null;
+    super.dispose();
+  }
+
+  String _t(BuildContext context,
+      {required String es, required String gl, required String en}) {
+    switch (Localizations.localeOf(context).languageCode) {
+      case 'gl':
+        return gl;
+      case 'en':
+        return en;
+      default:
+        return es;
+    }
+  }
+
+  List<Widget> _buildMenuItems(BuildContext context) {
+    return [
+      _buildMenuItem(
+        context,
+        text: _t(context, es: 'Inicio', gl: 'Inicio', en: 'Home'),
+        value: AppSection.inicio,
+      ),
+      _buildMenuItem(
+        context,
+        text: _t(context, es: 'Diccionario', gl: 'Dicionario', en: 'Dictionary'),
+        value: AppSection.diccionario,
+      ),
+      _buildMenuItem(
+        context,
+        text: _t(context, es: 'Videojuegos', gl: 'Videoxogos', en: 'Games'),
+        value: AppSection.videojuegos,
+      ),
+      _buildMenuItem(
+        context,
+        text: _t(context, es: 'Control Parental', gl: 'Control Parental', en: 'Parental Controls'),
+        value: AppSection.controlParental,
+      ),
+      _buildMenuItem(
+        context,
+        text: _t(context, es: 'Comunidad', gl: 'Comunidade', en: 'Community'),
+        value: AppSection.comunidad,
+      ),
+    ];
+  }
+
+  Widget _buildMenuItem(
+    BuildContext context, {
+    required String text,
+    required AppSection value,
+  }) {
+    final isActive = widget.activeSection == value;
+    final color = isActive ? const Color(0xFF3BF1E0) : Colors.white;
+
+    return InkWell(
+      onTap: () {
+        closeMenu();
+        widget.onNavigate(value);
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Text(
+          text,
+          style: TextStyle(
+            color: color,
+            fontSize: 14,
+            fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TapRegion(
+      groupId: 'nav_menu',
+      child: InkWell(
+        onTap: _toggleMenu,
+        borderRadius: BorderRadius.circular(8),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.menu, color: Colors.white),
+              const SizedBox(width: 8),
+              Flexible(
+                child: Text(
+                  _t(context, es: 'Menú', gl: 'Menú', en: 'Menu'),
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class AccountMenuButton extends StatefulWidget {
+  const AccountMenuButton({
+    super.key,
     required this.avatarUrl,
     required this.proposedTermsCount,
     required this.isModerator,
     required this.isAdmin,
     required this.onMenuSelected,
+    this.navigatorContextGetter,
+    this.onCloseMenu,
   });
 
   final String? avatarUrl;
@@ -538,119 +843,228 @@ class _AccountMenuButton extends StatelessWidget {
   final bool isModerator;
   final bool isAdmin;
   final ValueChanged<String> onMenuSelected;
+  final BuildContext? Function()? navigatorContextGetter;
+  final VoidCallback? onCloseMenu;
+
+  @override
+  State<AccountMenuButton> createState() => AccountMenuButtonState();
+}
+
+class AccountMenuButtonState extends State<AccountMenuButton> {
+  OverlayEntry? _overlayEntry;
+  bool _isOpen = false;
+
+  void closeMenu() {
+    if (_isOpen) {
+      _overlayEntry?.remove();
+      _overlayEntry = null;
+      if (mounted) {
+        setState(() {
+          _isOpen = false;
+        });
+      }
+    }
+  }
+
+  void _toggleMenu() {
+    if (_isOpen) {
+      closeMenu();
+    } else {
+      _showMenu();
+    }
+  }
+
+  void _showMenu() {
+    final navContext = widget.navigatorContextGetter?.call() ?? context;
+    final RenderBox overlay =
+        Navigator.of(navContext).overlay!.context.findRenderObject()! as RenderBox;
+    final RenderBox button = context.findRenderObject()! as RenderBox;
+
+    final Offset offset = button.localToGlobal(Offset.zero, ancestor: overlay);
+
+    _overlayEntry = OverlayEntry(
+      builder: (overlayContext) {
+        return Positioned(
+          top: offset.dy + button.size.height + 12,
+          right: overlay.size.width - offset.dx - button.size.width,
+          child: TapRegion(
+            groupId: 'account_menu',
+            onTapOutside: (event) {
+              closeMenu();
+            },
+            child: Material(
+              color: Colors.transparent,
+              child: Container(
+                width: 240,
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF1E293B),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.1),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.2),
+                      blurRadius: 10,
+                      offset: const Offset(0, 5),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: _buildMenuItems(context),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+
+    Navigator.of(navContext).overlay!.insert(_overlayEntry!);
+    setState(() {
+      _isOpen = true;
+    });
+  }
+
+  @override
+  void didUpdateWidget(AccountMenuButton oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (_isOpen) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted && _isOpen) {
+          _overlayEntry?.markNeedsBuild();
+        }
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _overlayEntry?.remove();
+    _overlayEntry = null;
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton<String>(
-      onSelected: onMenuSelected,
-      offset: const Offset(0, 46),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-      color: const Color(0xFF1E293B),
-      itemBuilder: _buildItems,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          UserAvatar(photoUrl: avatarUrl, size: 34),
-          const SizedBox(width: 4),
-          const Icon(Icons.keyboard_arrow_down,
-              color: Colors.white54, size: 16),
-        ],
+    return TapRegion(
+      groupId: 'account_menu',
+      child: GestureDetector(
+        onTap: _toggleMenu,
+        child: UserAvatar(photoUrl: widget.avatarUrl, size: 38),
       ),
     );
   }
 
-  List<PopupMenuEntry<String>> _buildItems(BuildContext context) {
-    final items = <PopupMenuEntry<String>>[
-      PopupMenuItem<String>(
+  List<Widget> _buildMenuItems(BuildContext context) {
+    final items = <Widget>[
+      _buildMenuItem(
+        context,
+        icon: Icons.person,
+        text: _t(context, es: 'Mi perfil', gl: 'O meu perfil', en: 'My profile'),
         value: 'profile',
-        child: ListTile(
-          dense: true,
-          leading: const Icon(Icons.person, color: Colors.white70),
-          title: Text(
-            _t(context,
-                es: 'Editar perfil',
-                gl: 'Editar perfil',
-                en: 'Edit profile'),
-            style: const TextStyle(color: Colors.white),
-          ),
-        ),
       ),
-      PopupMenuItem<String>(
+      _buildMenuItem(
+        context,
+        icon: Icons.list_alt,
+        text: _t(context,
+            es: 'Mis términos propuestos',
+            gl: 'Os meus termos propostos',
+            en: 'My proposed terms'),
+        subtitle: _t(context,
+            es: '${widget.proposedTermsCount} términos',
+            gl: '${widget.proposedTermsCount} termos',
+            en: '${widget.proposedTermsCount} terms'),
         value: 'my_terms',
-        child: ListTile(
-          dense: true,
-          leading:
-              const Icon(Icons.article_outlined, color: Colors.white70),
-          title: Text(
-            _t(context,
-                es: 'Mis términos propuestos',
-                gl: 'Os meus termos propostos',
-                en: 'My proposed terms'),
-            style: const TextStyle(color: Colors.white),
-          ),
-          subtitle: Text(
-            _t(context,
-                es: '$proposedTermsCount términos',
-                gl: '$proposedTermsCount termos',
-                en: '$proposedTermsCount terms'),
-            style: const TextStyle(color: Colors.white54, fontSize: 11),
-          ),
-        ),
       ),
     ];
 
-    if (isModerator) {
-      items.add(PopupMenuItem<String>(
+    if (widget.isModerator) {
+      items.add(_buildMenuItem(
+        context,
+        icon: Icons.admin_panel_settings,
+        text: _t(context,
+            es: 'Moderación',
+            gl: 'Moderación',
+            en: 'Moderation'),
         value: 'moderation',
-        child: ListTile(
-          dense: true,
-          leading: const Icon(Icons.admin_panel_settings,
-              color: Colors.white70),
-          title: Text(
-            _t(context,
-                es: 'Moderación', gl: 'Moderación', en: 'Moderation'),
-            style: const TextStyle(color: Colors.white),
-          ),
-        ),
       ));
     }
 
-    if (isAdmin) {
-      items.add(PopupMenuItem<String>(
+    if (widget.isAdmin) {
+      items.add(_buildMenuItem(
+        context,
+        icon: Icons.people,
+        text: _t(context,
+            es: 'Gestión de usuarios',
+            gl: 'Xestión de usuarios',
+            en: 'User management'),
         value: 'users_management',
-        child: ListTile(
-          dense: true,
-          leading: const Icon(Icons.people, color: Colors.white70),
-          title: Text(
-            _t(context,
-                es: 'Gestión de usuarios',
-                gl: 'Xestión de usuarios',
-                en: 'User management'),
-            style: const TextStyle(color: Colors.white),
-          ),
-        ),
       ));
     }
 
-    items.addAll([
-      const PopupMenuDivider(),
-      PopupMenuItem<String>(
-        value: 'logout',
-        child: ListTile(
-          dense: true,
-          leading: const Icon(Icons.logout, color: Color(0xFFEF4444)),
-          title: Text(
-            _t(context,
-                es: 'Cerrar sesión',
-                gl: 'Pechar sesión',
-                en: 'Sign out'),
-            style: const TextStyle(color: Color(0xFFEF4444)),
-          ),
-        ),
-      ),
-    ]);
+    items.add(Divider(color: Colors.white.withValues(alpha: 0.1), height: 16));
+    items.add(_buildMenuItem(
+      context,
+      icon: Icons.logout,
+      text: _t(context,
+          es: 'Cerrar sesión',
+          gl: 'Pechar sesión',
+          en: 'Sign out'),
+      color: const Color(0xFFEF4444),
+      value: 'logout',
+    ));
 
     return items;
+  }
+
+  Widget _buildMenuItem(
+    BuildContext context, {
+    required IconData icon,
+    required String text,
+    String? subtitle,
+    Color color = Colors.white70,
+    required String value,
+  }) {
+    return InkWell(
+      onTap: () {
+        closeMenu();
+        widget.onMenuSelected(value);
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Row(
+          children: [
+            Icon(icon, color: color, size: 20),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    text,
+                    style: TextStyle(
+                      color: color == Colors.white70 ? Colors.white : color,
+                      fontSize: 14,
+                    ),
+                  ),
+                  if (subtitle != null) ...[
+                    const SizedBox(height: 2),
+                    Text(
+                      subtitle,
+                      style: const TextStyle(color: Colors.white54, fontSize: 11),
+                    ),
+                  ]
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   String _t(BuildContext context,

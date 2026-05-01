@@ -8,6 +8,9 @@ import '../../providers/forum_provider.dart';
 import '../../widgets/common/app_empty_state.dart';
 import 'create_post_screen.dart';
 import 'forum_post_detail_screen.dart';
+import '../../widgets/common/app_footer.dart';
+import '../info/pegi_info_screen.dart';
+import '../parental_guides/parental_guides_list_screen.dart';
 
 class ForumListScreen extends StatefulWidget {
   final String? topicFilter;
@@ -35,14 +38,8 @@ class _ForumListScreenState extends State<ForumListScreen> {
     final authProvider = context.watch<AuthProvider>();
     final isAdmin = authProvider.isAdmin;
     final languageCode = Localizations.localeOf(context).languageCode;
-    final titleText = _selectedSectionId == null
-        ? 'Comunidad'
-        : 'Comunidad · ${ForumSections.byId(_selectedSectionId).localizedName(languageCode)}';
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(titleText),
-      ),
       body: StreamBuilder<List<ForumPost>>(
         stream: forumProvider.postsStream,
         builder: (context, snapshot) {
@@ -81,8 +78,21 @@ class _ForumListScreenState extends State<ForumListScreen> {
                             : 'Todavía no hay novedades en esta sección.',
                       )
                     : ListView.builder(
-                        itemCount: posts.length,
+                        itemCount: posts.length + 1,
                         itemBuilder: (context, index) {
+                          if (index == posts.length) {
+                            return Padding(
+                              padding: const EdgeInsets.all(AppConfig.paddingMedium),
+                              child: AppFooter(
+                                onPrivacyTap: () => Navigator.of(context).push(
+                                    MaterialPageRoute(builder: (_) => const PegiInfoScreen())),
+                                onAboutTap: () => Navigator.of(context).push(
+                                    MaterialPageRoute(builder: (_) => const PegiInfoScreen())),
+                                onContactTap: () => Navigator.of(context).push(
+                                    MaterialPageRoute(builder: (_) => const ParentalGuidesListScreen())),
+                              ),
+                            );
+                          }
                           final post = posts[index];
                           final sectionLabel =
                               ForumSections.byId(post.effectiveSectionId)
