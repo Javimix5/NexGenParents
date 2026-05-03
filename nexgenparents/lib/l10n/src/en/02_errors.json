@@ -1,0 +1,84 @@
+{
+    "errorNameLength": "The name must be at least 3 characters long",
+    "errorPasswordLength8": "The password must be at least 8 characters long",
+    "errorPasswordUppercase": "Include at least one uppercase letter",
+    "errorPasswordLowercase": "Include at least one lowercase letter",
+    "errorPasswordNumber": "Include at least one number",
+    "errorConfirmPasswordRequired": "Please confirm your password",
+    "errorInvalidEmail": "The email is not valid",
+    "errorWeakPassword": "The password must have at least 8 characters, an uppercase letter, a lowercase letter and a number",
+    "errorUserNotFound": "No user exists with this email",
+    "errorWrongPassword": "The password is incorrect",
+    "errorUserDisabled": "This account has been disabled",
+    "errorEmailInUse": "This email is already registered",
+    "errorEmailInUseRecovery": "This email is already registered. If you only deleted the profile in the database, log in with your previous password to restore it.",
+    "errorDifferentCredential": "This email is already registered with another login method",
+    "errorInvalidCredential": "The credentials are not valid",
+    "errorPopupClosed": "You closed the Google window before completing the login",
+    "errorPopupBlocked": "The browser blocked the Google popup window. Try again",
+    "errorPermissionDenied": "There are no permissions to access the profile in Firestore. Check and deploy firestore.rules.",
+    "errorGeneric": "Unexpected error: {error}",
+    "@errorGeneric": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "errorCreatingUser": "Error creating user",
+    "errorCreatingProfile": "Failed to create user profile",
+    "errorLogin": "Error logging in",
+    "errorLoginGoogle": "Could not log in with Google",
+    "errorLoadingProfile": "Failed to load user profile",
+    "successUserRegistered": "User registered successfully",
+    "successLogin": "Login successful",
+    "successLoginGoogle": "Successfully logged in with Google",
+    "successPasswordReset": "Recovery email sent. Check your inbox",
+
+    "errorInvalidRole": "Invalid role. Must be: user, moderator, or admin",
+    "errorModifyOwnRole": "You cannot modify your own role",
+    "successRoleUpdated": "Role updated successfully",
+    "errorUpdateRole": "Error updating role",
+    "successBirthYearsUpdated": "Birth years updated successfully",
+    "errorUpdateBirthYears": "Error updating birth years",
+    "successPlatformsUpdated": "Platforms updated successfully",
+    "errorUpdatePlatforms": "Error updating platforms",
+    "successAvatarUpdated": "Avatar updated successfully",
+    "errorUpdateAvatar": "Error updating avatar",
+    "successUserInfoUpdated": "User information updated successfully",
+    "errorUpdateUserInfo": "Error updating user information",
+    "successAccountDeleted": "Account deleted successfully",
+    "errorDeleteAccount": "Error deleting account",
+    "successPostDeleted": "Post deleted successfully",
+    "errorDeletePost": "Error deleting post",
+    "errorPostNotFound": "The associated post does not exist",
+    "successReplyDeleted": "Reply deleted successfully",
+    "errorDeleteReply": "Error deleting reply",
+    "errorNoAuthUser": "No authenticated user",
+    "successPasswordUpdated": "Password updated successfully",
+    "errorChangePassword": "Error changing password",
+    "errorWrongCurrentPassword": "The current password is incorrect",
+    "errorWeakNewPassword": "The new password is too weak",
+    "successEmailUpdated": "Email updated successfully. Please verify your new email.",
+    "errorChangeEmail": "Error changing email",
+    "errorEmailAlreadyInUse": "This email is already in use",
+    "errorInvalidNewEmail": "The email is not valid",
+    "errorNoPasswordAccount": "Your account does not use a password. Log in again with your provider to continue.",
+    "successReauth": "Reauthentication successful",
+    "errorReauth": "Reauthentication error",
+    
+    "alertLoginRequiredForum": "You must log in to access the community and participate in the forum.",
+    "homeWelcomeGuest": "Welcome to NexGen Parents!",
+    "homeGuestDescription": "Your ultimate guide to video games. Discover age ratings, explore our gaming dictionary, and learn how to set up parental controls.",
+    "dictRequireLoginDefault": "You must log in to access this feature.",
+    "dictGuestLockMessage": "The dictionary has {totalTerms} terms. Log in to see them all.",
+    "@dictGuestLockMessage": {
+        "placeholders": {
+            "totalTerms": { "type": "int" }
+        }
+    },
+    "dictRequireLoginPropose": "You must log in to propose a new term.",
+        "alertLoginRequiredProfile": "You must log in to view and edit your profile.",
+        "alertLoginRequiredProposeTerm": "You must log in to propose a new term."
+    
+}

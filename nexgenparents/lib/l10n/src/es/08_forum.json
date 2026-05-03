@@ -1,0 +1,85 @@
+{
+    "forumSidebarFollowedTopics": "Temas Seguidos",
+    "forumSidebarTopic1Title": "¿Límites de tiempo para niños de 10 años?",
+    "forumSidebarTopic1Subtitle": "24 respuestas nuevas hoy",
+    "forumSidebarTopic2Title": "Los mejores juegos educativos en Switch",
+    "forumSidebarTopic2Subtitle": "15 respuestas nuevas hoy",
+    "forumSidebarTopic3Title": "Cómo gestionar la seguridad en chats online",
+    "forumSidebarTopic3Subtitle": "8 respuestas nuevas hoy",
+    "forumSidebarRepliesToYou": "Respuestas para ti",
+    "forumSidebarReply1Link": "Seguridad en Fortnite",
+    "forumSidebarReply1Action": "respondió a tu co...",
+    "forumSidebarReply1Time": "hace 2 minutos",
+    "forumSidebarReply2Link": "Comparativa de consolas",
+    "forumSidebarReply2Action": "te etiquetó en...",
+    "forumSidebarReply2Time": "hace 1 hora",
+    "forumSidebarReply3Link": "Hilo de Bienvenida",
+    "forumSidebarReply3Action": "le gustó tu respue...",
+    "forumSidebarReply3Time": "hace 3 horas",
+    "forumSidebarGlobalNews": "Noticias Globales del Foro",
+    "forumSidebarNews1Tag": "Actualización",
+    "forumSidebarNews1Text": "Nuevas guías de control parental añadidas al Diccionario.",
+    "forumSidebarNews2Tag": "Evento",
+    "forumSidebarNews2Text": "Q&A en vivo con psicólogo infantil este jueves a las 18:00.",
+    "forumSidebarNews3Tag": "Novedad",
+    "forumSidebarNews3Text": "¡El modo oscuro ya está disponible en los ajustes de usuario!",
+    
+    "forumMainCategoriesTitle": "Categorías Principales",
+    "forumViewAllBtn": "Ver todo",
+    "forumEmptySectionTitle": "No hay publicaciones en esta sección",
+    "forumEmptySectionMessage": "Todavía no hay novedades aquí.",
+    "forumPlatformsTitle": "Plataformas",
+    
+    "forumSearchHint": "Buscar hilos por título...",
+    "forumEmptySearchTitle": "Sin resultados",
+    "forumEmptySearchMessage": "No se encontraron hilos que coincidan con tu búsqueda.",
+    "forumEmptyCategoryTitle": "Categoría vacía",
+    "forumEmptyCategoryMessage": "Todavía no hay novedades en esta sección. ¡Anímate y publica algo!",
+    "forumPostSubtitle": "por {author} • {count} respuestas",
+    "@forumPostSubtitle": {
+        "placeholders": {
+            "author": { "type": "String" },
+            "count": { "type": "int" }
+        }
+    },
+    "forumDeleteTooltip": "Eliminar",
+    "forumDeletePostTitle": "Eliminar publicación",
+    "forumDeletePostContent": "¿Quieres eliminar \"{title}\" y todas sus respuestas?",
+    "@forumDeletePostContent": {
+        "placeholders": {
+            "title": { "type": "String" }
+        }
+    },
+    "forumCancelBtn": "Cancelar",
+    "forumDeleteBtn": "Eliminar",
+    "forumNewPostBtn": "Nuevo Hilo",
+    "forumPostDeletedSuccess": "Publicación eliminada",
+    "forumPostDeletedError": "No se pudo eliminar la publicación",
+
+    "forumCreateLoginRequired": "Debes iniciar sesión para publicar",
+    "forumCreateUnknownError": "Error desconocido",
+    "forumCreateTitle": "Crear Nuevo Hilo",
+    "forumCreateFieldTitle": "Título",
+    "forumCreateErrorTitle": "El título es obligatorio",
+    "forumCreateFieldSection": "Sección",
+    "forumCreateFieldContent": "Contenido",
+    "forumCreateErrorContent": "El contenido es obligatorio",
+    "forumCreatePublishingBtn": "Publicando...",
+    "forumCreatePublishBtn": "Publicar",
+
+    "forumPostByAuthor": "por {author}",
+    "@forumPostByAuthor": {
+        "placeholders": {
+            "author": { "type": "String" }
+        }
+    },
+    "forumDetailRepliesTitle": "Respuestas",
+    "forumDetailEmptyReplies": "No hay respuestas todavía.",
+    "forumDeleteReplyTooltip": "Eliminar respuesta",
+    "forumDeleteReplyTitle": "Eliminar respuesta",
+    "forumDeleteReplyContent": "¿Quieres eliminar esta respuesta?",
+    "forumReplyDeletedSuccess": "Respuesta eliminada",
+    "forumReplyDeletedError": "No se pudo eliminar la respuesta",
+    "forumDetailReplyInputHint": "Escribe una respuesta..."
+
+}

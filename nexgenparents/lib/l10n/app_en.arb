@@ -1,19 +1,5 @@
 {
     "@@locale": "en",
-    "appName": "NexGen Parents",
-    "@appName": {
-        "description": "The application name displayed in the UI",
-        "type": "text"
-    },
-    "loading": "Loading {appName}...",
-    "@loading": {
-        "placeholders": {
-            "appName": {
-                "type": "String"
-            }
-        }
-    },
-
     "classificationSystemsTitle": "Classification Systems",
     "pegiInfoSubtitle": "Learn to interpret PEGI and ESRB to choose age-appropriate games.",
     "ageRatingsMeaningTitle": "What do age ratings mean?",
@@ -30,7 +16,52 @@
     "contentDescriptorSex": "Sex",
     "contentDescriptorBadLanguage": "Bad Language",
     "contentDescriptorGambling": "Gambling",
-
+    "privacyPolicyTitle": "Privacy Policy",
+    "privacyPolicySubtitle": "NexGen Parents Privacy Policy",
+    "privacyPolicyLastUpdate": "Last update: March 2026",
+    "privacyPolicyS1Title": "1. Information Collection",
+    "privacyPolicyS1Text": "At NexGen Parents we take your privacy and that of your family very seriously. We collect basic profile information (such as email and username) to allow access to features like the collaborative dictionary and forum.",
+    "privacyPolicyS2Title": "2. Data Usage",
+    "privacyPolicyS2Text": "The data provided is used exclusively to improve your experience on the platform, personalize age recommendations (PEGI/ESRB), and maintain a safe environment in our community.",
+    "privacyPolicyS3Title": "3. Protection and Security",
+    "privacyPolicyS3Text": "Your data is protected by Firebase services and is never sold or shared with third parties for advertising purposes unrelated to the platform's educational purpose.",
+    "privacyPolicyS4Title": "4. Your Rights",
+    "privacyPolicyS4Text": "You can request the total deletion of your account and associated data at any time through your profile settings panel.",
+    "aboutUsTitle": "About us",
+    "aboutUsSubtitle": "About NexGen Parents",
+    "aboutUsP1": "NexGen Parents was created to solve a real information gap: today, many families do not have clear references to interpret the content, risks, and great educational value offered by current video games.",
+    "aboutUsP2": "Our main goal is to reduce the uncertainty of mothers, fathers, teachers, and counselors, facilitating much more responsible and informed digital consumption decisions.",
+    "aboutUsVersion": "Version 1.0.0 (March 2026)\nTFC Project",
+    "contactUsTitle": "Contact us",
+    "contactUsSubtitle": "We'd love to hear from you!",
+    "contactUsDescription": "Do you have any questions about our guides, want to propose an improvement, or need technical help with the application? Get in touch with us.",
+    "contactUsEmailLabel": "Email",
+    "contactUsWebLabel": "Website",
+    "contactUsForumHint": "You can also actively participate by leaving your questions in our app's Community Forum.",
+    "contactUsSubmitButton": "Submit",
+    "footerTaglineMobile": "Empowering the next generation\nof parents in the digital age",
+    "footerPrivacy": "Privacy Policy",
+    "footerAbout": "About us",
+    "footerContact": "Contact us",
+    "footerCopyright": "© {year} {appName}. All rights reserved.",
+    "@footerCopyright": {
+        "placeholders": {
+            "year": {
+                "type": "String"
+            },
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "footerTaglineDesktop": "Empowering the next generation of parents in the digital age",
+    "footerErrorLink": "Could not open the external link.",
+    "errorNameLength": "The name must be at least 3 characters long",
+    "errorPasswordLength8": "The password must be at least 8 characters long",
+    "errorPasswordUppercase": "Include at least one uppercase letter",
+    "errorPasswordLowercase": "Include at least one lowercase letter",
+    "errorPasswordNumber": "Include at least one number",
+    "errorConfirmPasswordRequired": "Please confirm your password",
     "errorInvalidEmail": "The email is not valid",
     "errorWeakPassword": "The password must have at least 8 characters, an uppercase letter, a lowercase letter and a number",
     "errorUserNotFound": "No user exists with this email",
@@ -60,152 +91,82 @@
     "successLogin": "Login successful",
     "successLoginGoogle": "Successfully logged in with Google",
     "successPasswordReset": "Recovery email sent. Check your inbox",
-
-    "guideTypeEnable": "Enable Guide",
-    "guideTypeDisable": "Disable Guide",
-    "guideTypeApp": "App Guide",
-    "guideTypeTime": "Time Guide",
-    "guideTypeDefault": "Default Guide",
-    "psEnableGuideTitle": "How to enable parental guide",
-    "psEnableGuideDescription": "Follow these steps to enable parental guide on your device.",
-    "psEnableGuideStep1": "Open the settings application.",
-    "psEnableGuideStep2": "Select 'Parental Controls'.",
-    "psEnableGuideStep3": "Enable the parental guide option.",
-    "psEnableGuideStep4": "Configure restrictions according to your needs.",
-    "psEnableGuideStep5": "Save changes.",
-    "psEnableGuideStep6": "Verify that the guide is active.",
-    "psDisableGuideTitle": "How to disable parental guide",
-    "psDisableGuideDescription": "Follow these steps to disable parental guide on your device.",
-    "psDisableGuideStep1": "Open the settings application.",
-    "psDisableGuideStep2": "Select 'Parental Controls'.",
-    "psDisableGuideStep3": "Disable the parental guide option.",
-    "psDisableGuideStep4": "Save changes.",
-    "psDisableGuideStep5": "Verify that the guide is disabled.",
-    "nintendoAppGuideStep2": "Step 2: Open the Nintendo app.",
-    "nintendoAppGuideStep3": "Step 3: Go to the parental controls section.",
-    "nintendoAppGuideStep4": "Step 4: Set up restrictions as needed.",
-    "nintendoAppGuideStep5": "Step 5: Save your settings.",
-    "nintendoAppGuideStep6": "Step 6: Link your account.",
-    "nintendoAppGuideStep7": "Step 7: Confirm the setup.",
-    "nintendoAppGuideStep8": "Step 8: Test the parental controls.",
-
-    "steamGuideTitle": "Steam Parental Guide",
-    "steamGuideDescription": "Learn how to set up parental controls on Steam.",
-    "steamGuideStep1": "Step 1: Open Steam settings.",
-    "steamGuideStep2": "Step 2: Go to the Family section.",
-    "steamGuideStep3": "Step 3: Enable Family View.",
-    "steamGuideStep4": "Step 4: Set up a PIN.",
-    "steamGuideStep5": "Step 5: Restrict content as needed.",
-
-    "iosGuideTitle": "iOS Parental Guide",
-    "iosGuideDescription": "Learn how to set up parental controls on iOS devices.",
-    "iosGuideStep1": "Step 1: Open Settings.",
-    "iosGuideStep2": "Step 2: Go to Screen Time.",
-    "iosGuideStep3": "Step 3: Enable restrictions.",
-    "iosGuideStep4": "Step 4: Set up a passcode.",
-
-    "xboxGuideTitle": "Xbox Parental Guide",
-    "xboxGuideDescription": "Learn how to set up parental controls on Xbox.",
-    "xboxGuideStep1": "Step 1: Open Xbox settings.",
-    "xboxGuideStep2": "Step 2: Go to the Family section.",
-    "xboxGuideStep3": "Step 3: Enable parental controls.",
-    "xboxGuideStep4": "Step 4: Set up restrictions.",
-    "xboxGuideStep5": "Step 5: Save your settings.",
-
-    "xboxTimeGuideTitle": "Xbox Time Guide",
-    "xboxTimeGuideDescription": "Learn how to set up time limits on Xbox.",
-    "xboxTimeGuideStep1": "Step 1: Open Xbox settings.",
-    "xboxTimeGuideStep2": "Step 2: Go to the Family section.",
-    "xboxTimeGuideStep3": "Step 3: Enable time limits.",
-    "xboxTimeGuideStep4": "Step 4: Set up schedules.",
-    "xboxTimeGuideStep5": "Step 5: Save your settings.",
-
-    "nintendoGuideTitle": "Nintendo Parental Guide",
-    "nintendoGuideDescription": "Learn how to set up parental controls on Nintendo.",
-    "nintendoGuideStep1": "Step 1: Open Nintendo settings.",
-    "nintendoGuideStep2": "Step 2: Go to the parental controls section.",
-    "nintendoGuideStep3": "Step 3: Set up restrictions.",
-    "nintendoGuideStep4": "Step 4: Save your settings.",
-    "nintendoGuideStep5": "Step 5: Test the parental controls.",
-
-    "searchGamesHint": "Search game by name...",
-    "searchGamesAdvancedFilters": "Advanced filters",
-    "searchGamesShowingRecent": "Showing the most recent games from the last year",
-    "searchGamesFilterFrom": "From",
-    "searchGamesFilterTo": "To",
-    "searchGamesFilterGenres": "genre(s)",
-    "searchGamesFilterPlatforms": "platform(s)",
-    "searchGamesClearAll": "Clear all",
-    "searchGamesEmptyTitle": "No games found",
-    "searchGamesEmptyMessage": "Try adjusting the filters or searching for another term",
-    "filtersTitle": "Search Filters",
-    "filtersClear": "Clear",
-    "filtersInfoBanner": "Combine multiple filters to find the perfect game",
-    "filtersYearTitle": "Release Year",
-    "filtersYearSubtitle": "Filter games by their release year",
-    "filtersYearFrom": "From",
-    "filtersYearTo": "To",
-    "filtersYearAny": "Any",
-    "filtersPegiTitle": "Recommended Age (PEGI)",
-    "filtersPegiSubtitle": "Select your child's age to see appropriate games",
-    "filtersPlatformTitle": "Platform",
-    "filtersPlatformSubtitle": "Select which devices you want it to be available on",
-    "filtersGenreTitle": "Game Genre",
-    "filtersGenreSubtitle": "Choose the type of games you are interested in",
-    "filtersApplyBtn": "Apply Filters",
-
-    "forumSearchHint": "Search threads by title...",
-    "forumEmptySearchTitle": "No results",
-    "forumEmptySearchMessage": "No threads found matching your search.",
-    "forumEmptyCategoryTitle": "Empty category",
-    "forumEmptyCategoryMessage": "No news in this section yet. Go ahead and post something!",
-    "forumPostSubtitle": "by {author} • {count} replies",
-    "@forumPostSubtitle": {
+    "errorInvalidRole": "Invalid role. Must be: user, moderator, or admin",
+    "errorModifyOwnRole": "You cannot modify your own role",
+    "successRoleUpdated": "Role updated successfully",
+    "errorUpdateRole": "Error updating role",
+    "successBirthYearsUpdated": "Birth years updated successfully",
+    "errorUpdateBirthYears": "Error updating birth years",
+    "successPlatformsUpdated": "Platforms updated successfully",
+    "errorUpdatePlatforms": "Error updating platforms",
+    "successAvatarUpdated": "Avatar updated successfully",
+    "errorUpdateAvatar": "Error updating avatar",
+    "successUserInfoUpdated": "User information updated successfully",
+    "errorUpdateUserInfo": "Error updating user information",
+    "successAccountDeleted": "Account deleted successfully",
+    "errorDeleteAccount": "Error deleting account",
+    "successPostDeleted": "Post deleted successfully",
+    "errorDeletePost": "Error deleting post",
+    "errorPostNotFound": "The associated post does not exist",
+    "successReplyDeleted": "Reply deleted successfully",
+    "errorDeleteReply": "Error deleting reply",
+    "errorNoAuthUser": "No authenticated user",
+    "successPasswordUpdated": "Password updated successfully",
+    "errorChangePassword": "Error changing password",
+    "errorWrongCurrentPassword": "The current password is incorrect",
+    "errorWeakNewPassword": "The new password is too weak",
+    "successEmailUpdated": "Email updated successfully. Please verify your new email.",
+    "errorChangeEmail": "Error changing email",
+    "errorEmailAlreadyInUse": "This email is already in use",
+    "errorInvalidNewEmail": "The email is not valid",
+    "errorNoPasswordAccount": "Your account does not use a password. Log in again with your provider to continue.",
+    "successReauth": "Reauthentication successful",
+    "errorReauth": "Reauthentication error",
+    "alertLoginRequiredForum": "You must log in to access the community and participate in the forum.",
+    "homeWelcomeGuest": "Welcome to NexGen Parents!",
+    "homeGuestDescription": "Your ultimate guide to video games. Discover age ratings, explore our gaming dictionary, and learn how to set up parental controls.",
+    "dictRequireLoginDefault": "You must log in to access this feature.",
+    "dictGuestLockMessage": "The dictionary has {totalTerms} terms. Log in to see them all.",
+    "@dictGuestLockMessage": {
         "placeholders": {
-            "author": { "type": "String" },
-            "count": { "type": "int" }
+            "totalTerms": {
+                "type": "int"
+            }
         }
     },
-    "forumDeleteTooltip": "Delete",
-    "forumDeletePostTitle": "Delete post",
-    "forumDeletePostContent": "Do you want to delete \"{title}\" and all its replies?",
-    "@forumDeletePostContent": {
-        "placeholders": {
-            "title": { "type": "String" }
-        }
-    },
-    "forumCancelBtn": "Cancel",
-    "forumDeleteBtn": "Delete",
-    "forumNewPostBtn": "New Thread",
-    "forumPostDeletedSuccess": "Post deleted",
-    "forumPostDeletedError": "Could not delete post",
-
-    "forumCreateLoginRequired": "You must be logged in to post",
-    "forumCreateUnknownError": "Unknown error",
-    "forumCreateTitle": "Create New Thread",
-    "forumCreateFieldTitle": "Title",
-    "forumCreateErrorTitle": "Title is required",
-    "forumCreateFieldSection": "Section",
-    "forumCreateFieldContent": "Content",
-    "forumCreateErrorContent": "Content is required",
-    "forumCreatePublishingBtn": "Publishing...",
-    "forumCreatePublishBtn": "Publish",
-
-    "forumPostByAuthor": "by {author}",
-    "@forumPostByAuthor": {
-        "placeholders": {
-            "author": { "type": "String" }
-        }
-    },
-    "forumDetailRepliesTitle": "Replies",
-    "forumDetailEmptyReplies": "No replies yet.",
-    "forumDeleteReplyTooltip": "Delete reply",
-    "forumDeleteReplyTitle": "Delete reply",
-    "forumDeleteReplyContent": "Do you want to delete this reply?",
-    "forumReplyDeletedSuccess": "Reply deleted",
-    "forumReplyDeletedError": "Could not delete reply",
-    "forumDetailReplyInputHint": "Write a reply...",
-
+    "dictRequireLoginPropose": "You must log in to propose a new term.",
+    "alertLoginRequiredProfile": "You must log in to view and edit your profile.",
+    "alertLoginRequiredProposeTerm": "You must log in to propose a new term.",
+    "errorTermExists": "This term already exists in the dictionary",
+    "successTermProposed": "Term proposed successfully. It will be reviewed by a moderator",
+    "errorProposeTerm": "Error proposing term",
+    "errorTermNotFound": "The term does not exist",
+    "successTermApproved": "Term approved successfully",
+    "errorApproveTerm": "Error approving term",
+    "successTermRejected": "Term rejected",
+    "errorRejectTerm": "Error rejecting term",
+    "successTermUpdated": "Term updated successfully",
+    "errorUpdateTerm": "Error updating term",
+    "successTermDeleted": "Term deleted successfully",
+    "errorDeleteTerm": "Error deleting term",
+    "dictModRejectError": "✗ Error rejecting term",
+    "dictModEditTitle": "Edit term",
+    "dictModEditFieldTerm": "Term",
+    "dictModEditFieldDef": "Definition",
+    "dictModEditFieldEx": "Example (optional)",
+    "dictModEditFieldCat": "Category",
+    "dictModEditErrorEmpty": "Term and definition are required",
+    "dictModEditErrorGeneric": "Could not update term",
+    "dictModEditSaveBtn": "Save changes",
+    "dictModEditSuccess": "✓ Term updated successfully",
+    "myTermsTitle": "My Proposed Terms",
+    "myTermsLoading": "Loading your terms...",
+    "myTermsEmptyTitle": "You haven't proposed any terms yet",
+    "myTermsEmptyMessage": "Contribute to the dictionary by proposing new terms",
+    "myTermsProposedCount": "Proposed terms",
+    "myTermsApproved": "Approved",
+    "myTermsPending": "Pending",
+    "myTermsViewReason": "View reason",
     "dictDetailTitle": "Term Detail",
     "dictEditTooltip": "Edit Term",
     "dictDeleteTooltip": "Delete Term",
@@ -243,11 +204,9 @@
     "dictDeleteBtn": "Delete",
     "dictDeleteSuccess": "Term deleted successfully",
     "dictDeleteError": "Error deleting the term",
-
     "dictListEmptyTitle": "No terms in the dictionary",
     "dictListEmptyMessage": "Be the first to propose a term",
     "dictListProposeBtn": "Propose term",
-
     "dictProposeErrorAuth": "Error: User not authenticated",
     "dictProposeSuccessTitle": "Term submitted!",
     "dictProposeSuccessMessage": "Your term has been successfully proposed and will be reviewed by a moderator. We will notify you when it is approved.",
@@ -274,7 +233,6 @@
     "dictCategoryJerga": "Gamer Slang",
     "dictCategoryMechanics": "Game Mechanics",
     "dictCategoryPlatforms": "Platforms",
-
     "dictModAccessDeniedTitle": "Access Denied",
     "dictModAccessDeniedMessage": "You do not have permission to access this section",
     "dictModAccessDeniedSubtitle": "Only moderators can review proposed terms",
@@ -286,7 +244,9 @@
     "dictModPendingCount": "{count} pending terms to review",
     "@dictModPendingCount": {
         "placeholders": {
-            "count": { "type": "int" }
+            "count": {
+                "type": "int"
+            }
         }
     },
     "dictModDefinitionLabel": "Definition:",
@@ -294,7 +254,9 @@
     "dictModProposedOn": "Proposed on {date}",
     "@dictModProposedOn": {
         "placeholders": {
-            "date": { "type": "String" }
+            "date": {
+                "type": "String"
+            }
         }
     },
     "dictModEditBtn": "Edit term",
@@ -303,7 +265,9 @@
     "dictModApproveConfirm": "Are you sure you want to approve the term \"{term}\"?\n\nIt will be visible to all users.",
     "@dictModApproveConfirm": {
         "placeholders": {
-            "term": { "type": "String" }
+            "term": {
+                "type": "String"
+            }
         }
     },
     "dictModCancelBtn": "Cancel",
@@ -311,7 +275,9 @@
     "dictModApproveSuccess": "✓ Term \"{term}\" approved successfully",
     "@dictModApproveSuccess": {
         "placeholders": {
-            "term": { "type": "String" }
+            "term": {
+                "type": "String"
+            }
         }
     },
     "dictModApproveError": "✗ Error approving term",
@@ -319,7 +285,9 @@
     "dictModRejectReasonTitle": "Why are you rejecting the term \"{term}\"?",
     "@dictModRejectReasonTitle": {
         "placeholders": {
-            "term": { "type": "String" }
+            "term": {
+                "type": "String"
+            }
         }
     },
     "dictModRejectHint": "Write the reason for rejection...",
@@ -329,165 +297,11 @@
     "dictModRejectSuccess": "✓ Term \"{term}\" rejected",
     "@dictModRejectSuccess": {
         "placeholders": {
-            "term": { "type": "String" }
+            "term": {
+                "type": "String"
+            }
         }
     },
-    "dictModRejectError": "✗ Error rejecting term",
-    "dictModEditTitle": "Edit term",
-    "dictModEditFieldTerm": "Term",
-    "dictModEditFieldDef": "Definition",
-    "dictModEditFieldEx": "Example (optional)",
-    "dictModEditFieldCat": "Category",
-    "dictModEditErrorEmpty": "Term and definition are required",
-    "dictModEditErrorGeneric": "Could not update term",
-    "dictModEditSaveBtn": "Save changes",
-    "dictModEditSuccess": "✓ Term updated successfully",
-
-    "myTermsTitle": "My Proposed Terms",
-    "myTermsLoading": "Loading your terms...",
-    "myTermsEmptyTitle": "You haven't proposed any terms yet",
-    "myTermsEmptyMessage": "Contribute to the dictionary by proposing new terms",
-    "myTermsProposedCount": "Proposed terms",
-    "myTermsApproved": "Approved",
-    "myTermsPending": "Pending",
-    "myTermsViewReason": "View reason",
-
-    "adminAccessDeniedTitle": "Access Denied",
-    "adminAccessDeniedMessage": "Only administrators can access this section",
-    "adminUsersTitle": "User Management",
-    "adminUsersInfoTooltip": "Information",
-    "adminUsersLoading": "Loading users...",
-    "adminUsersError": "Error loading users",
-    "adminUsersEmpty": "No registered users found",
-    "adminUsersStatTotal": "Total",
-    "adminUsersStatAdmins": "Admins",
-    "adminUsersStatMods": "Moderators",
-    "adminUsersStatUsers": "Users",
-    "adminUsersBadgeYou": "You",
-    "adminUsersProposedApproved": "{proposed} proposed | {approved} approved",
-    "adminUsersActionMakeUser": "Change to User",
-    "adminUsersActionMakeMod": "Change to Moderator",
-    "adminUsersActionMakeAdmin": "Change to Admin",
-    "adminRoleAdmin": "Admin",
-    "adminRoleModerator": "Moderator",
-    "adminRoleUser": "User",
-    "adminChangeRoleTitle": "Confirm role change",
-    "adminChangeRoleConfirm": "Are you sure you want to change the role of \"{user}\" to \"{role}\"?",
-    "adminCancelBtn": "Cancel",
-    "adminConfirmBtn": "Confirm",
-    "adminInfoDialogTitle": "Role Management",
-    "adminInfoDialogSubtitle": "Available roles:",
-    "adminInfoUserDesc": "Can view the dictionary and propose terms",
-    "adminInfoModDesc": "Can approve or reject proposed terms",
-    "adminInfoAdminDesc": "Has full access, including user management",
-    "adminInfoUnderstoodBtn": "Understood",
-
-    "navHome": "Home",
-    "navSearch": "Search",
-    "navGuides": "Guides",
-    "navDictionary": "Dictionary",
-    "navGames": "Games",
-    "navParentalControl": "Parental Control",
-    "navCommunity": "Community",
-    "headerSearchHint": "Search...",
-    "headerMenuBtn": "Menu",
-    
-    "accountMenuProfile": "My Profile",
-    "accountMenuMyTerms": "My Proposed Terms",
-    "accountMenuTermsCount": "{count} terms",
-    "@accountMenuTermsCount": { "placeholders": { "count": { "type": "int" } } },
-    "accountMenuModeration": "Moderation",
-    "accountMenuUsers": "User Management",
-    "accountMenuLogout": "Log out",
-    
-    "footerTaglineMobile": "Empowering the next generation\nof parents in the digital age",
-    "footerPrivacy": "Privacy Policy",
-    "footerAbout": "About us",
-    "footerContact": "Contact us",
-    "footerCopyright": "© {year} {appName}. All rights reserved.",
-    "@footerCopyright": { "placeholders": { "year": { "type": "String" }, "appName": { "type": "String" } } },
-    "footerTaglineDesktop": "Empowering the next generation of parents in the digital age",
-    "footerErrorLink": "Could not open the external link.",
-    
-    "genreAction": "Action",
-    "genreAdventure": "Adventure",
-    "genreRPG": "RPG",
-    "genreStrategy": "Strategy",
-    "genreShooter": "Shooter",
-    "genrePuzzle": "Puzzle",
-    "genreSports": "Sports",
-    "genreRacing": "Racing",
-    "genreSimulation": "Simulation",
-    "genrePlatformer": "Platformer",
-    "genreFighting": "Fighting",
-    "genreArcade": "Arcade",
-    
-    "gameDetailLoading": "Loading game information...",
-    "gameDetailError": "Failed to load game information",
-    "gameDetailBackBtn": "Back",
-    "gameDetailRelease": "Release: {date}",
-    "@gameDetailRelease": { "placeholders": { "date": { "type": "String" } } },
-    "gameDetailPegiTitle": "Age rating (PEGI)",
-    "gameDetailPegiWarning": "Recommended for ages {pegi} and up",
-    "@gameDetailPegiWarning": { "placeholders": { "pegi": { "type": "int" } } },
-    "gameDetailPegiNotAvailable": "No PEGI rating information available",
-    "gameDetailDescriptionTitle": "Game description",
-    "gameDetailDescriptionEmpty": "No description available",
-    "gameDetailGenresTitle": "Genres",
-    "gameDetailPlatformsTitle": "Available platforms",
-    "gameDetailScreenshotsTitle": "Screenshots",
-    "pegiDescription3": "Content suitable for all ages. No violence or inappropriate language.",
-    "pegiDescription7": "May contain scenes or sounds that can frighten young children.",
-    "pegiDescription12": "May include non-realistic violence towards fantasy characters or mild realistic violence.",
-    "pegiDescription16": "May contain realistic violence, strong language or mild sexual content.",
-    "pegiDescription18": "Adult content. May include intense violence, strong language, explicit sexual content, or drug use.",
-    "pegiDescriptionUnknown": "No description available for this PEGI rating.",
-    
-    "homeDefaultUser": "User",
-    "homeWelcomeUser": "Welcome, {userName}!",
-    "@homeWelcomeUser": { "placeholders": { "userName": { "type": "String" } } },
-    "homeUserStats": "You have {approved} approved terms and {proposed} proposed terms.",
-    "@homeUserStats": { "placeholders": { "approved": { "type": "int" }, "proposed": { "type": "int" } } },
-    "homeActiveTerms": "{count} active terms",
-    "@homeActiveTerms": { "placeholders": { "count": { "type": "int" } } },
-    "homeQuickAccessTitle": "Quick access",
-    "homeQuickAccessSubtitle": "Access the most-used areas of the site",
-    "homeQuickActionGamesTitle": "Find games by age",
-    "homeQuickActionGamesSubtitle": "Find games that fit your child's age",
-    "homeQuickActionDictTitle": "Search dictionary terms",
-    "homeQuickActionDictSubtitle": "Discover what the words your child uses while gaming mean",
-    "homeQuickActionGuidesTitle": "Set up Parental Controls",
-    "homeQuickActionGuidesSubtitle": "Set age and usage limits based on the platform",
-    "homeGameOfTheWeek": "Game of the week",
-    "homeSeeMonthsGames": "See this month's games",
-    "homeFullAnalysisBtn": "Full analysis",
-    "homeLatestUpdatesTitle": "Latest updates",
-    "forumSectionGeneral": "General",
-    "forumSectionNews": "News",
-    "forumSectionQnA": "Q&A",
-    "homeGoToCommunityBtn": "Go to the community",
-    "homeGameSummaryEmpty": "There is no featured game this week. Check this month's games to see the latest releases.",
-    "homeGameSummaryReleased": "Released: {date}",
-    "@homeGameSummaryReleased": { "placeholders": { "date": { "type": "String" } } },
-    "homeGameSummaryReleasedEmpty": "Released: unavailable",
-    "homeGameSummaryRating": "Rating: {rating}",
-    "@homeGameSummaryRating": { "placeholders": { "rating": { "type": "String" } } },
-    "homeGameSummaryRatingEmpty": "Rating: no data",
-    "homeGameSummaryNoGenre": "No genre",
-    "homeGameSummaryRatingPending": "Rating pending",
-    "homeGameSummaryFull": "Genre: {genre} · {released} · {rating} · {ageRating}",
-    "@homeGameSummaryFull": { "placeholders": { "genre": { "type": "String" }, "released": { "type": "String" }, "rating": { "type": "String" }, "ageRating": { "type": "String" } } },
-    "homeGameTopLabelWeekly": "Weekly pick",
-    "homeGameTopLabelUnrated": "Unrated",
-    "homeUpdateNoNews": "No recent updates in this section.",
-    "homeUpdateThreadUpdated": "Thread updated recently",
-    "homeUpdateCommunity": "Community",
-    "roleAdmin": "Administrator",
-    "roleModerator": "Moderator",
-    "commonLoading": "Loading...",
-    "userLevel": "Level {level}",
-    "@userLevel": { "placeholders": { "level": { "type": "int" } } },
-    
     "forumSidebarFollowedTopics": "Followed Topics",
     "forumSidebarTopic1Title": "Screen time limits for 10 year olds?",
     "forumSidebarTopic1Subtitle": "24 new replies today",
@@ -512,40 +326,97 @@
     "forumSidebarNews2Text": "Live Q&A with child psychologist this Thursday at 6PM.",
     "forumSidebarNews3Tag": "Feature",
     "forumSidebarNews3Text": "Dark mode is now available in user settings!",
-
-    "privacyPolicyTitle": "Privacy Policy",
-    "privacyPolicySubtitle": "NexGen Parents Privacy Policy",
-    "privacyPolicyLastUpdate": "Last update: March 2026",
-    "privacyPolicyS1Title": "1. Information Collection",
-    "privacyPolicyS1Text": "At NexGen Parents we take your privacy and that of your family very seriously. We collect basic profile information (such as email and username) to allow access to features like the collaborative dictionary and forum.",
-    "privacyPolicyS2Title": "2. Data Usage",
-    "privacyPolicyS2Text": "The data provided is used exclusively to improve your experience on the platform, personalize age recommendations (PEGI/ESRB), and maintain a safe environment in our community.",
-    "privacyPolicyS3Title": "3. Protection and Security",
-    "privacyPolicyS3Text": "Your data is protected by Firebase services and is never sold or shared with third parties for advertising purposes unrelated to the platform's educational purpose.",
-    "privacyPolicyS4Title": "4. Your Rights",
-    "privacyPolicyS4Text": "You can request the total deletion of your account and associated data at any time through your profile settings panel.",
-    "aboutUsTitle": "About us",
-    "aboutUsSubtitle": "About NexGen Parents",
-    "aboutUsP1": "NexGen Parents was created to solve a real information gap: today, many families do not have clear references to interpret the content, risks, and great educational value offered by current video games.",
-    "aboutUsP2": "Our main goal is to reduce the uncertainty of mothers, fathers, teachers, and counselors, facilitating much more responsible and informed digital consumption decisions.",
-    "aboutUsVersion": "Version 1.0.0 (March 2026)\nTFC Project",
-    "contactUsTitle": "Contact us",
-    "contactUsSubtitle": "We'd love to hear from you!",
-    "contactUsDescription": "Do you have any questions about our guides, want to propose an improvement, or need technical help with the application? Get in touch with us.",
-    "contactUsEmailLabel": "Email",
-    "contactUsWebLabel": "Website",
-    "contactUsForumHint": "You can also actively participate by leaving your questions in our app's Community Forum.",
+    "forumMainCategoriesTitle": "Main Categories",
+    "forumViewAllBtn": "View All",
+    "forumEmptySectionTitle": "No posts in this section",
+    "forumEmptySectionMessage": "Nothing new here yet.",
+    "forumPlatformsTitle": "Platforms",
+    "forumSearchHint": "Search threads by title...",
+    "forumEmptySearchTitle": "No results",
+    "forumEmptySearchMessage": "No threads found matching your search.",
+    "forumEmptyCategoryTitle": "Empty category",
+    "forumEmptyCategoryMessage": "No news in this section yet. Go ahead and post something!",
+    "forumPostSubtitle": "by {author} • {count} replies",
+    "@forumPostSubtitle": {
+        "placeholders": {
+            "author": {
+                "type": "String"
+            },
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "forumDeleteTooltip": "Delete",
+    "forumDeletePostTitle": "Delete post",
+    "forumDeletePostContent": "Do you want to delete \"{title}\" and all its replies?",
+    "@forumDeletePostContent": {
+        "placeholders": {
+            "title": {
+                "type": "String"
+            }
+        }
+    },
+    "forumCancelBtn": "Cancel",
+    "forumDeleteBtn": "Delete",
+    "forumNewPostBtn": "New Thread",
+    "forumPostDeletedSuccess": "Post deleted",
+    "forumPostDeletedError": "Could not delete post",
+    "forumCreateLoginRequired": "You must be logged in to post",
+    "forumCreateUnknownError": "Unknown error",
+    "forumCreateTitle": "Create New Thread",
+    "forumCreateFieldTitle": "Title",
+    "forumCreateErrorTitle": "Title is required",
+    "forumCreateFieldSection": "Section",
+    "forumCreateFieldContent": "Content",
+    "forumCreateErrorContent": "Content is required",
+    "forumCreatePublishingBtn": "Publishing...",
+    "forumCreatePublishBtn": "Publish",
+    "forumPostByAuthor": "by {author}",
+    "@forumPostByAuthor": {
+        "placeholders": {
+            "author": {
+                "type": "String"
+            }
+        }
+    },
+    "forumDetailRepliesTitle": "Replies",
+    "forumDetailEmptyReplies": "No replies yet.",
+    "forumDeleteReplyTooltip": "Delete reply",
+    "forumDeleteReplyTitle": "Delete reply",
+    "forumDeleteReplyContent": "Do you want to delete this reply?",
+    "forumReplyDeletedSuccess": "Reply deleted",
+    "forumReplyDeletedError": "Could not delete reply",
+    "forumDetailReplyInputHint": "Write a reply...",
     "parentalGuidesError": "Error loading guides: {error}",
-    "@parentalGuidesError": { "placeholders": { "error": { "type": "String" } } },
+    "@parentalGuidesError": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
     "parentalGuidesEmptyTitle": "No guides available",
     "parentalGuidesEmptyMessage": "Please try again later.",
     "parentalGuidesSelectPlatform": "Select your platform ({count} guides)",
-    "@parentalGuidesSelectPlatform": { "placeholders": { "count": { "type": "int" } } },
+    "@parentalGuidesSelectPlatform": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
     "parentalGuidesBannerTitle": "Parental Control Guides",
     "parentalGuidesBannerSubtitle": "Learn how to set up security controls on the most popular platforms.",
     "parentalGuidesMoreInfoBtn": "Learn about PEGI/ESRB",
     "parentalGuidesStepsCount": "{count} steps",
-    "@parentalGuidesStepsCount": { "placeholders": { "count": { "type": "int" } } },
+    "@parentalGuidesStepsCount": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
     "parentalGuidesWhyImportant": "Why is it important?",
     "parentalGuidesProtectionTitle": "Child protection",
     "parentalGuidesProtectionDesc": "Prevent your children from accessing age-inappropriate content.",
@@ -559,7 +430,195 @@
     "esrbDescriptionM": "Mature 17+. Similar to PEGI 16.",
     "esrbDescriptionAO": "Adults only. Equivalent to PEGI 18.",
     "esrbDescriptionRP": "Rating pending (pre-release games).",
-
+    "guideTypeEnable": "Enable Guide",
+    "guideTypeDisable": "Disable Guide",
+    "guideTypeApp": "App Guide",
+    "guideTypeTime": "Time Guide",
+    "guideTypeDefault": "Default Guide",
+    "psEnableGuideTitle": "How to enable parental guide",
+    "psEnableGuideDescription": "Follow these steps to enable parental guide on your device.",
+    "psEnableGuideStep1": "Open the settings application.",
+    "psEnableGuideStep2": "Select 'Parental Controls'.",
+    "psEnableGuideStep3": "Enable the parental guide option.",
+    "psEnableGuideStep4": "Configure restrictions according to your needs.",
+    "psEnableGuideStep5": "Save changes.",
+    "psEnableGuideStep6": "Verify that the guide is active.",
+    "psDisableGuideTitle": "How to disable parental guide",
+    "psDisableGuideDescription": "Follow these steps to disable parental guide on your device.",
+    "psDisableGuideStep1": "Open the settings application.",
+    "psDisableGuideStep2": "Select 'Parental Controls'.",
+    "psDisableGuideStep3": "Disable the parental guide option.",
+    "psDisableGuideStep4": "Save changes.",
+    "psDisableGuideStep5": "Verify that the guide is disabled.",
+    "nintendoAppGuideStep2": "Step 2: Open the Nintendo app.",
+    "nintendoAppGuideStep3": "Step 3: Go to the parental controls section.",
+    "nintendoAppGuideStep4": "Step 4: Set up restrictions as needed.",
+    "nintendoAppGuideStep5": "Step 5: Save your settings.",
+    "nintendoAppGuideStep6": "Step 6: Link your account.",
+    "nintendoAppGuideStep7": "Step 7: Confirm the setup.",
+    "nintendoAppGuideStep8": "Step 8: Test the parental controls.",
+    "steamGuideTitle": "Steam Parental Guide",
+    "steamGuideDescription": "Learn how to set up parental controls on Steam.",
+    "steamGuideStep1": "Step 1: Open Steam settings.",
+    "steamGuideStep2": "Step 2: Go to the Family section.",
+    "steamGuideStep3": "Step 3: Enable Family View.",
+    "steamGuideStep4": "Step 4: Set up a PIN.",
+    "steamGuideStep5": "Step 5: Restrict content as needed.",
+    "iosGuideTitle": "iOS Parental Guide",
+    "iosGuideDescription": "Learn how to set up parental controls on iOS devices.",
+    "iosGuideStep1": "Step 1: Open Settings.",
+    "iosGuideStep2": "Step 2: Go to Screen Time.",
+    "iosGuideStep3": "Step 3: Enable restrictions.",
+    "iosGuideStep4": "Step 4: Set up a passcode.",
+    "xboxGuideTitle": "Xbox Parental Guide",
+    "xboxGuideDescription": "Learn how to set up parental controls on Xbox.",
+    "xboxGuideStep1": "Step 1: Open Xbox settings.",
+    "xboxGuideStep2": "Step 2: Go to the Family section.",
+    "xboxGuideStep3": "Step 3: Enable parental controls.",
+    "xboxGuideStep4": "Step 4: Set up restrictions.",
+    "xboxGuideStep5": "Step 5: Save your settings.",
+    "xboxTimeGuideTitle": "Xbox Time Guide",
+    "xboxTimeGuideDescription": "Learn how to set up time limits on Xbox.",
+    "xboxTimeGuideStep1": "Step 1: Open Xbox settings.",
+    "xboxTimeGuideStep2": "Step 2: Go to the Family section.",
+    "xboxTimeGuideStep3": "Step 3: Enable time limits.",
+    "xboxTimeGuideStep4": "Step 4: Set up schedules.",
+    "xboxTimeGuideStep5": "Step 5: Save your settings.",
+    "nintendoGuideTitle": "Nintendo Parental Guide",
+    "nintendoGuideDescription": "Learn how to set up parental controls on Nintendo.",
+    "nintendoGuideStep1": "Step 1: Open Nintendo settings.",
+    "nintendoGuideStep2": "Step 2: Go to the parental controls section.",
+    "nintendoGuideStep3": "Step 3: Set up restrictions.",
+    "nintendoGuideStep4": "Step 4: Save your settings.",
+    "nintendoGuideStep5": "Step 5: Test the parental controls.",
+    "parentalGuidesStepProgress": "Step {current} of {total}",
+    "@parentalGuidesStepProgress": {
+        "placeholders": {
+            "current": {
+                "type": "int"
+            },
+            "total": {
+                "type": "int"
+            }
+        }
+    },
+    "parentalGuidesScreenshot": "Screenshot:",
+    "parentalGuidesLoadingImage": "Loading image...",
+    "parentalGuidesImageNotAvailable": "Image not available",
+    "parentalGuidesSetupComplete": "Setup complete! Your child can now play safely with the configured restrictions.",
+    "parentalGuidesPreviousBtn": "Previous",
+    "parentalGuidesNextBtn": "Next",
+    "parentalGuidesFinishBtn": "Finish",
+    "parentalGuidesCompletedTitle": "Guide completed!",
+    "parentalGuidesCompletedDesc": "You have completed all the steps in this parental control guide.",
+    "parentalGuidesRepeatBtn": "Repeat",
+    "homeDefaultUser": "User",
+    "homeWelcomeUser": "Welcome, {userName}!",
+    "@homeWelcomeUser": {
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "homeUserStats": "You have {approved} approved terms and {proposed} proposed terms.",
+    "@homeUserStats": {
+        "placeholders": {
+            "approved": {
+                "type": "int"
+            },
+            "proposed": {
+                "type": "int"
+            }
+        }
+    },
+    "homeActiveTerms": "{count} active terms",
+    "@homeActiveTerms": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "homeQuickAccessTitle": "Quick access",
+    "homeQuickAccessSubtitle": "Access the most-used areas of the site",
+    "homeQuickActionGamesTitle": "Find games by age",
+    "homeQuickActionGamesSubtitle": "Find games that fit your child's age",
+    "homeQuickActionDictTitle": "Search dictionary terms",
+    "homeQuickActionDictSubtitle": "Discover what the words your child uses while gaming mean",
+    "homeQuickActionGuidesTitle": "Set up Parental Controls",
+    "homeQuickActionGuidesSubtitle": "Set age and usage limits based on the platform",
+    "homeGameOfTheWeek": "Game of the week",
+    "homeSeeMonthsGames": "See this month's games",
+    "homeFullAnalysisBtn": "Full analysis",
+    "homeLatestUpdatesTitle": "Latest updates",
+    "forumSectionGeneral": "General",
+    "forumSectionNews": "News",
+    "forumSectionQnA": "Q&A",
+    "homeGoToCommunityBtn": "Go to the community",
+    "homeGameSummaryEmpty": "There is no featured game this week. Check this month's games to see the latest releases.",
+    "homeGameSummaryReleased": "Released: {date}",
+    "@homeGameSummaryReleased": {
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "homeGameSummaryReleasedEmpty": "Released: unavailable",
+    "homeGameSummaryRating": "Rating: {rating}",
+    "@homeGameSummaryRating": {
+        "placeholders": {
+            "rating": {
+                "type": "String"
+            }
+        }
+    },
+    "homeGameSummaryRatingEmpty": "Rating: no data",
+    "homeGameSummaryNoGenre": "No genre",
+    "homeGameSummaryRatingPending": "Rating pending",
+    "homeGameSummaryFull": "Genre: {genre} · {released} · {rating} · {ageRating}",
+    "@homeGameSummaryFull": {
+        "placeholders": {
+            "genre": {
+                "type": "String"
+            },
+            "released": {
+                "type": "String"
+            },
+            "rating": {
+                "type": "String"
+            },
+            "ageRating": {
+                "type": "String"
+            }
+        }
+    },
+    "homeGameTopLabelWeekly": "Weekly pick",
+    "homeGameTopLabelUnrated": "Unrated",
+    "homeUpdateNoNews": "No recent updates in this section.",
+    "homeUpdateThreadUpdated": "Thread updated recently",
+    "homeUpdateCommunity": "Community",
+    "roleAdmin": "Administrator",
+    "roleModerator": "Moderator",
+    "commonLoading": "Loading...",
+    "userLevel": "Level {level}",
+    "@userLevel": {
+        "placeholders": {
+            "level": {
+                "type": "int"
+            }
+        }
+    },
+    "navHome": "Home",
+    "navSearch": "Search",
+    "navGuides": "Guides",
+    "navDictionary": "Dictionary",
+    "navGames": "Games",
+    "navParentalControl": "Parental Control",
+    "navCommunity": "Community",
+    "headerSearchHint": "Search...",
+    "headerMenuBtn": "Menu",
     "profileEditTitle": "Edit Profile",
     "profileNoAuthUser": "No authenticated user",
     "profilePersonalInfo": "Personal Information",
@@ -615,28 +674,7 @@
     "profileErrorValidatePassword": "Could not validate the password",
     "profileErrorDeleteFirestore": "Could not delete the profile in the database",
     "profileErrorDeleteAuth": "Profile deleted, but not the access account",
-    "forumMainCategoriesTitle": "Main Categories",
-    "forumViewAllBtn": "View All",
-    "forumEmptySectionTitle": "No posts in this section",
-    "forumEmptySectionMessage": "Nothing new here yet.",
-    "forumPlatformsTitle": "Platforms",
-    "parentalGuidesStepProgress": "Step {current} of {total}",
-    "@parentalGuidesStepProgress": {
-        "placeholders": {
-            "current": { "type": "int" },
-            "total": { "type": "int" }
-        }
-    },
-    "parentalGuidesScreenshot": "Screenshot:",
-    "parentalGuidesLoadingImage": "Loading image...",
-    "parentalGuidesImageNotAvailable": "Image not available",
-    "parentalGuidesSetupComplete": "Setup complete! Your child can now play safely with the configured restrictions.",
-    "parentalGuidesPreviousBtn": "Previous",
-    "parentalGuidesNextBtn": "Next",
-    "parentalGuidesFinishBtn": "Finish",
-    "parentalGuidesCompletedTitle": "Guide completed!",
-    "parentalGuidesCompletedDesc": "You have completed all the steps in this parental control guide.",
-    "parentalGuidesRepeatBtn": "Repeat",
+    "profileDeleteSuccess": "Account deleted successfully",
     "loginSubtitle": "Gaming Guide and Dictionary for Parents",
     "loginEmailHint": "example@email.com",
     "loginPasswordLabel": "Password",
@@ -663,53 +701,149 @@
     "registerInfoDesc": "Your information will be used solely to improve your experience in the app",
     "registerGoogleBtn": "Register with Google",
     "registerAlreadyHaveAccount": "Already have an account? ",
-    "errorNameLength": "The name must be at least 3 characters long",
-    "errorPasswordLength8": "The password must be at least 8 characters long",
-    "errorPasswordUppercase": "Include at least one uppercase letter",
-    "errorPasswordLowercase": "Include at least one lowercase letter",
-    "errorPasswordNumber": "Include at least one number",
-    "errorConfirmPasswordRequired": "Please confirm your password",
-    "errorTermExists": "This term already exists in the dictionary",
-    "successTermProposed": "Term proposed successfully. It will be reviewed by a moderator",
-    "errorProposeTerm": "Error proposing term",
-    "errorTermNotFound": "The term does not exist",
-    "successTermApproved": "Term approved successfully",
-    "errorApproveTerm": "Error approving term",
-    "successTermRejected": "Term rejected",
-    "errorRejectTerm": "Error rejecting term",
-    "successTermUpdated": "Term updated successfully",
-    "errorUpdateTerm": "Error updating term",
-    "successTermDeleted": "Term deleted successfully",
-    "errorDeleteTerm": "Error deleting term",
-    "errorInvalidRole": "Invalid role. Must be: user, moderator, or admin",
-    "errorModifyOwnRole": "You cannot modify your own role",
-    "successRoleUpdated": "Role updated successfully",
-    "errorUpdateRole": "Error updating role",
-    "successBirthYearsUpdated": "Birth years updated successfully",
-    "errorUpdateBirthYears": "Error updating birth years",
-    "successPlatformsUpdated": "Platforms updated successfully",
-    "errorUpdatePlatforms": "Error updating platforms",
-    "successAvatarUpdated": "Avatar updated successfully",
-    "errorUpdateAvatar": "Error updating avatar",
-    "successUserInfoUpdated": "User information updated successfully",
-    "errorUpdateUserInfo": "Error updating user information",
-    "successAccountDeleted": "Account deleted successfully",
-    "errorDeleteAccount": "Error deleting account",
-    "successPostDeleted": "Post deleted successfully",
-    "errorDeletePost": "Error deleting post",
-    "errorPostNotFound": "The associated post does not exist",
-    "successReplyDeleted": "Reply deleted successfully",
-    "errorDeleteReply": "Error deleting reply",
-    "errorNoAuthUser": "No authenticated user",
-    "successPasswordUpdated": "Password updated successfully",
-    "errorChangePassword": "Error changing password",
-    "errorWrongCurrentPassword": "The current password is incorrect",
-    "errorWeakNewPassword": "The new password is too weak",
-    "successEmailUpdated": "Email updated successfully. Please verify your new email.",
-    "errorChangeEmail": "Error changing email",
-    "errorEmailAlreadyInUse": "This email is already in use",
-    "errorInvalidNewEmail": "The email is not valid",
-    "errorNoPasswordAccount": "Your account does not use a password. Log in again with your provider to continue.",
-    "successReauth": "Reauthentication successful",
-    "errorReauth": "Reauthentication error"
+    "registerLoginBtn": "Log in",
+    "registerSuccess": "User successfully registered. Please log in",
+    "adminAccessDeniedTitle": "Access Denied",
+    "adminAccessDeniedMessage": "Only administrators can access this section",
+    "adminUsersTitle": "User Management",
+    "adminUsersInfoTooltip": "Information",
+    "adminUsersLoading": "Loading users...",
+    "adminUsersError": "Error loading users",
+    "adminUsersEmpty": "No registered users found",
+    "adminUsersStatTotal": "Total",
+    "adminUsersStatAdmins": "Admins",
+    "adminUsersStatMods": "Moderators",
+    "adminUsersStatUsers": "Users",
+    "adminUsersBadgeYou": "You",
+    "adminUsersProposedApproved": "{proposed} proposed | {approved} approved",
+    "@adminUsersProposedApproved": {
+        "placeholders": {
+            "proposed": {
+                "type": "int"
+            },
+            "approved": {
+                "type": "int"
+            }
+        }
+    },
+    "adminUsersActionMakeUser": "Change to User",
+    "adminUsersActionMakeMod": "Change to Moderator",
+    "adminUsersActionMakeAdmin": "Change to Admin",
+    "adminRoleAdmin": "Admin",
+    "adminRoleModerator": "Moderator",
+    "adminRoleUser": "User",
+    "adminChangeRoleTitle": "Confirm role change",
+    "adminChangeRoleConfirm": "Are you sure you want to change the role of \"{user}\" to \"{role}\"?",
+    "@adminChangeRoleConfirm": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            },
+            "role": {
+                "type": "String"
+            }
+        }
+    },
+    "adminCancelBtn": "Cancel",
+    "adminConfirmBtn": "Confirm",
+    "adminInfoDialogTitle": "Role Management",
+    "adminInfoDialogSubtitle": "Available roles:",
+    "adminInfoUserDesc": "Can view the dictionary and propose terms",
+    "adminInfoModDesc": "Can approve or reject proposed terms",
+    "adminInfoAdminDesc": "Has full access, including user management",
+    "adminInfoUnderstoodBtn": "Understood",
+    "accountMenuProfile": "My Profile",
+    "accountMenuMyTerms": "My Proposed Terms",
+    "accountMenuTermsCount": "{count} terms",
+    "@accountMenuTermsCount": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "accountMenuModeration": "Moderation",
+    "accountMenuUsers": "User Management",
+    "accountMenuLogout": "Log out",
+    "genreAction": "Action",
+    "genreAdventure": "Adventure",
+    "genreRPG": "RPG",
+    "genreStrategy": "Strategy",
+    "genreShooter": "Shooter",
+    "genrePuzzle": "Puzzle",
+    "genreSports": "Sports",
+    "genreRacing": "Racing",
+    "genreSimulation": "Simulation",
+    "genrePlatformer": "Platformer",
+    "genreFighting": "Fighting",
+    "genreArcade": "Arcade",
+    "gameDetailLoading": "Loading game information...",
+    "gameDetailError": "Failed to load game information",
+    "gameDetailBackBtn": "Back",
+    "gameDetailRelease": "Release: {date}",
+    "@gameDetailRelease": {
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "gameDetailPegiTitle": "Age rating (PEGI)",
+    "gameDetailPegiWarning": "Recommended for ages {pegi} and up",
+    "@gameDetailPegiWarning": {
+        "placeholders": {
+            "pegi": {
+                "type": "int"
+            }
+        }
+    },
+    "gameDetailPegiNotAvailable": "No PEGI rating information available",
+    "gameDetailDescriptionTitle": "Game description",
+    "gameDetailDescriptionEmpty": "No description available",
+    "gameDetailGenresTitle": "Genres",
+    "gameDetailPlatformsTitle": "Available platforms",
+    "gameDetailScreenshotsTitle": "Screenshots",
+    "pegiDescription3": "Content suitable for all ages. No violence or inappropriate language.",
+    "pegiDescription7": "May contain scenes or sounds that can frighten young children.",
+    "pegiDescription12": "May include non-realistic violence towards fantasy characters or mild realistic violence.",
+    "pegiDescription16": "May contain realistic violence, strong language or mild sexual content.",
+    "pegiDescription18": "Adult content. May include intense violence, strong language, explicit sexual content, or drug use.",
+    "pegiDescriptionUnknown": "No description available for this PEGI rating.",
+    "searchGamesHint": "Search game by name...",
+    "searchGamesAdvancedFilters": "Advanced filters",
+    "searchGamesShowingRecent": "Showing the most recent games from the last year",
+    "searchGamesFilterFrom": "From",
+    "searchGamesFilterTo": "To",
+    "searchGamesFilterGenres": "genre(s)",
+    "searchGamesFilterPlatforms": "platform(s)",
+    "searchGamesClearAll": "Clear all",
+    "searchGamesEmptyTitle": "No games found",
+    "searchGamesEmptyMessage": "Try adjusting the filters or searching for another term",
+    "filtersTitle": "Search Filters",
+    "filtersClear": "Clear",
+    "filtersInfoBanner": "Combine multiple filters to find the perfect game",
+    "filtersYearTitle": "Release Year",
+    "filtersYearSubtitle": "Filter games by their release year",
+    "filtersYearFrom": "From",
+    "filtersYearTo": "To",
+    "filtersYearAny": "Any",
+    "filtersPegiTitle": "Recommended Age (PEGI)",
+    "filtersPegiSubtitle": "Select your child's age to see appropriate games",
+    "filtersPlatformTitle": "Platform",
+    "filtersPlatformSubtitle": "Select which devices you want it to be available on",
+    "filtersGenreTitle": "Game Genre",
+    "filtersGenreSubtitle": "Choose the type of games you are interested in",
+    "filtersApplyBtn": "Apply Filters",
+    "appName": "NexGen Parents",
+    "@appName": {
+        "description": "The application name displayed in the UI"
+    },
+    "loading": "Loading {appName}...",
+    "@loading": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    }
 }

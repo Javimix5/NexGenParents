@@ -160,50 +160,49 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
       expandedHeight: 250,
       pinned: true,
       flexibleSpace: FlexibleSpaceBar(
-        title: Container(
-  padding: const EdgeInsets.symmetric(
-    horizontal: AppConfig.paddingSmall,
-    vertical: AppConfig.paddingSmall / 2,
-  ),
-  decoration: BoxDecoration(
-    color: Colors.black.withOpacity(0.7),
-    borderRadius: BorderRadius.circular(AppConfig.borderRadiusSmall),
-  ),
-  child: Text(
-    game.name,
-    style: TextStyle(
-      fontSize: AppConfig.fontSizeBody,
-      fontWeight: FontWeight.bold,
-      color: Colors.white,
-      shadows: [
-        Shadow(
-          offset: const Offset(0, 1),
-          blurRadius: 3.0,
-          color: Colors.black.withOpacity(0.8),
+        titlePadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        title: Text(
+          game.name,
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w800,
+            color: Colors.white,
+            shadows: [
+              Shadow(
+                offset: const Offset(0, 2),
+                blurRadius: 6.0,
+                color: Colors.black.withOpacity(0.8),
+              ),
+            ],
+          ),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
         ),
-      ],
-    ),
-    maxLines: 2,
-    overflow: TextOverflow.ellipsis,
-  ),
-),
-        background: game.backgroundImage != null
-            ? CachedNetworkImage(
+        background: Stack(
+          fit: StackFit.expand,
+          children: [
+            if (game.backgroundImage != null)
+              CachedNetworkImage(
                 imageUrl: game.backgroundImage!,
                 fit: BoxFit.cover,
-                placeholder: (context, url) => Container(
-                  color: AppConfig.textSecondaryColor,
-                  child: const Center(child: CircularProgressIndicator()),
-                ),
-                errorWidget: (context, url, error) => Container(
-                  color: AppConfig.textSecondaryColor,
-                  child: const Icon(Icons.videogame_asset, size: 60),
-                ),
+                placeholder: (context, url) => Container(color: AppConfig.backgroundDark),
+                errorWidget: (context, url, error) => Container(color: AppConfig.backgroundDark),
               )
-            : Container(
-                color: AppConfig.textSecondaryColor,
-                child: const Icon(Icons.videogame_asset, size: 60, color: Colors.white),
+            else
+              Container(color: AppConfig.backgroundDark),
+            // Gradiente suave desde transparente hasta negro
+            DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Colors.transparent, Colors.black.withOpacity(0.9)],
+                  stops: const [0.4, 1.0],
+                ),
               ),
+            ),
+          ],
+        ),
       ),
     );
   }

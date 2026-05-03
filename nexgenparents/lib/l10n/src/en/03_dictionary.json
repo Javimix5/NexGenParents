@@ -1,0 +1,159 @@
+{
+    "errorTermExists": "This term already exists in the dictionary",
+    "successTermProposed": "Term proposed successfully. It will be reviewed by a moderator",
+    "errorProposeTerm": "Error proposing term",
+    "errorTermNotFound": "The term does not exist",
+    "successTermApproved": "Term approved successfully",
+    "errorApproveTerm": "Error approving term",
+    "successTermRejected": "Term rejected",
+    "errorRejectTerm": "Error rejecting term",
+    "successTermUpdated": "Term updated successfully",
+    "errorUpdateTerm": "Error updating term",
+    "successTermDeleted": "Term deleted successfully",
+    "errorDeleteTerm": "Error deleting term",
+    "dictModRejectError": "✗ Error rejecting term",
+    "dictModEditTitle": "Edit term",
+    "dictModEditFieldTerm": "Term",
+    "dictModEditFieldDef": "Definition",
+    "dictModEditFieldEx": "Example (optional)",
+    "dictModEditFieldCat": "Category",
+    "dictModEditErrorEmpty": "Term and definition are required",
+    "dictModEditErrorGeneric": "Could not update term",
+    "dictModEditSaveBtn": "Save changes",
+    "dictModEditSuccess": "✓ Term updated successfully",
+
+    "myTermsTitle": "My Proposed Terms",
+    "myTermsLoading": "Loading your terms...",
+    "myTermsEmptyTitle": "You haven't proposed any terms yet",
+    "myTermsEmptyMessage": "Contribute to the dictionary by proposing new terms",
+    "myTermsProposedCount": "Proposed terms",
+    "myTermsApproved": "Approved",
+    "myTermsPending": "Pending",
+    "myTermsViewReason": "View reason",
+"dictDetailTitle": "Term Detail",
+    "dictEditTooltip": "Edit Term",
+    "dictDeleteTooltip": "Delete Term",
+    "dictLoadingTerm": "Loading term...",
+    "dictErrorLoadingTerm": "Could not load the term",
+    "dictBackBtn": "Back",
+    "dictDefinitionLabel": "Definition",
+    "dictExampleLabel": "Example of use",
+    "dictUsefulQuestion": "Was this term helpful?",
+    "dictVoteThanks": "Thanks for your vote!",
+    "dictVoteRegistered": "Vote registered",
+    "dictVoteBtn": "Yes, it helped me",
+    "dictUsefulVotes": "Useful votes",
+    "dictViews": "Views",
+    "dictAdditionalInfo": "Additional info",
+    "dictAddedOn": "Added on",
+    "dictLastUpdate": "Last update",
+    "dictStatusLabel": "Status",
+    "dictStatusApproved": "Approved",
+    "dictStatusPending": "Pending",
+    "dictStatusRejected": "Rejected",
+    "dictEditDialogTitle": "Edit Term",
+    "dictEditFieldTerm": "Term",
+    "dictEditErrorTerm": "The term cannot be empty",
+    "dictEditFieldDefinition": "Definition",
+    "dictEditErrorDefinition": "The definition cannot be empty",
+    "dictEditFieldExample": "Example (optional)",
+    "dictEditFieldCategory": "Category",
+    "dictCancelBtn": "Cancel",
+    "dictSaveChangesBtn": "Save Changes",
+    "dictUpdateSuccess": "Term updated successfully",
+    "dictUpdateError": "Error updating the term",
+    "dictDeleteConfirmTitle": "Confirm Deletion",
+    "dictDeleteConfirmContent": "Are you sure you want to permanently delete this term? This action cannot be undone.",
+    "dictDeleteBtn": "Delete",
+    "dictDeleteSuccess": "Term deleted successfully",
+    "dictDeleteError": "Error deleting the term",
+
+    "dictListEmptyTitle": "No terms in the dictionary",
+    "dictListEmptyMessage": "Be the first to propose a term",
+    "dictListProposeBtn": "Propose term",
+
+    "dictProposeErrorAuth": "Error: User not authenticated",
+    "dictProposeSuccessTitle": "Term submitted!",
+    "dictProposeSuccessMessage": "Your term has been successfully proposed and will be reviewed by a moderator. We will notify you when it is approved.",
+    "dictProposeUnderstoodBtn": "Understood",
+    "dictProposeErrorGeneric": "Error proposing term",
+    "dictProposeTitle": "Propose Term",
+    "dictProposeHelpText": "Help other parents by adding terms you know",
+    "dictProposeFieldTerm": "Term or word",
+    "dictProposeFieldTermHint": "Ex: GG, Nerf, Farming",
+    "dictProposeErrorTermEmpty": "Please enter the term",
+    "dictProposeErrorTermLength": "The term must be at least 2 characters long",
+    "dictProposeFieldCategory": "Category",
+    "dictProposeFieldDefinition": "Definition",
+    "dictProposeFieldDefinitionHint": "Explain what this term means clearly and simply",
+    "dictProposeErrorDefinitionEmpty": "Please enter the definition",
+    "dictProposeErrorDefinitionLength": "The definition must be at least 10 characters long",
+    "dictProposeFieldExample": "Example of use",
+    "dictProposeFieldExampleHint": "Ex: \"Kids say GG at the end of each match\"",
+    "dictProposeErrorExampleEmpty": "Please enter an example of use",
+    "dictProposeErrorExampleLength": "The example must be at least 10 characters long",
+    "dictProposeWarningText": "Your term will be reviewed by a moderator before appearing in the dictionary. This helps maintain content quality.",
+    "dictProposeSendingBtn": "Sending...",
+    "dictProposeSubmitBtn": "Propose term",
+    "dictCategoryJerga": "Gamer Slang",
+    "dictCategoryMechanics": "Game Mechanics",
+    "dictCategoryPlatforms": "Platforms",
+
+    "dictModAccessDeniedTitle": "Access Denied",
+    "dictModAccessDeniedMessage": "You do not have permission to access this section",
+    "dictModAccessDeniedSubtitle": "Only moderators can review proposed terms",
+    "dictModTitle": "Moderation Panel",
+    "dictModRefreshTooltip": "Refresh",
+    "dictModLoading": "Loading pending terms...",
+    "dictModAllReviewedTitle": "All reviewed!",
+    "dictModAllReviewedMessage": "There are no pending terms to review",
+    "dictModPendingCount": "{count} pending terms to review",
+    "@dictModPendingCount": {
+        "placeholders": {
+            "count": { "type": "int" }
+        }
+    },
+    "dictModDefinitionLabel": "Definition:",
+    "dictModExampleLabel": "Example of use:",
+    "dictModProposedOn": "Proposed on {date}",
+    "@dictModProposedOn": {
+        "placeholders": {
+            "date": { "type": "String" }
+        }
+    },
+    "dictModEditBtn": "Edit term",
+    "dictModSwipeHint": "Swipe to approve or reject",
+    "dictModApproveTitle": "Approve term",
+    "dictModApproveConfirm": "Are you sure you want to approve the term \"{term}\"?\n\nIt will be visible to all users.",
+    "@dictModApproveConfirm": {
+        "placeholders": {
+            "term": { "type": "String" }
+        }
+    },
+    "dictModCancelBtn": "Cancel",
+    "dictModApproveBtn": "Approve",
+    "dictModApproveSuccess": "✓ Term \"{term}\" approved successfully",
+    "@dictModApproveSuccess": {
+        "placeholders": {
+            "term": { "type": "String" }
+        }
+    },
+    "dictModApproveError": "✗ Error approving term",
+    "dictModRejectTitle": "Reject term",
+    "dictModRejectReasonTitle": "Why are you rejecting the term \"{term}\"?",
+    "@dictModRejectReasonTitle": {
+        "placeholders": {
+            "term": { "type": "String" }
+        }
+    },
+    "dictModRejectHint": "Write the reason for rejection...",
+    "dictModRejectWarning": "The user will see this reason in their proposed terms",
+    "dictModRejectErrorEmpty": "You must provide a reason to reject",
+    "dictModRejectBtn": "Reject",
+    "dictModRejectSuccess": "✓ Term \"{term}\" rejected",
+    "@dictModRejectSuccess": {
+        "placeholders": {
+            "term": { "type": "String" }
+        }
+    }
+}

@@ -1,0 +1,14 @@
+{
+    "appName": "NexGen Parents",
+    "@appName": {
+        "description": "Nombre de la aplicación"
+    },
+    "loading": "Cargando {appName}...",
+    "@loading": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    }
+}

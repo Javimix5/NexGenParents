@@ -9,64 +9,247 @@ class AppLocalizationsEs extends AppLocalizations {
   AppLocalizationsEs([String locale = 'es']) : super(locale);
 
   @override
-  String get appName => 'NexGen Parents';
+  String get privacyPolicyTitle => 'Política de Privacidad';
 
   @override
-  String loading(String appName) {
-    return 'Cargando $appName...';
-  }
+  String get privacyPolicySubtitle =>
+      'Política de Privacidad de NexGen Parents';
 
   @override
-  String get classificationSystemsTitle => 'Sistemas de Clasificación';
+  String get privacyPolicyLastUpdate => 'Última actualización: Marzo 2026';
 
   @override
-  String get pegiInfoSubtitle =>
-      'Aprende a interpretar PEGI y ESRB para elegir juegos adecuados para cada edad.';
+  String get privacyPolicyS1Title => '1. Recopilación de Información';
 
   @override
-  String get ageRatingsMeaningTitle =>
-      '¿Qué significan las clasificaciones por edad?';
+  String get privacyPolicyS1Text =>
+      'En NexGen Parents nos tomamos muy en serio tu privacidad y la de tu familia. Recopilamos información básica del perfil (como el correo electrónico y tu nombre de usuario) para permitir el acceso a funcionalidades como el diccionario colaborativo y el foro.';
 
   @override
-  String get pegiSystemEuropa => 'Sistema PEGI (Europa)';
+  String get privacyPolicyS2Title => '2. Uso de los Datos';
 
   @override
-  String get esrbSystemUsa => 'Sistema ESRB (EE. UU.)';
+  String get privacyPolicyS2Text =>
+      'Los datos proporcionados se utilizan exclusivamente para mejorar tu experiencia en la plataforma, personalizar las recomendaciones por edad (PEGI/ESRB) y mantener un entorno seguro en nuestra comunidad.';
 
   @override
-  String get esrbApiNote =>
-      'Este es el sistema que suele aparecer en la API de videojuegos que utilizamos.';
+  String get privacyPolicyS3Title => '3. Protección y Seguridad';
 
   @override
-  String get pegiContentDescriptorsTitle => 'Descriptores de Contenido PEGI';
+  String get privacyPolicyS3Text =>
+      'Tus datos están protegidos mediante los servicios de Firebase y en ningún caso se venden o comparten con terceros con fines publicitarios no relacionados con el propósito educativo de la plataforma.';
 
   @override
-  String get pegiContentDescriptorsSubtitle =>
-      'Además de la edad, las clasificaciones incluyen iconos que indican el tipo de contenido:';
+  String get privacyPolicyS4Title => '4. Tus Derechos';
 
   @override
-  String get contentDescriptorViolence => 'Violencia';
+  String get privacyPolicyS4Text =>
+      'Puedes solicitar en cualquier momento la eliminación total de tu cuenta y tus datos asociados a través del panel de configuración de tu perfil.';
 
   @override
-  String get contentDescriptorFear => 'Miedo';
+  String get aboutUsTitle => 'Quiénes somos';
 
   @override
-  String get contentDescriptorOnline => 'Online';
+  String get aboutUsSubtitle => 'Acerca de NexGen Parents';
 
   @override
-  String get contentDescriptorDiscrimination => 'Discriminación';
+  String get aboutUsP1 =>
+      'NexGen Parents nace para resolver una brecha informativa real: hoy en día, muchas familias no tienen referencias claras para interpretar el contenido, los riesgos y el gran valor educativo que ofrecen los videojuegos actuales.';
 
   @override
-  String get contentDescriptorDrugs => 'Drogas';
+  String get aboutUsP2 =>
+      'Nuestro principal objetivo es reducir la incertidumbre de madres, padres, docentes y orientadores, facilitando decisiones de consumo digital mucho más responsables e informadas.';
 
   @override
-  String get contentDescriptorSex => 'Sexo';
+  String get aboutUsVersion => 'Versión 1.0.0 (Marzo 2026)\nProyecto TFC';
 
   @override
-  String get contentDescriptorBadLanguage => 'Lenguaje soez';
+  String get contactUsTitle => 'Contáctanos';
 
   @override
-  String get contentDescriptorGambling => 'Juego/Apuestas';
+  String get contactUsSubtitle => '¡Nos encantaría escucharte!';
+
+  @override
+  String get contactUsDescription =>
+      '¿Tienes alguna duda sobre nuestras guías, quieres proponer una mejora o necesitas ayuda técnica con la aplicación? Ponte en contacto con nosotros.';
+
+  @override
+  String get contactUsEmailLabel => 'Correo electrónico';
+
+  @override
+  String get contactUsWebLabel => 'Sitio Web';
+
+  @override
+  String get contactUsForumHint =>
+      'También puedes participar activamente dejando tus dudas en nuestro Foro Comunitario de la app.';
+
+  @override
+  String get errorNameLength => 'El nombre debe tener al menos 3 caracteres';
+
+  @override
+  String get errorPasswordLength8 =>
+      'La contraseña debe tener al menos 8 caracteres';
+
+  @override
+  String get errorPasswordUppercase => 'Incluye al menos una letra mayúscula';
+
+  @override
+  String get errorPasswordLowercase => 'Incluye al menos una letra minúscula';
+
+  @override
+  String get errorPasswordNumber => 'Incluye al menos un número';
+
+  @override
+  String get errorConfirmPasswordRequired =>
+      'Por favor, confirma tu contraseña';
+
+  @override
+  String get errorTermExists => 'Este término ya existe en el diccionario';
+
+  @override
+  String get successTermProposed =>
+      'Término propuesto correctamente. Será revisado por un moderador';
+
+  @override
+  String get errorProposeTerm => 'Error al proponer término';
+
+  @override
+  String get errorTermNotFound => 'El término no existe';
+
+  @override
+  String get successTermApproved => 'Término aprobado correctamente';
+
+  @override
+  String get errorApproveTerm => 'Error al aprobar término';
+
+  @override
+  String get successTermRejected => 'Término rechazado';
+
+  @override
+  String get errorRejectTerm => 'Error al rechazar término';
+
+  @override
+  String get successTermUpdated => 'Término actualizado correctamente';
+
+  @override
+  String get errorUpdateTerm => 'Error al actualizar término';
+
+  @override
+  String get successTermDeleted => 'Término eliminado correctamente';
+
+  @override
+  String get errorDeleteTerm => 'Error al eliminar término';
+
+  @override
+  String get errorInvalidRole =>
+      'Rol inválido. Debe ser: user, moderator o admin';
+
+  @override
+  String get errorModifyOwnRole => 'No puedes modificar tu propio rol';
+
+  @override
+  String get successRoleUpdated => 'Rol actualizado correctamente';
+
+  @override
+  String get errorUpdateRole => 'Error al actualizar rol';
+
+  @override
+  String get successBirthYearsUpdated =>
+      'Años de nacimiento actualizados correctamente';
+
+  @override
+  String get errorUpdateBirthYears => 'Error al actualizar años de nacimiento';
+
+  @override
+  String get successPlatformsUpdated =>
+      'Plataformas actualizadas correctamente';
+
+  @override
+  String get errorUpdatePlatforms => 'Error al actualizar plataformas';
+
+  @override
+  String get successAvatarUpdated => 'Avatar actualizado correctamente';
+
+  @override
+  String get errorUpdateAvatar => 'Error al actualizar avatar';
+
+  @override
+  String get successUserInfoUpdated =>
+      'Información de usuario actualizada correctamente';
+
+  @override
+  String get errorUpdateUserInfo => 'Error al actualizar información';
+
+  @override
+  String get successAccountDeleted => 'Cuenta eliminada correctamente';
+
+  @override
+  String get errorDeleteAccount => 'Error al eliminar cuenta';
+
+  @override
+  String get successPostDeleted => 'Publicación eliminada correctamente';
+
+  @override
+  String get errorDeletePost => 'Error al eliminar la publicación';
+
+  @override
+  String get errorPostNotFound => 'La publicación asociada no existe';
+
+  @override
+  String get successReplyDeleted => 'Respuesta eliminada correctamente';
+
+  @override
+  String get errorDeleteReply => 'Error al eliminar la respuesta';
+
+  @override
+  String get errorNoAuthUser => 'No hay usuario autenticado';
+
+  @override
+  String get successPasswordUpdated => 'Contraseña actualizada correctamente';
+
+  @override
+  String get errorChangePassword => 'Error al cambiar contraseña';
+
+  @override
+  String get errorWrongCurrentPassword => 'La contraseña actual es incorrecta';
+
+  @override
+  String get errorWeakNewPassword => 'La nueva contraseña es demasiado débil';
+
+  @override
+  String get successEmailUpdated =>
+      'Email actualizado correctamente. Verifica tu nuevo correo.';
+
+  @override
+  String get errorChangeEmail => 'Error al cambiar email';
+
+  @override
+  String get errorEmailAlreadyInUse => 'Este email ya está en uso';
+
+  @override
+  String get errorInvalidNewEmail => 'El email no es válido';
+
+  @override
+  String get errorNoPasswordAccount =>
+      'Tu cuenta no usa contraseña. Inicia sesión de nuevo con tu proveedor para continuar.';
+
+  @override
+  String get successReauth => 'Reautenticación correcta';
+
+  @override
+  String get errorReauth => 'Error de reautenticación';
+
+  @override
+  String get alertLoginRequiredForum =>
+      'Debes iniciar sesión para acceder a la comunidad y participar en el foro.';
+
+  @override
+  String get alertLoginRequiredProfile =>
+      'Debes iniciar sesión para acceder a tu perfil y editar tu información.';
+
+  @override
+  String get alertLoginRequiredProposeTerm =>
+      'Debes iniciar sesión para proponer un término.';
 
   @override
   String get errorInvalidEmail => 'El correo electrónico no es válido';
@@ -142,389 +325,6 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get successPasswordReset =>
       'Correo de recuperación enviado. Revisa tu bandeja de entrada';
-
-  @override
-  String get guideTypeEnable => 'Habilitar guía';
-
-  @override
-  String get guideTypeDisable => 'Deshabilitar guía';
-
-  @override
-  String get guideTypeApp => 'Guía de aplicaciones';
-
-  @override
-  String get guideTypeTime => 'Guía de tiempo';
-
-  @override
-  String get guideTypeDefault => 'Guía por defecto';
-
-  @override
-  String get psEnableGuideTitle => 'Cómo habilitar la guía parental';
-
-  @override
-  String get psEnableGuideDescription =>
-      'Sigue estos pasos para habilitar la guía parental en tu dispositivo.';
-
-  @override
-  String get psEnableGuideStep1 => 'Abre la aplicación de configuración.';
-
-  @override
-  String get psEnableGuideStep2 => 'Selecciona \'Controles parentales\'.';
-
-  @override
-  String get psEnableGuideStep3 => 'Activa la opción de guía parental.';
-
-  @override
-  String get psEnableGuideStep4 =>
-      'Configura las restricciones según tus necesidades.';
-
-  @override
-  String get psEnableGuideStep5 => 'Guarda los cambios.';
-
-  @override
-  String get psEnableGuideStep6 => 'Verifica que la guía esté activa.';
-
-  @override
-  String get psDisableGuideTitle => 'Cómo deshabilitar la guía parental';
-
-  @override
-  String get psDisableGuideDescription =>
-      'Sigue estos pasos para deshabilitar la guía parental en tu dispositivo.';
-
-  @override
-  String get psDisableGuideStep1 => 'Abre la aplicación de configuración.';
-
-  @override
-  String get psDisableGuideStep2 => 'Selecciona \'Controles parentales\'.';
-
-  @override
-  String get psDisableGuideStep3 => 'Desactiva la opción de guía parental.';
-
-  @override
-  String get psDisableGuideStep4 => 'Guarda los cambios.';
-
-  @override
-  String get psDisableGuideStep5 => 'Verifica que la guía esté desactivada.';
-
-  @override
-  String get nintendoAppGuideStep2 => 'Paso 2: Abre la aplicación de Nintendo.';
-
-  @override
-  String get nintendoAppGuideStep3 =>
-      'Paso 3: Ve a la sección de controles parentales.';
-
-  @override
-  String get nintendoAppGuideStep4 =>
-      'Paso 4: Configura las restricciones según sea necesario.';
-
-  @override
-  String get nintendoAppGuideStep5 => 'Paso 5: Guarda la configuración.';
-
-  @override
-  String get nintendoAppGuideStep6 => 'Paso 6: Vincula tu cuenta.';
-
-  @override
-  String get nintendoAppGuideStep7 => 'Paso 7: Confirma la configuración.';
-
-  @override
-  String get nintendoAppGuideStep8 =>
-      'Paso 8: Prueba los controles parentales.';
-
-  @override
-  String get steamGuideTitle => 'Guía parental de Steam';
-
-  @override
-  String get steamGuideDescription =>
-      'Aprende a configurar los controles parentales en Steam.';
-
-  @override
-  String get steamGuideStep1 => 'Paso 1: Abre la configuración de Steam.';
-
-  @override
-  String get steamGuideStep2 => 'Paso 2: Ve a la sección Familia.';
-
-  @override
-  String get steamGuideStep3 => 'Paso 3: Habilita la Vista Familiar.';
-
-  @override
-  String get steamGuideStep4 => 'Paso 4: Configura un PIN.';
-
-  @override
-  String get steamGuideStep5 =>
-      'Paso 5: Restringe el contenido según sea necesario.';
-
-  @override
-  String get iosGuideTitle => 'Guía parental de iOS';
-
-  @override
-  String get iosGuideDescription =>
-      'Aprende a configurar los controles parentales en dispositivos iOS.';
-
-  @override
-  String get iosGuideStep1 => 'Paso 1: Abre Configuración.';
-
-  @override
-  String get iosGuideStep2 => 'Paso 2: Ve a Tiempo en Pantalla.';
-
-  @override
-  String get iosGuideStep3 => 'Paso 3: Habilita las restricciones.';
-
-  @override
-  String get iosGuideStep4 => 'Paso 4: Configura un código de acceso.';
-
-  @override
-  String get xboxGuideTitle => 'Guía parental de Xbox';
-
-  @override
-  String get xboxGuideDescription =>
-      'Aprende a configurar los controles parentales en Xbox.';
-
-  @override
-  String get xboxGuideStep1 => 'Paso 1: Abre la configuración de Xbox.';
-
-  @override
-  String get xboxGuideStep2 => 'Paso 2: Ve a la sección Familia.';
-
-  @override
-  String get xboxGuideStep3 => 'Paso 3: Habilita los controles parentales.';
-
-  @override
-  String get xboxGuideStep4 => 'Paso 4: Configura las restricciones.';
-
-  @override
-  String get xboxGuideStep5 => 'Paso 5: Guarda la configuración.';
-
-  @override
-  String get xboxTimeGuideTitle => 'Guía de tiempo de Xbox';
-
-  @override
-  String get xboxTimeGuideDescription =>
-      'Aprende a configurar límites de tiempo en Xbox.';
-
-  @override
-  String get xboxTimeGuideStep1 => 'Paso 1: Abre la configuración de Xbox.';
-
-  @override
-  String get xboxTimeGuideStep2 => 'Paso 2: Ve a la sección Familia.';
-
-  @override
-  String get xboxTimeGuideStep3 => 'Paso 3: Habilita los límites de tiempo.';
-
-  @override
-  String get xboxTimeGuideStep4 => 'Paso 4: Configura los horarios.';
-
-  @override
-  String get xboxTimeGuideStep5 => 'Paso 5: Guarda la configuración.';
-
-  @override
-  String get nintendoGuideTitle => 'Guía parental de Nintendo';
-
-  @override
-  String get nintendoGuideDescription =>
-      'Aprende a configurar los controles parentales en Nintendo.';
-
-  @override
-  String get nintendoGuideStep1 => 'Paso 1: Abre la configuración de Nintendo.';
-
-  @override
-  String get nintendoGuideStep2 =>
-      'Paso 2: Ve a la sección de controles parentales.';
-
-  @override
-  String get nintendoGuideStep3 => 'Paso 3: Configura las restricciones.';
-
-  @override
-  String get nintendoGuideStep4 => 'Paso 4: Guarda la configuración.';
-
-  @override
-  String get nintendoGuideStep5 => 'Paso 5: Prueba los controles parentales.';
-
-  @override
-  String get searchGamesHint => 'Buscar juego por nombre...';
-
-  @override
-  String get searchGamesAdvancedFilters => 'Filtros avanzados';
-
-  @override
-  String get searchGamesShowingRecent =>
-      'Mostrando los juegos más recientes del último año';
-
-  @override
-  String get searchGamesFilterFrom => 'Desde';
-
-  @override
-  String get searchGamesFilterTo => 'Hasta';
-
-  @override
-  String get searchGamesFilterGenres => 'género(s)';
-
-  @override
-  String get searchGamesFilterPlatforms => 'plataforma(s)';
-
-  @override
-  String get searchGamesClearAll => 'Limpiar todo';
-
-  @override
-  String get searchGamesEmptyTitle => 'No se encontraron juegos';
-
-  @override
-  String get searchGamesEmptyMessage =>
-      'Intenta ajustar los filtros o busca otro término';
-
-  @override
-  String get filtersTitle => 'Filtros de Búsqueda';
-
-  @override
-  String get filtersClear => 'Limpiar';
-
-  @override
-  String get filtersInfoBanner =>
-      'Combina múltiples filtros para encontrar el juego perfecto';
-
-  @override
-  String get filtersYearTitle => 'Año de lanzamiento';
-
-  @override
-  String get filtersYearSubtitle => 'Filtra juegos por su año de salida';
-
-  @override
-  String get filtersYearFrom => 'Desde';
-
-  @override
-  String get filtersYearTo => 'Hasta';
-
-  @override
-  String get filtersYearAny => 'Cualquiera';
-
-  @override
-  String get filtersPegiTitle => 'Edad recomendada (PEGI)';
-
-  @override
-  String get filtersPegiSubtitle =>
-      'Selecciona la edad de tu hijo para ver juegos apropiados';
-
-  @override
-  String get filtersPlatformTitle => 'Plataforma';
-
-  @override
-  String get filtersPlatformSubtitle =>
-      'Selecciona en qué dispositivos quieres que esté disponible';
-
-  @override
-  String get filtersGenreTitle => 'Género de juego';
-
-  @override
-  String get filtersGenreSubtitle => 'Elige el tipo de juegos que te interesan';
-
-  @override
-  String get filtersApplyBtn => 'Aplicar Filtros';
-
-  @override
-  String get forumSearchHint => 'Buscar hilos por título...';
-
-  @override
-  String get forumEmptySearchTitle => 'Sin resultados';
-
-  @override
-  String get forumEmptySearchMessage =>
-      'No se encontraron hilos que coincidan con tu búsqueda.';
-
-  @override
-  String get forumEmptyCategoryTitle => 'Categoría vacía';
-
-  @override
-  String get forumEmptyCategoryMessage =>
-      'Todavía no hay novedades en esta sección. ¡Anímate y publica algo!';
-
-  @override
-  String forumPostSubtitle(String author, int count) {
-    return 'por $author • $count respuestas';
-  }
-
-  @override
-  String get forumDeleteTooltip => 'Eliminar';
-
-  @override
-  String get forumDeletePostTitle => 'Eliminar publicación';
-
-  @override
-  String forumDeletePostContent(String title) {
-    return '¿Quieres eliminar \"$title\" y todas sus respuestas?';
-  }
-
-  @override
-  String get forumCancelBtn => 'Cancelar';
-
-  @override
-  String get forumDeleteBtn => 'Eliminar';
-
-  @override
-  String get forumNewPostBtn => 'Nuevo Hilo';
-
-  @override
-  String get forumPostDeletedSuccess => 'Publicación eliminada';
-
-  @override
-  String get forumPostDeletedError => 'No se pudo eliminar la publicación';
-
-  @override
-  String get forumCreateLoginRequired => 'Debes iniciar sesión para publicar';
-
-  @override
-  String get forumCreateUnknownError => 'Error desconocido';
-
-  @override
-  String get forumCreateTitle => 'Crear Nuevo Hilo';
-
-  @override
-  String get forumCreateFieldTitle => 'Título';
-
-  @override
-  String get forumCreateErrorTitle => 'El título es obligatorio';
-
-  @override
-  String get forumCreateFieldSection => 'Sección';
-
-  @override
-  String get forumCreateFieldContent => 'Contenido';
-
-  @override
-  String get forumCreateErrorContent => 'El contenido es obligatorio';
-
-  @override
-  String get forumCreatePublishingBtn => 'Publicando...';
-
-  @override
-  String get forumCreatePublishBtn => 'Publicar';
-
-  @override
-  String forumPostByAuthor(String author) {
-    return 'por $author';
-  }
-
-  @override
-  String get forumDetailRepliesTitle => 'Respuestas';
-
-  @override
-  String get forumDetailEmptyReplies => 'No hay respuestas todavía.';
-
-  @override
-  String get forumDeleteReplyTooltip => 'Eliminar respuesta';
-
-  @override
-  String get forumDeleteReplyTitle => 'Eliminar respuesta';
-
-  @override
-  String get forumDeleteReplyContent => '¿Quieres eliminar esta respuesta?';
-
-  @override
-  String get forumReplyDeletedSuccess => 'Respuesta eliminada';
-
-  @override
-  String get forumReplyDeletedError => 'No se pudo eliminar la respuesta';
-
-  @override
-  String get forumDetailReplyInputHint => 'Escribe una respuesta...';
 
   @override
   String get dictDetailTitle => 'Detalle del Término';
@@ -888,271 +688,511 @@ class AppLocalizationsEs extends AppLocalizations {
   String get myTermsViewReason => 'Ver motivo';
 
   @override
-  String get adminAccessDeniedTitle => 'Acceso Denegado';
+  String get forumSidebarFollowedTopics => 'Temas Seguidos';
 
   @override
-  String get adminAccessDeniedMessage =>
-      'Solo los administradores pueden acceder';
+  String get forumSidebarTopic1Title =>
+      '¿Límites de tiempo para niños de 10 años?';
 
   @override
-  String get adminUsersTitle => 'Gestión de Usuarios';
+  String get forumSidebarTopic1Subtitle => '24 respuestas nuevas hoy';
 
   @override
-  String get adminUsersInfoTooltip => 'Información';
+  String get forumSidebarTopic2Title =>
+      'Los mejores juegos educativos en Switch';
 
   @override
-  String get adminUsersLoading => 'Cargando usuarios...';
+  String get forumSidebarTopic2Subtitle => '15 respuestas nuevas hoy';
 
   @override
-  String get adminUsersError => 'Error al cargar usuarios';
+  String get forumSidebarTopic3Title =>
+      'Cómo gestionar la seguridad en chats online';
 
   @override
-  String get adminUsersEmpty => 'No hay usuarios registrados';
+  String get forumSidebarTopic3Subtitle => '8 respuestas nuevas hoy';
 
   @override
-  String get adminUsersStatTotal => 'Total';
+  String get forumSidebarRepliesToYou => 'Respuestas para ti';
 
   @override
-  String get adminUsersStatAdmins => 'Admins';
+  String get forumSidebarReply1Link => 'Seguridad en Fortnite';
 
   @override
-  String get adminUsersStatMods => 'Moderadores';
+  String get forumSidebarReply1Action => 'respondió a tu co...';
 
   @override
-  String get adminUsersStatUsers => 'Usuarios';
+  String get forumSidebarReply1Time => 'hace 2 minutos';
 
   @override
-  String get adminUsersBadgeYou => 'Tú';
+  String get forumSidebarReply2Link => 'Comparativa de consolas';
 
   @override
-  String adminUsersProposedApproved(Object approved, Object proposed) {
-    return '$proposed propuestos | $approved aprobados';
+  String get forumSidebarReply2Action => 'te etiquetó en...';
+
+  @override
+  String get forumSidebarReply2Time => 'hace 1 hora';
+
+  @override
+  String get forumSidebarReply3Link => 'Hilo de Bienvenida';
+
+  @override
+  String get forumSidebarReply3Action => 'le gustó tu respue...';
+
+  @override
+  String get forumSidebarReply3Time => 'hace 3 horas';
+
+  @override
+  String get forumSidebarGlobalNews => 'Noticias Globales del Foro';
+
+  @override
+  String get forumSidebarNews1Tag => 'Actualización';
+
+  @override
+  String get forumSidebarNews1Text =>
+      'Nuevas guías de control parental añadidas al Diccionario.';
+
+  @override
+  String get forumSidebarNews2Tag => 'Evento';
+
+  @override
+  String get forumSidebarNews2Text =>
+      'Q&A en vivo con psicólogo infantil este jueves a las 18:00.';
+
+  @override
+  String get forumSidebarNews3Tag => 'Novedad';
+
+  @override
+  String get forumSidebarNews3Text =>
+      '¡El modo oscuro ya está disponible en los ajustes de usuario!';
+
+  @override
+  String get forumMainCategoriesTitle => 'Categorías Principales';
+
+  @override
+  String get forumViewAllBtn => 'Ver todo';
+
+  @override
+  String get forumEmptySectionTitle => 'No hay publicaciones en esta sección';
+
+  @override
+  String get forumEmptySectionMessage => 'Todavía no hay novedades aquí.';
+
+  @override
+  String get forumPlatformsTitle => 'Plataformas';
+
+  @override
+  String get forumSearchHint => 'Buscar hilos por título...';
+
+  @override
+  String get forumEmptySearchTitle => 'Sin resultados';
+
+  @override
+  String get forumEmptySearchMessage =>
+      'No se encontraron hilos que coincidan con tu búsqueda.';
+
+  @override
+  String get forumEmptyCategoryTitle => 'Categoría vacía';
+
+  @override
+  String get forumEmptyCategoryMessage =>
+      'Todavía no hay novedades en esta sección. ¡Anímate y publica algo!';
+
+  @override
+  String forumPostSubtitle(String author, int count) {
+    return 'por $author • $count respuestas';
   }
 
   @override
-  String get adminUsersActionMakeUser => 'Cambiar a Usuario';
+  String get forumDeleteTooltip => 'Eliminar';
 
   @override
-  String get adminUsersActionMakeMod => 'Cambiar a Moderador';
+  String get forumDeletePostTitle => 'Eliminar publicación';
 
   @override
-  String get adminUsersActionMakeAdmin => 'Cambiar a Admin';
-
-  @override
-  String get adminRoleAdmin => 'Admin';
-
-  @override
-  String get adminRoleModerator => 'Moderador';
-
-  @override
-  String get adminRoleUser => 'Usuario';
-
-  @override
-  String get adminChangeRoleTitle => 'Confirmar cambio de rol';
-
-  @override
-  String adminChangeRoleConfirm(Object role, Object user) {
-    return '¿Estás seguro de que deseas cambiar el rol de \"$user\" a \"$role\"?';
+  String forumDeletePostContent(String title) {
+    return '¿Quieres eliminar \"$title\" y todas sus respuestas?';
   }
 
   @override
-  String get adminCancelBtn => 'Cancelar';
+  String get forumCancelBtn => 'Cancelar';
 
   @override
-  String get adminConfirmBtn => 'Confirmar';
+  String get forumDeleteBtn => 'Eliminar';
 
   @override
-  String get adminInfoDialogTitle => 'Gestión de Roles';
+  String get forumNewPostBtn => 'Nuevo Hilo';
 
   @override
-  String get adminInfoDialogSubtitle => 'Roles disponibles:';
+  String get forumPostDeletedSuccess => 'Publicación eliminada';
 
   @override
-  String get adminInfoUserDesc =>
-      'Puede consultar el diccionario y proponer términos';
+  String get forumPostDeletedError => 'No se pudo eliminar la publicación';
 
   @override
-  String get adminInfoModDesc => 'Puede aprobar o rechazar términos propuestos';
+  String get forumCreateLoginRequired => 'Debes iniciar sesión para publicar';
 
   @override
-  String get adminInfoAdminDesc =>
-      'Tiene acceso completo, incluida la gestión de usuarios';
+  String get forumCreateUnknownError => 'Error desconocido';
 
   @override
-  String get adminInfoUnderstoodBtn => 'Entendido';
+  String get forumCreateTitle => 'Crear Nuevo Hilo';
 
   @override
-  String get navHome => 'Inicio';
+  String get forumCreateFieldTitle => 'Título';
 
   @override
-  String get navSearch => 'Buscar';
+  String get forumCreateErrorTitle => 'El título es obligatorio';
 
   @override
-  String get navGuides => 'Guías';
+  String get forumCreateFieldSection => 'Sección';
 
   @override
-  String get navDictionary => 'Diccionario';
+  String get forumCreateFieldContent => 'Contenido';
 
   @override
-  String get navGames => 'Videojuegos';
+  String get forumCreateErrorContent => 'El contenido es obligatorio';
 
   @override
-  String get navParentalControl => 'Control Parental';
+  String get forumCreatePublishingBtn => 'Publicando...';
 
   @override
-  String get navCommunity => 'Comunidad';
+  String get forumCreatePublishBtn => 'Publicar';
 
   @override
-  String get headerSearchHint => 'Buscar...';
-
-  @override
-  String get headerMenuBtn => 'Menú';
-
-  @override
-  String get accountMenuProfile => 'Mi perfil';
-
-  @override
-  String get accountMenuMyTerms => 'Mis términos propuestos';
-
-  @override
-  String accountMenuTermsCount(int count) {
-    return '$count términos';
+  String forumPostByAuthor(String author) {
+    return 'por $author';
   }
 
   @override
-  String get accountMenuModeration => 'Moderación';
+  String get forumDetailRepliesTitle => 'Respuestas';
 
   @override
-  String get accountMenuUsers => 'Gestión de usuarios';
+  String get forumDetailEmptyReplies => 'No hay respuestas todavía.';
 
   @override
-  String get accountMenuLogout => 'Cerrar sesión';
+  String get forumDeleteReplyTooltip => 'Eliminar respuesta';
 
   @override
-  String get footerTaglineMobile =>
-      'Empoderando a la próxima generación\nde padres en la era digital';
+  String get forumDeleteReplyTitle => 'Eliminar respuesta';
 
   @override
-  String get footerPrivacy => 'Política de privacidad';
+  String get forumDeleteReplyContent => '¿Quieres eliminar esta respuesta?';
 
   @override
-  String get footerAbout => 'Quienes somos';
+  String get forumReplyDeletedSuccess => 'Respuesta eliminada';
 
   @override
-  String get footerContact => 'Contáctanos';
+  String get forumReplyDeletedError => 'No se pudo eliminar la respuesta';
 
   @override
-  String footerCopyright(String year, String appName) {
-    return '© $year $appName. Todos los derechos reservados.';
+  String get forumDetailReplyInputHint => 'Escribe una respuesta...';
+
+  @override
+  String parentalGuidesStepProgress(int current, int total) {
+    return 'Paso $current de $total';
   }
 
   @override
-  String get footerTaglineDesktop =>
-      'Empoderando a la próxima generación de padres en la era digital';
+  String get parentalGuidesScreenshot => 'Captura de pantalla:';
 
   @override
-  String get footerErrorLink => 'No se pudo abrir el enlace externo.';
+  String get parentalGuidesLoadingImage => 'Cargando imagen...';
 
   @override
-  String get genreAction => 'Acción';
+  String get parentalGuidesImageNotAvailable => 'Imagen no disponible';
 
   @override
-  String get genreAdventure => 'Aventura';
+  String get parentalGuidesSetupComplete =>
+      '¡Configuración completada! Ahora tu hijo puede jugar de forma segura con las restricciones configuradas.';
 
   @override
-  String get genreRPG => 'RPG';
+  String get parentalGuidesPreviousBtn => 'Anterior';
 
   @override
-  String get genreStrategy => 'Estrategia';
+  String get parentalGuidesNextBtn => 'Siguiente';
 
   @override
-  String get genreShooter => 'Shooter';
+  String get parentalGuidesFinishBtn => 'Finalizar';
 
   @override
-  String get genrePuzzle => 'Puzzle';
+  String get parentalGuidesCompletedTitle => '¡Guía completada!';
 
   @override
-  String get genreSports => 'Deportes';
+  String get parentalGuidesCompletedDesc =>
+      'Has completado todos los pasos de esta guía de control parental.';
 
   @override
-  String get genreRacing => 'Carreras';
+  String get parentalGuidesRepeatBtn => 'Repetir';
 
   @override
-  String get genreSimulation => 'Simulación';
-
-  @override
-  String get genrePlatformer => 'Plataformas';
-
-  @override
-  String get genreFighting => 'Lucha';
-
-  @override
-  String get genreArcade => 'Arcade';
-
-  @override
-  String get gameDetailLoading => 'Cargando información del juego...';
-
-  @override
-  String get gameDetailError => 'No se pudo cargar la información del juego';
-
-  @override
-  String get gameDetailBackBtn => 'Volver';
-
-  @override
-  String gameDetailRelease(String date) {
-    return 'Lanzamiento: $date';
+  String parentalGuidesError(String error) {
+    return 'Error al cargar guías: $error';
   }
 
   @override
-  String get gameDetailPegiTitle => 'Clasificación por edad (PEGI)';
+  String get parentalGuidesEmptyTitle => 'No hay guías disponibles';
 
   @override
-  String gameDetailPegiWarning(int pegi) {
-    return 'Recomendado para mayores de $pegi años';
+  String get parentalGuidesEmptyMessage => 'Vuelve a intentarlo más tarde.';
+
+  @override
+  String parentalGuidesSelectPlatform(int count) {
+    return 'Selecciona tu plataforma ($count guías)';
   }
 
   @override
-  String get gameDetailPegiNotAvailable =>
-      'No hay información de clasificación PEGI disponible';
+  String get parentalGuidesBannerTitle => 'Guías de Control Parental';
 
   @override
-  String get gameDetailDescriptionTitle => 'Descripción del juego';
+  String get parentalGuidesBannerSubtitle =>
+      'Aprende a configurar controles de seguridad en las plataformas más populares.';
 
   @override
-  String get gameDetailDescriptionEmpty => 'No hay descripción disponible';
+  String get parentalGuidesMoreInfoBtn => 'Saber más sobre PEGI/ESRB';
 
   @override
-  String get gameDetailGenresTitle => 'Géneros';
+  String parentalGuidesStepsCount(int count) {
+    return '$count pasos';
+  }
 
   @override
-  String get gameDetailPlatformsTitle => 'Plataformas disponibles';
+  String get parentalGuidesWhyImportant => '¿Por qué es importante?';
 
   @override
-  String get gameDetailScreenshotsTitle => 'Capturas de pantalla';
+  String get parentalGuidesProtectionTitle => 'Protección infantil';
 
   @override
-  String get pegiDescription3 =>
-      'Contenido apropiado para todas las edades. Sin violencia ni lenguaje inapropiado.';
+  String get parentalGuidesProtectionDesc =>
+      'Evita que tus hijos accedan a contenido no apropiado para su edad.';
 
   @override
-  String get pegiDescription7 =>
-      'Puede contener escenas o sonidos que asusten a niños pequeños.';
+  String get parentalGuidesTimeTitle => 'Gestión del tiempo';
 
   @override
-  String get pegiDescription12 =>
-      'Puede incluir violencia no realista hacia personajes de fantasía o violencia realista leve.';
+  String get parentalGuidesTimeDesc =>
+      'Establece límites de tiempo de juego para mantener un equilibrio saludable.';
 
   @override
-  String get pegiDescription16 =>
-      'Puede contener violencia realista, lenguaje fuerte o contenido sexual leve.';
+  String get parentalGuidesSpendingTitle => 'Control de gastos';
 
   @override
-  String get pegiDescription18 =>
-      'Contenido para adultos. Puede incluir violencia intensa, lenguaje fuerte, contenido sexual explícito o uso de drogas.';
+  String get parentalGuidesSpendingDesc =>
+      'Previene compras no autorizadas dentro de los juegos.';
 
   @override
-  String get pegiDescriptionUnknown =>
-      'No hay una descripción disponible para esta clasificación PEGI.';
+  String get esrbDescriptionE => 'Contenido para todos. Equivalente a PEGI 3.';
+
+  @override
+  String get esrbDescriptionE10 => 'Para mayores de 10 años. Similar a PEGI 7.';
+
+  @override
+  String get esrbDescriptionT => 'Adolescentes. Equivalente a PEGI 12.';
+
+  @override
+  String get esrbDescriptionM => 'Mayores de 17 años. Similar a PEGI 16.';
+
+  @override
+  String get esrbDescriptionAO => 'Solo adultos. Equivalente a PEGI 18.';
+
+  @override
+  String get esrbDescriptionRP =>
+      'Clasificación pendiente (juegos en preventa).';
+
+  @override
+  String get guideTypeEnable => 'Habilitar guía';
+
+  @override
+  String get guideTypeDisable => 'Deshabilitar guía';
+
+  @override
+  String get guideTypeApp => 'Guía de aplicaciones';
+
+  @override
+  String get guideTypeTime => 'Guía de tiempo';
+
+  @override
+  String get guideTypeDefault => 'Guía por defecto';
+
+  @override
+  String get psEnableGuideTitle => 'Cómo habilitar la guía parental';
+
+  @override
+  String get psEnableGuideDescription =>
+      'Sigue estos pasos para habilitar la guía parental en tu dispositivo.';
+
+  @override
+  String get psEnableGuideStep1 => 'Abre la aplicación de configuración.';
+
+  @override
+  String get psEnableGuideStep2 => 'Selecciona \'Controles parentales\'.';
+
+  @override
+  String get psEnableGuideStep3 => 'Activa la opción de guía parental.';
+
+  @override
+  String get psEnableGuideStep4 =>
+      'Configura las restricciones según tus necesidades.';
+
+  @override
+  String get psEnableGuideStep5 => 'Guarda los cambios.';
+
+  @override
+  String get psEnableGuideStep6 => 'Verifica que la guía esté activa.';
+
+  @override
+  String get psDisableGuideTitle => 'Cómo deshabilitar la guía parental';
+
+  @override
+  String get psDisableGuideDescription =>
+      'Sigue estos pasos para deshabilitar la guía parental en tu dispositivo.';
+
+  @override
+  String get psDisableGuideStep1 => 'Abre la aplicación de configuración.';
+
+  @override
+  String get psDisableGuideStep2 => 'Selecciona \'Controles parentales\'.';
+
+  @override
+  String get psDisableGuideStep3 => 'Desactiva la opción de guía parental.';
+
+  @override
+  String get psDisableGuideStep4 => 'Guarda los cambios.';
+
+  @override
+  String get psDisableGuideStep5 => 'Verifica que la guía esté desactivada.';
+
+  @override
+  String get nintendoAppGuideStep2 => 'Paso 2: Abre la aplicación de Nintendo.';
+
+  @override
+  String get nintendoAppGuideStep3 =>
+      'Paso 3: Ve a la sección de controles parentales.';
+
+  @override
+  String get nintendoAppGuideStep4 =>
+      'Paso 4: Configura las restricciones según sea necesario.';
+
+  @override
+  String get nintendoAppGuideStep5 => 'Paso 5: Guarda la configuración.';
+
+  @override
+  String get nintendoAppGuideStep6 => 'Paso 6: Vincula tu cuenta.';
+
+  @override
+  String get nintendoAppGuideStep7 => 'Paso 7: Confirma la configuración.';
+
+  @override
+  String get nintendoAppGuideStep8 =>
+      'Paso 8: Prueba los controles parentales.';
+
+  @override
+  String get steamGuideTitle => 'Guía parental de Steam';
+
+  @override
+  String get steamGuideDescription =>
+      'Aprende a configurar los controles parentales en Steam.';
+
+  @override
+  String get steamGuideStep1 => 'Paso 1: Abre la configuración de Steam.';
+
+  @override
+  String get steamGuideStep2 => 'Paso 2: Ve a la sección Familia.';
+
+  @override
+  String get steamGuideStep3 => 'Paso 3: Habilita la Vista Familiar.';
+
+  @override
+  String get steamGuideStep4 => 'Paso 4: Configura un PIN.';
+
+  @override
+  String get steamGuideStep5 =>
+      'Paso 5: Restringe el contenido según sea necesario.';
+
+  @override
+  String get iosGuideTitle => 'Guía parental de iOS';
+
+  @override
+  String get iosGuideDescription =>
+      'Aprende a configurar los controles parentales en dispositivos iOS.';
+
+  @override
+  String get iosGuideStep1 => 'Paso 1: Abre Configuración.';
+
+  @override
+  String get iosGuideStep2 => 'Paso 2: Ve a Tiempo en Pantalla.';
+
+  @override
+  String get iosGuideStep3 => 'Paso 3: Habilita las restricciones.';
+
+  @override
+  String get iosGuideStep4 => 'Paso 4: Configura un código de acceso.';
+
+  @override
+  String get xboxGuideTitle => 'Guía parental de Xbox';
+
+  @override
+  String get xboxGuideDescription =>
+      'Aprende a configurar los controles parentales en Xbox.';
+
+  @override
+  String get xboxGuideStep1 => 'Paso 1: Abre la configuración de Xbox.';
+
+  @override
+  String get xboxGuideStep2 => 'Paso 2: Ve a la sección Familia.';
+
+  @override
+  String get xboxGuideStep3 => 'Paso 3: Habilita los controles parentales.';
+
+  @override
+  String get xboxGuideStep4 => 'Paso 4: Configura las restricciones.';
+
+  @override
+  String get xboxGuideStep5 => 'Paso 5: Guarda la configuración.';
+
+  @override
+  String get xboxTimeGuideTitle => 'Guía de tiempo de Xbox';
+
+  @override
+  String get xboxTimeGuideDescription =>
+      'Aprende a configurar límites de tiempo en Xbox.';
+
+  @override
+  String get xboxTimeGuideStep1 => 'Paso 1: Abre la configuración de Xbox.';
+
+  @override
+  String get xboxTimeGuideStep2 => 'Paso 2: Ve a la sección Familia.';
+
+  @override
+  String get xboxTimeGuideStep3 => 'Paso 3: Habilita los límites de tiempo.';
+
+  @override
+  String get xboxTimeGuideStep4 => 'Paso 4: Configura los horarios.';
+
+  @override
+  String get xboxTimeGuideStep5 => 'Paso 5: Guarda la configuración.';
+
+  @override
+  String get nintendoGuideTitle => 'Guía parental de Nintendo';
+
+  @override
+  String get nintendoGuideDescription =>
+      'Aprende a configurar los controles parentales en Nintendo.';
+
+  @override
+  String get nintendoGuideStep1 => 'Paso 1: Abre la configuración de Nintendo.';
+
+  @override
+  String get nintendoGuideStep2 =>
+      'Paso 2: Ve a la sección de controles parentales.';
+
+  @override
+  String get nintendoGuideStep3 => 'Paso 3: Configura las restricciones.';
+
+  @override
+  String get nintendoGuideStep4 => 'Paso 4: Guarda la configuración.';
+
+  @override
+  String get nintendoGuideStep5 => 'Paso 5: Prueba los controles parentales.';
 
   @override
   String get homeDefaultUser => 'Usuario';
@@ -1286,231 +1326,76 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get forumSidebarFollowedTopics => 'Temas Seguidos';
+  String get homeWelcomeGuest => '¡Bienvenido a NexGen Parents!';
 
   @override
-  String get forumSidebarTopic1Title =>
-      '¿Límites de tiempo para niños de 10 años?';
+  String get homeGuestDescription =>
+      'Tu guía definitiva sobre videojuegos. Descubre clasificaciones por edad, explora nuestro diccionario de términos gaming y aprende a configurar controles parentales.';
 
   @override
-  String get forumSidebarTopic1Subtitle => '24 respuestas nuevas hoy';
+  String get dictRequireLoginDefault =>
+      'Debes iniciar sesión para acceder a esta función.';
 
   @override
-  String get forumSidebarTopic2Title =>
-      'Los mejores juegos educativos en Switch';
-
-  @override
-  String get forumSidebarTopic2Subtitle => '15 respuestas nuevas hoy';
-
-  @override
-  String get forumSidebarTopic3Title =>
-      'Cómo gestionar la seguridad en chats online';
-
-  @override
-  String get forumSidebarTopic3Subtitle => '8 respuestas nuevas hoy';
-
-  @override
-  String get forumSidebarRepliesToYou => 'Respuestas para ti';
-
-  @override
-  String get forumSidebarReply1Link => 'Seguridad en Fortnite';
-
-  @override
-  String get forumSidebarReply1Action => 'respondió a tu co...';
-
-  @override
-  String get forumSidebarReply1Time => 'hace 2 minutos';
-
-  @override
-  String get forumSidebarReply2Link => 'Comparativa de consolas';
-
-  @override
-  String get forumSidebarReply2Action => 'te etiquetó en...';
-
-  @override
-  String get forumSidebarReply2Time => 'hace 1 hora';
-
-  @override
-  String get forumSidebarReply3Link => 'Hilo de Bienvenida';
-
-  @override
-  String get forumSidebarReply3Action => 'le gustó tu respue...';
-
-  @override
-  String get forumSidebarReply3Time => 'hace 3 horas';
-
-  @override
-  String get forumSidebarGlobalNews => 'Noticias Globales del Foro';
-
-  @override
-  String get forumSidebarNews1Tag => 'Actualización';
-
-  @override
-  String get forumSidebarNews1Text =>
-      'Nuevas guías de control parental añadidas al Diccionario.';
-
-  @override
-  String get forumSidebarNews2Tag => 'Evento';
-
-  @override
-  String get forumSidebarNews2Text =>
-      'Q&A en vivo con psicólogo infantil este jueves a las 18:00.';
-
-  @override
-  String get forumSidebarNews3Tag => 'Novedad';
-
-  @override
-  String get forumSidebarNews3Text =>
-      '¡El modo oscuro ya está disponible en los ajustes de usuario!';
-
-  @override
-  String get privacyPolicyTitle => 'Política de Privacidad';
-
-  @override
-  String get privacyPolicySubtitle =>
-      'Política de Privacidad de NexGen Parents';
-
-  @override
-  String get privacyPolicyLastUpdate => 'Última actualización: Marzo 2026';
-
-  @override
-  String get privacyPolicyS1Title => '1. Recopilación de Información';
-
-  @override
-  String get privacyPolicyS1Text =>
-      'En NexGen Parents nos tomamos muy en serio tu privacidad y la de tu familia. Recopilamos información básica del perfil (como el correo electrónico y tu nombre de usuario) para permitir el acceso a funcionalidades como el diccionario colaborativo y el foro.';
-
-  @override
-  String get privacyPolicyS2Title => '2. Uso de los Datos';
-
-  @override
-  String get privacyPolicyS2Text =>
-      'Los datos proporcionados se utilizan exclusivamente para mejorar tu experiencia en la plataforma, personalizar las recomendaciones por edad (PEGI/ESRB) y mantener un entorno seguro en nuestra comunidad.';
-
-  @override
-  String get privacyPolicyS3Title => '3. Protección y Seguridad';
-
-  @override
-  String get privacyPolicyS3Text =>
-      'Tus datos están protegidos mediante los servicios de Firebase y en ningún caso se venden o comparten con terceros con fines publicitarios no relacionados con el propósito educativo de la plataforma.';
-
-  @override
-  String get privacyPolicyS4Title => '4. Tus Derechos';
-
-  @override
-  String get privacyPolicyS4Text =>
-      'Puedes solicitar en cualquier momento la eliminación total de tu cuenta y tus datos asociados a través del panel de configuración de tu perfil.';
-
-  @override
-  String get aboutUsTitle => 'Quiénes somos';
-
-  @override
-  String get aboutUsSubtitle => 'Acerca de NexGen Parents';
-
-  @override
-  String get aboutUsP1 =>
-      'NexGen Parents nace para resolver una brecha informativa real: hoy en día, muchas familias no tienen referencias claras para interpretar el contenido, los riesgos y el gran valor educativo que ofrecen los videojuegos actuales.';
-
-  @override
-  String get aboutUsP2 =>
-      'Nuestro principal objetivo es reducir la incertidumbre de madres, padres, docentes y orientadores, facilitando decisiones de consumo digital mucho más responsables e informadas.';
-
-  @override
-  String get aboutUsVersion => 'Versión 1.0.0 (Marzo 2026)\nProyecto TFC';
-
-  @override
-  String get contactUsTitle => 'Contáctanos';
-
-  @override
-  String get contactUsSubtitle => '¡Nos encantaría escucharte!';
-
-  @override
-  String get contactUsDescription =>
-      '¿Tienes alguna duda sobre nuestras guías, quieres proponer una mejora o necesitas ayuda técnica con la aplicación? Ponte en contacto con nosotros.';
-
-  @override
-  String get contactUsEmailLabel => 'Correo electrónico';
-
-  @override
-  String get contactUsWebLabel => 'Sitio Web';
-
-  @override
-  String get contactUsForumHint =>
-      'También puedes participar activamente dejando tus dudas en nuestro Foro Comunitario de la app.';
-
-  @override
-  String parentalGuidesError(String error) {
-    return 'Error al cargar guías: $error';
+  String dictGuestLockMessage(int totalTerms) {
+    return 'El diccionario cuenta con $totalTerms términos. Inicia sesión para verlos todos.';
   }
 
   @override
-  String get parentalGuidesEmptyTitle => 'No hay guías disponibles';
+  String get dictRequireLoginPropose =>
+      'Debes iniciar sesión para proponer un nuevo término.';
 
   @override
-  String get parentalGuidesEmptyMessage => 'Vuelve a intentarlo más tarde.';
+  String get footerTaglineMobile =>
+      'Empoderando a la próxima generación\nde padres en la era digital';
 
   @override
-  String parentalGuidesSelectPlatform(int count) {
-    return 'Selecciona tu plataforma ($count guías)';
+  String get footerPrivacy => 'Política de privacidad';
+
+  @override
+  String get footerAbout => 'Quienes somos';
+
+  @override
+  String get footerContact => 'Contáctanos';
+
+  @override
+  String footerCopyright(String year, String appName) {
+    return '© $year $appName. Todos los derechos reservados.';
   }
 
   @override
-  String get parentalGuidesBannerTitle => 'Guías de Control Parental';
+  String get footerTaglineDesktop =>
+      'Empoderando a la próxima generación de padres en la era digital';
 
   @override
-  String get parentalGuidesBannerSubtitle =>
-      'Aprende a configurar controles de seguridad en las plataformas más populares.';
+  String get footerErrorLink => 'No se pudo abrir el enlace externo.';
 
   @override
-  String get parentalGuidesMoreInfoBtn => 'Saber más sobre PEGI/ESRB';
+  String get navHome => 'Inicio';
 
   @override
-  String parentalGuidesStepsCount(int count) {
-    return '$count pasos';
-  }
+  String get navSearch => 'Buscar';
 
   @override
-  String get parentalGuidesWhyImportant => '¿Por qué es importante?';
+  String get navGuides => 'Guías';
 
   @override
-  String get parentalGuidesProtectionTitle => 'Protección infantil';
+  String get navDictionary => 'Diccionario';
 
   @override
-  String get parentalGuidesProtectionDesc =>
-      'Evita que tus hijos accedan a contenido no apropiado para su edad.';
+  String get navGames => 'Videojuegos';
 
   @override
-  String get parentalGuidesTimeTitle => 'Gestión del tiempo';
+  String get navParentalControl => 'Control Parental';
 
   @override
-  String get parentalGuidesTimeDesc =>
-      'Establece límites de tiempo de juego para mantener un equilibrio saludable.';
+  String get navCommunity => 'Comunidad';
 
   @override
-  String get parentalGuidesSpendingTitle => 'Control de gastos';
+  String get headerSearchHint => 'Buscar...';
 
   @override
-  String get parentalGuidesSpendingDesc =>
-      'Previene compras no autorizadas dentro de los juegos.';
-
-  @override
-  String get esrbDescriptionE => 'Contenido para todos. Equivalente a PEGI 3.';
-
-  @override
-  String get esrbDescriptionE10 => 'Para mayores de 10 años. Similar a PEGI 7.';
-
-  @override
-  String get esrbDescriptionT => 'Adolescentes. Equivalente a PEGI 12.';
-
-  @override
-  String get esrbDescriptionM => 'Mayores de 17 años. Similar a PEGI 16.';
-
-  @override
-  String get esrbDescriptionAO => 'Solo adultos. Equivalente a PEGI 18.';
-
-  @override
-  String get esrbDescriptionRP =>
-      'Clasificación pendiente (juegos en preventa).';
+  String get headerMenuBtn => 'Menú';
 
   @override
   String get profileEditTitle => 'Editar Perfil';
@@ -1691,56 +1576,7 @@ class AppLocalizationsEs extends AppLocalizations {
       'Se eliminó el perfil, pero no la cuenta de acceso';
 
   @override
-  String get forumMainCategoriesTitle => 'Categorías Principales';
-
-  @override
-  String get forumViewAllBtn => 'Ver todo';
-
-  @override
-  String get forumEmptySectionTitle => 'No hay publicaciones en esta sección';
-
-  @override
-  String get forumEmptySectionMessage => 'Todavía no hay novedades aquí.';
-
-  @override
-  String get forumPlatformsTitle => 'Plataformas';
-
-  @override
-  String parentalGuidesStepProgress(int current, int total) {
-    return 'Paso $current de $total';
-  }
-
-  @override
-  String get parentalGuidesScreenshot => 'Captura de pantalla:';
-
-  @override
-  String get parentalGuidesLoadingImage => 'Cargando imagen...';
-
-  @override
-  String get parentalGuidesImageNotAvailable => 'Imagen no disponible';
-
-  @override
-  String get parentalGuidesSetupComplete =>
-      '¡Configuración completada! Ahora tu hijo puede jugar de forma segura con las restricciones configuradas.';
-
-  @override
-  String get parentalGuidesPreviousBtn => 'Anterior';
-
-  @override
-  String get parentalGuidesNextBtn => 'Siguiente';
-
-  @override
-  String get parentalGuidesFinishBtn => 'Finalizar';
-
-  @override
-  String get parentalGuidesCompletedTitle => '¡Guía completada!';
-
-  @override
-  String get parentalGuidesCompletedDesc =>
-      'Has completado todos los pasos de esta guía de control parental.';
-
-  @override
-  String get parentalGuidesRepeatBtn => 'Repetir';
+  String get profileDeleteSuccess => 'Cuenta eliminada correctamente';
 
   @override
   String get loginSubtitle => 'Guía y Diccionario Game para Padres';
@@ -1824,158 +1660,364 @@ class AppLocalizationsEs extends AppLocalizations {
   String get registerAlreadyHaveAccount => '¿Ya tienes cuenta? ';
 
   @override
-  String get errorNameLength => 'El nombre debe tener al menos 3 caracteres';
+  String get registerLoginBtn => 'Inicia sesión';
 
   @override
-  String get errorPasswordLength8 =>
-      'La contraseña debe tener al menos 8 caracteres';
+  String get registerSuccess =>
+      'Usuario registrado correctamente. Por favor, inicia sesión';
 
   @override
-  String get errorPasswordUppercase => 'Incluye al menos una letra mayúscula';
+  String get adminAccessDeniedTitle => 'Acceso Denegado';
 
   @override
-  String get errorPasswordLowercase => 'Incluye al menos una letra minúscula';
+  String get adminAccessDeniedMessage =>
+      'Solo los administradores pueden acceder';
 
   @override
-  String get errorPasswordNumber => 'Incluye al menos un número';
+  String get adminUsersTitle => 'Gestión de Usuarios';
 
   @override
-  String get errorConfirmPasswordRequired =>
-      'Por favor, confirma tu contraseña';
+  String get adminUsersInfoTooltip => 'Información';
 
   @override
-  String get errorTermExists => 'Este término ya existe en el diccionario';
+  String get adminUsersLoading => 'Cargando usuarios...';
 
   @override
-  String get successTermProposed =>
-      'Término propuesto correctamente. Será revisado por un moderador';
+  String get adminUsersError => 'Error al cargar usuarios';
 
   @override
-  String get errorProposeTerm => 'Error al proponer término';
+  String get adminUsersEmpty => 'No hay usuarios registrados';
 
   @override
-  String get errorTermNotFound => 'El término no existe';
+  String get adminUsersStatTotal => 'Total';
 
   @override
-  String get successTermApproved => 'Término aprobado correctamente';
+  String get adminUsersStatAdmins => 'Admins';
 
   @override
-  String get errorApproveTerm => 'Error al aprobar término';
+  String get adminUsersStatMods => 'Moderadores';
 
   @override
-  String get successTermRejected => 'Término rechazado';
+  String get adminUsersStatUsers => 'Usuarios';
 
   @override
-  String get errorRejectTerm => 'Error al rechazar término';
+  String get adminUsersBadgeYou => 'Tú';
 
   @override
-  String get successTermUpdated => 'Término actualizado correctamente';
+  String adminUsersProposedApproved(int proposed, int approved) {
+    return '$proposed propuestos | $approved aprobados';
+  }
 
   @override
-  String get errorUpdateTerm => 'Error al actualizar término';
+  String get adminUsersActionMakeUser => 'Cambiar a Usuario';
 
   @override
-  String get successTermDeleted => 'Término eliminado correctamente';
+  String get adminUsersActionMakeMod => 'Cambiar a Moderador';
 
   @override
-  String get errorDeleteTerm => 'Error al eliminar término';
+  String get adminUsersActionMakeAdmin => 'Cambiar a Admin';
 
   @override
-  String get errorInvalidRole =>
-      'Rol inválido. Debe ser: user, moderator o admin';
+  String get adminRoleAdmin => 'Admin';
 
   @override
-  String get errorModifyOwnRole => 'No puedes modificar tu propio rol';
+  String get adminRoleModerator => 'Moderador';
 
   @override
-  String get successRoleUpdated => 'Rol actualizado correctamente';
+  String get adminRoleUser => 'Usuario';
 
   @override
-  String get errorUpdateRole => 'Error al actualizar rol';
+  String get adminChangeRoleTitle => 'Confirmar cambio de rol';
 
   @override
-  String get successBirthYearsUpdated =>
-      'Años de nacimiento actualizados correctamente';
+  String adminChangeRoleConfirm(String user, String role) {
+    return '¿Estás seguro de que deseas cambiar el rol de \"$user\" a \"$role\"?';
+  }
 
   @override
-  String get errorUpdateBirthYears => 'Error al actualizar años de nacimiento';
+  String get adminCancelBtn => 'Cancelar';
 
   @override
-  String get successPlatformsUpdated =>
-      'Plataformas actualizadas correctamente';
+  String get adminConfirmBtn => 'Confirmar';
 
   @override
-  String get errorUpdatePlatforms => 'Error al actualizar plataformas';
+  String get adminInfoDialogTitle => 'Gestión de Roles';
 
   @override
-  String get successAvatarUpdated => 'Avatar actualizado correctamente';
+  String get adminInfoDialogSubtitle => 'Roles disponibles:';
 
   @override
-  String get errorUpdateAvatar => 'Error al actualizar avatar';
+  String get adminInfoUserDesc =>
+      'Puede consultar el diccionario y proponer términos';
 
   @override
-  String get successUserInfoUpdated =>
-      'Información de usuario actualizada correctamente';
+  String get adminInfoModDesc => 'Puede aprobar o rechazar términos propuestos';
 
   @override
-  String get errorUpdateUserInfo => 'Error al actualizar información';
+  String get adminInfoAdminDesc =>
+      'Tiene acceso completo, incluida la gestión de usuarios';
 
   @override
-  String get successAccountDeleted => 'Cuenta eliminada correctamente';
+  String get adminInfoUnderstoodBtn => 'Entendido';
 
   @override
-  String get errorDeleteAccount => 'Error al eliminar cuenta';
+  String get accountMenuProfile => 'Mi perfil';
 
   @override
-  String get successPostDeleted => 'Publicación eliminada correctamente';
+  String get accountMenuMyTerms => 'Mis términos propuestos';
 
   @override
-  String get errorDeletePost => 'Error al eliminar la publicación';
+  String accountMenuTermsCount(int count) {
+    return '$count términos';
+  }
 
   @override
-  String get errorPostNotFound => 'La publicación asociada no existe';
+  String get accountMenuModeration => 'Moderación';
 
   @override
-  String get successReplyDeleted => 'Respuesta eliminada correctamente';
+  String get accountMenuUsers => 'Gestión de usuarios';
 
   @override
-  String get errorDeleteReply => 'Error al eliminar la respuesta';
+  String get accountMenuLogout => 'Cerrar sesión';
 
   @override
-  String get errorNoAuthUser => 'No hay usuario autenticado';
+  String get genreAction => 'Acción';
 
   @override
-  String get successPasswordUpdated => 'Contraseña actualizada correctamente';
+  String get genreAdventure => 'Aventura';
 
   @override
-  String get errorChangePassword => 'Error al cambiar contraseña';
+  String get genreRPG => 'RPG';
 
   @override
-  String get errorWrongCurrentPassword => 'La contraseña actual es incorrecta';
+  String get genreStrategy => 'Estrategia';
 
   @override
-  String get errorWeakNewPassword => 'La nueva contraseña es demasiado débil';
+  String get genreShooter => 'Shooter';
 
   @override
-  String get successEmailUpdated =>
-      'Email actualizado correctamente. Verifica tu nuevo correo.';
+  String get genrePuzzle => 'Puzzle';
 
   @override
-  String get errorChangeEmail => 'Error al cambiar email';
+  String get genreSports => 'Deportes';
 
   @override
-  String get errorEmailAlreadyInUse => 'Este email ya está en uso';
+  String get genreRacing => 'Carreras';
 
   @override
-  String get errorInvalidNewEmail => 'El email no es válido';
+  String get genreSimulation => 'Simulación';
 
   @override
-  String get errorNoPasswordAccount =>
-      'Tu cuenta no usa contraseña. Inicia sesión de nuevo con tu proveedor para continuar.';
+  String get genrePlatformer => 'Plataformas';
 
   @override
-  String get successReauth => 'Reautenticación correcta';
+  String get genreFighting => 'Lucha';
 
   @override
-  String get errorReauth => 'Error de reautenticación';
+  String get genreArcade => 'Arcade';
+
+  @override
+  String get gameDetailLoading => 'Cargando información del juego...';
+
+  @override
+  String get gameDetailError => 'No se pudo cargar la información del juego';
+
+  @override
+  String get gameDetailBackBtn => 'Volver';
+
+  @override
+  String gameDetailRelease(String date) {
+    return 'Lanzamiento: $date';
+  }
+
+  @override
+  String get gameDetailPegiTitle => 'Clasificación por edad (PEGI)';
+
+  @override
+  String gameDetailPegiWarning(int pegi) {
+    return 'Recomendado para mayores de $pegi años';
+  }
+
+  @override
+  String get gameDetailPegiNotAvailable =>
+      'No hay información de clasificación PEGI disponible';
+
+  @override
+  String get gameDetailDescriptionTitle => 'Descripción del juego';
+
+  @override
+  String get gameDetailDescriptionEmpty => 'No hay descripción disponible';
+
+  @override
+  String get gameDetailGenresTitle => 'Géneros';
+
+  @override
+  String get gameDetailPlatformsTitle => 'Plataformas disponibles';
+
+  @override
+  String get gameDetailScreenshotsTitle => 'Capturas de pantalla';
+
+  @override
+  String get pegiDescription3 =>
+      'Contenido apropiado para todas las edades. Sin violencia ni lenguaje inapropiado.';
+
+  @override
+  String get pegiDescription7 =>
+      'Puede contener escenas o sonidos que asusten a niños pequeños.';
+
+  @override
+  String get pegiDescription12 =>
+      'Puede incluir violencia no realista hacia personajes de fantasía o violencia realista leve.';
+
+  @override
+  String get pegiDescription16 =>
+      'Puede contener violencia realista, lenguaje fuerte o contenido sexual leve.';
+
+  @override
+  String get pegiDescription18 =>
+      'Contenido para adultos. Puede incluir violencia intensa, lenguaje fuerte, contenido sexual explícito o uso de drogas.';
+
+  @override
+  String get pegiDescriptionUnknown =>
+      'No hay una descripción disponible para esta clasificación PEGI.';
+
+  @override
+  String get classificationSystemsTitle => 'Sistemas de Clasificación';
+
+  @override
+  String get pegiInfoSubtitle =>
+      'Aprende a interpretar PEGI y ESRB para elegir juegos adecuados para cada edad.';
+
+  @override
+  String get ageRatingsMeaningTitle =>
+      '¿Qué significan las clasificaciones por edad?';
+
+  @override
+  String get pegiSystemEuropa => 'Sistema PEGI (Europa)';
+
+  @override
+  String get esrbSystemUsa => 'Sistema ESRB (EE. UU.)';
+
+  @override
+  String get esrbApiNote =>
+      'Este es el sistema que suele aparecer en la API de videojuegos que utilizamos.';
+
+  @override
+  String get pegiContentDescriptorsTitle => 'Descriptores de Contenido PEGI';
+
+  @override
+  String get pegiContentDescriptorsSubtitle =>
+      'Además de la edad, las clasificaciones incluyen iconos que indican el tipo de contenido:';
+
+  @override
+  String get contentDescriptorViolence => 'Violencia';
+
+  @override
+  String get contentDescriptorFear => 'Miedo';
+
+  @override
+  String get contentDescriptorOnline => 'Online';
+
+  @override
+  String get contentDescriptorDiscrimination => 'Discriminación';
+
+  @override
+  String get contentDescriptorDrugs => 'Drogas';
+
+  @override
+  String get contentDescriptorSex => 'Sexo';
+
+  @override
+  String get contentDescriptorBadLanguage => 'Lenguaje soez';
+
+  @override
+  String get contentDescriptorGambling => 'Juego/Apuestas';
+
+  @override
+  String get searchGamesHint => 'Buscar juego por nombre...';
+
+  @override
+  String get searchGamesAdvancedFilters => 'Filtros avanzados';
+
+  @override
+  String get searchGamesShowingRecent =>
+      'Mostrando los juegos más recientes del último año';
+
+  @override
+  String get searchGamesFilterFrom => 'Desde';
+
+  @override
+  String get searchGamesFilterTo => 'Hasta';
+
+  @override
+  String get searchGamesFilterGenres => 'género(s)';
+
+  @override
+  String get searchGamesFilterPlatforms => 'plataforma(s)';
+
+  @override
+  String get searchGamesClearAll => 'Limpiar todo';
+
+  @override
+  String get searchGamesEmptyTitle => 'No se encontraron juegos';
+
+  @override
+  String get searchGamesEmptyMessage =>
+      'Intenta ajustar los filtros o busca otro término';
+
+  @override
+  String get filtersTitle => 'Filtros de Búsqueda';
+
+  @override
+  String get filtersClear => 'Limpiar';
+
+  @override
+  String get filtersInfoBanner =>
+      'Combina múltiples filtros para encontrar el juego perfecto';
+
+  @override
+  String get filtersYearTitle => 'Año de lanzamiento';
+
+  @override
+  String get filtersYearSubtitle => 'Filtra juegos por su año de salida';
+
+  @override
+  String get filtersYearFrom => 'Desde';
+
+  @override
+  String get filtersYearTo => 'Hasta';
+
+  @override
+  String get filtersYearAny => 'Cualquiera';
+
+  @override
+  String get filtersPegiTitle => 'Edad recomendada (PEGI)';
+
+  @override
+  String get filtersPegiSubtitle =>
+      'Selecciona la edad de tu hijo para ver juegos apropiados';
+
+  @override
+  String get filtersPlatformTitle => 'Plataforma';
+
+  @override
+  String get filtersPlatformSubtitle =>
+      'Selecciona en qué dispositivos quieres que esté disponible';
+
+  @override
+  String get filtersGenreTitle => 'Género de juego';
+
+  @override
+  String get filtersGenreSubtitle => 'Elige el tipo de juegos que te interesan';
+
+  @override
+  String get filtersApplyBtn => 'Aplicar Filtros';
+
+  @override
+  String get appName => 'NexGen Parents';
+
+  @override
+  String loading(String appName) {
+    return 'Cargando $appName...';
+  }
 }

@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -59,27 +60,38 @@ class AppHeader extends StatelessWidget {
             final compact = constraints.maxWidth < 1100;
 
             return Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: compact ? 12 : 16,
-                vertical: compact ? 12 : 0,
-              ),
               decoration: BoxDecoration(
-                color: const Color(0xFF060617),
                 borderRadius: BorderRadius.circular(18),
-                border: Border.all(
-                  color: Colors.white.withValues(alpha: 0.08),
-                ),
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xFF060617).withValues(alpha: 0.26),
+                    color: const Color(0xFF060617).withOpacity(0.26),
                     blurRadius: 20,
                     offset: const Offset(0, 10),
                   ),
                 ],
               ),
-              child: compact
-                  ? _buildCompactLayout(context, localeProvider, currentLanguage)
-                  : _buildWideLayout(context, localeProvider, currentLanguage),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(18),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 14.0, sigmaY: 14.0),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: compact ? 12 : 16,
+                      vertical: compact ? 12 : 0,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF060617).withOpacity(0.65), // Fondo translúcido
+                      borderRadius: BorderRadius.circular(18),
+                      border: Border.all(
+                        color: Colors.white.withOpacity(0.12),
+                      ),
+                    ),
+                    child: compact
+                        ? _buildCompactLayout(context, localeProvider, currentLanguage)
+                        : _buildWideLayout(context, localeProvider, currentLanguage),
+                  ),
+                ),
+              ),
             );
           },
         ),
@@ -249,10 +261,10 @@ _buildLocaleButton(
       width: 38,
       height: 38,
       decoration: BoxDecoration(
-        color: AppConfig.primaryColor.withValues(alpha: 0.18),
+        color: AppConfig.primaryColor.withOpacity(0.18),
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
-          color: AppConfig.primaryColor.withValues(alpha: 0.35),
+          color: AppConfig.primaryColor.withOpacity(0.35),
         ),
       ),
       child: const Icon(
@@ -326,32 +338,32 @@ _buildLocaleButton(
           hintText:
               AppLocalizations.of(context)?.headerSearchHint ?? 'Buscar...',
           hintStyle: TextStyle(
-            color: Colors.white.withValues(alpha: 0.35),
+            color: Colors.white.withOpacity(0.35),
             fontSize: 13,
           ),
           prefixIcon: Icon(
             Icons.search,
             size: 17,
-            color: Colors.white.withValues(alpha: 0.45),
+            color: Colors.white.withOpacity(0.45),
           ),
           filled: true,
-          fillColor: Colors.white.withValues(alpha: 0.05),
+          fillColor: Colors.white.withOpacity(0.05),
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide:
-                BorderSide(color: Colors.white.withValues(alpha: 0.08)),
+                BorderSide(color: Colors.white.withOpacity(0.08)),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide:
-                BorderSide(color: Colors.white.withValues(alpha: 0.08)),
+                BorderSide(color: Colors.white.withOpacity(0.08)),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide(
-              color: AppConfig.primaryColor.withValues(alpha: 0.8),
+              color: AppConfig.primaryColor.withOpacity(0.8),
             ),
           ),
         ),
@@ -389,7 +401,7 @@ _buildLocaleButton(
               border: Border.all(
                 color: active
                     ? const Color(0xFF3BF1E0)
-                    : Colors.white.withValues(alpha: 0.25),
+                    : Colors.white.withOpacity(0.25),
                 width: active ? 1.8 : 1,
               ),
             ),
@@ -546,12 +558,12 @@ class _CompactHeaderRowState extends State<_CompactHeaderRow> {
                 isDense: true,
                 hintText: widget.hintText,
                 hintStyle: TextStyle(
-                  color: Colors.white.withValues(alpha: 0.35),
+                  color: Colors.white.withOpacity(0.35),
                   fontSize: 13,
                 ),
                 prefixIcon: IconButton(
                   icon: const Icon(Icons.arrow_back, size: 17),
-                  color: Colors.white.withValues(alpha: 0.8),
+                  color: Colors.white.withOpacity(0.8),
                   onPressed: () {
                     setState(() {
                       _isSearchExpanded = false;
@@ -562,19 +574,19 @@ class _CompactHeaderRowState extends State<_CompactHeaderRow> {
                   constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
                 ),
                 filled: true,
-                fillColor: Colors.white.withValues(alpha: 0.05),
+                fillColor: Colors.white.withOpacity(0.05),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.08)),
+                  borderSide: BorderSide(color: Colors.white.withOpacity(0.08)),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.08)),
+                  borderSide: BorderSide(color: Colors.white.withOpacity(0.08)),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: AppConfig.primaryColor.withValues(alpha: 0.8)),
+                  borderSide: BorderSide(color: AppConfig.primaryColor.withOpacity(0.8)),
                 ),
               ),
             ),
@@ -656,11 +668,11 @@ class _CompactNavMenuButtonState extends State<CompactNavMenuButton> {
                   color: const Color(0xFF1E293B),
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.1),
+                    color: Colors.white.withOpacity(0.1),
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.2),
+                      color: Colors.black.withOpacity(0.2),
                       blurRadius: 10,
                       offset: const Offset(0, 5),
                     ),
@@ -868,11 +880,11 @@ class AccountMenuButtonState extends State<AccountMenuButton> {
                   color: const Color(0xFF1E293B),
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.1),
+                    color: Colors.white.withOpacity(0.1),
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.2),
+                      color: Colors.black.withOpacity(0.2),
                       blurRadius: 10,
                       offset: const Offset(0, 5),
                     ),
@@ -965,7 +977,7 @@ class AccountMenuButtonState extends State<AccountMenuButton> {
       ));
     }
 
-    items.add(Divider(color: Colors.white.withValues(alpha: 0.1), height: 16));
+    items.add(Divider(color: Colors.white.withOpacity(0.1), height: 16));
     items.add(_buildMenuItem(
       context,
       icon: Icons.logout,

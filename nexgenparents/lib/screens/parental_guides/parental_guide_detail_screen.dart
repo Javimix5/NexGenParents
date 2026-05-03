@@ -148,10 +148,10 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
     return Container(
       padding: const EdgeInsets.all(AppConfig.paddingMedium),
       decoration: BoxDecoration(
-        color: theme.colorScheme.primary.withValues(alpha: 0.1),
+        color: theme.colorScheme.primary.withOpacity(0.1),
         border: Border(
           bottom: BorderSide(
-            color: theme.colorScheme.primary.withValues(alpha: 0.3),
+            color: theme.colorScheme.primary.withOpacity(0.3),
             width: 1,
           ),
         ),
@@ -182,7 +182,7 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
           const SizedBox(height: AppConfig.paddingSmall),
           LinearProgressIndicator(
             value: (_currentStep + 1) / widget.guide.steps.length,
-            backgroundColor: theme.colorScheme.onSurface.withValues(alpha: 0.2),
+            backgroundColor: theme.colorScheme.onSurface.withOpacity( 0.2),
             valueColor: AlwaysStoppedAnimation<Color>(theme.colorScheme.primary),
             minHeight: 8,
             borderRadius: BorderRadius.circular(AppConfig.borderRadiusSmall),
@@ -227,10 +227,10 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
               Container(
                 padding: const EdgeInsets.all(AppConfig.paddingMedium),
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.secondary.withValues(alpha: 0.1),
+                  color: theme.colorScheme.secondary.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
                   border: Border.all(
-                    color: theme.colorScheme.secondary.withValues(alpha: 0.3),
+                    color: theme.colorScheme.secondary.withOpacity(0.3),
                     width: 2,
                   ),
                 ),
@@ -269,7 +269,7 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
                       width: double.infinity,
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: theme.dividerColor.withValues(alpha: 0.3),
+                          color: theme.dividerColor.withOpacity(0.3),
                           width: 2,
                         ),
                         borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
@@ -282,7 +282,7 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
 
                           return Container(
                             height: 300,
-                            color: theme.colorScheme.onSurface.withValues(alpha: 0.1),
+                            color: theme.colorScheme.onSurface.withOpacity(0.1),
                             child: Center(
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -291,7 +291,7 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
                                   const SizedBox(height: AppConfig.paddingMedium),
                                   Text(
                                     l10n?.parentalGuidesLoadingImage ?? 'Cargando imagen...',
-                                    style: TextStyle(color: theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.7)),
+                                    style: TextStyle(color: theme.textTheme.bodyMedium?.color?.withOpacity(0.7)),
                                   ),
                                 ],
                               ),
@@ -301,7 +301,7 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
                         errorBuilder: (context, error, stackTrace) {
                           return Container(
                             height: 300,
-                            color: theme.colorScheme.error.withValues(alpha: 0.1),
+                            color: theme.colorScheme.error.withOpacity(0.1),
                             child: Center(
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -330,7 +330,7 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
                 Container(
                   padding: const EdgeInsets.all(AppConfig.paddingMedium),
                   decoration: BoxDecoration(
-                    color: theme.colorScheme.secondary.withValues(alpha: 0.1),
+                    color: theme.colorScheme.secondary.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
                     border: Border.all(color: theme.colorScheme.secondary, width: 2),
                   ),
@@ -366,7 +366,7 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
         color: theme.cardColor,
         border: Border(
           top: BorderSide(
-            color: theme.dividerColor.withValues(alpha: 0.2),
+            color: theme.dividerColor.withOpacity(0.2),
             width: 1,
           ),
         ),

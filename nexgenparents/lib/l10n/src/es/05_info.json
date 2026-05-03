@@ -1,0 +1,25 @@
+{
+
+    "privacyPolicyTitle": "Política de Privacidad",
+    "privacyPolicySubtitle": "Política de Privacidad de NexGen Parents",
+    "privacyPolicyLastUpdate": "Última actualización: Marzo 2026",
+    "privacyPolicyS1Title": "1. Recopilación de Información",
+    "privacyPolicyS1Text": "En NexGen Parents nos tomamos muy en serio tu privacidad y la de tu familia. Recopilamos información básica del perfil (como el correo electrónico y tu nombre de usuario) para permitir el acceso a funcionalidades como el diccionario colaborativo y el foro.",
+    "privacyPolicyS2Title": "2. Uso de los Datos",
+    "privacyPolicyS2Text": "Los datos proporcionados se utilizan exclusivamente para mejorar tu experiencia en la plataforma, personalizar las recomendaciones por edad (PEGI/ESRB) y mantener un entorno seguro en nuestra comunidad.",
+    "privacyPolicyS3Title": "3. Protección y Seguridad",
+    "privacyPolicyS3Text": "Tus datos están protegidos mediante los servicios de Firebase y en ningún caso se venden o comparten con terceros con fines publicitarios no relacionados con el propósito educativo de la plataforma.",
+    "privacyPolicyS4Title": "4. Tus Derechos",
+    "privacyPolicyS4Text": "Puedes solicitar en cualquier momento la eliminación total de tu cuenta y tus datos asociados a través del panel de configuración de tu perfil.",
+    "aboutUsTitle": "Quiénes somos",
+    "aboutUsSubtitle": "Acerca de NexGen Parents",
+    "aboutUsP1": "NexGen Parents nace para resolver una brecha informativa real: hoy en día, muchas familias no tienen referencias claras para interpretar el contenido, los riesgos y el gran valor educativo que ofrecen los videojuegos actuales.",
+    "aboutUsP2": "Nuestro principal objetivo es reducir la incertidumbre de madres, padres, docentes y orientadores, facilitando decisiones de consumo digital mucho más responsables e informadas.",
+    "aboutUsVersion": "Versión 1.0.0 (Marzo 2026)\nProyecto TFC",
+    "contactUsTitle": "Contáctanos",
+    "contactUsSubtitle": "¡Nos encantaría escucharte!",
+    "contactUsDescription": "¿Tienes alguna duda sobre nuestras guías, quieres proponer una mejora o necesitas ayuda técnica con la aplicación? Ponte en contacto con nosotros.",
+    "contactUsEmailLabel": "Correo electrónico",
+    "contactUsWebLabel": "Sitio Web",
+    "contactUsForumHint": "También puedes participar activamente dejando tus dudas en nuestro Foro Comunitario de la app."
+}

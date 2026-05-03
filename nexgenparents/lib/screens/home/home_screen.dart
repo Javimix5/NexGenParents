@@ -47,6 +47,36 @@ class _HomeScreenState extends State<HomeScreen> {
     _accountMenuKey.currentState?.closeMenu();
   }
 
+  // Validación de acceso a pantallas protegidas
+  bool _requireLogin(BuildContext context, {String? customMessage}) {
+    final user = Provider.of<AuthProvider>(context, listen: false).currentUser;
+    if (user == null) {
+      final l10n = AppLocalizations.of(context);
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text(l10n?.dictModAccessDeniedTitle ?? 'Acceso restringido'),
+          content: Text(customMessage ?? l10n?.alertLoginRequiredForum ?? 'Debes iniciar sesión para acceder a la comunidad y participar en el foro.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: Text(l10n?.adminCancelBtn ?? 'Cancelar'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+                Navigator.push(context, MaterialPageRoute(builder: (_) => const LoginScreen()));
+              },
+              child: Text(l10n?.loginBtn ?? 'Iniciar sesión'),
+            ),
+          ],
+        ),
+      );
+      return false;
+    }
+    return true;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -177,7 +207,7 @@ Widget _buildHeader(BuildContext context) {
 }
 
 Widget _buildMainContent(BuildContext context) {
-  final screenWidth = MediaQuery.sizeOf(context).width;
+  final screenWidth = MediaQuery.of(context).size.width;
   final horizontalPadding = screenWidth < 600
       ? 12.0
       : screenWidth < 1100
@@ -228,6 +258,10 @@ Widget _buildHeroSection(BuildContext context) {
   final user = authProvider.currentUser;
   final l10n = AppLocalizations.of(context);
   
+  if (user == null) {
+    return _buildGuestHero(context);
+  }
+
   return FutureBuilder<int>(
     future: _userMessagesCountFuture,
     builder: (context, snapshot) {
@@ -267,8 +301,7 @@ Widget _buildQuickAccessSection(BuildContext context) {
 Widget _buildFeaturedGameAndUpdates(BuildContext context) {
   final gamesProvider = Provider.of<GamesProvider>(context);
   final popularGames = gamesProvider.popularGames;
-  final featuredGame = gamesProvider.weeklyTopGame ??
-      (popularGames.isNotEmpty ? popularGames.first : null);
+  final featuredGame = popularGames.isNotEmpty ? popularGames.first : null;
 
   return LayoutBuilder(
     builder: (context, constraints) {
@@ -321,7 +354,9 @@ void _handleNavigation(BuildContext context, AppSection section) {
       _navigateTo(context, const ParentalGuidesListScreen());
       break;
     case AppSection.comunidad:
-      _navigateTo(context, const ForumListScreen());
+      if (_requireLogin(context)) {
+        _navigateTo(context, const ForumListScreen());
+      }
       break;
   }
 }
@@ -343,10 +378,10 @@ void _handleNavigation(BuildContext context, AppSection section) {
       decoration: BoxDecoration(
         color: theme.cardColor,
         borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: theme.dividerColor.withValues(alpha: 0.35)),
+        border: Border.all(color: theme.dividerColor.withOpacity(0.35)),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF0B1020).withValues(alpha: 0.06),
+            color: const Color(0xFF0B1020).withOpacity(0.06),
             blurRadius: 30,
             offset: const Offset(0, 12),
           ),
@@ -373,45 +408,44 @@ void _handleNavigation(BuildContext context, AppSection section) {
                         children: [
                           Text(
                             l10n?.homeWelcomeUser(userName) ?? 'Bienvenido, $userName!',
-                      style:
-                          Theme.of(context).textTheme.displayMedium?.copyWith(
-                                fontSize: 28,
-                                fontWeight: FontWeight.w800,
-                              ),
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      l10n?.homeUserStats(approvedTermsCount, proposedTermsCount) ?? 'Tienes $approvedTermsCount términos aprobados y $proposedTermsCount términos propuestos.',
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            color: AppConfig.textSecondaryColor,
-                            height: 1.35,
+                            style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.w800,
+                                ),
                           ),
-                    ),
-                    const SizedBox(height: 14),
-                    Wrap(
-                      spacing: 10,
-                      runSpacing: 10,
-                      children: [
-                        _buildBadge(
-                          text: userLevel,
-                          background: isDark
-                              ? const Color(0xFF392B53)
-                              : const Color(0xFFF3E8FF),
-                          foreground: isDark
-                              ? const Color(0xFFE2D5FF)
-                              : const Color(0xFF8B5CF6),
-                        ),
-                        _buildBadge(
-                          text: l10n?.homeActiveTerms(totalActiveTerms) ?? '$totalActiveTerms términos activos',
-                          background: isDark
-                              ? const Color(0xFF1E3A33)
-                              : const Color(0xFFEAFBF3),
-                          foreground: isDark
-                              ? const Color(0xFFA7F3D0)
-                              : const Color(0xFF059669),
-                        ),
-                      ],
-                    ),
+                          const SizedBox(height: 6),
+                          Text(
+                            l10n?.homeUserStats(approvedTermsCount, proposedTermsCount) ?? 'Tienes $approvedTermsCount términos aprobados y $proposedTermsCount términos propuestos.',
+                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                  color: AppConfig.textSecondaryColor,
+                                  height: 1.35,
+                                ),
+                          ),
+                          const SizedBox(height: 14),
+                          Wrap(
+                            spacing: 10,
+                            runSpacing: 10,
+                            children: [
+                              _buildBadge(
+                                text: userLevel,
+                                background: isDark
+                                    ? const Color(0xFF392B53)
+                                    : const Color(0xFFF3E8FF),
+                                foreground: isDark
+                                    ? const Color(0xFFE2D5FF)
+                                    : const Color(0xFF8B5CF6),
+                              ),
+                              _buildBadge(
+                                text: l10n?.homeActiveTerms(totalActiveTerms) ?? '$totalActiveTerms términos activos',
+                                background: isDark
+                                    ? const Color(0xFF1E3A33)
+                                    : const Color(0xFFEAFBF3),
+                                foreground: isDark
+                                    ? const Color(0xFFA7F3D0)
+                                    : const Color(0xFF059669),
+                              ),
+                            ],
+                          ),
                   ],
                 ),
               ],
@@ -429,11 +463,10 @@ void _handleNavigation(BuildContext context, AppSection section) {
                   children: [
                     Text(
                       l10n?.homeWelcomeUser(userName) ?? 'Bienvenido, $userName!',
-                      style:
-                          Theme.of(context).textTheme.displayMedium?.copyWith(
-                                fontSize: 28,
-                                fontWeight: FontWeight.w800,
-                              ),
+                      style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w800,
+                          ),
                     ),
                     const SizedBox(height: 6),
                     Text(
@@ -479,6 +512,92 @@ void _handleNavigation(BuildContext context, AppSection section) {
           ),
         ),
       );
+  }
+
+  Widget _buildGuestHero(BuildContext context) {
+    final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
+
+    return Container(
+      decoration: BoxDecoration(
+        color: theme.cardColor,
+        borderRadius: BorderRadius.circular(28),
+        border: Border.all(color: theme.dividerColor.withOpacity(0.35)),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF0B1020).withOpacity(0.06),
+            blurRadius: 30,
+            offset: const Offset(0, 12),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: Padding(
+          padding: const EdgeInsets.all(28),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final vertical = constraints.maxWidth < 760;
+              final content = Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n?.homeWelcomeGuest ?? '¡Bienvenido a NexGen Parents!',
+                    style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w800,
+                        ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    l10n?.homeGuestDescription ?? 'Tu guía definitiva sobre videojuegos. Descubre clasificaciones por edad, explora nuestro diccionario de términos gaming y aprende a configurar controles parentales.',
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: AppConfig.textSecondaryColor,
+                          height: 1.35,
+                        ),
+                  ),
+                  const SizedBox(height: 14),
+                  ElevatedButton.icon(
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const LoginScreen())),
+                    icon: const Icon(Icons.login),
+                    label: Text(l10n?.loginBtn ?? 'Iniciar sesión'),
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                    ),
+                  ),
+                ],
+              );
+
+              if (vertical) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    InkWell(
+                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const LoginScreen())),
+                      child: const UserAvatar(photoUrl: null, size: 70),
+                    ),
+                    const SizedBox(height: 18),
+                    content,
+                  ],
+                );
+              }
+
+              return Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  InkWell(
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const LoginScreen())),
+                    child: const UserAvatar(photoUrl: null, size: 70),
+                  ),
+                  const SizedBox(width: 18),
+                  Expanded(child: content),
+                ],
+              );
+            },
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _buildQuickActions(BuildContext context) {
@@ -563,10 +682,10 @@ void _handleNavigation(BuildContext context, AppSection section) {
           padding: const EdgeInsets.all(18),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(18),
-            border: Border.all(color: theme.dividerColor.withValues(alpha: 0.35)),
+            border: Border.all(color: theme.dividerColor.withOpacity(0.35)),
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFF0B1020).withValues(alpha: 0.03),
+                color: const Color(0xFF0B1020).withOpacity(0.03),
                 blurRadius: 16,
                 offset: const Offset(0, 8),
               ),
@@ -580,7 +699,7 @@ void _handleNavigation(BuildContext context, AppSection section) {
                 width: 38,
                 height: 38,
                 decoration: BoxDecoration(
-                  color: action.tint.withValues(alpha: 0.12),
+                  color: action.tint.withOpacity(0.12),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(action.icon, color: action.tint, size: 21),
@@ -660,7 +779,7 @@ void _handleNavigation(BuildContext context, AppSection section) {
       decoration: BoxDecoration(
         color: theme.cardColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: theme.dividerColor.withValues(alpha: 0.35)),
+        border: Border.all(color: theme.dividerColor.withOpacity(0.35)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -675,11 +794,7 @@ void _handleNavigation(BuildContext context, AppSection section) {
                 ),
               ),
               TextButton(
-                onPressed: () async {
-                  final gamesProvider =
-                      Provider.of<GamesProvider>(context, listen: false);
-                  await gamesProvider.loadCurrentMonthGames();
-                  if (!context.mounted) return;
+                onPressed: () {
                   _navigateTo(
                     context,
                     const GamesSearchScreen(),
@@ -694,7 +809,7 @@ void _handleNavigation(BuildContext context, AppSection section) {
           ),
           const SizedBox(height: 14),
           Container(
-              constraints: const BoxConstraints(minHeight: 250),
+            constraints: const BoxConstraints(minHeight: 250),
             width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
@@ -705,7 +820,7 @@ void _handleNavigation(BuildContext context, AppSection section) {
               ),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFF0B1020).withValues(alpha: 0.16),
+                  color: const Color(0xFF0B1020).withOpacity(0.16),
                   blurRadius: 20,
                   offset: const Offset(0, 12),
                 ),
@@ -723,7 +838,7 @@ void _handleNavigation(BuildContext context, AppSection section) {
                       shape: BoxShape.circle,
                       gradient: RadialGradient(
                         colors: [
-                          AppConfig.primaryColor.withValues(alpha: 0.22),
+                          AppConfig.primaryColor.withOpacity(0.22),
                           Colors.transparent
                         ],
                       ),
@@ -740,7 +855,7 @@ void _handleNavigation(BuildContext context, AppSection section) {
                       Text(
                         _buildGameTopLabel(context, featuredGame),
                         style: TextStyle(
-                          color: Colors.white.withValues(alpha: 0.8),
+                          color: Colors.white.withOpacity(0.8),
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
                         ),
@@ -763,7 +878,7 @@ void _handleNavigation(BuildContext context, AppSection section) {
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          color: Colors.white.withValues(alpha: 0.72),
+                          color: Colors.white.withOpacity(0.72),
                           height: 1.45,
                           fontSize: 14,
                         ),
@@ -772,16 +887,13 @@ void _handleNavigation(BuildContext context, AppSection section) {
                       ElevatedButton(
                         onPressed: () {
                           if (featuredGame != null) {
-                            PersistentFrameScope.setSection(
-                              context,
-                              AppSection.videojuegos,
-                            );
                             _navigateTo(
                               context,
                               GameDetailScreen(
                                 gameId: featuredGame.id,
                                 gameName: featuredGame.name,
                               ),
+                              section: AppSection.videojuegos,
                             );
                             return;
                           }
@@ -823,7 +935,7 @@ void _handleNavigation(BuildContext context, AppSection section) {
       decoration: BoxDecoration(
         color: theme.cardColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: theme.dividerColor.withValues(alpha: 0.35)),
+        border: Border.all(color: theme.dividerColor.withOpacity(0.35)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -833,9 +945,9 @@ void _handleNavigation(BuildContext context, AppSection section) {
             style: const TextStyle(fontSize: 21, fontWeight: FontWeight.w800),
           ),
           const SizedBox(height: 16),
-        Consumer<ForumProvider>(
-          builder: (context, forumProvider, child) {
-            final posts = forumProvider.posts;
+          Consumer<ForumProvider>(
+            builder: (context, forumProvider, child) {
+              final posts = forumProvider.posts;
               final items = <_CommunityUpdateItem>[
                 _createCommunityUpdateItem(
                   context,
@@ -878,10 +990,14 @@ void _handleNavigation(BuildContext context, AppSection section) {
           ),
           const SizedBox(height: 6),
           OutlinedButton(
-            onPressed: () => _navigateTo(context, const ForumListScreen()),
+            onPressed: () {
+              if (_requireLogin(context)) {
+                _navigateTo(context, const ForumListScreen());
+              }
+            },
             style: OutlinedButton.styleFrom(
               minimumSize: const Size.fromHeight(46),
-              side: BorderSide(color: theme.dividerColor.withValues(alpha: 0.5)),
+            side: BorderSide(color: theme.dividerColor.withOpacity(0.5)),
             ),
             child: Text(
               l10n?.homeGoToCommunityBtn ?? 'Accede a la comunidad',
@@ -901,9 +1017,9 @@ void _handleNavigation(BuildContext context, AppSection section) {
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: theme.colorScheme.surface.withValues(alpha: 0.7),
+          color: theme.colorScheme.surface.withOpacity(0.7),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: theme.dividerColor.withValues(alpha: 0.35)),
+          border: Border.all(color: theme.dividerColor.withOpacity(0.35)),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -912,7 +1028,7 @@ void _handleNavigation(BuildContext context, AppSection section) {
               width: 46,
               height: 46,
               decoration: BoxDecoration(
-                color: item.tint.withValues(alpha: 0.12),
+                color: item.tint.withOpacity(0.12),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(item.icon, color: item.tint, size: 22),
@@ -1093,8 +1209,11 @@ void _handleNavigation(BuildContext context, AppSection section) {
       meta: latest != null ? (l10n?.homeUpdateThreadUpdated ?? 'Hilo actualizado recientemente') : (l10n?.homeUpdateCommunity ?? 'Comunidad'),
       icon: icon,
       tint: tint,
-      onTap: () =>
-          _navigateTo(context, ForumCategoryPostsScreen(section: ForumSections.byId(sectionId))),
+      onTap: () {
+        if (_requireLogin(context)) {
+          _navigateTo(context, ForumCategoryPostsScreen(section: ForumSections.byId(sectionId)));
+        }
+      },
     );
   }
 
@@ -1104,10 +1223,12 @@ void _handleNavigation(BuildContext context, AppSection section) {
     int? messagesCount,
   ) {
     final l10n = AppLocalizations.of(context);
-    if (user?.isAdmin ?? false) {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    
+    if (authProvider.isAdmin) {
       return l10n?.roleAdmin ?? 'Administrador';
     }
-    if (user?.isModerator ?? false) {
+    if (authProvider.isModerator) {
       return l10n?.roleModerator ?? 'Moderador';
     }
 

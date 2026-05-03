@@ -100,113 +100,449 @@ abstract class AppLocalizations {
     Locale('gl')
   ];
 
-  /// Nombre de la aplicación
+  /// No description provided for @privacyPolicyTitle.
   ///
   /// In es, this message translates to:
-  /// **'NexGen Parents'**
-  String get appName;
+  /// **'Política de Privacidad'**
+  String get privacyPolicyTitle;
 
-  /// No description provided for @loading.
+  /// No description provided for @privacyPolicySubtitle.
   ///
   /// In es, this message translates to:
-  /// **'Cargando {appName}...'**
-  String loading(String appName);
+  /// **'Política de Privacidad de NexGen Parents'**
+  String get privacyPolicySubtitle;
 
-  /// No description provided for @classificationSystemsTitle.
+  /// No description provided for @privacyPolicyLastUpdate.
   ///
   /// In es, this message translates to:
-  /// **'Sistemas de Clasificación'**
-  String get classificationSystemsTitle;
+  /// **'Última actualización: Marzo 2026'**
+  String get privacyPolicyLastUpdate;
 
-  /// No description provided for @pegiInfoSubtitle.
+  /// No description provided for @privacyPolicyS1Title.
   ///
   /// In es, this message translates to:
-  /// **'Aprende a interpretar PEGI y ESRB para elegir juegos adecuados para cada edad.'**
-  String get pegiInfoSubtitle;
+  /// **'1. Recopilación de Información'**
+  String get privacyPolicyS1Title;
 
-  /// No description provided for @ageRatingsMeaningTitle.
+  /// No description provided for @privacyPolicyS1Text.
   ///
   /// In es, this message translates to:
-  /// **'¿Qué significan las clasificaciones por edad?'**
-  String get ageRatingsMeaningTitle;
+  /// **'En NexGen Parents nos tomamos muy en serio tu privacidad y la de tu familia. Recopilamos información básica del perfil (como el correo electrónico y tu nombre de usuario) para permitir el acceso a funcionalidades como el diccionario colaborativo y el foro.'**
+  String get privacyPolicyS1Text;
 
-  /// No description provided for @pegiSystemEuropa.
+  /// No description provided for @privacyPolicyS2Title.
   ///
   /// In es, this message translates to:
-  /// **'Sistema PEGI (Europa)'**
-  String get pegiSystemEuropa;
+  /// **'2. Uso de los Datos'**
+  String get privacyPolicyS2Title;
 
-  /// No description provided for @esrbSystemUsa.
+  /// No description provided for @privacyPolicyS2Text.
   ///
   /// In es, this message translates to:
-  /// **'Sistema ESRB (EE. UU.)'**
-  String get esrbSystemUsa;
+  /// **'Los datos proporcionados se utilizan exclusivamente para mejorar tu experiencia en la plataforma, personalizar las recomendaciones por edad (PEGI/ESRB) y mantener un entorno seguro en nuestra comunidad.'**
+  String get privacyPolicyS2Text;
 
-  /// No description provided for @esrbApiNote.
+  /// No description provided for @privacyPolicyS3Title.
   ///
   /// In es, this message translates to:
-  /// **'Este es el sistema que suele aparecer en la API de videojuegos que utilizamos.'**
-  String get esrbApiNote;
+  /// **'3. Protección y Seguridad'**
+  String get privacyPolicyS3Title;
 
-  /// No description provided for @pegiContentDescriptorsTitle.
+  /// No description provided for @privacyPolicyS3Text.
   ///
   /// In es, this message translates to:
-  /// **'Descriptores de Contenido PEGI'**
-  String get pegiContentDescriptorsTitle;
+  /// **'Tus datos están protegidos mediante los servicios de Firebase y en ningún caso se venden o comparten con terceros con fines publicitarios no relacionados con el propósito educativo de la plataforma.'**
+  String get privacyPolicyS3Text;
 
-  /// No description provided for @pegiContentDescriptorsSubtitle.
+  /// No description provided for @privacyPolicyS4Title.
   ///
   /// In es, this message translates to:
-  /// **'Además de la edad, las clasificaciones incluyen iconos que indican el tipo de contenido:'**
-  String get pegiContentDescriptorsSubtitle;
+  /// **'4. Tus Derechos'**
+  String get privacyPolicyS4Title;
 
-  /// No description provided for @contentDescriptorViolence.
+  /// No description provided for @privacyPolicyS4Text.
   ///
   /// In es, this message translates to:
-  /// **'Violencia'**
-  String get contentDescriptorViolence;
+  /// **'Puedes solicitar en cualquier momento la eliminación total de tu cuenta y tus datos asociados a través del panel de configuración de tu perfil.'**
+  String get privacyPolicyS4Text;
 
-  /// No description provided for @contentDescriptorFear.
+  /// No description provided for @aboutUsTitle.
   ///
   /// In es, this message translates to:
-  /// **'Miedo'**
-  String get contentDescriptorFear;
+  /// **'Quiénes somos'**
+  String get aboutUsTitle;
 
-  /// No description provided for @contentDescriptorOnline.
+  /// No description provided for @aboutUsSubtitle.
   ///
   /// In es, this message translates to:
-  /// **'Online'**
-  String get contentDescriptorOnline;
+  /// **'Acerca de NexGen Parents'**
+  String get aboutUsSubtitle;
 
-  /// No description provided for @contentDescriptorDiscrimination.
+  /// No description provided for @aboutUsP1.
   ///
   /// In es, this message translates to:
-  /// **'Discriminación'**
-  String get contentDescriptorDiscrimination;
+  /// **'NexGen Parents nace para resolver una brecha informativa real: hoy en día, muchas familias no tienen referencias claras para interpretar el contenido, los riesgos y el gran valor educativo que ofrecen los videojuegos actuales.'**
+  String get aboutUsP1;
 
-  /// No description provided for @contentDescriptorDrugs.
+  /// No description provided for @aboutUsP2.
   ///
   /// In es, this message translates to:
-  /// **'Drogas'**
-  String get contentDescriptorDrugs;
+  /// **'Nuestro principal objetivo es reducir la incertidumbre de madres, padres, docentes y orientadores, facilitando decisiones de consumo digital mucho más responsables e informadas.'**
+  String get aboutUsP2;
 
-  /// No description provided for @contentDescriptorSex.
+  /// No description provided for @aboutUsVersion.
   ///
   /// In es, this message translates to:
-  /// **'Sexo'**
-  String get contentDescriptorSex;
+  /// **'Versión 1.0.0 (Marzo 2026)\nProyecto TFC'**
+  String get aboutUsVersion;
 
-  /// No description provided for @contentDescriptorBadLanguage.
+  /// No description provided for @contactUsTitle.
   ///
   /// In es, this message translates to:
-  /// **'Lenguaje soez'**
-  String get contentDescriptorBadLanguage;
+  /// **'Contáctanos'**
+  String get contactUsTitle;
 
-  /// No description provided for @contentDescriptorGambling.
+  /// No description provided for @contactUsSubtitle.
   ///
   /// In es, this message translates to:
-  /// **'Juego/Apuestas'**
-  String get contentDescriptorGambling;
+  /// **'¡Nos encantaría escucharte!'**
+  String get contactUsSubtitle;
+
+  /// No description provided for @contactUsDescription.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Tienes alguna duda sobre nuestras guías, quieres proponer una mejora o necesitas ayuda técnica con la aplicación? Ponte en contacto con nosotros.'**
+  String get contactUsDescription;
+
+  /// No description provided for @contactUsEmailLabel.
+  ///
+  /// In es, this message translates to:
+  /// **'Correo electrónico'**
+  String get contactUsEmailLabel;
+
+  /// No description provided for @contactUsWebLabel.
+  ///
+  /// In es, this message translates to:
+  /// **'Sitio Web'**
+  String get contactUsWebLabel;
+
+  /// No description provided for @contactUsForumHint.
+  ///
+  /// In es, this message translates to:
+  /// **'También puedes participar activamente dejando tus dudas en nuestro Foro Comunitario de la app.'**
+  String get contactUsForumHint;
+
+  /// No description provided for @errorNameLength.
+  ///
+  /// In es, this message translates to:
+  /// **'El nombre debe tener al menos 3 caracteres'**
+  String get errorNameLength;
+
+  /// No description provided for @errorPasswordLength8.
+  ///
+  /// In es, this message translates to:
+  /// **'La contraseña debe tener al menos 8 caracteres'**
+  String get errorPasswordLength8;
+
+  /// No description provided for @errorPasswordUppercase.
+  ///
+  /// In es, this message translates to:
+  /// **'Incluye al menos una letra mayúscula'**
+  String get errorPasswordUppercase;
+
+  /// No description provided for @errorPasswordLowercase.
+  ///
+  /// In es, this message translates to:
+  /// **'Incluye al menos una letra minúscula'**
+  String get errorPasswordLowercase;
+
+  /// No description provided for @errorPasswordNumber.
+  ///
+  /// In es, this message translates to:
+  /// **'Incluye al menos un número'**
+  String get errorPasswordNumber;
+
+  /// No description provided for @errorConfirmPasswordRequired.
+  ///
+  /// In es, this message translates to:
+  /// **'Por favor, confirma tu contraseña'**
+  String get errorConfirmPasswordRequired;
+
+  /// No description provided for @errorTermExists.
+  ///
+  /// In es, this message translates to:
+  /// **'Este término ya existe en el diccionario'**
+  String get errorTermExists;
+
+  /// No description provided for @successTermProposed.
+  ///
+  /// In es, this message translates to:
+  /// **'Término propuesto correctamente. Será revisado por un moderador'**
+  String get successTermProposed;
+
+  /// No description provided for @errorProposeTerm.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al proponer término'**
+  String get errorProposeTerm;
+
+  /// No description provided for @errorTermNotFound.
+  ///
+  /// In es, this message translates to:
+  /// **'El término no existe'**
+  String get errorTermNotFound;
+
+  /// No description provided for @successTermApproved.
+  ///
+  /// In es, this message translates to:
+  /// **'Término aprobado correctamente'**
+  String get successTermApproved;
+
+  /// No description provided for @errorApproveTerm.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al aprobar término'**
+  String get errorApproveTerm;
+
+  /// No description provided for @successTermRejected.
+  ///
+  /// In es, this message translates to:
+  /// **'Término rechazado'**
+  String get successTermRejected;
+
+  /// No description provided for @errorRejectTerm.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al rechazar término'**
+  String get errorRejectTerm;
+
+  /// No description provided for @successTermUpdated.
+  ///
+  /// In es, this message translates to:
+  /// **'Término actualizado correctamente'**
+  String get successTermUpdated;
+
+  /// No description provided for @errorUpdateTerm.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al actualizar término'**
+  String get errorUpdateTerm;
+
+  /// No description provided for @successTermDeleted.
+  ///
+  /// In es, this message translates to:
+  /// **'Término eliminado correctamente'**
+  String get successTermDeleted;
+
+  /// No description provided for @errorDeleteTerm.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al eliminar término'**
+  String get errorDeleteTerm;
+
+  /// No description provided for @errorInvalidRole.
+  ///
+  /// In es, this message translates to:
+  /// **'Rol inválido. Debe ser: user, moderator o admin'**
+  String get errorInvalidRole;
+
+  /// No description provided for @errorModifyOwnRole.
+  ///
+  /// In es, this message translates to:
+  /// **'No puedes modificar tu propio rol'**
+  String get errorModifyOwnRole;
+
+  /// No description provided for @successRoleUpdated.
+  ///
+  /// In es, this message translates to:
+  /// **'Rol actualizado correctamente'**
+  String get successRoleUpdated;
+
+  /// No description provided for @errorUpdateRole.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al actualizar rol'**
+  String get errorUpdateRole;
+
+  /// No description provided for @successBirthYearsUpdated.
+  ///
+  /// In es, this message translates to:
+  /// **'Años de nacimiento actualizados correctamente'**
+  String get successBirthYearsUpdated;
+
+  /// No description provided for @errorUpdateBirthYears.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al actualizar años de nacimiento'**
+  String get errorUpdateBirthYears;
+
+  /// No description provided for @successPlatformsUpdated.
+  ///
+  /// In es, this message translates to:
+  /// **'Plataformas actualizadas correctamente'**
+  String get successPlatformsUpdated;
+
+  /// No description provided for @errorUpdatePlatforms.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al actualizar plataformas'**
+  String get errorUpdatePlatforms;
+
+  /// No description provided for @successAvatarUpdated.
+  ///
+  /// In es, this message translates to:
+  /// **'Avatar actualizado correctamente'**
+  String get successAvatarUpdated;
+
+  /// No description provided for @errorUpdateAvatar.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al actualizar avatar'**
+  String get errorUpdateAvatar;
+
+  /// No description provided for @successUserInfoUpdated.
+  ///
+  /// In es, this message translates to:
+  /// **'Información de usuario actualizada correctamente'**
+  String get successUserInfoUpdated;
+
+  /// No description provided for @errorUpdateUserInfo.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al actualizar información'**
+  String get errorUpdateUserInfo;
+
+  /// No description provided for @successAccountDeleted.
+  ///
+  /// In es, this message translates to:
+  /// **'Cuenta eliminada correctamente'**
+  String get successAccountDeleted;
+
+  /// No description provided for @errorDeleteAccount.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al eliminar cuenta'**
+  String get errorDeleteAccount;
+
+  /// No description provided for @successPostDeleted.
+  ///
+  /// In es, this message translates to:
+  /// **'Publicación eliminada correctamente'**
+  String get successPostDeleted;
+
+  /// No description provided for @errorDeletePost.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al eliminar la publicación'**
+  String get errorDeletePost;
+
+  /// No description provided for @errorPostNotFound.
+  ///
+  /// In es, this message translates to:
+  /// **'La publicación asociada no existe'**
+  String get errorPostNotFound;
+
+  /// No description provided for @successReplyDeleted.
+  ///
+  /// In es, this message translates to:
+  /// **'Respuesta eliminada correctamente'**
+  String get successReplyDeleted;
+
+  /// No description provided for @errorDeleteReply.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al eliminar la respuesta'**
+  String get errorDeleteReply;
+
+  /// No description provided for @errorNoAuthUser.
+  ///
+  /// In es, this message translates to:
+  /// **'No hay usuario autenticado'**
+  String get errorNoAuthUser;
+
+  /// No description provided for @successPasswordUpdated.
+  ///
+  /// In es, this message translates to:
+  /// **'Contraseña actualizada correctamente'**
+  String get successPasswordUpdated;
+
+  /// No description provided for @errorChangePassword.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al cambiar contraseña'**
+  String get errorChangePassword;
+
+  /// No description provided for @errorWrongCurrentPassword.
+  ///
+  /// In es, this message translates to:
+  /// **'La contraseña actual es incorrecta'**
+  String get errorWrongCurrentPassword;
+
+  /// No description provided for @errorWeakNewPassword.
+  ///
+  /// In es, this message translates to:
+  /// **'La nueva contraseña es demasiado débil'**
+  String get errorWeakNewPassword;
+
+  /// No description provided for @successEmailUpdated.
+  ///
+  /// In es, this message translates to:
+  /// **'Email actualizado correctamente. Verifica tu nuevo correo.'**
+  String get successEmailUpdated;
+
+  /// No description provided for @errorChangeEmail.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al cambiar email'**
+  String get errorChangeEmail;
+
+  /// No description provided for @errorEmailAlreadyInUse.
+  ///
+  /// In es, this message translates to:
+  /// **'Este email ya está en uso'**
+  String get errorEmailAlreadyInUse;
+
+  /// No description provided for @errorInvalidNewEmail.
+  ///
+  /// In es, this message translates to:
+  /// **'El email no es válido'**
+  String get errorInvalidNewEmail;
+
+  /// No description provided for @errorNoPasswordAccount.
+  ///
+  /// In es, this message translates to:
+  /// **'Tu cuenta no usa contraseña. Inicia sesión de nuevo con tu proveedor para continuar.'**
+  String get errorNoPasswordAccount;
+
+  /// No description provided for @successReauth.
+  ///
+  /// In es, this message translates to:
+  /// **'Reautenticación correcta'**
+  String get successReauth;
+
+  /// No description provided for @errorReauth.
+  ///
+  /// In es, this message translates to:
+  /// **'Error de reautenticación'**
+  String get errorReauth;
+
+  /// No description provided for @alertLoginRequiredForum.
+  ///
+  /// In es, this message translates to:
+  /// **'Debes iniciar sesión para acceder a la comunidad y participar en el foro.'**
+  String get alertLoginRequiredForum;
+
+  /// No description provided for @alertLoginRequiredProfile.
+  ///
+  /// In es, this message translates to:
+  /// **'Debes iniciar sesión para acceder a tu perfil y editar tu información.'**
+  String get alertLoginRequiredProfile;
+
+  /// No description provided for @alertLoginRequiredProposeTerm.
+  ///
+  /// In es, this message translates to:
+  /// **'Debes iniciar sesión para proponer un término.'**
+  String get alertLoginRequiredProposeTerm;
 
   /// No description provided for @errorInvalidEmail.
   ///
@@ -339,720 +675,6 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Correo de recuperación enviado. Revisa tu bandeja de entrada'**
   String get successPasswordReset;
-
-  /// No description provided for @guideTypeEnable.
-  ///
-  /// In es, this message translates to:
-  /// **'Habilitar guía'**
-  String get guideTypeEnable;
-
-  /// No description provided for @guideTypeDisable.
-  ///
-  /// In es, this message translates to:
-  /// **'Deshabilitar guía'**
-  String get guideTypeDisable;
-
-  /// No description provided for @guideTypeApp.
-  ///
-  /// In es, this message translates to:
-  /// **'Guía de aplicaciones'**
-  String get guideTypeApp;
-
-  /// No description provided for @guideTypeTime.
-  ///
-  /// In es, this message translates to:
-  /// **'Guía de tiempo'**
-  String get guideTypeTime;
-
-  /// No description provided for @guideTypeDefault.
-  ///
-  /// In es, this message translates to:
-  /// **'Guía por defecto'**
-  String get guideTypeDefault;
-
-  /// No description provided for @psEnableGuideTitle.
-  ///
-  /// In es, this message translates to:
-  /// **'Cómo habilitar la guía parental'**
-  String get psEnableGuideTitle;
-
-  /// No description provided for @psEnableGuideDescription.
-  ///
-  /// In es, this message translates to:
-  /// **'Sigue estos pasos para habilitar la guía parental en tu dispositivo.'**
-  String get psEnableGuideDescription;
-
-  /// No description provided for @psEnableGuideStep1.
-  ///
-  /// In es, this message translates to:
-  /// **'Abre la aplicación de configuración.'**
-  String get psEnableGuideStep1;
-
-  /// No description provided for @psEnableGuideStep2.
-  ///
-  /// In es, this message translates to:
-  /// **'Selecciona \'Controles parentales\'.'**
-  String get psEnableGuideStep2;
-
-  /// No description provided for @psEnableGuideStep3.
-  ///
-  /// In es, this message translates to:
-  /// **'Activa la opción de guía parental.'**
-  String get psEnableGuideStep3;
-
-  /// No description provided for @psEnableGuideStep4.
-  ///
-  /// In es, this message translates to:
-  /// **'Configura las restricciones según tus necesidades.'**
-  String get psEnableGuideStep4;
-
-  /// No description provided for @psEnableGuideStep5.
-  ///
-  /// In es, this message translates to:
-  /// **'Guarda los cambios.'**
-  String get psEnableGuideStep5;
-
-  /// No description provided for @psEnableGuideStep6.
-  ///
-  /// In es, this message translates to:
-  /// **'Verifica que la guía esté activa.'**
-  String get psEnableGuideStep6;
-
-  /// No description provided for @psDisableGuideTitle.
-  ///
-  /// In es, this message translates to:
-  /// **'Cómo deshabilitar la guía parental'**
-  String get psDisableGuideTitle;
-
-  /// No description provided for @psDisableGuideDescription.
-  ///
-  /// In es, this message translates to:
-  /// **'Sigue estos pasos para deshabilitar la guía parental en tu dispositivo.'**
-  String get psDisableGuideDescription;
-
-  /// No description provided for @psDisableGuideStep1.
-  ///
-  /// In es, this message translates to:
-  /// **'Abre la aplicación de configuración.'**
-  String get psDisableGuideStep1;
-
-  /// No description provided for @psDisableGuideStep2.
-  ///
-  /// In es, this message translates to:
-  /// **'Selecciona \'Controles parentales\'.'**
-  String get psDisableGuideStep2;
-
-  /// No description provided for @psDisableGuideStep3.
-  ///
-  /// In es, this message translates to:
-  /// **'Desactiva la opción de guía parental.'**
-  String get psDisableGuideStep3;
-
-  /// No description provided for @psDisableGuideStep4.
-  ///
-  /// In es, this message translates to:
-  /// **'Guarda los cambios.'**
-  String get psDisableGuideStep4;
-
-  /// No description provided for @psDisableGuideStep5.
-  ///
-  /// In es, this message translates to:
-  /// **'Verifica que la guía esté desactivada.'**
-  String get psDisableGuideStep5;
-
-  /// No description provided for @nintendoAppGuideStep2.
-  ///
-  /// In es, this message translates to:
-  /// **'Paso 2: Abre la aplicación de Nintendo.'**
-  String get nintendoAppGuideStep2;
-
-  /// No description provided for @nintendoAppGuideStep3.
-  ///
-  /// In es, this message translates to:
-  /// **'Paso 3: Ve a la sección de controles parentales.'**
-  String get nintendoAppGuideStep3;
-
-  /// No description provided for @nintendoAppGuideStep4.
-  ///
-  /// In es, this message translates to:
-  /// **'Paso 4: Configura las restricciones según sea necesario.'**
-  String get nintendoAppGuideStep4;
-
-  /// No description provided for @nintendoAppGuideStep5.
-  ///
-  /// In es, this message translates to:
-  /// **'Paso 5: Guarda la configuración.'**
-  String get nintendoAppGuideStep5;
-
-  /// No description provided for @nintendoAppGuideStep6.
-  ///
-  /// In es, this message translates to:
-  /// **'Paso 6: Vincula tu cuenta.'**
-  String get nintendoAppGuideStep6;
-
-  /// No description provided for @nintendoAppGuideStep7.
-  ///
-  /// In es, this message translates to:
-  /// **'Paso 7: Confirma la configuración.'**
-  String get nintendoAppGuideStep7;
-
-  /// No description provided for @nintendoAppGuideStep8.
-  ///
-  /// In es, this message translates to:
-  /// **'Paso 8: Prueba los controles parentales.'**
-  String get nintendoAppGuideStep8;
-
-  /// No description provided for @steamGuideTitle.
-  ///
-  /// In es, this message translates to:
-  /// **'Guía parental de Steam'**
-  String get steamGuideTitle;
-
-  /// No description provided for @steamGuideDescription.
-  ///
-  /// In es, this message translates to:
-  /// **'Aprende a configurar los controles parentales en Steam.'**
-  String get steamGuideDescription;
-
-  /// No description provided for @steamGuideStep1.
-  ///
-  /// In es, this message translates to:
-  /// **'Paso 1: Abre la configuración de Steam.'**
-  String get steamGuideStep1;
-
-  /// No description provided for @steamGuideStep2.
-  ///
-  /// In es, this message translates to:
-  /// **'Paso 2: Ve a la sección Familia.'**
-  String get steamGuideStep2;
-
-  /// No description provided for @steamGuideStep3.
-  ///
-  /// In es, this message translates to:
-  /// **'Paso 3: Habilita la Vista Familiar.'**
-  String get steamGuideStep3;
-
-  /// No description provided for @steamGuideStep4.
-  ///
-  /// In es, this message translates to:
-  /// **'Paso 4: Configura un PIN.'**
-  String get steamGuideStep4;
-
-  /// No description provided for @steamGuideStep5.
-  ///
-  /// In es, this message translates to:
-  /// **'Paso 5: Restringe el contenido según sea necesario.'**
-  String get steamGuideStep5;
-
-  /// No description provided for @iosGuideTitle.
-  ///
-  /// In es, this message translates to:
-  /// **'Guía parental de iOS'**
-  String get iosGuideTitle;
-
-  /// No description provided for @iosGuideDescription.
-  ///
-  /// In es, this message translates to:
-  /// **'Aprende a configurar los controles parentales en dispositivos iOS.'**
-  String get iosGuideDescription;
-
-  /// No description provided for @iosGuideStep1.
-  ///
-  /// In es, this message translates to:
-  /// **'Paso 1: Abre Configuración.'**
-  String get iosGuideStep1;
-
-  /// No description provided for @iosGuideStep2.
-  ///
-  /// In es, this message translates to:
-  /// **'Paso 2: Ve a Tiempo en Pantalla.'**
-  String get iosGuideStep2;
-
-  /// No description provided for @iosGuideStep3.
-  ///
-  /// In es, this message translates to:
-  /// **'Paso 3: Habilita las restricciones.'**
-  String get iosGuideStep3;
-
-  /// No description provided for @iosGuideStep4.
-  ///
-  /// In es, this message translates to:
-  /// **'Paso 4: Configura un código de acceso.'**
-  String get iosGuideStep4;
-
-  /// No description provided for @xboxGuideTitle.
-  ///
-  /// In es, this message translates to:
-  /// **'Guía parental de Xbox'**
-  String get xboxGuideTitle;
-
-  /// No description provided for @xboxGuideDescription.
-  ///
-  /// In es, this message translates to:
-  /// **'Aprende a configurar los controles parentales en Xbox.'**
-  String get xboxGuideDescription;
-
-  /// No description provided for @xboxGuideStep1.
-  ///
-  /// In es, this message translates to:
-  /// **'Paso 1: Abre la configuración de Xbox.'**
-  String get xboxGuideStep1;
-
-  /// No description provided for @xboxGuideStep2.
-  ///
-  /// In es, this message translates to:
-  /// **'Paso 2: Ve a la sección Familia.'**
-  String get xboxGuideStep2;
-
-  /// No description provided for @xboxGuideStep3.
-  ///
-  /// In es, this message translates to:
-  /// **'Paso 3: Habilita los controles parentales.'**
-  String get xboxGuideStep3;
-
-  /// No description provided for @xboxGuideStep4.
-  ///
-  /// In es, this message translates to:
-  /// **'Paso 4: Configura las restricciones.'**
-  String get xboxGuideStep4;
-
-  /// No description provided for @xboxGuideStep5.
-  ///
-  /// In es, this message translates to:
-  /// **'Paso 5: Guarda la configuración.'**
-  String get xboxGuideStep5;
-
-  /// No description provided for @xboxTimeGuideTitle.
-  ///
-  /// In es, this message translates to:
-  /// **'Guía de tiempo de Xbox'**
-  String get xboxTimeGuideTitle;
-
-  /// No description provided for @xboxTimeGuideDescription.
-  ///
-  /// In es, this message translates to:
-  /// **'Aprende a configurar límites de tiempo en Xbox.'**
-  String get xboxTimeGuideDescription;
-
-  /// No description provided for @xboxTimeGuideStep1.
-  ///
-  /// In es, this message translates to:
-  /// **'Paso 1: Abre la configuración de Xbox.'**
-  String get xboxTimeGuideStep1;
-
-  /// No description provided for @xboxTimeGuideStep2.
-  ///
-  /// In es, this message translates to:
-  /// **'Paso 2: Ve a la sección Familia.'**
-  String get xboxTimeGuideStep2;
-
-  /// No description provided for @xboxTimeGuideStep3.
-  ///
-  /// In es, this message translates to:
-  /// **'Paso 3: Habilita los límites de tiempo.'**
-  String get xboxTimeGuideStep3;
-
-  /// No description provided for @xboxTimeGuideStep4.
-  ///
-  /// In es, this message translates to:
-  /// **'Paso 4: Configura los horarios.'**
-  String get xboxTimeGuideStep4;
-
-  /// No description provided for @xboxTimeGuideStep5.
-  ///
-  /// In es, this message translates to:
-  /// **'Paso 5: Guarda la configuración.'**
-  String get xboxTimeGuideStep5;
-
-  /// No description provided for @nintendoGuideTitle.
-  ///
-  /// In es, this message translates to:
-  /// **'Guía parental de Nintendo'**
-  String get nintendoGuideTitle;
-
-  /// No description provided for @nintendoGuideDescription.
-  ///
-  /// In es, this message translates to:
-  /// **'Aprende a configurar los controles parentales en Nintendo.'**
-  String get nintendoGuideDescription;
-
-  /// No description provided for @nintendoGuideStep1.
-  ///
-  /// In es, this message translates to:
-  /// **'Paso 1: Abre la configuración de Nintendo.'**
-  String get nintendoGuideStep1;
-
-  /// No description provided for @nintendoGuideStep2.
-  ///
-  /// In es, this message translates to:
-  /// **'Paso 2: Ve a la sección de controles parentales.'**
-  String get nintendoGuideStep2;
-
-  /// No description provided for @nintendoGuideStep3.
-  ///
-  /// In es, this message translates to:
-  /// **'Paso 3: Configura las restricciones.'**
-  String get nintendoGuideStep3;
-
-  /// No description provided for @nintendoGuideStep4.
-  ///
-  /// In es, this message translates to:
-  /// **'Paso 4: Guarda la configuración.'**
-  String get nintendoGuideStep4;
-
-  /// No description provided for @nintendoGuideStep5.
-  ///
-  /// In es, this message translates to:
-  /// **'Paso 5: Prueba los controles parentales.'**
-  String get nintendoGuideStep5;
-
-  /// No description provided for @searchGamesHint.
-  ///
-  /// In es, this message translates to:
-  /// **'Buscar juego por nombre...'**
-  String get searchGamesHint;
-
-  /// No description provided for @searchGamesAdvancedFilters.
-  ///
-  /// In es, this message translates to:
-  /// **'Filtros avanzados'**
-  String get searchGamesAdvancedFilters;
-
-  /// No description provided for @searchGamesShowingRecent.
-  ///
-  /// In es, this message translates to:
-  /// **'Mostrando los juegos más recientes del último año'**
-  String get searchGamesShowingRecent;
-
-  /// No description provided for @searchGamesFilterFrom.
-  ///
-  /// In es, this message translates to:
-  /// **'Desde'**
-  String get searchGamesFilterFrom;
-
-  /// No description provided for @searchGamesFilterTo.
-  ///
-  /// In es, this message translates to:
-  /// **'Hasta'**
-  String get searchGamesFilterTo;
-
-  /// No description provided for @searchGamesFilterGenres.
-  ///
-  /// In es, this message translates to:
-  /// **'género(s)'**
-  String get searchGamesFilterGenres;
-
-  /// No description provided for @searchGamesFilterPlatforms.
-  ///
-  /// In es, this message translates to:
-  /// **'plataforma(s)'**
-  String get searchGamesFilterPlatforms;
-
-  /// No description provided for @searchGamesClearAll.
-  ///
-  /// In es, this message translates to:
-  /// **'Limpiar todo'**
-  String get searchGamesClearAll;
-
-  /// No description provided for @searchGamesEmptyTitle.
-  ///
-  /// In es, this message translates to:
-  /// **'No se encontraron juegos'**
-  String get searchGamesEmptyTitle;
-
-  /// No description provided for @searchGamesEmptyMessage.
-  ///
-  /// In es, this message translates to:
-  /// **'Intenta ajustar los filtros o busca otro término'**
-  String get searchGamesEmptyMessage;
-
-  /// No description provided for @filtersTitle.
-  ///
-  /// In es, this message translates to:
-  /// **'Filtros de Búsqueda'**
-  String get filtersTitle;
-
-  /// No description provided for @filtersClear.
-  ///
-  /// In es, this message translates to:
-  /// **'Limpiar'**
-  String get filtersClear;
-
-  /// No description provided for @filtersInfoBanner.
-  ///
-  /// In es, this message translates to:
-  /// **'Combina múltiples filtros para encontrar el juego perfecto'**
-  String get filtersInfoBanner;
-
-  /// No description provided for @filtersYearTitle.
-  ///
-  /// In es, this message translates to:
-  /// **'Año de lanzamiento'**
-  String get filtersYearTitle;
-
-  /// No description provided for @filtersYearSubtitle.
-  ///
-  /// In es, this message translates to:
-  /// **'Filtra juegos por su año de salida'**
-  String get filtersYearSubtitle;
-
-  /// No description provided for @filtersYearFrom.
-  ///
-  /// In es, this message translates to:
-  /// **'Desde'**
-  String get filtersYearFrom;
-
-  /// No description provided for @filtersYearTo.
-  ///
-  /// In es, this message translates to:
-  /// **'Hasta'**
-  String get filtersYearTo;
-
-  /// No description provided for @filtersYearAny.
-  ///
-  /// In es, this message translates to:
-  /// **'Cualquiera'**
-  String get filtersYearAny;
-
-  /// No description provided for @filtersPegiTitle.
-  ///
-  /// In es, this message translates to:
-  /// **'Edad recomendada (PEGI)'**
-  String get filtersPegiTitle;
-
-  /// No description provided for @filtersPegiSubtitle.
-  ///
-  /// In es, this message translates to:
-  /// **'Selecciona la edad de tu hijo para ver juegos apropiados'**
-  String get filtersPegiSubtitle;
-
-  /// No description provided for @filtersPlatformTitle.
-  ///
-  /// In es, this message translates to:
-  /// **'Plataforma'**
-  String get filtersPlatformTitle;
-
-  /// No description provided for @filtersPlatformSubtitle.
-  ///
-  /// In es, this message translates to:
-  /// **'Selecciona en qué dispositivos quieres que esté disponible'**
-  String get filtersPlatformSubtitle;
-
-  /// No description provided for @filtersGenreTitle.
-  ///
-  /// In es, this message translates to:
-  /// **'Género de juego'**
-  String get filtersGenreTitle;
-
-  /// No description provided for @filtersGenreSubtitle.
-  ///
-  /// In es, this message translates to:
-  /// **'Elige el tipo de juegos que te interesan'**
-  String get filtersGenreSubtitle;
-
-  /// No description provided for @filtersApplyBtn.
-  ///
-  /// In es, this message translates to:
-  /// **'Aplicar Filtros'**
-  String get filtersApplyBtn;
-
-  /// No description provided for @forumSearchHint.
-  ///
-  /// In es, this message translates to:
-  /// **'Buscar hilos por título...'**
-  String get forumSearchHint;
-
-  /// No description provided for @forumEmptySearchTitle.
-  ///
-  /// In es, this message translates to:
-  /// **'Sin resultados'**
-  String get forumEmptySearchTitle;
-
-  /// No description provided for @forumEmptySearchMessage.
-  ///
-  /// In es, this message translates to:
-  /// **'No se encontraron hilos que coincidan con tu búsqueda.'**
-  String get forumEmptySearchMessage;
-
-  /// No description provided for @forumEmptyCategoryTitle.
-  ///
-  /// In es, this message translates to:
-  /// **'Categoría vacía'**
-  String get forumEmptyCategoryTitle;
-
-  /// No description provided for @forumEmptyCategoryMessage.
-  ///
-  /// In es, this message translates to:
-  /// **'Todavía no hay novedades en esta sección. ¡Anímate y publica algo!'**
-  String get forumEmptyCategoryMessage;
-
-  /// No description provided for @forumPostSubtitle.
-  ///
-  /// In es, this message translates to:
-  /// **'por {author} • {count} respuestas'**
-  String forumPostSubtitle(String author, int count);
-
-  /// No description provided for @forumDeleteTooltip.
-  ///
-  /// In es, this message translates to:
-  /// **'Eliminar'**
-  String get forumDeleteTooltip;
-
-  /// No description provided for @forumDeletePostTitle.
-  ///
-  /// In es, this message translates to:
-  /// **'Eliminar publicación'**
-  String get forumDeletePostTitle;
-
-  /// No description provided for @forumDeletePostContent.
-  ///
-  /// In es, this message translates to:
-  /// **'¿Quieres eliminar \"{title}\" y todas sus respuestas?'**
-  String forumDeletePostContent(String title);
-
-  /// No description provided for @forumCancelBtn.
-  ///
-  /// In es, this message translates to:
-  /// **'Cancelar'**
-  String get forumCancelBtn;
-
-  /// No description provided for @forumDeleteBtn.
-  ///
-  /// In es, this message translates to:
-  /// **'Eliminar'**
-  String get forumDeleteBtn;
-
-  /// No description provided for @forumNewPostBtn.
-  ///
-  /// In es, this message translates to:
-  /// **'Nuevo Hilo'**
-  String get forumNewPostBtn;
-
-  /// No description provided for @forumPostDeletedSuccess.
-  ///
-  /// In es, this message translates to:
-  /// **'Publicación eliminada'**
-  String get forumPostDeletedSuccess;
-
-  /// No description provided for @forumPostDeletedError.
-  ///
-  /// In es, this message translates to:
-  /// **'No se pudo eliminar la publicación'**
-  String get forumPostDeletedError;
-
-  /// No description provided for @forumCreateLoginRequired.
-  ///
-  /// In es, this message translates to:
-  /// **'Debes iniciar sesión para publicar'**
-  String get forumCreateLoginRequired;
-
-  /// No description provided for @forumCreateUnknownError.
-  ///
-  /// In es, this message translates to:
-  /// **'Error desconocido'**
-  String get forumCreateUnknownError;
-
-  /// No description provided for @forumCreateTitle.
-  ///
-  /// In es, this message translates to:
-  /// **'Crear Nuevo Hilo'**
-  String get forumCreateTitle;
-
-  /// No description provided for @forumCreateFieldTitle.
-  ///
-  /// In es, this message translates to:
-  /// **'Título'**
-  String get forumCreateFieldTitle;
-
-  /// No description provided for @forumCreateErrorTitle.
-  ///
-  /// In es, this message translates to:
-  /// **'El título es obligatorio'**
-  String get forumCreateErrorTitle;
-
-  /// No description provided for @forumCreateFieldSection.
-  ///
-  /// In es, this message translates to:
-  /// **'Sección'**
-  String get forumCreateFieldSection;
-
-  /// No description provided for @forumCreateFieldContent.
-  ///
-  /// In es, this message translates to:
-  /// **'Contenido'**
-  String get forumCreateFieldContent;
-
-  /// No description provided for @forumCreateErrorContent.
-  ///
-  /// In es, this message translates to:
-  /// **'El contenido es obligatorio'**
-  String get forumCreateErrorContent;
-
-  /// No description provided for @forumCreatePublishingBtn.
-  ///
-  /// In es, this message translates to:
-  /// **'Publicando...'**
-  String get forumCreatePublishingBtn;
-
-  /// No description provided for @forumCreatePublishBtn.
-  ///
-  /// In es, this message translates to:
-  /// **'Publicar'**
-  String get forumCreatePublishBtn;
-
-  /// No description provided for @forumPostByAuthor.
-  ///
-  /// In es, this message translates to:
-  /// **'por {author}'**
-  String forumPostByAuthor(String author);
-
-  /// No description provided for @forumDetailRepliesTitle.
-  ///
-  /// In es, this message translates to:
-  /// **'Respuestas'**
-  String get forumDetailRepliesTitle;
-
-  /// No description provided for @forumDetailEmptyReplies.
-  ///
-  /// In es, this message translates to:
-  /// **'No hay respuestas todavía.'**
-  String get forumDetailEmptyReplies;
-
-  /// No description provided for @forumDeleteReplyTooltip.
-  ///
-  /// In es, this message translates to:
-  /// **'Eliminar respuesta'**
-  String get forumDeleteReplyTooltip;
-
-  /// No description provided for @forumDeleteReplyTitle.
-  ///
-  /// In es, this message translates to:
-  /// **'Eliminar respuesta'**
-  String get forumDeleteReplyTitle;
-
-  /// No description provided for @forumDeleteReplyContent.
-  ///
-  /// In es, this message translates to:
-  /// **'¿Quieres eliminar esta respuesta?'**
-  String get forumDeleteReplyContent;
-
-  /// No description provided for @forumReplyDeletedSuccess.
-  ///
-  /// In es, this message translates to:
-  /// **'Respuesta eliminada'**
-  String get forumReplyDeletedSuccess;
-
-  /// No description provided for @forumReplyDeletedError.
-  ///
-  /// In es, this message translates to:
-  /// **'No se pudo eliminar la respuesta'**
-  String get forumReplyDeletedError;
-
-  /// No description provided for @forumDetailReplyInputHint.
-  ///
-  /// In es, this message translates to:
-  /// **'Escribe una respuesta...'**
-  String get forumDetailReplyInputHint;
 
   /// No description provided for @dictDetailTitle.
   ///
@@ -1720,491 +1342,935 @@ abstract class AppLocalizations {
   /// **'Ver motivo'**
   String get myTermsViewReason;
 
-  /// No description provided for @adminAccessDeniedTitle.
+  /// No description provided for @forumSidebarFollowedTopics.
   ///
   /// In es, this message translates to:
-  /// **'Acceso Denegado'**
-  String get adminAccessDeniedTitle;
+  /// **'Temas Seguidos'**
+  String get forumSidebarFollowedTopics;
 
-  /// No description provided for @adminAccessDeniedMessage.
+  /// No description provided for @forumSidebarTopic1Title.
   ///
   /// In es, this message translates to:
-  /// **'Solo los administradores pueden acceder'**
-  String get adminAccessDeniedMessage;
+  /// **'¿Límites de tiempo para niños de 10 años?'**
+  String get forumSidebarTopic1Title;
 
-  /// No description provided for @adminUsersTitle.
+  /// No description provided for @forumSidebarTopic1Subtitle.
   ///
   /// In es, this message translates to:
-  /// **'Gestión de Usuarios'**
-  String get adminUsersTitle;
+  /// **'24 respuestas nuevas hoy'**
+  String get forumSidebarTopic1Subtitle;
 
-  /// No description provided for @adminUsersInfoTooltip.
+  /// No description provided for @forumSidebarTopic2Title.
   ///
   /// In es, this message translates to:
-  /// **'Información'**
-  String get adminUsersInfoTooltip;
+  /// **'Los mejores juegos educativos en Switch'**
+  String get forumSidebarTopic2Title;
 
-  /// No description provided for @adminUsersLoading.
+  /// No description provided for @forumSidebarTopic2Subtitle.
   ///
   /// In es, this message translates to:
-  /// **'Cargando usuarios...'**
-  String get adminUsersLoading;
+  /// **'15 respuestas nuevas hoy'**
+  String get forumSidebarTopic2Subtitle;
 
-  /// No description provided for @adminUsersError.
+  /// No description provided for @forumSidebarTopic3Title.
   ///
   /// In es, this message translates to:
-  /// **'Error al cargar usuarios'**
-  String get adminUsersError;
+  /// **'Cómo gestionar la seguridad en chats online'**
+  String get forumSidebarTopic3Title;
 
-  /// No description provided for @adminUsersEmpty.
+  /// No description provided for @forumSidebarTopic3Subtitle.
   ///
   /// In es, this message translates to:
-  /// **'No hay usuarios registrados'**
-  String get adminUsersEmpty;
+  /// **'8 respuestas nuevas hoy'**
+  String get forumSidebarTopic3Subtitle;
 
-  /// No description provided for @adminUsersStatTotal.
+  /// No description provided for @forumSidebarRepliesToYou.
   ///
   /// In es, this message translates to:
-  /// **'Total'**
-  String get adminUsersStatTotal;
+  /// **'Respuestas para ti'**
+  String get forumSidebarRepliesToYou;
 
-  /// No description provided for @adminUsersStatAdmins.
+  /// No description provided for @forumSidebarReply1Link.
   ///
   /// In es, this message translates to:
-  /// **'Admins'**
-  String get adminUsersStatAdmins;
+  /// **'Seguridad en Fortnite'**
+  String get forumSidebarReply1Link;
 
-  /// No description provided for @adminUsersStatMods.
+  /// No description provided for @forumSidebarReply1Action.
   ///
   /// In es, this message translates to:
-  /// **'Moderadores'**
-  String get adminUsersStatMods;
+  /// **'respondió a tu co...'**
+  String get forumSidebarReply1Action;
 
-  /// No description provided for @adminUsersStatUsers.
+  /// No description provided for @forumSidebarReply1Time.
   ///
   /// In es, this message translates to:
-  /// **'Usuarios'**
-  String get adminUsersStatUsers;
+  /// **'hace 2 minutos'**
+  String get forumSidebarReply1Time;
 
-  /// No description provided for @adminUsersBadgeYou.
+  /// No description provided for @forumSidebarReply2Link.
   ///
   /// In es, this message translates to:
-  /// **'Tú'**
-  String get adminUsersBadgeYou;
+  /// **'Comparativa de consolas'**
+  String get forumSidebarReply2Link;
 
-  /// No description provided for @adminUsersProposedApproved.
+  /// No description provided for @forumSidebarReply2Action.
   ///
   /// In es, this message translates to:
-  /// **'{proposed} propuestos | {approved} aprobados'**
-  String adminUsersProposedApproved(Object approved, Object proposed);
+  /// **'te etiquetó en...'**
+  String get forumSidebarReply2Action;
 
-  /// No description provided for @adminUsersActionMakeUser.
+  /// No description provided for @forumSidebarReply2Time.
   ///
   /// In es, this message translates to:
-  /// **'Cambiar a Usuario'**
-  String get adminUsersActionMakeUser;
+  /// **'hace 1 hora'**
+  String get forumSidebarReply2Time;
 
-  /// No description provided for @adminUsersActionMakeMod.
+  /// No description provided for @forumSidebarReply3Link.
   ///
   /// In es, this message translates to:
-  /// **'Cambiar a Moderador'**
-  String get adminUsersActionMakeMod;
+  /// **'Hilo de Bienvenida'**
+  String get forumSidebarReply3Link;
 
-  /// No description provided for @adminUsersActionMakeAdmin.
+  /// No description provided for @forumSidebarReply3Action.
   ///
   /// In es, this message translates to:
-  /// **'Cambiar a Admin'**
-  String get adminUsersActionMakeAdmin;
+  /// **'le gustó tu respue...'**
+  String get forumSidebarReply3Action;
 
-  /// No description provided for @adminRoleAdmin.
+  /// No description provided for @forumSidebarReply3Time.
   ///
   /// In es, this message translates to:
-  /// **'Admin'**
-  String get adminRoleAdmin;
+  /// **'hace 3 horas'**
+  String get forumSidebarReply3Time;
 
-  /// No description provided for @adminRoleModerator.
+  /// No description provided for @forumSidebarGlobalNews.
   ///
   /// In es, this message translates to:
-  /// **'Moderador'**
-  String get adminRoleModerator;
+  /// **'Noticias Globales del Foro'**
+  String get forumSidebarGlobalNews;
 
-  /// No description provided for @adminRoleUser.
+  /// No description provided for @forumSidebarNews1Tag.
   ///
   /// In es, this message translates to:
-  /// **'Usuario'**
-  String get adminRoleUser;
+  /// **'Actualización'**
+  String get forumSidebarNews1Tag;
 
-  /// No description provided for @adminChangeRoleTitle.
+  /// No description provided for @forumSidebarNews1Text.
   ///
   /// In es, this message translates to:
-  /// **'Confirmar cambio de rol'**
-  String get adminChangeRoleTitle;
+  /// **'Nuevas guías de control parental añadidas al Diccionario.'**
+  String get forumSidebarNews1Text;
 
-  /// No description provided for @adminChangeRoleConfirm.
+  /// No description provided for @forumSidebarNews2Tag.
   ///
   /// In es, this message translates to:
-  /// **'¿Estás seguro de que deseas cambiar el rol de \"{user}\" a \"{role}\"?'**
-  String adminChangeRoleConfirm(Object role, Object user);
+  /// **'Evento'**
+  String get forumSidebarNews2Tag;
 
-  /// No description provided for @adminCancelBtn.
+  /// No description provided for @forumSidebarNews2Text.
   ///
   /// In es, this message translates to:
-  /// **'Cancelar'**
-  String get adminCancelBtn;
+  /// **'Q&A en vivo con psicólogo infantil este jueves a las 18:00.'**
+  String get forumSidebarNews2Text;
 
-  /// No description provided for @adminConfirmBtn.
+  /// No description provided for @forumSidebarNews3Tag.
   ///
   /// In es, this message translates to:
-  /// **'Confirmar'**
-  String get adminConfirmBtn;
+  /// **'Novedad'**
+  String get forumSidebarNews3Tag;
 
-  /// No description provided for @adminInfoDialogTitle.
+  /// No description provided for @forumSidebarNews3Text.
   ///
   /// In es, this message translates to:
-  /// **'Gestión de Roles'**
-  String get adminInfoDialogTitle;
+  /// **'¡El modo oscuro ya está disponible en los ajustes de usuario!'**
+  String get forumSidebarNews3Text;
 
-  /// No description provided for @adminInfoDialogSubtitle.
+  /// No description provided for @forumMainCategoriesTitle.
   ///
   /// In es, this message translates to:
-  /// **'Roles disponibles:'**
-  String get adminInfoDialogSubtitle;
+  /// **'Categorías Principales'**
+  String get forumMainCategoriesTitle;
 
-  /// No description provided for @adminInfoUserDesc.
+  /// No description provided for @forumViewAllBtn.
   ///
   /// In es, this message translates to:
-  /// **'Puede consultar el diccionario y proponer términos'**
-  String get adminInfoUserDesc;
+  /// **'Ver todo'**
+  String get forumViewAllBtn;
 
-  /// No description provided for @adminInfoModDesc.
+  /// No description provided for @forumEmptySectionTitle.
   ///
   /// In es, this message translates to:
-  /// **'Puede aprobar o rechazar términos propuestos'**
-  String get adminInfoModDesc;
+  /// **'No hay publicaciones en esta sección'**
+  String get forumEmptySectionTitle;
 
-  /// No description provided for @adminInfoAdminDesc.
+  /// No description provided for @forumEmptySectionMessage.
   ///
   /// In es, this message translates to:
-  /// **'Tiene acceso completo, incluida la gestión de usuarios'**
-  String get adminInfoAdminDesc;
+  /// **'Todavía no hay novedades aquí.'**
+  String get forumEmptySectionMessage;
 
-  /// No description provided for @adminInfoUnderstoodBtn.
-  ///
-  /// In es, this message translates to:
-  /// **'Entendido'**
-  String get adminInfoUnderstoodBtn;
-
-  /// No description provided for @navHome.
-  ///
-  /// In es, this message translates to:
-  /// **'Inicio'**
-  String get navHome;
-
-  /// No description provided for @navSearch.
-  ///
-  /// In es, this message translates to:
-  /// **'Buscar'**
-  String get navSearch;
-
-  /// No description provided for @navGuides.
-  ///
-  /// In es, this message translates to:
-  /// **'Guías'**
-  String get navGuides;
-
-  /// No description provided for @navDictionary.
-  ///
-  /// In es, this message translates to:
-  /// **'Diccionario'**
-  String get navDictionary;
-
-  /// No description provided for @navGames.
-  ///
-  /// In es, this message translates to:
-  /// **'Videojuegos'**
-  String get navGames;
-
-  /// No description provided for @navParentalControl.
-  ///
-  /// In es, this message translates to:
-  /// **'Control Parental'**
-  String get navParentalControl;
-
-  /// No description provided for @navCommunity.
-  ///
-  /// In es, this message translates to:
-  /// **'Comunidad'**
-  String get navCommunity;
-
-  /// No description provided for @headerSearchHint.
-  ///
-  /// In es, this message translates to:
-  /// **'Buscar...'**
-  String get headerSearchHint;
-
-  /// No description provided for @headerMenuBtn.
-  ///
-  /// In es, this message translates to:
-  /// **'Menú'**
-  String get headerMenuBtn;
-
-  /// No description provided for @accountMenuProfile.
-  ///
-  /// In es, this message translates to:
-  /// **'Mi perfil'**
-  String get accountMenuProfile;
-
-  /// No description provided for @accountMenuMyTerms.
-  ///
-  /// In es, this message translates to:
-  /// **'Mis términos propuestos'**
-  String get accountMenuMyTerms;
-
-  /// No description provided for @accountMenuTermsCount.
-  ///
-  /// In es, this message translates to:
-  /// **'{count} términos'**
-  String accountMenuTermsCount(int count);
-
-  /// No description provided for @accountMenuModeration.
-  ///
-  /// In es, this message translates to:
-  /// **'Moderación'**
-  String get accountMenuModeration;
-
-  /// No description provided for @accountMenuUsers.
-  ///
-  /// In es, this message translates to:
-  /// **'Gestión de usuarios'**
-  String get accountMenuUsers;
-
-  /// No description provided for @accountMenuLogout.
-  ///
-  /// In es, this message translates to:
-  /// **'Cerrar sesión'**
-  String get accountMenuLogout;
-
-  /// No description provided for @footerTaglineMobile.
-  ///
-  /// In es, this message translates to:
-  /// **'Empoderando a la próxima generación\nde padres en la era digital'**
-  String get footerTaglineMobile;
-
-  /// No description provided for @footerPrivacy.
-  ///
-  /// In es, this message translates to:
-  /// **'Política de privacidad'**
-  String get footerPrivacy;
-
-  /// No description provided for @footerAbout.
-  ///
-  /// In es, this message translates to:
-  /// **'Quienes somos'**
-  String get footerAbout;
-
-  /// No description provided for @footerContact.
-  ///
-  /// In es, this message translates to:
-  /// **'Contáctanos'**
-  String get footerContact;
-
-  /// No description provided for @footerCopyright.
-  ///
-  /// In es, this message translates to:
-  /// **'© {year} {appName}. Todos los derechos reservados.'**
-  String footerCopyright(String year, String appName);
-
-  /// No description provided for @footerTaglineDesktop.
-  ///
-  /// In es, this message translates to:
-  /// **'Empoderando a la próxima generación de padres en la era digital'**
-  String get footerTaglineDesktop;
-
-  /// No description provided for @footerErrorLink.
-  ///
-  /// In es, this message translates to:
-  /// **'No se pudo abrir el enlace externo.'**
-  String get footerErrorLink;
-
-  /// No description provided for @genreAction.
-  ///
-  /// In es, this message translates to:
-  /// **'Acción'**
-  String get genreAction;
-
-  /// No description provided for @genreAdventure.
-  ///
-  /// In es, this message translates to:
-  /// **'Aventura'**
-  String get genreAdventure;
-
-  /// No description provided for @genreRPG.
-  ///
-  /// In es, this message translates to:
-  /// **'RPG'**
-  String get genreRPG;
-
-  /// No description provided for @genreStrategy.
-  ///
-  /// In es, this message translates to:
-  /// **'Estrategia'**
-  String get genreStrategy;
-
-  /// No description provided for @genreShooter.
-  ///
-  /// In es, this message translates to:
-  /// **'Shooter'**
-  String get genreShooter;
-
-  /// No description provided for @genrePuzzle.
-  ///
-  /// In es, this message translates to:
-  /// **'Puzzle'**
-  String get genrePuzzle;
-
-  /// No description provided for @genreSports.
-  ///
-  /// In es, this message translates to:
-  /// **'Deportes'**
-  String get genreSports;
-
-  /// No description provided for @genreRacing.
-  ///
-  /// In es, this message translates to:
-  /// **'Carreras'**
-  String get genreRacing;
-
-  /// No description provided for @genreSimulation.
-  ///
-  /// In es, this message translates to:
-  /// **'Simulación'**
-  String get genreSimulation;
-
-  /// No description provided for @genrePlatformer.
+  /// No description provided for @forumPlatformsTitle.
   ///
   /// In es, this message translates to:
   /// **'Plataformas'**
-  String get genrePlatformer;
+  String get forumPlatformsTitle;
 
-  /// No description provided for @genreFighting.
+  /// No description provided for @forumSearchHint.
   ///
   /// In es, this message translates to:
-  /// **'Lucha'**
-  String get genreFighting;
+  /// **'Buscar hilos por título...'**
+  String get forumSearchHint;
 
-  /// No description provided for @genreArcade.
+  /// No description provided for @forumEmptySearchTitle.
   ///
   /// In es, this message translates to:
-  /// **'Arcade'**
-  String get genreArcade;
+  /// **'Sin resultados'**
+  String get forumEmptySearchTitle;
 
-  /// No description provided for @gameDetailLoading.
+  /// No description provided for @forumEmptySearchMessage.
   ///
   /// In es, this message translates to:
-  /// **'Cargando información del juego...'**
-  String get gameDetailLoading;
+  /// **'No se encontraron hilos que coincidan con tu búsqueda.'**
+  String get forumEmptySearchMessage;
 
-  /// No description provided for @gameDetailError.
+  /// No description provided for @forumEmptyCategoryTitle.
   ///
   /// In es, this message translates to:
-  /// **'No se pudo cargar la información del juego'**
-  String get gameDetailError;
+  /// **'Categoría vacía'**
+  String get forumEmptyCategoryTitle;
 
-  /// No description provided for @gameDetailBackBtn.
+  /// No description provided for @forumEmptyCategoryMessage.
   ///
   /// In es, this message translates to:
-  /// **'Volver'**
-  String get gameDetailBackBtn;
+  /// **'Todavía no hay novedades en esta sección. ¡Anímate y publica algo!'**
+  String get forumEmptyCategoryMessage;
 
-  /// No description provided for @gameDetailRelease.
+  /// No description provided for @forumPostSubtitle.
   ///
   /// In es, this message translates to:
-  /// **'Lanzamiento: {date}'**
-  String gameDetailRelease(String date);
+  /// **'por {author} • {count} respuestas'**
+  String forumPostSubtitle(String author, int count);
 
-  /// No description provided for @gameDetailPegiTitle.
+  /// No description provided for @forumDeleteTooltip.
   ///
   /// In es, this message translates to:
-  /// **'Clasificación por edad (PEGI)'**
-  String get gameDetailPegiTitle;
+  /// **'Eliminar'**
+  String get forumDeleteTooltip;
 
-  /// No description provided for @gameDetailPegiWarning.
+  /// No description provided for @forumDeletePostTitle.
   ///
   /// In es, this message translates to:
-  /// **'Recomendado para mayores de {pegi} años'**
-  String gameDetailPegiWarning(int pegi);
+  /// **'Eliminar publicación'**
+  String get forumDeletePostTitle;
 
-  /// No description provided for @gameDetailPegiNotAvailable.
+  /// No description provided for @forumDeletePostContent.
   ///
   /// In es, this message translates to:
-  /// **'No hay información de clasificación PEGI disponible'**
-  String get gameDetailPegiNotAvailable;
+  /// **'¿Quieres eliminar \"{title}\" y todas sus respuestas?'**
+  String forumDeletePostContent(String title);
 
-  /// No description provided for @gameDetailDescriptionTitle.
+  /// No description provided for @forumCancelBtn.
   ///
   /// In es, this message translates to:
-  /// **'Descripción del juego'**
-  String get gameDetailDescriptionTitle;
+  /// **'Cancelar'**
+  String get forumCancelBtn;
 
-  /// No description provided for @gameDetailDescriptionEmpty.
+  /// No description provided for @forumDeleteBtn.
   ///
   /// In es, this message translates to:
-  /// **'No hay descripción disponible'**
-  String get gameDetailDescriptionEmpty;
+  /// **'Eliminar'**
+  String get forumDeleteBtn;
 
-  /// No description provided for @gameDetailGenresTitle.
+  /// No description provided for @forumNewPostBtn.
   ///
   /// In es, this message translates to:
-  /// **'Géneros'**
-  String get gameDetailGenresTitle;
+  /// **'Nuevo Hilo'**
+  String get forumNewPostBtn;
 
-  /// No description provided for @gameDetailPlatformsTitle.
+  /// No description provided for @forumPostDeletedSuccess.
   ///
   /// In es, this message translates to:
-  /// **'Plataformas disponibles'**
-  String get gameDetailPlatformsTitle;
+  /// **'Publicación eliminada'**
+  String get forumPostDeletedSuccess;
 
-  /// No description provided for @gameDetailScreenshotsTitle.
+  /// No description provided for @forumPostDeletedError.
   ///
   /// In es, this message translates to:
-  /// **'Capturas de pantalla'**
-  String get gameDetailScreenshotsTitle;
+  /// **'No se pudo eliminar la publicación'**
+  String get forumPostDeletedError;
 
-  /// No description provided for @pegiDescription3.
+  /// No description provided for @forumCreateLoginRequired.
   ///
   /// In es, this message translates to:
-  /// **'Contenido apropiado para todas las edades. Sin violencia ni lenguaje inapropiado.'**
-  String get pegiDescription3;
+  /// **'Debes iniciar sesión para publicar'**
+  String get forumCreateLoginRequired;
 
-  /// No description provided for @pegiDescription7.
+  /// No description provided for @forumCreateUnknownError.
   ///
   /// In es, this message translates to:
-  /// **'Puede contener escenas o sonidos que asusten a niños pequeños.'**
-  String get pegiDescription7;
+  /// **'Error desconocido'**
+  String get forumCreateUnknownError;
 
-  /// No description provided for @pegiDescription12.
+  /// No description provided for @forumCreateTitle.
   ///
   /// In es, this message translates to:
-  /// **'Puede incluir violencia no realista hacia personajes de fantasía o violencia realista leve.'**
-  String get pegiDescription12;
+  /// **'Crear Nuevo Hilo'**
+  String get forumCreateTitle;
 
-  /// No description provided for @pegiDescription16.
+  /// No description provided for @forumCreateFieldTitle.
   ///
   /// In es, this message translates to:
-  /// **'Puede contener violencia realista, lenguaje fuerte o contenido sexual leve.'**
-  String get pegiDescription16;
+  /// **'Título'**
+  String get forumCreateFieldTitle;
 
-  /// No description provided for @pegiDescription18.
+  /// No description provided for @forumCreateErrorTitle.
   ///
   /// In es, this message translates to:
-  /// **'Contenido para adultos. Puede incluir violencia intensa, lenguaje fuerte, contenido sexual explícito o uso de drogas.'**
-  String get pegiDescription18;
+  /// **'El título es obligatorio'**
+  String get forumCreateErrorTitle;
 
-  /// No description provided for @pegiDescriptionUnknown.
+  /// No description provided for @forumCreateFieldSection.
   ///
   /// In es, this message translates to:
-  /// **'No hay una descripción disponible para esta clasificación PEGI.'**
-  String get pegiDescriptionUnknown;
+  /// **'Sección'**
+  String get forumCreateFieldSection;
+
+  /// No description provided for @forumCreateFieldContent.
+  ///
+  /// In es, this message translates to:
+  /// **'Contenido'**
+  String get forumCreateFieldContent;
+
+  /// No description provided for @forumCreateErrorContent.
+  ///
+  /// In es, this message translates to:
+  /// **'El contenido es obligatorio'**
+  String get forumCreateErrorContent;
+
+  /// No description provided for @forumCreatePublishingBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Publicando...'**
+  String get forumCreatePublishingBtn;
+
+  /// No description provided for @forumCreatePublishBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Publicar'**
+  String get forumCreatePublishBtn;
+
+  /// No description provided for @forumPostByAuthor.
+  ///
+  /// In es, this message translates to:
+  /// **'por {author}'**
+  String forumPostByAuthor(String author);
+
+  /// No description provided for @forumDetailRepliesTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Respuestas'**
+  String get forumDetailRepliesTitle;
+
+  /// No description provided for @forumDetailEmptyReplies.
+  ///
+  /// In es, this message translates to:
+  /// **'No hay respuestas todavía.'**
+  String get forumDetailEmptyReplies;
+
+  /// No description provided for @forumDeleteReplyTooltip.
+  ///
+  /// In es, this message translates to:
+  /// **'Eliminar respuesta'**
+  String get forumDeleteReplyTooltip;
+
+  /// No description provided for @forumDeleteReplyTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Eliminar respuesta'**
+  String get forumDeleteReplyTitle;
+
+  /// No description provided for @forumDeleteReplyContent.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Quieres eliminar esta respuesta?'**
+  String get forumDeleteReplyContent;
+
+  /// No description provided for @forumReplyDeletedSuccess.
+  ///
+  /// In es, this message translates to:
+  /// **'Respuesta eliminada'**
+  String get forumReplyDeletedSuccess;
+
+  /// No description provided for @forumReplyDeletedError.
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo eliminar la respuesta'**
+  String get forumReplyDeletedError;
+
+  /// No description provided for @forumDetailReplyInputHint.
+  ///
+  /// In es, this message translates to:
+  /// **'Escribe una respuesta...'**
+  String get forumDetailReplyInputHint;
+
+  /// No description provided for @parentalGuidesStepProgress.
+  ///
+  /// In es, this message translates to:
+  /// **'Paso {current} de {total}'**
+  String parentalGuidesStepProgress(int current, int total);
+
+  /// No description provided for @parentalGuidesScreenshot.
+  ///
+  /// In es, this message translates to:
+  /// **'Captura de pantalla:'**
+  String get parentalGuidesScreenshot;
+
+  /// No description provided for @parentalGuidesLoadingImage.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando imagen...'**
+  String get parentalGuidesLoadingImage;
+
+  /// No description provided for @parentalGuidesImageNotAvailable.
+  ///
+  /// In es, this message translates to:
+  /// **'Imagen no disponible'**
+  String get parentalGuidesImageNotAvailable;
+
+  /// No description provided for @parentalGuidesSetupComplete.
+  ///
+  /// In es, this message translates to:
+  /// **'¡Configuración completada! Ahora tu hijo puede jugar de forma segura con las restricciones configuradas.'**
+  String get parentalGuidesSetupComplete;
+
+  /// No description provided for @parentalGuidesPreviousBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Anterior'**
+  String get parentalGuidesPreviousBtn;
+
+  /// No description provided for @parentalGuidesNextBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Siguiente'**
+  String get parentalGuidesNextBtn;
+
+  /// No description provided for @parentalGuidesFinishBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Finalizar'**
+  String get parentalGuidesFinishBtn;
+
+  /// No description provided for @parentalGuidesCompletedTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'¡Guía completada!'**
+  String get parentalGuidesCompletedTitle;
+
+  /// No description provided for @parentalGuidesCompletedDesc.
+  ///
+  /// In es, this message translates to:
+  /// **'Has completado todos los pasos de esta guía de control parental.'**
+  String get parentalGuidesCompletedDesc;
+
+  /// No description provided for @parentalGuidesRepeatBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Repetir'**
+  String get parentalGuidesRepeatBtn;
+
+  /// No description provided for @parentalGuidesError.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al cargar guías: {error}'**
+  String parentalGuidesError(String error);
+
+  /// No description provided for @parentalGuidesEmptyTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'No hay guías disponibles'**
+  String get parentalGuidesEmptyTitle;
+
+  /// No description provided for @parentalGuidesEmptyMessage.
+  ///
+  /// In es, this message translates to:
+  /// **'Vuelve a intentarlo más tarde.'**
+  String get parentalGuidesEmptyMessage;
+
+  /// No description provided for @parentalGuidesSelectPlatform.
+  ///
+  /// In es, this message translates to:
+  /// **'Selecciona tu plataforma ({count} guías)'**
+  String parentalGuidesSelectPlatform(int count);
+
+  /// No description provided for @parentalGuidesBannerTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Guías de Control Parental'**
+  String get parentalGuidesBannerTitle;
+
+  /// No description provided for @parentalGuidesBannerSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Aprende a configurar controles de seguridad en las plataformas más populares.'**
+  String get parentalGuidesBannerSubtitle;
+
+  /// No description provided for @parentalGuidesMoreInfoBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Saber más sobre PEGI/ESRB'**
+  String get parentalGuidesMoreInfoBtn;
+
+  /// No description provided for @parentalGuidesStepsCount.
+  ///
+  /// In es, this message translates to:
+  /// **'{count} pasos'**
+  String parentalGuidesStepsCount(int count);
+
+  /// No description provided for @parentalGuidesWhyImportant.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Por qué es importante?'**
+  String get parentalGuidesWhyImportant;
+
+  /// No description provided for @parentalGuidesProtectionTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Protección infantil'**
+  String get parentalGuidesProtectionTitle;
+
+  /// No description provided for @parentalGuidesProtectionDesc.
+  ///
+  /// In es, this message translates to:
+  /// **'Evita que tus hijos accedan a contenido no apropiado para su edad.'**
+  String get parentalGuidesProtectionDesc;
+
+  /// No description provided for @parentalGuidesTimeTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Gestión del tiempo'**
+  String get parentalGuidesTimeTitle;
+
+  /// No description provided for @parentalGuidesTimeDesc.
+  ///
+  /// In es, this message translates to:
+  /// **'Establece límites de tiempo de juego para mantener un equilibrio saludable.'**
+  String get parentalGuidesTimeDesc;
+
+  /// No description provided for @parentalGuidesSpendingTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Control de gastos'**
+  String get parentalGuidesSpendingTitle;
+
+  /// No description provided for @parentalGuidesSpendingDesc.
+  ///
+  /// In es, this message translates to:
+  /// **'Previene compras no autorizadas dentro de los juegos.'**
+  String get parentalGuidesSpendingDesc;
+
+  /// No description provided for @esrbDescriptionE.
+  ///
+  /// In es, this message translates to:
+  /// **'Contenido para todos. Equivalente a PEGI 3.'**
+  String get esrbDescriptionE;
+
+  /// No description provided for @esrbDescriptionE10.
+  ///
+  /// In es, this message translates to:
+  /// **'Para mayores de 10 años. Similar a PEGI 7.'**
+  String get esrbDescriptionE10;
+
+  /// No description provided for @esrbDescriptionT.
+  ///
+  /// In es, this message translates to:
+  /// **'Adolescentes. Equivalente a PEGI 12.'**
+  String get esrbDescriptionT;
+
+  /// No description provided for @esrbDescriptionM.
+  ///
+  /// In es, this message translates to:
+  /// **'Mayores de 17 años. Similar a PEGI 16.'**
+  String get esrbDescriptionM;
+
+  /// No description provided for @esrbDescriptionAO.
+  ///
+  /// In es, this message translates to:
+  /// **'Solo adultos. Equivalente a PEGI 18.'**
+  String get esrbDescriptionAO;
+
+  /// No description provided for @esrbDescriptionRP.
+  ///
+  /// In es, this message translates to:
+  /// **'Clasificación pendiente (juegos en preventa).'**
+  String get esrbDescriptionRP;
+
+  /// No description provided for @guideTypeEnable.
+  ///
+  /// In es, this message translates to:
+  /// **'Habilitar guía'**
+  String get guideTypeEnable;
+
+  /// No description provided for @guideTypeDisable.
+  ///
+  /// In es, this message translates to:
+  /// **'Deshabilitar guía'**
+  String get guideTypeDisable;
+
+  /// No description provided for @guideTypeApp.
+  ///
+  /// In es, this message translates to:
+  /// **'Guía de aplicaciones'**
+  String get guideTypeApp;
+
+  /// No description provided for @guideTypeTime.
+  ///
+  /// In es, this message translates to:
+  /// **'Guía de tiempo'**
+  String get guideTypeTime;
+
+  /// No description provided for @guideTypeDefault.
+  ///
+  /// In es, this message translates to:
+  /// **'Guía por defecto'**
+  String get guideTypeDefault;
+
+  /// No description provided for @psEnableGuideTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Cómo habilitar la guía parental'**
+  String get psEnableGuideTitle;
+
+  /// No description provided for @psEnableGuideDescription.
+  ///
+  /// In es, this message translates to:
+  /// **'Sigue estos pasos para habilitar la guía parental en tu dispositivo.'**
+  String get psEnableGuideDescription;
+
+  /// No description provided for @psEnableGuideStep1.
+  ///
+  /// In es, this message translates to:
+  /// **'Abre la aplicación de configuración.'**
+  String get psEnableGuideStep1;
+
+  /// No description provided for @psEnableGuideStep2.
+  ///
+  /// In es, this message translates to:
+  /// **'Selecciona \'Controles parentales\'.'**
+  String get psEnableGuideStep2;
+
+  /// No description provided for @psEnableGuideStep3.
+  ///
+  /// In es, this message translates to:
+  /// **'Activa la opción de guía parental.'**
+  String get psEnableGuideStep3;
+
+  /// No description provided for @psEnableGuideStep4.
+  ///
+  /// In es, this message translates to:
+  /// **'Configura las restricciones según tus necesidades.'**
+  String get psEnableGuideStep4;
+
+  /// No description provided for @psEnableGuideStep5.
+  ///
+  /// In es, this message translates to:
+  /// **'Guarda los cambios.'**
+  String get psEnableGuideStep5;
+
+  /// No description provided for @psEnableGuideStep6.
+  ///
+  /// In es, this message translates to:
+  /// **'Verifica que la guía esté activa.'**
+  String get psEnableGuideStep6;
+
+  /// No description provided for @psDisableGuideTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Cómo deshabilitar la guía parental'**
+  String get psDisableGuideTitle;
+
+  /// No description provided for @psDisableGuideDescription.
+  ///
+  /// In es, this message translates to:
+  /// **'Sigue estos pasos para deshabilitar la guía parental en tu dispositivo.'**
+  String get psDisableGuideDescription;
+
+  /// No description provided for @psDisableGuideStep1.
+  ///
+  /// In es, this message translates to:
+  /// **'Abre la aplicación de configuración.'**
+  String get psDisableGuideStep1;
+
+  /// No description provided for @psDisableGuideStep2.
+  ///
+  /// In es, this message translates to:
+  /// **'Selecciona \'Controles parentales\'.'**
+  String get psDisableGuideStep2;
+
+  /// No description provided for @psDisableGuideStep3.
+  ///
+  /// In es, this message translates to:
+  /// **'Desactiva la opción de guía parental.'**
+  String get psDisableGuideStep3;
+
+  /// No description provided for @psDisableGuideStep4.
+  ///
+  /// In es, this message translates to:
+  /// **'Guarda los cambios.'**
+  String get psDisableGuideStep4;
+
+  /// No description provided for @psDisableGuideStep5.
+  ///
+  /// In es, this message translates to:
+  /// **'Verifica que la guía esté desactivada.'**
+  String get psDisableGuideStep5;
+
+  /// No description provided for @nintendoAppGuideStep2.
+  ///
+  /// In es, this message translates to:
+  /// **'Paso 2: Abre la aplicación de Nintendo.'**
+  String get nintendoAppGuideStep2;
+
+  /// No description provided for @nintendoAppGuideStep3.
+  ///
+  /// In es, this message translates to:
+  /// **'Paso 3: Ve a la sección de controles parentales.'**
+  String get nintendoAppGuideStep3;
+
+  /// No description provided for @nintendoAppGuideStep4.
+  ///
+  /// In es, this message translates to:
+  /// **'Paso 4: Configura las restricciones según sea necesario.'**
+  String get nintendoAppGuideStep4;
+
+  /// No description provided for @nintendoAppGuideStep5.
+  ///
+  /// In es, this message translates to:
+  /// **'Paso 5: Guarda la configuración.'**
+  String get nintendoAppGuideStep5;
+
+  /// No description provided for @nintendoAppGuideStep6.
+  ///
+  /// In es, this message translates to:
+  /// **'Paso 6: Vincula tu cuenta.'**
+  String get nintendoAppGuideStep6;
+
+  /// No description provided for @nintendoAppGuideStep7.
+  ///
+  /// In es, this message translates to:
+  /// **'Paso 7: Confirma la configuración.'**
+  String get nintendoAppGuideStep7;
+
+  /// No description provided for @nintendoAppGuideStep8.
+  ///
+  /// In es, this message translates to:
+  /// **'Paso 8: Prueba los controles parentales.'**
+  String get nintendoAppGuideStep8;
+
+  /// No description provided for @steamGuideTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Guía parental de Steam'**
+  String get steamGuideTitle;
+
+  /// No description provided for @steamGuideDescription.
+  ///
+  /// In es, this message translates to:
+  /// **'Aprende a configurar los controles parentales en Steam.'**
+  String get steamGuideDescription;
+
+  /// No description provided for @steamGuideStep1.
+  ///
+  /// In es, this message translates to:
+  /// **'Paso 1: Abre la configuración de Steam.'**
+  String get steamGuideStep1;
+
+  /// No description provided for @steamGuideStep2.
+  ///
+  /// In es, this message translates to:
+  /// **'Paso 2: Ve a la sección Familia.'**
+  String get steamGuideStep2;
+
+  /// No description provided for @steamGuideStep3.
+  ///
+  /// In es, this message translates to:
+  /// **'Paso 3: Habilita la Vista Familiar.'**
+  String get steamGuideStep3;
+
+  /// No description provided for @steamGuideStep4.
+  ///
+  /// In es, this message translates to:
+  /// **'Paso 4: Configura un PIN.'**
+  String get steamGuideStep4;
+
+  /// No description provided for @steamGuideStep5.
+  ///
+  /// In es, this message translates to:
+  /// **'Paso 5: Restringe el contenido según sea necesario.'**
+  String get steamGuideStep5;
+
+  /// No description provided for @iosGuideTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Guía parental de iOS'**
+  String get iosGuideTitle;
+
+  /// No description provided for @iosGuideDescription.
+  ///
+  /// In es, this message translates to:
+  /// **'Aprende a configurar los controles parentales en dispositivos iOS.'**
+  String get iosGuideDescription;
+
+  /// No description provided for @iosGuideStep1.
+  ///
+  /// In es, this message translates to:
+  /// **'Paso 1: Abre Configuración.'**
+  String get iosGuideStep1;
+
+  /// No description provided for @iosGuideStep2.
+  ///
+  /// In es, this message translates to:
+  /// **'Paso 2: Ve a Tiempo en Pantalla.'**
+  String get iosGuideStep2;
+
+  /// No description provided for @iosGuideStep3.
+  ///
+  /// In es, this message translates to:
+  /// **'Paso 3: Habilita las restricciones.'**
+  String get iosGuideStep3;
+
+  /// No description provided for @iosGuideStep4.
+  ///
+  /// In es, this message translates to:
+  /// **'Paso 4: Configura un código de acceso.'**
+  String get iosGuideStep4;
+
+  /// No description provided for @xboxGuideTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Guía parental de Xbox'**
+  String get xboxGuideTitle;
+
+  /// No description provided for @xboxGuideDescription.
+  ///
+  /// In es, this message translates to:
+  /// **'Aprende a configurar los controles parentales en Xbox.'**
+  String get xboxGuideDescription;
+
+  /// No description provided for @xboxGuideStep1.
+  ///
+  /// In es, this message translates to:
+  /// **'Paso 1: Abre la configuración de Xbox.'**
+  String get xboxGuideStep1;
+
+  /// No description provided for @xboxGuideStep2.
+  ///
+  /// In es, this message translates to:
+  /// **'Paso 2: Ve a la sección Familia.'**
+  String get xboxGuideStep2;
+
+  /// No description provided for @xboxGuideStep3.
+  ///
+  /// In es, this message translates to:
+  /// **'Paso 3: Habilita los controles parentales.'**
+  String get xboxGuideStep3;
+
+  /// No description provided for @xboxGuideStep4.
+  ///
+  /// In es, this message translates to:
+  /// **'Paso 4: Configura las restricciones.'**
+  String get xboxGuideStep4;
+
+  /// No description provided for @xboxGuideStep5.
+  ///
+  /// In es, this message translates to:
+  /// **'Paso 5: Guarda la configuración.'**
+  String get xboxGuideStep5;
+
+  /// No description provided for @xboxTimeGuideTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Guía de tiempo de Xbox'**
+  String get xboxTimeGuideTitle;
+
+  /// No description provided for @xboxTimeGuideDescription.
+  ///
+  /// In es, this message translates to:
+  /// **'Aprende a configurar límites de tiempo en Xbox.'**
+  String get xboxTimeGuideDescription;
+
+  /// No description provided for @xboxTimeGuideStep1.
+  ///
+  /// In es, this message translates to:
+  /// **'Paso 1: Abre la configuración de Xbox.'**
+  String get xboxTimeGuideStep1;
+
+  /// No description provided for @xboxTimeGuideStep2.
+  ///
+  /// In es, this message translates to:
+  /// **'Paso 2: Ve a la sección Familia.'**
+  String get xboxTimeGuideStep2;
+
+  /// No description provided for @xboxTimeGuideStep3.
+  ///
+  /// In es, this message translates to:
+  /// **'Paso 3: Habilita los límites de tiempo.'**
+  String get xboxTimeGuideStep3;
+
+  /// No description provided for @xboxTimeGuideStep4.
+  ///
+  /// In es, this message translates to:
+  /// **'Paso 4: Configura los horarios.'**
+  String get xboxTimeGuideStep4;
+
+  /// No description provided for @xboxTimeGuideStep5.
+  ///
+  /// In es, this message translates to:
+  /// **'Paso 5: Guarda la configuración.'**
+  String get xboxTimeGuideStep5;
+
+  /// No description provided for @nintendoGuideTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Guía parental de Nintendo'**
+  String get nintendoGuideTitle;
+
+  /// No description provided for @nintendoGuideDescription.
+  ///
+  /// In es, this message translates to:
+  /// **'Aprende a configurar los controles parentales en Nintendo.'**
+  String get nintendoGuideDescription;
+
+  /// No description provided for @nintendoGuideStep1.
+  ///
+  /// In es, this message translates to:
+  /// **'Paso 1: Abre la configuración de Nintendo.'**
+  String get nintendoGuideStep1;
+
+  /// No description provided for @nintendoGuideStep2.
+  ///
+  /// In es, this message translates to:
+  /// **'Paso 2: Ve a la sección de controles parentales.'**
+  String get nintendoGuideStep2;
+
+  /// No description provided for @nintendoGuideStep3.
+  ///
+  /// In es, this message translates to:
+  /// **'Paso 3: Configura las restricciones.'**
+  String get nintendoGuideStep3;
+
+  /// No description provided for @nintendoGuideStep4.
+  ///
+  /// In es, this message translates to:
+  /// **'Paso 4: Guarda la configuración.'**
+  String get nintendoGuideStep4;
+
+  /// No description provided for @nintendoGuideStep5.
+  ///
+  /// In es, this message translates to:
+  /// **'Paso 5: Prueba los controles parentales.'**
+  String get nintendoGuideStep5;
 
   /// No description provided for @homeDefaultUser.
   ///
@@ -2429,407 +2495,131 @@ abstract class AppLocalizations {
   /// **'Nivel {level}'**
   String userLevel(int level);
 
-  /// No description provided for @forumSidebarFollowedTopics.
+  /// No description provided for @homeWelcomeGuest.
   ///
   /// In es, this message translates to:
-  /// **'Temas Seguidos'**
-  String get forumSidebarFollowedTopics;
+  /// **'¡Bienvenido a NexGen Parents!'**
+  String get homeWelcomeGuest;
 
-  /// No description provided for @forumSidebarTopic1Title.
+  /// No description provided for @homeGuestDescription.
   ///
   /// In es, this message translates to:
-  /// **'¿Límites de tiempo para niños de 10 años?'**
-  String get forumSidebarTopic1Title;
+  /// **'Tu guía definitiva sobre videojuegos. Descubre clasificaciones por edad, explora nuestro diccionario de términos gaming y aprende a configurar controles parentales.'**
+  String get homeGuestDescription;
 
-  /// No description provided for @forumSidebarTopic1Subtitle.
+  /// No description provided for @dictRequireLoginDefault.
   ///
   /// In es, this message translates to:
-  /// **'24 respuestas nuevas hoy'**
-  String get forumSidebarTopic1Subtitle;
+  /// **'Debes iniciar sesión para acceder a esta función.'**
+  String get dictRequireLoginDefault;
 
-  /// No description provided for @forumSidebarTopic2Title.
+  /// No description provided for @dictGuestLockMessage.
   ///
   /// In es, this message translates to:
-  /// **'Los mejores juegos educativos en Switch'**
-  String get forumSidebarTopic2Title;
+  /// **'El diccionario cuenta con {totalTerms} términos. Inicia sesión para verlos todos.'**
+  String dictGuestLockMessage(int totalTerms);
 
-  /// No description provided for @forumSidebarTopic2Subtitle.
+  /// No description provided for @dictRequireLoginPropose.
   ///
   /// In es, this message translates to:
-  /// **'15 respuestas nuevas hoy'**
-  String get forumSidebarTopic2Subtitle;
+  /// **'Debes iniciar sesión para proponer un nuevo término.'**
+  String get dictRequireLoginPropose;
 
-  /// No description provided for @forumSidebarTopic3Title.
+  /// No description provided for @footerTaglineMobile.
   ///
   /// In es, this message translates to:
-  /// **'Cómo gestionar la seguridad en chats online'**
-  String get forumSidebarTopic3Title;
+  /// **'Empoderando a la próxima generación\nde padres en la era digital'**
+  String get footerTaglineMobile;
 
-  /// No description provided for @forumSidebarTopic3Subtitle.
+  /// No description provided for @footerPrivacy.
   ///
   /// In es, this message translates to:
-  /// **'8 respuestas nuevas hoy'**
-  String get forumSidebarTopic3Subtitle;
+  /// **'Política de privacidad'**
+  String get footerPrivacy;
 
-  /// No description provided for @forumSidebarRepliesToYou.
+  /// No description provided for @footerAbout.
   ///
   /// In es, this message translates to:
-  /// **'Respuestas para ti'**
-  String get forumSidebarRepliesToYou;
+  /// **'Quienes somos'**
+  String get footerAbout;
 
-  /// No description provided for @forumSidebarReply1Link.
-  ///
-  /// In es, this message translates to:
-  /// **'Seguridad en Fortnite'**
-  String get forumSidebarReply1Link;
-
-  /// No description provided for @forumSidebarReply1Action.
-  ///
-  /// In es, this message translates to:
-  /// **'respondió a tu co...'**
-  String get forumSidebarReply1Action;
-
-  /// No description provided for @forumSidebarReply1Time.
-  ///
-  /// In es, this message translates to:
-  /// **'hace 2 minutos'**
-  String get forumSidebarReply1Time;
-
-  /// No description provided for @forumSidebarReply2Link.
-  ///
-  /// In es, this message translates to:
-  /// **'Comparativa de consolas'**
-  String get forumSidebarReply2Link;
-
-  /// No description provided for @forumSidebarReply2Action.
-  ///
-  /// In es, this message translates to:
-  /// **'te etiquetó en...'**
-  String get forumSidebarReply2Action;
-
-  /// No description provided for @forumSidebarReply2Time.
-  ///
-  /// In es, this message translates to:
-  /// **'hace 1 hora'**
-  String get forumSidebarReply2Time;
-
-  /// No description provided for @forumSidebarReply3Link.
-  ///
-  /// In es, this message translates to:
-  /// **'Hilo de Bienvenida'**
-  String get forumSidebarReply3Link;
-
-  /// No description provided for @forumSidebarReply3Action.
-  ///
-  /// In es, this message translates to:
-  /// **'le gustó tu respue...'**
-  String get forumSidebarReply3Action;
-
-  /// No description provided for @forumSidebarReply3Time.
-  ///
-  /// In es, this message translates to:
-  /// **'hace 3 horas'**
-  String get forumSidebarReply3Time;
-
-  /// No description provided for @forumSidebarGlobalNews.
-  ///
-  /// In es, this message translates to:
-  /// **'Noticias Globales del Foro'**
-  String get forumSidebarGlobalNews;
-
-  /// No description provided for @forumSidebarNews1Tag.
-  ///
-  /// In es, this message translates to:
-  /// **'Actualización'**
-  String get forumSidebarNews1Tag;
-
-  /// No description provided for @forumSidebarNews1Text.
-  ///
-  /// In es, this message translates to:
-  /// **'Nuevas guías de control parental añadidas al Diccionario.'**
-  String get forumSidebarNews1Text;
-
-  /// No description provided for @forumSidebarNews2Tag.
-  ///
-  /// In es, this message translates to:
-  /// **'Evento'**
-  String get forumSidebarNews2Tag;
-
-  /// No description provided for @forumSidebarNews2Text.
-  ///
-  /// In es, this message translates to:
-  /// **'Q&A en vivo con psicólogo infantil este jueves a las 18:00.'**
-  String get forumSidebarNews2Text;
-
-  /// No description provided for @forumSidebarNews3Tag.
-  ///
-  /// In es, this message translates to:
-  /// **'Novedad'**
-  String get forumSidebarNews3Tag;
-
-  /// No description provided for @forumSidebarNews3Text.
-  ///
-  /// In es, this message translates to:
-  /// **'¡El modo oscuro ya está disponible en los ajustes de usuario!'**
-  String get forumSidebarNews3Text;
-
-  /// No description provided for @privacyPolicyTitle.
-  ///
-  /// In es, this message translates to:
-  /// **'Política de Privacidad'**
-  String get privacyPolicyTitle;
-
-  /// No description provided for @privacyPolicySubtitle.
-  ///
-  /// In es, this message translates to:
-  /// **'Política de Privacidad de NexGen Parents'**
-  String get privacyPolicySubtitle;
-
-  /// No description provided for @privacyPolicyLastUpdate.
-  ///
-  /// In es, this message translates to:
-  /// **'Última actualización: Marzo 2026'**
-  String get privacyPolicyLastUpdate;
-
-  /// No description provided for @privacyPolicyS1Title.
-  ///
-  /// In es, this message translates to:
-  /// **'1. Recopilación de Información'**
-  String get privacyPolicyS1Title;
-
-  /// No description provided for @privacyPolicyS1Text.
-  ///
-  /// In es, this message translates to:
-  /// **'En NexGen Parents nos tomamos muy en serio tu privacidad y la de tu familia. Recopilamos información básica del perfil (como el correo electrónico y tu nombre de usuario) para permitir el acceso a funcionalidades como el diccionario colaborativo y el foro.'**
-  String get privacyPolicyS1Text;
-
-  /// No description provided for @privacyPolicyS2Title.
-  ///
-  /// In es, this message translates to:
-  /// **'2. Uso de los Datos'**
-  String get privacyPolicyS2Title;
-
-  /// No description provided for @privacyPolicyS2Text.
-  ///
-  /// In es, this message translates to:
-  /// **'Los datos proporcionados se utilizan exclusivamente para mejorar tu experiencia en la plataforma, personalizar las recomendaciones por edad (PEGI/ESRB) y mantener un entorno seguro en nuestra comunidad.'**
-  String get privacyPolicyS2Text;
-
-  /// No description provided for @privacyPolicyS3Title.
-  ///
-  /// In es, this message translates to:
-  /// **'3. Protección y Seguridad'**
-  String get privacyPolicyS3Title;
-
-  /// No description provided for @privacyPolicyS3Text.
-  ///
-  /// In es, this message translates to:
-  /// **'Tus datos están protegidos mediante los servicios de Firebase y en ningún caso se venden o comparten con terceros con fines publicitarios no relacionados con el propósito educativo de la plataforma.'**
-  String get privacyPolicyS3Text;
-
-  /// No description provided for @privacyPolicyS4Title.
-  ///
-  /// In es, this message translates to:
-  /// **'4. Tus Derechos'**
-  String get privacyPolicyS4Title;
-
-  /// No description provided for @privacyPolicyS4Text.
-  ///
-  /// In es, this message translates to:
-  /// **'Puedes solicitar en cualquier momento la eliminación total de tu cuenta y tus datos asociados a través del panel de configuración de tu perfil.'**
-  String get privacyPolicyS4Text;
-
-  /// No description provided for @aboutUsTitle.
-  ///
-  /// In es, this message translates to:
-  /// **'Quiénes somos'**
-  String get aboutUsTitle;
-
-  /// No description provided for @aboutUsSubtitle.
-  ///
-  /// In es, this message translates to:
-  /// **'Acerca de NexGen Parents'**
-  String get aboutUsSubtitle;
-
-  /// No description provided for @aboutUsP1.
-  ///
-  /// In es, this message translates to:
-  /// **'NexGen Parents nace para resolver una brecha informativa real: hoy en día, muchas familias no tienen referencias claras para interpretar el contenido, los riesgos y el gran valor educativo que ofrecen los videojuegos actuales.'**
-  String get aboutUsP1;
-
-  /// No description provided for @aboutUsP2.
-  ///
-  /// In es, this message translates to:
-  /// **'Nuestro principal objetivo es reducir la incertidumbre de madres, padres, docentes y orientadores, facilitando decisiones de consumo digital mucho más responsables e informadas.'**
-  String get aboutUsP2;
-
-  /// No description provided for @aboutUsVersion.
-  ///
-  /// In es, this message translates to:
-  /// **'Versión 1.0.0 (Marzo 2026)\nProyecto TFC'**
-  String get aboutUsVersion;
-
-  /// No description provided for @contactUsTitle.
+  /// No description provided for @footerContact.
   ///
   /// In es, this message translates to:
   /// **'Contáctanos'**
-  String get contactUsTitle;
+  String get footerContact;
 
-  /// No description provided for @contactUsSubtitle.
+  /// No description provided for @footerCopyright.
   ///
   /// In es, this message translates to:
-  /// **'¡Nos encantaría escucharte!'**
-  String get contactUsSubtitle;
+  /// **'© {year} {appName}. Todos los derechos reservados.'**
+  String footerCopyright(String year, String appName);
 
-  /// No description provided for @contactUsDescription.
+  /// No description provided for @footerTaglineDesktop.
   ///
   /// In es, this message translates to:
-  /// **'¿Tienes alguna duda sobre nuestras guías, quieres proponer una mejora o necesitas ayuda técnica con la aplicación? Ponte en contacto con nosotros.'**
-  String get contactUsDescription;
+  /// **'Empoderando a la próxima generación de padres en la era digital'**
+  String get footerTaglineDesktop;
 
-  /// No description provided for @contactUsEmailLabel.
+  /// No description provided for @footerErrorLink.
   ///
   /// In es, this message translates to:
-  /// **'Correo electrónico'**
-  String get contactUsEmailLabel;
+  /// **'No se pudo abrir el enlace externo.'**
+  String get footerErrorLink;
 
-  /// No description provided for @contactUsWebLabel.
+  /// No description provided for @navHome.
   ///
   /// In es, this message translates to:
-  /// **'Sitio Web'**
-  String get contactUsWebLabel;
+  /// **'Inicio'**
+  String get navHome;
 
-  /// No description provided for @contactUsForumHint.
+  /// No description provided for @navSearch.
   ///
   /// In es, this message translates to:
-  /// **'También puedes participar activamente dejando tus dudas en nuestro Foro Comunitario de la app.'**
-  String get contactUsForumHint;
+  /// **'Buscar'**
+  String get navSearch;
 
-  /// No description provided for @parentalGuidesError.
+  /// No description provided for @navGuides.
   ///
   /// In es, this message translates to:
-  /// **'Error al cargar guías: {error}'**
-  String parentalGuidesError(String error);
+  /// **'Guías'**
+  String get navGuides;
 
-  /// No description provided for @parentalGuidesEmptyTitle.
+  /// No description provided for @navDictionary.
   ///
   /// In es, this message translates to:
-  /// **'No hay guías disponibles'**
-  String get parentalGuidesEmptyTitle;
+  /// **'Diccionario'**
+  String get navDictionary;
 
-  /// No description provided for @parentalGuidesEmptyMessage.
+  /// No description provided for @navGames.
   ///
   /// In es, this message translates to:
-  /// **'Vuelve a intentarlo más tarde.'**
-  String get parentalGuidesEmptyMessage;
+  /// **'Videojuegos'**
+  String get navGames;
 
-  /// No description provided for @parentalGuidesSelectPlatform.
+  /// No description provided for @navParentalControl.
   ///
   /// In es, this message translates to:
-  /// **'Selecciona tu plataforma ({count} guías)'**
-  String parentalGuidesSelectPlatform(int count);
+  /// **'Control Parental'**
+  String get navParentalControl;
 
-  /// No description provided for @parentalGuidesBannerTitle.
+  /// No description provided for @navCommunity.
   ///
   /// In es, this message translates to:
-  /// **'Guías de Control Parental'**
-  String get parentalGuidesBannerTitle;
+  /// **'Comunidad'**
+  String get navCommunity;
 
-  /// No description provided for @parentalGuidesBannerSubtitle.
+  /// No description provided for @headerSearchHint.
   ///
   /// In es, this message translates to:
-  /// **'Aprende a configurar controles de seguridad en las plataformas más populares.'**
-  String get parentalGuidesBannerSubtitle;
+  /// **'Buscar...'**
+  String get headerSearchHint;
 
-  /// No description provided for @parentalGuidesMoreInfoBtn.
+  /// No description provided for @headerMenuBtn.
   ///
   /// In es, this message translates to:
-  /// **'Saber más sobre PEGI/ESRB'**
-  String get parentalGuidesMoreInfoBtn;
-
-  /// No description provided for @parentalGuidesStepsCount.
-  ///
-  /// In es, this message translates to:
-  /// **'{count} pasos'**
-  String parentalGuidesStepsCount(int count);
-
-  /// No description provided for @parentalGuidesWhyImportant.
-  ///
-  /// In es, this message translates to:
-  /// **'¿Por qué es importante?'**
-  String get parentalGuidesWhyImportant;
-
-  /// No description provided for @parentalGuidesProtectionTitle.
-  ///
-  /// In es, this message translates to:
-  /// **'Protección infantil'**
-  String get parentalGuidesProtectionTitle;
-
-  /// No description provided for @parentalGuidesProtectionDesc.
-  ///
-  /// In es, this message translates to:
-  /// **'Evita que tus hijos accedan a contenido no apropiado para su edad.'**
-  String get parentalGuidesProtectionDesc;
-
-  /// No description provided for @parentalGuidesTimeTitle.
-  ///
-  /// In es, this message translates to:
-  /// **'Gestión del tiempo'**
-  String get parentalGuidesTimeTitle;
-
-  /// No description provided for @parentalGuidesTimeDesc.
-  ///
-  /// In es, this message translates to:
-  /// **'Establece límites de tiempo de juego para mantener un equilibrio saludable.'**
-  String get parentalGuidesTimeDesc;
-
-  /// No description provided for @parentalGuidesSpendingTitle.
-  ///
-  /// In es, this message translates to:
-  /// **'Control de gastos'**
-  String get parentalGuidesSpendingTitle;
-
-  /// No description provided for @parentalGuidesSpendingDesc.
-  ///
-  /// In es, this message translates to:
-  /// **'Previene compras no autorizadas dentro de los juegos.'**
-  String get parentalGuidesSpendingDesc;
-
-  /// No description provided for @esrbDescriptionE.
-  ///
-  /// In es, this message translates to:
-  /// **'Contenido para todos. Equivalente a PEGI 3.'**
-  String get esrbDescriptionE;
-
-  /// No description provided for @esrbDescriptionE10.
-  ///
-  /// In es, this message translates to:
-  /// **'Para mayores de 10 años. Similar a PEGI 7.'**
-  String get esrbDescriptionE10;
-
-  /// No description provided for @esrbDescriptionT.
-  ///
-  /// In es, this message translates to:
-  /// **'Adolescentes. Equivalente a PEGI 12.'**
-  String get esrbDescriptionT;
-
-  /// No description provided for @esrbDescriptionM.
-  ///
-  /// In es, this message translates to:
-  /// **'Mayores de 17 años. Similar a PEGI 16.'**
-  String get esrbDescriptionM;
-
-  /// No description provided for @esrbDescriptionAO.
-  ///
-  /// In es, this message translates to:
-  /// **'Solo adultos. Equivalente a PEGI 18.'**
-  String get esrbDescriptionAO;
-
-  /// No description provided for @esrbDescriptionRP.
-  ///
-  /// In es, this message translates to:
-  /// **'Clasificación pendiente (juegos en preventa).'**
-  String get esrbDescriptionRP;
+  /// **'Menú'**
+  String get headerMenuBtn;
 
   /// No description provided for @profileEditTitle.
   ///
@@ -3161,101 +2951,11 @@ abstract class AppLocalizations {
   /// **'Se eliminó el perfil, pero no la cuenta de acceso'**
   String get profileErrorDeleteAuth;
 
-  /// No description provided for @forumMainCategoriesTitle.
+  /// No description provided for @profileDeleteSuccess.
   ///
   /// In es, this message translates to:
-  /// **'Categorías Principales'**
-  String get forumMainCategoriesTitle;
-
-  /// No description provided for @forumViewAllBtn.
-  ///
-  /// In es, this message translates to:
-  /// **'Ver todo'**
-  String get forumViewAllBtn;
-
-  /// No description provided for @forumEmptySectionTitle.
-  ///
-  /// In es, this message translates to:
-  /// **'No hay publicaciones en esta sección'**
-  String get forumEmptySectionTitle;
-
-  /// No description provided for @forumEmptySectionMessage.
-  ///
-  /// In es, this message translates to:
-  /// **'Todavía no hay novedades aquí.'**
-  String get forumEmptySectionMessage;
-
-  /// No description provided for @forumPlatformsTitle.
-  ///
-  /// In es, this message translates to:
-  /// **'Plataformas'**
-  String get forumPlatformsTitle;
-
-  /// No description provided for @parentalGuidesStepProgress.
-  ///
-  /// In es, this message translates to:
-  /// **'Paso {current} de {total}'**
-  String parentalGuidesStepProgress(int current, int total);
-
-  /// No description provided for @parentalGuidesScreenshot.
-  ///
-  /// In es, this message translates to:
-  /// **'Captura de pantalla:'**
-  String get parentalGuidesScreenshot;
-
-  /// No description provided for @parentalGuidesLoadingImage.
-  ///
-  /// In es, this message translates to:
-  /// **'Cargando imagen...'**
-  String get parentalGuidesLoadingImage;
-
-  /// No description provided for @parentalGuidesImageNotAvailable.
-  ///
-  /// In es, this message translates to:
-  /// **'Imagen no disponible'**
-  String get parentalGuidesImageNotAvailable;
-
-  /// No description provided for @parentalGuidesSetupComplete.
-  ///
-  /// In es, this message translates to:
-  /// **'¡Configuración completada! Ahora tu hijo puede jugar de forma segura con las restricciones configuradas.'**
-  String get parentalGuidesSetupComplete;
-
-  /// No description provided for @parentalGuidesPreviousBtn.
-  ///
-  /// In es, this message translates to:
-  /// **'Anterior'**
-  String get parentalGuidesPreviousBtn;
-
-  /// No description provided for @parentalGuidesNextBtn.
-  ///
-  /// In es, this message translates to:
-  /// **'Siguiente'**
-  String get parentalGuidesNextBtn;
-
-  /// No description provided for @parentalGuidesFinishBtn.
-  ///
-  /// In es, this message translates to:
-  /// **'Finalizar'**
-  String get parentalGuidesFinishBtn;
-
-  /// No description provided for @parentalGuidesCompletedTitle.
-  ///
-  /// In es, this message translates to:
-  /// **'¡Guía completada!'**
-  String get parentalGuidesCompletedTitle;
-
-  /// No description provided for @parentalGuidesCompletedDesc.
-  ///
-  /// In es, this message translates to:
-  /// **'Has completado todos los pasos de esta guía de control parental.'**
-  String get parentalGuidesCompletedDesc;
-
-  /// No description provided for @parentalGuidesRepeatBtn.
-  ///
-  /// In es, this message translates to:
-  /// **'Repetir'**
-  String get parentalGuidesRepeatBtn;
+  /// **'Cuenta eliminada correctamente'**
+  String get profileDeleteSuccess;
 
   /// No description provided for @loginSubtitle.
   ///
@@ -3413,299 +3113,665 @@ abstract class AppLocalizations {
   /// **'¿Ya tienes cuenta? '**
   String get registerAlreadyHaveAccount;
 
-  /// No description provided for @errorNameLength.
+  /// No description provided for @registerLoginBtn.
   ///
   /// In es, this message translates to:
-  /// **'El nombre debe tener al menos 3 caracteres'**
-  String get errorNameLength;
+  /// **'Inicia sesión'**
+  String get registerLoginBtn;
 
-  /// No description provided for @errorPasswordLength8.
+  /// No description provided for @registerSuccess.
   ///
   /// In es, this message translates to:
-  /// **'La contraseña debe tener al menos 8 caracteres'**
-  String get errorPasswordLength8;
+  /// **'Usuario registrado correctamente. Por favor, inicia sesión'**
+  String get registerSuccess;
 
-  /// No description provided for @errorPasswordUppercase.
+  /// No description provided for @adminAccessDeniedTitle.
   ///
   /// In es, this message translates to:
-  /// **'Incluye al menos una letra mayúscula'**
-  String get errorPasswordUppercase;
+  /// **'Acceso Denegado'**
+  String get adminAccessDeniedTitle;
 
-  /// No description provided for @errorPasswordLowercase.
+  /// No description provided for @adminAccessDeniedMessage.
   ///
   /// In es, this message translates to:
-  /// **'Incluye al menos una letra minúscula'**
-  String get errorPasswordLowercase;
+  /// **'Solo los administradores pueden acceder'**
+  String get adminAccessDeniedMessage;
 
-  /// No description provided for @errorPasswordNumber.
+  /// No description provided for @adminUsersTitle.
   ///
   /// In es, this message translates to:
-  /// **'Incluye al menos un número'**
-  String get errorPasswordNumber;
+  /// **'Gestión de Usuarios'**
+  String get adminUsersTitle;
 
-  /// No description provided for @errorConfirmPasswordRequired.
+  /// No description provided for @adminUsersInfoTooltip.
   ///
   /// In es, this message translates to:
-  /// **'Por favor, confirma tu contraseña'**
-  String get errorConfirmPasswordRequired;
+  /// **'Información'**
+  String get adminUsersInfoTooltip;
 
-  /// No description provided for @errorTermExists.
+  /// No description provided for @adminUsersLoading.
   ///
   /// In es, this message translates to:
-  /// **'Este término ya existe en el diccionario'**
-  String get errorTermExists;
+  /// **'Cargando usuarios...'**
+  String get adminUsersLoading;
 
-  /// No description provided for @successTermProposed.
+  /// No description provided for @adminUsersError.
   ///
   /// In es, this message translates to:
-  /// **'Término propuesto correctamente. Será revisado por un moderador'**
-  String get successTermProposed;
+  /// **'Error al cargar usuarios'**
+  String get adminUsersError;
 
-  /// No description provided for @errorProposeTerm.
+  /// No description provided for @adminUsersEmpty.
   ///
   /// In es, this message translates to:
-  /// **'Error al proponer término'**
-  String get errorProposeTerm;
+  /// **'No hay usuarios registrados'**
+  String get adminUsersEmpty;
 
-  /// No description provided for @errorTermNotFound.
+  /// No description provided for @adminUsersStatTotal.
   ///
   /// In es, this message translates to:
-  /// **'El término no existe'**
-  String get errorTermNotFound;
+  /// **'Total'**
+  String get adminUsersStatTotal;
 
-  /// No description provided for @successTermApproved.
+  /// No description provided for @adminUsersStatAdmins.
   ///
   /// In es, this message translates to:
-  /// **'Término aprobado correctamente'**
-  String get successTermApproved;
+  /// **'Admins'**
+  String get adminUsersStatAdmins;
 
-  /// No description provided for @errorApproveTerm.
+  /// No description provided for @adminUsersStatMods.
   ///
   /// In es, this message translates to:
-  /// **'Error al aprobar término'**
-  String get errorApproveTerm;
+  /// **'Moderadores'**
+  String get adminUsersStatMods;
 
-  /// No description provided for @successTermRejected.
+  /// No description provided for @adminUsersStatUsers.
   ///
   /// In es, this message translates to:
-  /// **'Término rechazado'**
-  String get successTermRejected;
+  /// **'Usuarios'**
+  String get adminUsersStatUsers;
 
-  /// No description provided for @errorRejectTerm.
+  /// No description provided for @adminUsersBadgeYou.
   ///
   /// In es, this message translates to:
-  /// **'Error al rechazar término'**
-  String get errorRejectTerm;
+  /// **'Tú'**
+  String get adminUsersBadgeYou;
 
-  /// No description provided for @successTermUpdated.
+  /// No description provided for @adminUsersProposedApproved.
   ///
   /// In es, this message translates to:
-  /// **'Término actualizado correctamente'**
-  String get successTermUpdated;
+  /// **'{proposed} propuestos | {approved} aprobados'**
+  String adminUsersProposedApproved(int proposed, int approved);
 
-  /// No description provided for @errorUpdateTerm.
+  /// No description provided for @adminUsersActionMakeUser.
   ///
   /// In es, this message translates to:
-  /// **'Error al actualizar término'**
-  String get errorUpdateTerm;
+  /// **'Cambiar a Usuario'**
+  String get adminUsersActionMakeUser;
 
-  /// No description provided for @successTermDeleted.
+  /// No description provided for @adminUsersActionMakeMod.
   ///
   /// In es, this message translates to:
-  /// **'Término eliminado correctamente'**
-  String get successTermDeleted;
+  /// **'Cambiar a Moderador'**
+  String get adminUsersActionMakeMod;
 
-  /// No description provided for @errorDeleteTerm.
+  /// No description provided for @adminUsersActionMakeAdmin.
   ///
   /// In es, this message translates to:
-  /// **'Error al eliminar término'**
-  String get errorDeleteTerm;
+  /// **'Cambiar a Admin'**
+  String get adminUsersActionMakeAdmin;
 
-  /// No description provided for @errorInvalidRole.
+  /// No description provided for @adminRoleAdmin.
   ///
   /// In es, this message translates to:
-  /// **'Rol inválido. Debe ser: user, moderator o admin'**
-  String get errorInvalidRole;
+  /// **'Admin'**
+  String get adminRoleAdmin;
 
-  /// No description provided for @errorModifyOwnRole.
+  /// No description provided for @adminRoleModerator.
   ///
   /// In es, this message translates to:
-  /// **'No puedes modificar tu propio rol'**
-  String get errorModifyOwnRole;
+  /// **'Moderador'**
+  String get adminRoleModerator;
 
-  /// No description provided for @successRoleUpdated.
+  /// No description provided for @adminRoleUser.
   ///
   /// In es, this message translates to:
-  /// **'Rol actualizado correctamente'**
-  String get successRoleUpdated;
+  /// **'Usuario'**
+  String get adminRoleUser;
 
-  /// No description provided for @errorUpdateRole.
+  /// No description provided for @adminChangeRoleTitle.
   ///
   /// In es, this message translates to:
-  /// **'Error al actualizar rol'**
-  String get errorUpdateRole;
+  /// **'Confirmar cambio de rol'**
+  String get adminChangeRoleTitle;
 
-  /// No description provided for @successBirthYearsUpdated.
+  /// No description provided for @adminChangeRoleConfirm.
   ///
   /// In es, this message translates to:
-  /// **'Años de nacimiento actualizados correctamente'**
-  String get successBirthYearsUpdated;
+  /// **'¿Estás seguro de que deseas cambiar el rol de \"{user}\" a \"{role}\"?'**
+  String adminChangeRoleConfirm(String user, String role);
 
-  /// No description provided for @errorUpdateBirthYears.
+  /// No description provided for @adminCancelBtn.
   ///
   /// In es, this message translates to:
-  /// **'Error al actualizar años de nacimiento'**
-  String get errorUpdateBirthYears;
+  /// **'Cancelar'**
+  String get adminCancelBtn;
 
-  /// No description provided for @successPlatformsUpdated.
+  /// No description provided for @adminConfirmBtn.
   ///
   /// In es, this message translates to:
-  /// **'Plataformas actualizadas correctamente'**
-  String get successPlatformsUpdated;
+  /// **'Confirmar'**
+  String get adminConfirmBtn;
 
-  /// No description provided for @errorUpdatePlatforms.
+  /// No description provided for @adminInfoDialogTitle.
   ///
   /// In es, this message translates to:
-  /// **'Error al actualizar plataformas'**
-  String get errorUpdatePlatforms;
+  /// **'Gestión de Roles'**
+  String get adminInfoDialogTitle;
 
-  /// No description provided for @successAvatarUpdated.
+  /// No description provided for @adminInfoDialogSubtitle.
   ///
   /// In es, this message translates to:
-  /// **'Avatar actualizado correctamente'**
-  String get successAvatarUpdated;
+  /// **'Roles disponibles:'**
+  String get adminInfoDialogSubtitle;
 
-  /// No description provided for @errorUpdateAvatar.
+  /// No description provided for @adminInfoUserDesc.
   ///
   /// In es, this message translates to:
-  /// **'Error al actualizar avatar'**
-  String get errorUpdateAvatar;
+  /// **'Puede consultar el diccionario y proponer términos'**
+  String get adminInfoUserDesc;
 
-  /// No description provided for @successUserInfoUpdated.
+  /// No description provided for @adminInfoModDesc.
   ///
   /// In es, this message translates to:
-  /// **'Información de usuario actualizada correctamente'**
-  String get successUserInfoUpdated;
+  /// **'Puede aprobar o rechazar términos propuestos'**
+  String get adminInfoModDesc;
 
-  /// No description provided for @errorUpdateUserInfo.
+  /// No description provided for @adminInfoAdminDesc.
   ///
   /// In es, this message translates to:
-  /// **'Error al actualizar información'**
-  String get errorUpdateUserInfo;
+  /// **'Tiene acceso completo, incluida la gestión de usuarios'**
+  String get adminInfoAdminDesc;
 
-  /// No description provided for @successAccountDeleted.
+  /// No description provided for @adminInfoUnderstoodBtn.
   ///
   /// In es, this message translates to:
-  /// **'Cuenta eliminada correctamente'**
-  String get successAccountDeleted;
+  /// **'Entendido'**
+  String get adminInfoUnderstoodBtn;
 
-  /// No description provided for @errorDeleteAccount.
+  /// No description provided for @accountMenuProfile.
   ///
   /// In es, this message translates to:
-  /// **'Error al eliminar cuenta'**
-  String get errorDeleteAccount;
+  /// **'Mi perfil'**
+  String get accountMenuProfile;
 
-  /// No description provided for @successPostDeleted.
+  /// No description provided for @accountMenuMyTerms.
   ///
   /// In es, this message translates to:
-  /// **'Publicación eliminada correctamente'**
-  String get successPostDeleted;
+  /// **'Mis términos propuestos'**
+  String get accountMenuMyTerms;
 
-  /// No description provided for @errorDeletePost.
+  /// No description provided for @accountMenuTermsCount.
   ///
   /// In es, this message translates to:
-  /// **'Error al eliminar la publicación'**
-  String get errorDeletePost;
+  /// **'{count} términos'**
+  String accountMenuTermsCount(int count);
 
-  /// No description provided for @errorPostNotFound.
+  /// No description provided for @accountMenuModeration.
   ///
   /// In es, this message translates to:
-  /// **'La publicación asociada no existe'**
-  String get errorPostNotFound;
+  /// **'Moderación'**
+  String get accountMenuModeration;
 
-  /// No description provided for @successReplyDeleted.
+  /// No description provided for @accountMenuUsers.
   ///
   /// In es, this message translates to:
-  /// **'Respuesta eliminada correctamente'**
-  String get successReplyDeleted;
+  /// **'Gestión de usuarios'**
+  String get accountMenuUsers;
 
-  /// No description provided for @errorDeleteReply.
+  /// No description provided for @accountMenuLogout.
   ///
   /// In es, this message translates to:
-  /// **'Error al eliminar la respuesta'**
-  String get errorDeleteReply;
+  /// **'Cerrar sesión'**
+  String get accountMenuLogout;
 
-  /// No description provided for @errorNoAuthUser.
+  /// No description provided for @genreAction.
   ///
   /// In es, this message translates to:
-  /// **'No hay usuario autenticado'**
-  String get errorNoAuthUser;
+  /// **'Acción'**
+  String get genreAction;
 
-  /// No description provided for @successPasswordUpdated.
+  /// No description provided for @genreAdventure.
   ///
   /// In es, this message translates to:
-  /// **'Contraseña actualizada correctamente'**
-  String get successPasswordUpdated;
+  /// **'Aventura'**
+  String get genreAdventure;
 
-  /// No description provided for @errorChangePassword.
+  /// No description provided for @genreRPG.
   ///
   /// In es, this message translates to:
-  /// **'Error al cambiar contraseña'**
-  String get errorChangePassword;
+  /// **'RPG'**
+  String get genreRPG;
 
-  /// No description provided for @errorWrongCurrentPassword.
+  /// No description provided for @genreStrategy.
   ///
   /// In es, this message translates to:
-  /// **'La contraseña actual es incorrecta'**
-  String get errorWrongCurrentPassword;
+  /// **'Estrategia'**
+  String get genreStrategy;
 
-  /// No description provided for @errorWeakNewPassword.
+  /// No description provided for @genreShooter.
   ///
   /// In es, this message translates to:
-  /// **'La nueva contraseña es demasiado débil'**
-  String get errorWeakNewPassword;
+  /// **'Shooter'**
+  String get genreShooter;
 
-  /// No description provided for @successEmailUpdated.
+  /// No description provided for @genrePuzzle.
   ///
   /// In es, this message translates to:
-  /// **'Email actualizado correctamente. Verifica tu nuevo correo.'**
-  String get successEmailUpdated;
+  /// **'Puzzle'**
+  String get genrePuzzle;
 
-  /// No description provided for @errorChangeEmail.
+  /// No description provided for @genreSports.
   ///
   /// In es, this message translates to:
-  /// **'Error al cambiar email'**
-  String get errorChangeEmail;
+  /// **'Deportes'**
+  String get genreSports;
 
-  /// No description provided for @errorEmailAlreadyInUse.
+  /// No description provided for @genreRacing.
   ///
   /// In es, this message translates to:
-  /// **'Este email ya está en uso'**
-  String get errorEmailAlreadyInUse;
+  /// **'Carreras'**
+  String get genreRacing;
 
-  /// No description provided for @errorInvalidNewEmail.
+  /// No description provided for @genreSimulation.
   ///
   /// In es, this message translates to:
-  /// **'El email no es válido'**
-  String get errorInvalidNewEmail;
+  /// **'Simulación'**
+  String get genreSimulation;
 
-  /// No description provided for @errorNoPasswordAccount.
+  /// No description provided for @genrePlatformer.
   ///
   /// In es, this message translates to:
-  /// **'Tu cuenta no usa contraseña. Inicia sesión de nuevo con tu proveedor para continuar.'**
-  String get errorNoPasswordAccount;
+  /// **'Plataformas'**
+  String get genrePlatformer;
 
-  /// No description provided for @successReauth.
+  /// No description provided for @genreFighting.
   ///
   /// In es, this message translates to:
-  /// **'Reautenticación correcta'**
-  String get successReauth;
+  /// **'Lucha'**
+  String get genreFighting;
 
-  /// No description provided for @errorReauth.
+  /// No description provided for @genreArcade.
   ///
   /// In es, this message translates to:
-  /// **'Error de reautenticación'**
-  String get errorReauth;
+  /// **'Arcade'**
+  String get genreArcade;
+
+  /// No description provided for @gameDetailLoading.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando información del juego...'**
+  String get gameDetailLoading;
+
+  /// No description provided for @gameDetailError.
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo cargar la información del juego'**
+  String get gameDetailError;
+
+  /// No description provided for @gameDetailBackBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Volver'**
+  String get gameDetailBackBtn;
+
+  /// No description provided for @gameDetailRelease.
+  ///
+  /// In es, this message translates to:
+  /// **'Lanzamiento: {date}'**
+  String gameDetailRelease(String date);
+
+  /// No description provided for @gameDetailPegiTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Clasificación por edad (PEGI)'**
+  String get gameDetailPegiTitle;
+
+  /// No description provided for @gameDetailPegiWarning.
+  ///
+  /// In es, this message translates to:
+  /// **'Recomendado para mayores de {pegi} años'**
+  String gameDetailPegiWarning(int pegi);
+
+  /// No description provided for @gameDetailPegiNotAvailable.
+  ///
+  /// In es, this message translates to:
+  /// **'No hay información de clasificación PEGI disponible'**
+  String get gameDetailPegiNotAvailable;
+
+  /// No description provided for @gameDetailDescriptionTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Descripción del juego'**
+  String get gameDetailDescriptionTitle;
+
+  /// No description provided for @gameDetailDescriptionEmpty.
+  ///
+  /// In es, this message translates to:
+  /// **'No hay descripción disponible'**
+  String get gameDetailDescriptionEmpty;
+
+  /// No description provided for @gameDetailGenresTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Géneros'**
+  String get gameDetailGenresTitle;
+
+  /// No description provided for @gameDetailPlatformsTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Plataformas disponibles'**
+  String get gameDetailPlatformsTitle;
+
+  /// No description provided for @gameDetailScreenshotsTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Capturas de pantalla'**
+  String get gameDetailScreenshotsTitle;
+
+  /// No description provided for @pegiDescription3.
+  ///
+  /// In es, this message translates to:
+  /// **'Contenido apropiado para todas las edades. Sin violencia ni lenguaje inapropiado.'**
+  String get pegiDescription3;
+
+  /// No description provided for @pegiDescription7.
+  ///
+  /// In es, this message translates to:
+  /// **'Puede contener escenas o sonidos que asusten a niños pequeños.'**
+  String get pegiDescription7;
+
+  /// No description provided for @pegiDescription12.
+  ///
+  /// In es, this message translates to:
+  /// **'Puede incluir violencia no realista hacia personajes de fantasía o violencia realista leve.'**
+  String get pegiDescription12;
+
+  /// No description provided for @pegiDescription16.
+  ///
+  /// In es, this message translates to:
+  /// **'Puede contener violencia realista, lenguaje fuerte o contenido sexual leve.'**
+  String get pegiDescription16;
+
+  /// No description provided for @pegiDescription18.
+  ///
+  /// In es, this message translates to:
+  /// **'Contenido para adultos. Puede incluir violencia intensa, lenguaje fuerte, contenido sexual explícito o uso de drogas.'**
+  String get pegiDescription18;
+
+  /// No description provided for @pegiDescriptionUnknown.
+  ///
+  /// In es, this message translates to:
+  /// **'No hay una descripción disponible para esta clasificación PEGI.'**
+  String get pegiDescriptionUnknown;
+
+  /// No description provided for @classificationSystemsTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Sistemas de Clasificación'**
+  String get classificationSystemsTitle;
+
+  /// No description provided for @pegiInfoSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Aprende a interpretar PEGI y ESRB para elegir juegos adecuados para cada edad.'**
+  String get pegiInfoSubtitle;
+
+  /// No description provided for @ageRatingsMeaningTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Qué significan las clasificaciones por edad?'**
+  String get ageRatingsMeaningTitle;
+
+  /// No description provided for @pegiSystemEuropa.
+  ///
+  /// In es, this message translates to:
+  /// **'Sistema PEGI (Europa)'**
+  String get pegiSystemEuropa;
+
+  /// No description provided for @esrbSystemUsa.
+  ///
+  /// In es, this message translates to:
+  /// **'Sistema ESRB (EE. UU.)'**
+  String get esrbSystemUsa;
+
+  /// No description provided for @esrbApiNote.
+  ///
+  /// In es, this message translates to:
+  /// **'Este es el sistema que suele aparecer en la API de videojuegos que utilizamos.'**
+  String get esrbApiNote;
+
+  /// No description provided for @pegiContentDescriptorsTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Descriptores de Contenido PEGI'**
+  String get pegiContentDescriptorsTitle;
+
+  /// No description provided for @pegiContentDescriptorsSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Además de la edad, las clasificaciones incluyen iconos que indican el tipo de contenido:'**
+  String get pegiContentDescriptorsSubtitle;
+
+  /// No description provided for @contentDescriptorViolence.
+  ///
+  /// In es, this message translates to:
+  /// **'Violencia'**
+  String get contentDescriptorViolence;
+
+  /// No description provided for @contentDescriptorFear.
+  ///
+  /// In es, this message translates to:
+  /// **'Miedo'**
+  String get contentDescriptorFear;
+
+  /// No description provided for @contentDescriptorOnline.
+  ///
+  /// In es, this message translates to:
+  /// **'Online'**
+  String get contentDescriptorOnline;
+
+  /// No description provided for @contentDescriptorDiscrimination.
+  ///
+  /// In es, this message translates to:
+  /// **'Discriminación'**
+  String get contentDescriptorDiscrimination;
+
+  /// No description provided for @contentDescriptorDrugs.
+  ///
+  /// In es, this message translates to:
+  /// **'Drogas'**
+  String get contentDescriptorDrugs;
+
+  /// No description provided for @contentDescriptorSex.
+  ///
+  /// In es, this message translates to:
+  /// **'Sexo'**
+  String get contentDescriptorSex;
+
+  /// No description provided for @contentDescriptorBadLanguage.
+  ///
+  /// In es, this message translates to:
+  /// **'Lenguaje soez'**
+  String get contentDescriptorBadLanguage;
+
+  /// No description provided for @contentDescriptorGambling.
+  ///
+  /// In es, this message translates to:
+  /// **'Juego/Apuestas'**
+  String get contentDescriptorGambling;
+
+  /// No description provided for @searchGamesHint.
+  ///
+  /// In es, this message translates to:
+  /// **'Buscar juego por nombre...'**
+  String get searchGamesHint;
+
+  /// No description provided for @searchGamesAdvancedFilters.
+  ///
+  /// In es, this message translates to:
+  /// **'Filtros avanzados'**
+  String get searchGamesAdvancedFilters;
+
+  /// No description provided for @searchGamesShowingRecent.
+  ///
+  /// In es, this message translates to:
+  /// **'Mostrando los juegos más recientes del último año'**
+  String get searchGamesShowingRecent;
+
+  /// No description provided for @searchGamesFilterFrom.
+  ///
+  /// In es, this message translates to:
+  /// **'Desde'**
+  String get searchGamesFilterFrom;
+
+  /// No description provided for @searchGamesFilterTo.
+  ///
+  /// In es, this message translates to:
+  /// **'Hasta'**
+  String get searchGamesFilterTo;
+
+  /// No description provided for @searchGamesFilterGenres.
+  ///
+  /// In es, this message translates to:
+  /// **'género(s)'**
+  String get searchGamesFilterGenres;
+
+  /// No description provided for @searchGamesFilterPlatforms.
+  ///
+  /// In es, this message translates to:
+  /// **'plataforma(s)'**
+  String get searchGamesFilterPlatforms;
+
+  /// No description provided for @searchGamesClearAll.
+  ///
+  /// In es, this message translates to:
+  /// **'Limpiar todo'**
+  String get searchGamesClearAll;
+
+  /// No description provided for @searchGamesEmptyTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'No se encontraron juegos'**
+  String get searchGamesEmptyTitle;
+
+  /// No description provided for @searchGamesEmptyMessage.
+  ///
+  /// In es, this message translates to:
+  /// **'Intenta ajustar los filtros o busca otro término'**
+  String get searchGamesEmptyMessage;
+
+  /// No description provided for @filtersTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Filtros de Búsqueda'**
+  String get filtersTitle;
+
+  /// No description provided for @filtersClear.
+  ///
+  /// In es, this message translates to:
+  /// **'Limpiar'**
+  String get filtersClear;
+
+  /// No description provided for @filtersInfoBanner.
+  ///
+  /// In es, this message translates to:
+  /// **'Combina múltiples filtros para encontrar el juego perfecto'**
+  String get filtersInfoBanner;
+
+  /// No description provided for @filtersYearTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Año de lanzamiento'**
+  String get filtersYearTitle;
+
+  /// No description provided for @filtersYearSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Filtra juegos por su año de salida'**
+  String get filtersYearSubtitle;
+
+  /// No description provided for @filtersYearFrom.
+  ///
+  /// In es, this message translates to:
+  /// **'Desde'**
+  String get filtersYearFrom;
+
+  /// No description provided for @filtersYearTo.
+  ///
+  /// In es, this message translates to:
+  /// **'Hasta'**
+  String get filtersYearTo;
+
+  /// No description provided for @filtersYearAny.
+  ///
+  /// In es, this message translates to:
+  /// **'Cualquiera'**
+  String get filtersYearAny;
+
+  /// No description provided for @filtersPegiTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Edad recomendada (PEGI)'**
+  String get filtersPegiTitle;
+
+  /// No description provided for @filtersPegiSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Selecciona la edad de tu hijo para ver juegos apropiados'**
+  String get filtersPegiSubtitle;
+
+  /// No description provided for @filtersPlatformTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Plataforma'**
+  String get filtersPlatformTitle;
+
+  /// No description provided for @filtersPlatformSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Selecciona en qué dispositivos quieres que esté disponible'**
+  String get filtersPlatformSubtitle;
+
+  /// No description provided for @filtersGenreTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Género de juego'**
+  String get filtersGenreTitle;
+
+  /// No description provided for @filtersGenreSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Elige el tipo de juegos que te interesan'**
+  String get filtersGenreSubtitle;
+
+  /// No description provided for @filtersApplyBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Aplicar Filtros'**
+  String get filtersApplyBtn;
+
+  /// Nombre de la aplicación
+  ///
+  /// In es, this message translates to:
+  /// **'NexGen Parents'**
+  String get appName;
+
+  /// No description provided for @loading.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando {appName}...'**
+  String loading(String appName);
 }
 
 class _AppLocalizationsDelegate

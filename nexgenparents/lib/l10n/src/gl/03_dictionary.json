@@ -1,0 +1,156 @@
+{
+
+    "dictDetailTitle": "Detalle do Termo",
+    "dictEditTooltip": "Editar Termo",
+    "dictDeleteTooltip": "Eliminar Termo",
+    "dictLoadingTerm": "Cargando termo...",
+    "dictErrorLoadingTerm": "Non se puido cargar o termo",
+    "dictBackBtn": "Volver",
+    "dictDefinitionLabel": "Definición",
+    "dictExampleLabel": "Exemplo de uso",
+    "dictUsefulQuestion": "Fóiche útil este termo?",
+    "dictVoteThanks": "Grazas polo teu voto!",
+    "dictVoteRegistered": "Voto rexistrado",
+    "dictVoteBtn": "Si, axudoume",
+    "dictUsefulVotes": "Votos útiles",
+    "dictViews": "Visualizacións",
+    "dictAdditionalInfo": "Información adicional",
+    "dictAddedOn": "Engadido o",
+    "dictLastUpdate": "Última actualización",
+    "dictStatusLabel": "Estado",
+    "dictStatusApproved": "Aprobado",
+    "dictStatusPending": "Pendente",
+    "dictStatusRejected": "Rexeitado",
+    "dictEditDialogTitle": "Editar Termo",
+    "dictEditFieldTerm": "Termo",
+    "dictEditErrorTerm": "O termo non pode estar baleiro",
+    "dictEditFieldDefinition": "Definición",
+    "dictEditErrorDefinition": "A definición non pode estar baleira",
+    "dictEditFieldExample": "Exemplo (opcional)",
+    "dictEditFieldCategory": "Categoría",
+    "dictCancelBtn": "Cancelar",
+    "dictSaveChangesBtn": "Gardar Cambios",
+    "dictUpdateSuccess": "Termo actualizado correctamente",
+    "dictUpdateError": "Erro ao actualizar o termo",
+    "dictDeleteConfirmTitle": "Confirmar Eliminación",
+    "dictDeleteConfirmContent": "Estás seguro de que queres eliminar este termo de forma permanente? Esta acción non se pode desfacer.",
+    "dictDeleteBtn": "Eliminar",
+    "dictDeleteSuccess": "Termo eliminado correctamente",
+    "dictDeleteError": "Erro ao eliminar o termo",
+
+    "dictListEmptyTitle": "Non hai termos no dicionario",
+    "dictListEmptyMessage": "Sé o primeiro en propoñer un termo",
+    "dictListProposeBtn": "Propoñer termo",
+
+    "dictProposeErrorAuth": "Erro: Usuario non autenticado",
+    "dictProposeSuccessTitle": "Termo enviado!",
+    "dictProposeSuccessMessage": "O teu termo foi proposto correctamente e será revisado por un moderador. Notificarémosche cando sexa aprobado.",
+    "dictProposeUnderstoodBtn": "Entendido",
+    "dictProposeErrorGeneric": "Erro ao propoñer termo",
+    "dictProposeTitle": "Propoñer Termo",
+    "dictProposeHelpText": "Axuda a outros pais engadindo termos que coñezas",
+    "dictProposeFieldTerm": "Termo ou palabra",
+    "dictProposeFieldTermHint": "Ex: GG, Nerf, Farming",
+    "dictProposeErrorTermEmpty": "Por favor, introduce o termo",
+    "dictProposeErrorTermLength": "O termo debe ter polo menos 2 caracteres",
+    "dictProposeFieldCategory": "Categoría",
+    "dictProposeFieldDefinition": "Definición",
+    "dictProposeFieldDefinitionHint": "Explica que significa este termo de forma clara e sinxela",
+    "dictProposeErrorDefinitionEmpty": "Por favor, introduce a definición",
+    "dictProposeErrorDefinitionLength": "A definición debe ter polo menos 10 caracteres",
+    "dictProposeFieldExample": "Exemplo de uso",
+    "dictProposeFieldExampleHint": "Ex: \"Os nenos din GG ao final de cada partida\"",
+    "dictProposeErrorExampleEmpty": "Por favor, introduce un exemplo de uso",
+    "dictProposeErrorExampleLength": "O exemplo debe ter polo menos 10 caracteres",
+    "dictProposeWarningText": "O teu termo será revisado por un moderador antes de aparecer no dicionario. Isto axuda a manter a calidade do contido.",
+    "dictProposeSendingBtn": "Enviando...",
+    "dictProposeSubmitBtn": "Propoñer termo",
+    "dictCategoryJerga": "Xerga Gamer",
+    "dictCategoryMechanics": "Mecánicas de Xogo",
+    "dictCategoryPlatforms": "Plataformas",
+
+    "dictModAccessDeniedTitle": "Acceso Denegado",
+    "dictModAccessDeniedMessage": "Non tes permisos para acceder a esta sección",
+    "dictModAccessDeniedSubtitle": "Só os moderadores poden revisar termos propostos",
+    "dictModTitle": "Panel de Moderación",
+    "dictModRefreshTooltip": "Actualizar",
+    "dictModLoading": "Cargando termos pendentes...",
+    "dictModAllReviewedTitle": "Todo revisado!",
+    "dictModAllReviewedMessage": "Non hai termos pendentes de revisar",
+    "dictModPendingCount": "{count} termos pendentes de revisión",
+    "@dictModPendingCount": {
+        "placeholders": {
+            "count": { "type": "int" }
+        }
+    },
+    "dictModDefinitionLabel": "Definición:",
+    "dictModExampleLabel": "Exemplo de uso:",
+    "dictModProposedOn": "Proposto o {date}",
+    "@dictModProposedOn": {
+        "placeholders": {
+            "date": { "type": "String" }
+        }
+    },
+    "dictModEditBtn": "Editar termo",
+    "dictModSwipeHint": "Desliza para aprobar ou rexeitar",
+    "dictModApproveTitle": "Aprobar termo",
+    "dictModApproveConfirm": "Estás seguro de que desexas aprobar o termo \"{term}\"?\n\nSerá visible para todos os usuarios.",
+    "@dictModApproveConfirm": {
+        "placeholders": {
+            "term": { "type": "String" }
+        }
+    },
+    "dictModCancelBtn": "Cancelar",
+    "dictModApproveBtn": "Aprobar",
+    "dictModApproveSuccess": "✓ Termo \"{term}\" aprobado correctamente",
+    "@dictModApproveSuccess": {
+        "placeholders": {
+            "term": { "type": "String" }
+        }
+    },
+    "dictModApproveError": "✗ Erro ao aprobar o termo",
+    "dictModRejectTitle": "Rexeitar termo",
+    "dictModRejectReasonTitle": "Por que rexeitas o termo \"{term}\"?",
+    "@dictModRejectReasonTitle": {
+        "placeholders": {
+            "term": { "type": "String" }
+        }
+    },
+    "dictModRejectHint": "Escribe o motivo do rexeitamento...",
+    "dictModRejectWarning": "O usuario verá este motivo nos seus termos propostos",
+    "dictModRejectErrorEmpty": "Debes indicar un motivo para rexeitar",
+    "dictModRejectBtn": "Rexeitar",
+    "dictModRejectSuccess": "✓ Termo \"{term}\" rexeitado",
+    "@dictModRejectSuccess": {
+        "placeholders": {
+            "term": { "type": "String" }
+        }
+    },
+    "dictModRejectError": "✗ Erro ao rexeitar o termo",
+    "dictModEditTitle": "Editar termo",
+    "dictModEditFieldTerm": "Termo",
+    "dictModEditFieldDef": "Definición",
+    "dictModEditFieldEx": "Exemplo (opcional)",
+    "dictModEditFieldCat": "Categoría",
+    "dictModEditErrorEmpty": "Termo e definición son obrigatorios",
+    "dictModEditErrorGeneric": "Non se puido actualizar o termo",
+    "dictModEditSaveBtn": "Gardar cambios",
+    "dictModEditSuccess": "✓ Termo actualizado correctamente",
+
+    "myTermsTitle": "Os Meus Termos Propostos",
+    "myTermsLoading": "Cargando os teus termos...",
+    "myTermsEmptyTitle": "Aínda non propuxeches termos",
+    "myTermsEmptyMessage": "Contribúe ao dicionario propoñendo novos termos",
+    "myTermsProposedCount": "Termos propostos",
+    "myTermsApproved": "Aprobados",
+    "myTermsPending": "Pendentes",
+    "myTermsViewReason": "Ver motivo",
+"dictGuestLockMessage": "O dicionario conta con {totalTerms} termos. Inicia sesión para velos todos.",
+    "@dictGuestLockMessage": {
+        "placeholders": {
+            "totalTerms": { "type": "int" }
+        }
+    },
+    "dictRequireLoginPropose": "Debes iniciar sesión para propoñer un novo termo."
+
+}

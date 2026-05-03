@@ -25,12 +25,12 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // Cargar los juegos del último año por defecto solo si no hay una lista precargada.
+      // Cargar los juegos por defecto solo si no hay una lista precargada ni filtros.
       final gamesProvider = Provider.of<GamesProvider>(context, listen: false);
       if (gamesProvider.searchResults.isEmpty && !gamesProvider.currentFilters.hasActiveFilters) {
-        final currentYear = DateTime.now().year;
-        final defaultFilters = GameFilters(yearFrom: currentYear, yearTo: currentYear);
-        gamesProvider.searchWithFilters(defaultFilters);
+        if (gamesProvider.popularGames.isEmpty) {
+          gamesProvider.loadNewGames();
+        }
       }
     });
     _scrollController.addListener(() {
@@ -137,16 +137,9 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
           Consumer<GamesProvider>(
             builder: (context, gamesProvider, child) {
               final filters = gamesProvider.currentFilters;
-              final currentYear = DateTime.now().year;
               
-              final isDefaultFilter = filters.yearFrom == currentYear && 
-                                      filters.yearTo == currentYear && 
-                                      filters.pegiAge == null &&
-                                      filters.selectedGenres.isEmpty &&
-                                      filters.selectedPlatforms.isEmpty;
-
               final showMessage = _searchController.text.isEmpty &&
-                  (!filters.hasActiveFilters || isDefaultFilter);
+                  !filters.hasActiveFilters;
 
               if (!showMessage) {
                 return const SizedBox.shrink();
@@ -167,15 +160,8 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
           Consumer<GamesProvider>(
             builder: (context, gamesProvider, child) {
               final filters = gamesProvider.currentFilters;
-              final currentYear = DateTime.now().year;
               
-              final isDefaultFilter = filters.yearFrom == currentYear && 
-                                      filters.yearTo == currentYear && 
-                                      filters.pegiAge == null &&
-                                      filters.selectedGenres.isEmpty &&
-                                      filters.selectedPlatforms.isEmpty;
-
-              if (!filters.hasActiveFilters || (_searchController.text.isEmpty && isDefaultFilter)) {
+              if (!filters.hasActiveFilters) {
                 return const SizedBox.shrink();
               }
 
@@ -250,9 +236,10 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                     ActionChip(
                       label: Text(l10n?.searchGamesClearAll ?? 'Limpiar todo'),
                       onPressed: () {
-                        final currentYear = DateTime.now().year;
-                        final defaultFilters = GameFilters(yearFrom: currentYear, yearTo: currentYear);
-                        gamesProvider.searchWithFilters(defaultFilters);
+                        gamesProvider.clearFilters();
+                        if (gamesProvider.popularGames.isEmpty) {
+                          gamesProvider.loadNewGames();
+                        }
                         _searchController.clear();
                         setState(() {});
                       },

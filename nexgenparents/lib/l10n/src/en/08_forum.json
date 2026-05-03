@@ -1,0 +1,83 @@
+{
+    "forumSidebarFollowedTopics": "Followed Topics",
+    "forumSidebarTopic1Title": "Screen time limits for 10 year olds?",
+    "forumSidebarTopic1Subtitle": "24 new replies today",
+    "forumSidebarTopic2Title": "Best educational games on Switch",
+    "forumSidebarTopic2Subtitle": "15 new replies today",
+    "forumSidebarTopic3Title": "Dealing with online chat safety",
+    "forumSidebarTopic3Subtitle": "8 new replies today",
+    "forumSidebarRepliesToYou": "Replies to you",
+    "forumSidebarReply1Link": "Fortnite Safety",
+    "forumSidebarReply1Action": "replied to your co...",
+    "forumSidebarReply1Time": "2 minutes ago",
+    "forumSidebarReply2Link": "Console Comparison",
+    "forumSidebarReply2Action": "tagged you in...",
+    "forumSidebarReply2Time": "1 hour ago",
+    "forumSidebarReply3Link": "Welcome Thread",
+    "forumSidebarReply3Action": "liked your reply i...",
+    "forumSidebarReply3Time": "3 hours ago",
+    "forumSidebarGlobalNews": "Global Forum News",
+    "forumSidebarNews1Tag": "Update",
+    "forumSidebarNews1Text": "New parental control guides added to the Dictionary.",
+    "forumSidebarNews2Tag": "Event",
+    "forumSidebarNews2Text": "Live Q&A with child psychologist this Thursday at 6PM.",
+    "forumSidebarNews3Tag": "Feature",
+    "forumSidebarNews3Text": "Dark mode is now available in user settings!",
+    "forumMainCategoriesTitle": "Main Categories",
+    "forumViewAllBtn": "View All",
+    "forumEmptySectionTitle": "No posts in this section",
+    "forumEmptySectionMessage": "Nothing new here yet.",
+    "forumPlatformsTitle": "Platforms",
+    "forumSearchHint": "Search threads by title...",
+    "forumEmptySearchTitle": "No results",
+    "forumEmptySearchMessage": "No threads found matching your search.",
+    "forumEmptyCategoryTitle": "Empty category",
+    "forumEmptyCategoryMessage": "No news in this section yet. Go ahead and post something!",
+    "forumPostSubtitle": "by {author} • {count} replies",
+    "@forumPostSubtitle": {
+        "placeholders": {
+            "author": { "type": "String" },
+            "count": { "type": "int" }
+        }
+    },
+    "forumDeleteTooltip": "Delete",
+    "forumDeletePostTitle": "Delete post",
+    "forumDeletePostContent": "Do you want to delete \"{title}\" and all its replies?",
+    "@forumDeletePostContent": {
+        "placeholders": {
+            "title": { "type": "String" }
+        }
+    },
+    "forumCancelBtn": "Cancel",
+    "forumDeleteBtn": "Delete",
+    "forumNewPostBtn": "New Thread",
+    "forumPostDeletedSuccess": "Post deleted",
+    "forumPostDeletedError": "Could not delete post",
+
+    "forumCreateLoginRequired": "You must be logged in to post",
+    "forumCreateUnknownError": "Unknown error",
+    "forumCreateTitle": "Create New Thread",
+    "forumCreateFieldTitle": "Title",
+    "forumCreateErrorTitle": "Title is required",
+    "forumCreateFieldSection": "Section",
+    "forumCreateFieldContent": "Content",
+    "forumCreateErrorContent": "Content is required",
+    "forumCreatePublishingBtn": "Publishing...",
+    "forumCreatePublishBtn": "Publish",
+
+    "forumPostByAuthor": "by {author}",
+    "@forumPostByAuthor": {
+        "placeholders": {
+            "author": { "type": "String" }
+        }
+    },
+    "forumDetailRepliesTitle": "Replies",
+    "forumDetailEmptyReplies": "No replies yet.",
+    "forumDeleteReplyTooltip": "Delete reply",
+    "forumDeleteReplyTitle": "Delete reply",
+    "forumDeleteReplyContent": "Do you want to delete this reply?",
+    "forumReplyDeletedSuccess": "Reply deleted",
+    "forumReplyDeletedError": "Could not delete reply",
+    "forumDetailReplyInputHint": "Write a reply..."
+
+}

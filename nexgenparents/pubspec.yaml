@@ -41,6 +41,9 @@ dependencies:
   
   # Loading & UI helpers
   flutter_spinkit: ^5.2.0
+  
+  # Video playback
+  video_player: ^2.8.2
 
 dev_dependencies:
   flutter_test:
@@ -54,6 +57,7 @@ flutter:
   # Assets de la aplicación
   assets:
     - assets/images/logo_principal.png
+    - assets/video/introNgP.mp4
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

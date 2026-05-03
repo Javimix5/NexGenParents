@@ -47,14 +47,14 @@ class AppFooter extends StatelessWidget {
             l10n?.footerTaglineMobile ?? 'Empoderando a la próxima generación\nde padres en la era digital',
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: Colors.white.withValues(alpha: 0.65),
+              color: Colors.white.withOpacity(0.65),
               fontSize: 13,
               height: 1.5,
             ),
           ),
 
           const SizedBox(height: 20),
-          Divider(color: Colors.white.withValues(alpha: 0.08), height: 1),
+          Divider(color: Colors.white.withOpacity(0.08), height: 1),
           const SizedBox(height: 20),
 
           // Links de navegación
@@ -79,7 +79,7 @@ class AppFooter extends StatelessWidget {
           _buildSocialGrid(context),
 
           const SizedBox(height: 20),
-          Divider(color: Colors.white.withValues(alpha: 0.08), height: 1),
+          Divider(color: Colors.white.withOpacity(0.08), height: 1),
           const SizedBox(height: 14),
 
           // Copyright centrado
@@ -87,7 +87,7 @@ class AppFooter extends StatelessWidget {
             l10n?.footerCopyright(DateTime.now().year.toString(), AppConfig.appName) ?? '© ${DateTime.now().year} ${AppConfig.appName}. Todos los derechos reservados.',
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: Colors.white.withValues(alpha: 0.35),
+              color: Colors.white.withOpacity(0.35),
               fontSize: 11,
             ),
           ),
@@ -118,7 +118,7 @@ class AppFooter extends StatelessWidget {
                     Text(
                       l10n?.footerTaglineDesktop ?? 'Empoderando a la próxima generación de padres en la era digital',
                       style: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.65),
+                        color: Colors.white.withOpacity(0.65),
                         fontSize: 13,
                       ),
                     ),
@@ -139,14 +139,14 @@ class AppFooter extends StatelessWidget {
           ),
 
           const SizedBox(height: 16),
-          Divider(color: Colors.white.withValues(alpha: 0.08), height: 1),
+          Divider(color: Colors.white.withOpacity(0.08), height: 1),
           const SizedBox(height: 12),
 
           // Copyright
           Text(
             l10n?.footerCopyright(DateTime.now().year.toString(), AppConfig.appName) ?? '© ${DateTime.now().year} ${AppConfig.appName}. Todos los derechos reservados.',
             style: TextStyle(
-              color: Colors.white.withValues(alpha: 0.35),
+              color: Colors.white.withOpacity(0.35),
               fontSize: 11,
             ),
           ),
@@ -166,7 +166,7 @@ class AppFooter extends StatelessWidget {
           width: 28,
           height: 28,
           decoration: BoxDecoration(
-            color: AppConfig.primaryColor.withValues(alpha: 0.18),
+            color: AppConfig.primaryColor.withOpacity(0.18),
             borderRadius: BorderRadius.circular(8),
           ),
           child: const Icon(
@@ -217,7 +217,7 @@ class AppFooter extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: TextStyle(color: Colors.white.withValues(alpha: 0.78)),
+        style: TextStyle(color: Colors.white.withOpacity(0.78)),
       ),
     );
   }
@@ -349,7 +349,7 @@ class _SocialButtonState extends State<_SocialButton> {
                 height: 36,
                 decoration: BoxDecoration(
                   color: _hovered
-                      ? widget.backgroundColor.withValues(alpha: 0.7)
+                      ? widget.backgroundColor.withOpacity(0.7)
                       : widget.backgroundColor,
                   shape: BoxShape.circle,
                 ),
@@ -373,7 +373,7 @@ class _SocialButtonState extends State<_SocialButton> {
                       borderRadius: BorderRadius.circular(6),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.3),
+                          color: Colors.black.withOpacity(0.3),
                           blurRadius: 8,
                           offset: const Offset(0, 2),
                         ),

@@ -13,8 +13,7 @@ import 'providers/dictionary_provider.dart';
 import 'providers/games_provider.dart';
 import 'providers/locale_provider.dart';
 import 'providers/theme_provider.dart';
-import 'screens/auth/login_screen.dart';
-import 'screens/home/home_screen.dart';
+import 'screens/welcome_screen.dart';
 import 'widgets/common/persistent_frame.dart';
 
 void main() async {
@@ -106,56 +105,10 @@ class MyApp extends StatelessWidget {
                 },
               );
             },
-            home: const AuthWrapper(),
+            home: const WelcomeScreen(),
           );
         },
       ),
-    );
-  }
-}
-
-// Widget que decide qué pantalla mostrar según el estado de autenticación
-class AuthWrapper extends StatelessWidget {
-  const AuthWrapper({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<AuthProvider>(
-      builder: (context, authProvider, child) {
-        final theme = Theme.of(context);
-
-        // Mostrar indicador de carga mientras verifica autenticación
-        if (authProvider.isLoading) {
-          return Scaffold(
-            backgroundColor: theme.scaffoldBackgroundColor,
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.videogame_asset,
-                    size: 80,
-                    color: theme.primaryColor,
-                  ),
-                  const SizedBox(height: AppConfig.paddingLarge),
-                  const CircularProgressIndicator(),
-                  const SizedBox(height: AppConfig.paddingMedium),
-                  // Usamos AppLocalizations si está disponible, si no un texto por defecto
-                  Text(AppLocalizations.of(context)
-                          ?.loading(AppConfig.appName) ??
-                      'Cargando ${AppConfig.appName}...'),
-                ],
-              ),
-            ),
-          );
-        }
-
-        // Si está autenticado, mostrar Home
-        // Si no está autenticado, mostrar Login
-        return authProvider.isAuthenticated
-            ? const HomeScreen()
-            : const LoginScreen();
-      },
     );
   }
 }

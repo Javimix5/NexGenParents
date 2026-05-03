@@ -223,7 +223,7 @@ class _ParentalGuidesListScreenState extends State<ParentalGuidesListScreen> {
             l10n.parentalGuidesBannerSubtitle,
             style: TextStyle(
               fontSize: AppConfig.fontSizeBody,
-              color: Colors.white.withValues(alpha: 0.9),
+              color: Colors.white.withOpacity(0.9),
             ),
           ),
           const SizedBox(height: AppConfig.paddingMedium),
@@ -328,7 +328,7 @@ class _ParentalGuidesListScreenState extends State<ParentalGuidesListScreen> {
                   errorBuilder: (_, __, ___) => Container(
                     width: 48,
                     height: 48,
-                    color: theme.colorScheme.primary.withValues(alpha: 0.08),
+                    color: theme.colorScheme.primary.withOpacity(0.08),
                     child: Icon(
                       Icons.sports_esports,
                       size: 24,
@@ -354,7 +354,7 @@ class _ParentalGuidesListScreenState extends State<ParentalGuidesListScreen> {
                       '${_resolveClosureOrString(context, guide.typeDisplayName)} • ${l10n.parentalGuidesStepsCount(guide.steps.length)}',
                       style: TextStyle(
                         fontSize: AppConfig.fontSizeCaption,
-                        color: theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.7),
+                        color: theme.textTheme.bodyMedium?.color?.withOpacity(0.7),
                       ),
                     ),
                   ],
@@ -363,7 +363,7 @@ class _ParentalGuidesListScreenState extends State<ParentalGuidesListScreen> {
               Icon(
                 Icons.arrow_forward_ios,
                 size: 16,
-                color: theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.4),
+                color: theme.textTheme.bodyMedium?.color?.withOpacity(0.4),
               ),
             ],
           ),
@@ -425,7 +425,7 @@ class _ParentalGuidesListScreenState extends State<ParentalGuidesListScreen> {
         color: theme.cardColor,
         borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
         border: Border.all(
-            color: theme.dividerColor.withValues(alpha: 0.2)),
+            color: theme.dividerColor.withOpacity(0.2)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -448,7 +448,7 @@ class _ParentalGuidesListScreenState extends State<ParentalGuidesListScreen> {
                   description,
                   style: TextStyle(
                     fontSize: AppConfig.fontSizeCaption,
-                    color: theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.7),
+                    color: theme.textTheme.bodyMedium?.color?.withOpacity(0.7),
                   ),
                 ),
               ],
