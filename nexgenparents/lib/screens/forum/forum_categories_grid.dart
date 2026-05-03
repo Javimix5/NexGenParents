@@ -29,6 +29,15 @@ class ForumCategoriesGrid extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final l10n = AppLocalizations.of(context);
 
+    // Pre-calcular conteos en O(N) para evitar iterar allPosts múltiples veces
+    final Map<String, int> postCounts = {};
+    final Map<String, int> replyCounts = {};
+    for (final post in allPosts) {
+      final sId = post.effectiveSectionId;
+      postCounts[sId] = (postCounts[sId] ?? 0) + 1;
+      replyCounts[sId] = (replyCounts[sId] ?? 0) + post.replyCount;
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -46,45 +55,44 @@ class ForumCategoriesGrid extends StatelessWidget {
         LayoutBuilder(
           builder: (context, constraints) {
             final crossCount = constraints.maxWidth > 500 ? 3 : 2;
-            return GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: crossCount,
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
-                childAspectRatio: constraints.maxWidth > 800 
-                    ? 1.6 
-                    : (constraints.maxWidth > 500 
-                        ? 1.05 
-                        : 0.85), // Proporción más vertical para móviles
-              ),
-              itemCount: ForumSections.all.length,
-              itemBuilder: (context, index) {
+            const spacing = 12.0;
+            final itemWidth = (constraints.maxWidth - (spacing * (crossCount - 1))) / crossCount;
+            final aspectRatio = constraints.maxWidth > 800 
+                ? 1.6 
+                : (constraints.maxWidth > 500 
+                    ? 1.05 
+                    : 0.85); // Proporción más vertical para móviles
+            final itemHeight = itemWidth / aspectRatio;
+
+            return Wrap(
+              spacing: spacing,
+              runSpacing: spacing,
+              children: List.generate(ForumSections.all.length, (index) {
                 final section = ForumSections.all[index];
-                final sectionPosts = allPosts
-                    .where((p) => p.effectiveSectionId == section.id)
-                    .toList();
-                final postCount = sectionPosts.length;
-                final replyCount = sectionPosts.fold<int>(0, (s, p) => s + p.replyCount);
+                final postCount = postCounts[section.id] ?? 0;
+                final replyCount = replyCounts[section.id] ?? 0;
                 final imageUrl = _sectionImages[section.id] ?? _sectionImages['general']!;
 
-                return _SectionCard(
-                  section: section,
-                  languageCode: languageCode,
-                  imageUrl: imageUrl,
-                  postCount: postCount,
-                  replyCount: replyCount,
-                  isDark: isDark,
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => ForumCategoryPostsScreen(section: section),
-                      ),
-                    );
-                  },
+                return SizedBox(
+                  width: itemWidth,
+                  height: itemHeight,
+                  child: _SectionCard(
+                    section: section,
+                    languageCode: languageCode,
+                    imageUrl: imageUrl,
+                    postCount: postCount,
+                    replyCount: replyCount,
+                    isDark: isDark,
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => ForumCategoryPostsScreen(section: section),
+                        ),
+                      );
+                    },
+                  ),
                 );
-              },
+              }),
             );
           },
         ),

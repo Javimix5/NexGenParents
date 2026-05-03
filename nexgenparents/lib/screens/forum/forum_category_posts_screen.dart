@@ -50,7 +50,6 @@ class _ForumCategoryPostsScreenState extends State<ForumCategoryPostsScreen> {
   @override
   Widget build(BuildContext context) {
     final authProvider = context.watch<AuthProvider>();
-    final forumProvider = context.watch<ForumProvider>();
     final isAdmin = authProvider.isAdmin;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final languageCode = Localizations.localeOf(context).languageCode;
@@ -60,11 +59,13 @@ class _ForumCategoryPostsScreenState extends State<ForumCategoryPostsScreen> {
       appBar: AppBar(
         title: Text(widget.section.localizedName(languageCode)),
       ),
-      body: forumProvider.isPostsLoading
-          ? const Center(child: CircularProgressIndicator())
-          : Builder(
-              builder: (context) {
-                final allPosts = forumProvider.posts;
+      body: Consumer<ForumProvider>(
+        builder: (context, forumProvider, child) {
+          if (forumProvider.isPostsLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          
+          final allPosts = forumProvider.posts;
                 final sectionPosts = allPosts.where((p) {
             final matchesSection = p.effectiveSectionId == widget.section.id;
             final matchesSearch = p.title.toLowerCase().contains(_searchQuery.toLowerCase());

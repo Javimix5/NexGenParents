@@ -550,6 +550,7 @@ Stream<List<ForumPost>> getForumPosts() {
   return _firestore
       .collection('forum_posts')
       .orderBy('updatedAt', descending: true)
+      .limit(100) // Protege tu cuota de lecturas de Firebase y evita sobrecarga de RAM
       .snapshots()
       .map((snapshot) {
     return snapshot.docs
@@ -574,7 +575,12 @@ Stream<List<ForumReply>> getRepliesForPost(String postId) {
 
 // Crea una nueva publicación en el foro.
 Future<void> createForumPost(ForumPost post) async {
-  await _firestore.collection('forum_posts').add(post.toMap());
+  final postData = post.toMap();
+  // Forzar timestamps del servidor evita errores si el reloj del móvil del usuario está mal
+  postData['createdAt'] = FieldValue.serverTimestamp();
+  postData['updatedAt'] = FieldValue.serverTimestamp();
+  
+  await _firestore.collection('forum_posts').add(postData);
 }
 
 // Elimina una publicación del foro y sus respuestas asociadas.
@@ -585,15 +591,27 @@ Future<Map<String, dynamic>> deleteForumPost(String postId) async {
         .where('postId', isEqualTo: postId)
         .get();
 
-    final batch = _firestore.batch();
+    // Firestore permite un máximo de 500 operaciones por Batch.
+    // Implementamos "Chunking" para hilos virales con muchas respuestas.
+    final batches = <WriteBatch>[_firestore.batch()];
+    int opCount = 0;
 
     for (final replyDoc in repliesSnapshot.docs) {
-      batch.delete(replyDoc.reference);
+      if (opCount >= 490) { // Margen de seguridad antes de los 500
+        batches.add(_firestore.batch());
+        opCount = 0;
+      }
+      batches.last.delete(replyDoc.reference);
+      opCount++;
     }
 
-    batch.delete(_firestore.collection('forum_posts').doc(postId));
+    // El post principal se elimina en el último batch
+    batches.last.delete(_firestore.collection('forum_posts').doc(postId));
 
-    await batch.commit();
+    // Ejecutamos todos los batches de forma segura
+    for (final b in batches) {
+      await b.commit();
+    }
 
     return {
       'success': true,

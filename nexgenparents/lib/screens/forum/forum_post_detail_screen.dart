@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../config/app_config.dart';
 import '../../models/forum_post_model.dart';
 import '../../models/forum_reply_model.dart';
@@ -115,8 +116,7 @@ class _ForumPostDetailScreenState extends State<ForumPostDetailScreen> {
                   stream: forumProvider.getRepliesStream(widget.post.id),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const SliverToBoxAdapter(
-                          child: Center(child: CircularProgressIndicator()));
+                      return _buildRepliesShimmer(context);
                     }
                     if (!snapshot.hasData || snapshot.data!.isEmpty) {
                       return SliverToBoxAdapter(
@@ -285,6 +285,36 @@ class _ForumPostDetailScreenState extends State<ForumPostDetailScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildRepliesShimmer(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final baseColor = isDark ? Colors.grey[850]! : Colors.grey[300]!;
+    final highlightColor = isDark ? Colors.grey[700]! : Colors.grey[100]!;
+
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        (context, index) {
+          return Shimmer.fromColors(
+            baseColor: baseColor,
+            highlightColor: highlightColor,
+            child: ListTile(
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(height: 14, width: double.infinity, color: Colors.white),
+                  const SizedBox(height: 4),
+                  Container(height: 14, width: 200, color: Colors.white),
+                  const SizedBox(height: 8),
+                ],
+              ),
+              subtitle: Container(height: 12, width: 100, color: Colors.white),
+            ),
+          );
+        },
+        childCount: 4, // Simulamos que están cargando 4 respuestas
       ),
     );
   }

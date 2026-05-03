@@ -144,14 +144,15 @@ class _PersistentFrameState extends State<PersistentFrame> {
                           }
                           break;
                         case 'logout':
-                          await authProvider.signOut();
                           final nav = widget.navigatorKey.currentState;
-                          if (nav == null || !nav.mounted) return;
-                          nav.pushAndRemoveUntil(
-                            MaterialPageRoute(
-                                builder: (_) => const LoginScreen()),
-                            (route) => false,
-                          );
+                          if (nav != null && nav.mounted) {
+                            nav.pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (_) => const LoginScreen()),
+                              (route) => false,
+                            );
+                          }
+                          authProvider.signOut();
                           break;
                       }
                     },

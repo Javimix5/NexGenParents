@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../config/app_config.dart';
 import '../../models/forum_post_model.dart';
@@ -10,7 +11,6 @@ import '../../providers/auth_provider.dart';
 import '../../providers/dictionary_provider.dart';
 import '../../providers/forum_provider.dart';
 import '../../providers/games_provider.dart';
-import '../../viewmodels/home_view_model.dart';
 import '../../widgets/common/app_footer.dart';
 import '../../l10n/app_localizations.dart';
 import '../../widgets/common/app_header.dart';
@@ -36,7 +36,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final HomeViewModel _homeViewModel = HomeViewModel();
   Future<int>? _userMessagesCountFuture;
   String? _lastUserId;
   final GlobalKey<AccountMenuButtonState> _accountMenuKey = GlobalKey<AccountMenuButtonState>();
@@ -93,15 +92,21 @@ class _HomeScreenState extends State<HomeScreen> {
       final dictionaryProvider =
           Provider.of<DictionaryProvider>(context, listen: false);
       final gamesProvider = Provider.of<GamesProvider>(context, listen: false);
-      final forumProvider = Provider.of<ForumProvider>(context, listen: false);
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
-      _homeViewModel.initialize(
-        authProvider: authProvider,
-        dictionaryProvider: dictionaryProvider,
-        gamesProvider: gamesProvider,
-        forumProvider: forumProvider,
-      );
+      // Cargamos datos iniciales solo si están vacíos para evitar llamadas redundantes de red
+      if (dictionaryProvider.approvedTerms.isEmpty) {
+        dictionaryProvider.loadApprovedTerms();
+      }
+      if (gamesProvider.popularGames.isEmpty) {
+        gamesProvider.loadCurrentMonthGames();
+        gamesProvider.loadWeeklyTopGame();
+      }
+
+      final user = authProvider.currentUser;
+      if (user != null) {
+        dictionaryProvider.loadUserProposedTerms(user.id);
+      }
     });
   }
 
@@ -126,7 +131,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
-    _homeViewModel.dispose();
     _scrollController.dispose();
     super.dispose();
   }
@@ -134,12 +138,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
 Widget build(BuildContext context) {
   return Scaffold(
-    body: AnimatedBuilder(
-      animation: _homeViewModel,
-      builder: (context, child) {
-        return _buildBody(context);
-      },
-    ),
+    body: _buildBody(context),
     floatingActionButton: _showBackToTopButton
         ? FloatingActionButton(
             heroTag: 'home_back_to_top_btn', // Etiqueta única para evitar colisiones
@@ -270,13 +269,13 @@ Widget _buildHeroSection(BuildContext context) {
 
       return _buildHero(
         context,
-        userName: user?.displayName ?? (l10n?.homeDefaultUser ?? 'Usuario'),
-        approvedTermsCount: user?.termsApproved ?? 0,
-        proposedTermsCount: user?.termsProposed ?? 0,
+                userName: user.displayName.isNotEmpty ? user.displayName : (l10n?.homeDefaultUser ?? 'Usuario'),
+                approvedTermsCount: user.termsApproved,
+                proposedTermsCount: user.termsProposed,
         userLevel: userLevel,
         totalActiveTerms:
             Provider.of<DictionaryProvider>(context).approvedTerms.length,
-        avatarUrl: user?.photoUrl,
+                avatarUrl: user.photoUrl,
       );
     },
   );
@@ -300,8 +299,9 @@ Widget _buildQuickAccessSection(BuildContext context) {
 
 Widget _buildFeaturedGameAndUpdates(BuildContext context) {
   final gamesProvider = Provider.of<GamesProvider>(context);
-  final popularGames = gamesProvider.popularGames;
-  final featuredGame = popularGames.isNotEmpty ? popularGames.first : null;
+  final featuredGame = gamesProvider.weeklyTopGame ?? 
+      (gamesProvider.popularGames.isNotEmpty ? gamesProvider.popularGames.first : null);
+  final isLoading = gamesProvider.isLoading;
 
   return LayoutBuilder(
     builder: (context, constraints) {
@@ -309,7 +309,7 @@ Widget _buildFeaturedGameAndUpdates(BuildContext context) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _buildGameFeature(context, featuredGame),
+            _buildGameFeature(context, featuredGame, isLoading),
             const SizedBox(height: 20),
             _buildUpdatesPanel(context),
           ],
@@ -322,7 +322,7 @@ Widget _buildFeaturedGameAndUpdates(BuildContext context) {
                   children: [
                     Expanded(
                       flex: 3,
-                      child: _buildGameFeature(context, featuredGame),
+                      child: _buildGameFeature(context, featuredGame, isLoading),
                     ),
                     const SizedBox(width: 24),
                     Expanded(
@@ -401,7 +401,10 @@ void _handleNavigation(BuildContext context, AppSection section) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      UserAvatar(photoUrl: avatarUrl, size: 70),
+                      Hero(
+                        tag: 'profile_avatar',
+                        child: UserAvatar(photoUrl: avatarUrl, size: 70),
+                      ),
                       const SizedBox(height: 18),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -455,7 +458,10 @@ void _handleNavigation(BuildContext context, AppSection section) {
           return Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              UserAvatar(photoUrl: avatarUrl, size: 70),
+              Hero(
+                tag: 'profile_avatar',
+                child: UserAvatar(photoUrl: avatarUrl, size: 70),
+              ),
               const SizedBox(width: 18),
               Expanded(
                 child: Column(
@@ -574,7 +580,10 @@ void _handleNavigation(BuildContext context, AppSection section) {
                   children: [
                     InkWell(
                       onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const LoginScreen())),
-                      child: const UserAvatar(photoUrl: null, size: 70),
+                      child: const Hero(
+                        tag: 'profile_avatar',
+                        child: UserAvatar(photoUrl: null, size: 70),
+                      ),
                     ),
                     const SizedBox(height: 18),
                     content,
@@ -587,7 +596,10 @@ void _handleNavigation(BuildContext context, AppSection section) {
                 children: [
                   InkWell(
                     onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const LoginScreen())),
-                    child: const UserAvatar(photoUrl: null, size: 70),
+                    child: const Hero(
+                      tag: 'profile_avatar',
+                      child: UserAvatar(photoUrl: null, size: 70),
+                    ),
                   ),
                   const SizedBox(width: 18),
                   Expanded(child: content),
@@ -770,7 +782,11 @@ void _handleNavigation(BuildContext context, AppSection section) {
     );
   }
 
-  Widget _buildGameFeature(BuildContext context, Game? featuredGame) {
+  Widget _buildGameFeature(BuildContext context, Game? featuredGame, bool isLoading) {
+    if (isLoading) {
+      return _buildGameFeatureShimmer(context);
+    }
+
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
 
@@ -826,21 +842,50 @@ void _handleNavigation(BuildContext context, AppSection section) {
                 ),
               ],
             ),
-            child: Stack(
-              children: [
-                Positioned(
-                  right: -20,
-                  top: -10,
-                  child: Container(
-                    width: 170,
-                    height: 170,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: RadialGradient(
-                        colors: [
-                          AppConfig.primaryColor.withOpacity(0.22),
-                          Colors.transparent
-                        ],
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Stack(
+                children: [
+                  if (featuredGame != null && featuredGame.backgroundImage != null)
+                    Positioned.fill(
+                      child: Hero(
+                        tag: 'game_image_${featuredGame.id}',
+                        child: Image.network(
+                          featuredGame.backgroundImage!,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) => const SizedBox.shrink(),
+                        ),
+                      ),
+                    ),
+                  // Gradiente superpuesto para garantizar la legibilidad del texto
+                  Positioned.fill(
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.transparent,
+                            const Color(0xFF111827).withOpacity(0.95),
+                          ],
+                          stops: const [0.3, 1.0],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    right: -20,
+                    top: -10,
+                    child: Container(
+                      width: 170,
+                      height: 170,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: RadialGradient(
+                          colors: [
+                            AppConfig.primaryColor.withOpacity(0.22),
+                            Colors.transparent
+                          ],
                       ),
                     ),
                   ),
@@ -919,6 +964,78 @@ void _handleNavigation(BuildContext context, AppSection section) {
               ],
             ),
           ),
+        ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGameFeatureShimmer(BuildContext context) {
+    final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final baseColor = isDark ? Colors.grey[850]! : Colors.grey[300]!;
+    final highlightColor = isDark ? Colors.grey[700]! : Colors.grey[100]!;
+
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: theme.cardColor,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: theme.dividerColor.withOpacity(0.35)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Text(
+                  l10n?.homeGameOfTheWeek ?? 'Juego de la semana',
+                  style: const TextStyle(fontSize: 21, fontWeight: FontWeight.w800),
+                ),
+              ),
+              TextButton(
+                onPressed: null, // Botón desactivado mientras carga
+                child: Text(
+                  l10n?.homeSeeMonthsGames ?? 'Ver los juegos del mes',
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 14),
+          Shimmer.fromColors(
+            baseColor: baseColor,
+            highlightColor: highlightColor,
+            child: Container(
+              constraints: const BoxConstraints(minHeight: 250),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: isDark ? AppConfig.cardDark : Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              alignment: Alignment.bottomLeft,
+              padding: const EdgeInsets.all(22),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(width: 120, height: 14, color: Colors.white),
+                  const SizedBox(height: 10),
+                  Container(width: 220, height: 28, color: Colors.white),
+                  const SizedBox(height: 10),
+                  Container(width: double.infinity, height: 14, color: Colors.white),
+                  const SizedBox(height: 6),
+                  Container(width: double.infinity, height: 14, color: Colors.white),
+                  const SizedBox(height: 6),
+                  Container(width: 180, height: 14, color: Colors.white),
+                  const SizedBox(height: 14),
+                  Container(width: 140, height: 40, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20))),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -947,6 +1064,10 @@ void _handleNavigation(BuildContext context, AppSection section) {
           const SizedBox(height: 16),
           Consumer<ForumProvider>(
             builder: (context, forumProvider, child) {
+              if (forumProvider.isPostsLoading) {
+                return _buildUpdatesShimmer(context);
+              }
+
               final posts = forumProvider.posts;
               final items = <_CommunityUpdateItem>[
                 _createCommunityUpdateItem(
@@ -1073,6 +1194,59 @@ void _handleNavigation(BuildContext context, AppSection section) {
     );
   }
 
+  Widget _buildUpdatesShimmer(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final baseColor = isDark ? Colors.grey[850]! : Colors.grey[300]!;
+    final highlightColor = isDark ? Colors.grey[700]! : Colors.grey[100]!;
+
+    return Column(
+      children: List.generate(3, (index) {
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 12),
+          child: Shimmer.fromColors(
+            baseColor: baseColor,
+            highlightColor: highlightColor,
+            child: Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.surface.withOpacity(0.7),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: theme.dividerColor.withOpacity(0.35)),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 46,
+                    height: 46,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(width: double.infinity, height: 14, color: Colors.white),
+                        const SizedBox(height: 6),
+                        Container(width: 150, height: 12, color: Colors.white),
+                        const SizedBox(height: 8),
+                        Container(width: 80, height: 11, color: Colors.white),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      }),
+    );
+  }
+
   Widget _buildBadge(
       {required String text,
       required Color background,
@@ -1114,13 +1288,12 @@ void _handleNavigation(BuildContext context, AppSection section) {
         }
         break;
       case 'logout':
-        authProvider.signOut().then((_) {
-          if (context.mounted) {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (_) => const LoginScreen()),
-            );
-          }
-        });
+        if (context.mounted) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (_) => const LoginScreen()),
+          );
+        }
+        authProvider.signOut();
         break;
     }
   }

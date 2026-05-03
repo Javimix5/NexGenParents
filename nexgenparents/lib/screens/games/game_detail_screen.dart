@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../providers/games_provider.dart';
 import '../../models/game_model.dart';
 import '../../config/app_config.dart';
@@ -56,16 +57,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
       body: Consumer<GamesProvider>(
         builder: (context, gamesProvider, child) {
           if (gamesProvider.isLoadingDetails) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const CircularProgressIndicator(),
-                  const SizedBox(height: AppConfig.paddingMedium),
-                  Text(l10n?.gameDetailLoading ?? 'Cargando información del juego...'),
-                ],
-              ),
-            );
+            return _buildDetailShimmer(context);
           }
 
           final game = gamesProvider.selectedGame;
@@ -156,6 +148,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
   }
 
   Widget _buildAppBar(Game game) {
+    final bgImage = game.backgroundImage;
     return SliverAppBar(
       expandedHeight: 250,
       pinned: true,
@@ -181,15 +174,27 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
         background: Stack(
           fit: StackFit.expand,
           children: [
-            if (game.backgroundImage != null)
-              CachedNetworkImage(
-                imageUrl: game.backgroundImage!,
-                fit: BoxFit.cover,
-                placeholder: (context, url) => Container(color: AppConfig.backgroundDark),
-                errorWidget: (context, url, error) => Container(color: AppConfig.backgroundDark),
-              )
-            else
-              Container(color: AppConfig.backgroundDark),
+            Hero(
+              tag: 'game_image_${game.id}',
+              child: bgImage != null
+                  ? CachedNetworkImage(
+                      imageUrl: bgImage,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => Container(color: AppConfig.backgroundDark),
+                      errorWidget: (context, url, error) => Container(
+                        color: AppConfig.backgroundDark,
+                        child: const Center(
+                          child: Icon(Icons.videogame_asset, size: 60, color: Colors.white24),
+                        ),
+                      ),
+                    )
+                  : Container(
+                      color: AppConfig.backgroundDark,
+                      child: const Center(
+                        child: Icon(Icons.videogame_asset, size: 60, color: Colors.white24),
+                      ),
+                    ),
+            ),
             // Gradiente suave desde transparente hasta negro
             DecoratedBox(
               decoration: BoxDecoration(
@@ -208,6 +213,8 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
   }
 
   Widget _buildBasicInfo(Game game) {
+    final metacritic = game.metacritic;
+    final released = game.released;
     final l10n = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.all(AppConfig.paddingMedium),
@@ -229,18 +236,18 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
               const SizedBox(width: AppConfig.paddingMedium),
               
               // Metacritic
-              if (game.metacritic != null) ...[
+              if (metacritic != null) ...[
                 Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: AppConfig.paddingSmall,
                     vertical: AppConfig.paddingSmall / 2,
                   ),
                   decoration: BoxDecoration(
-                    color: _getMetacriticColor(game.metacritic!),
+                    color: _getMetacriticColor(metacritic),
                     borderRadius: BorderRadius.circular(AppConfig.borderRadiusSmall),
                   ),
                   child: Text(
-                    'Metacritic: ${game.metacritic}',
+                    'Metacritic: $metacritic',
                     style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -251,14 +258,14 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
             ],
           ),
           
-          if (game.released != null) ...[
+          if (released != null) ...[
             const SizedBox(height: AppConfig.paddingSmall),
             Row(
               children: [
                 const Icon(Icons.calendar_today, size: 16, color: AppConfig.textSecondaryColor),
                 const SizedBox(width: AppConfig.paddingSmall / 2),
                 Text(
-                  l10n?.gameDetailRelease(game.released!) ?? 'Lanzamiento: ${game.released}',
+                  l10n?.gameDetailRelease(released) ?? 'Lanzamiento: $released',
                   style: const TextStyle(color: AppConfig.textSecondaryColor),
                 ),
               ],
@@ -534,5 +541,50 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
       default:
         return l10n?.pegiDescriptionUnknown ?? 'No hay una descripción disponible para esta clasificación PEGI.';
     }
+  }
+
+  Widget _buildDetailShimmer(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final baseColor = isDark ? Colors.grey[850]! : Colors.grey[300]!;
+    final highlightColor = isDark ? Colors.grey[700]! : Colors.grey[100]!;
+
+    return Shimmer.fromColors(
+      baseColor: baseColor,
+      highlightColor: highlightColor,
+      child: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            expandedHeight: 250,
+            pinned: true,
+            flexibleSpace: FlexibleSpaceBar(
+              background: Container(color: Colors.white),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.all(AppConfig.paddingMedium),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(width: 150, height: 30, color: Colors.white),
+                  const SizedBox(height: AppConfig.paddingMedium),
+                  Container(width: double.infinity, height: 100, color: Colors.white),
+                  const SizedBox(height: AppConfig.paddingLarge),
+                  Container(width: 200, height: 20, color: Colors.white),
+                  const SizedBox(height: AppConfig.paddingMedium),
+                  Container(width: double.infinity, height: 14, color: Colors.white),
+                  const SizedBox(height: 8),
+                  Container(width: double.infinity, height: 14, color: Colors.white),
+                  const SizedBox(height: 8),
+                  Container(width: 250, height: 14, color: Colors.white),
+                  const SizedBox(height: AppConfig.paddingLarge),
+                  Container(width: 100, height: 30, color: Colors.white),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

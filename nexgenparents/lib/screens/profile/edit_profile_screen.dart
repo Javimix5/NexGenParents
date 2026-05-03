@@ -299,18 +299,24 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return Center(
       child: Column(
         children: [
-          ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 100, maxHeight: 100),
-            child: Container(
-              decoration: BoxDecoration(
-                color: AppConfig.primaryColor.withOpacity(0.1),
-                shape: BoxShape.circle,
-                border: Border.all(color: AppConfig.primaryColor, width: 3),
-              ),
-              child: Center(
-                child: Text(
-                  _selectedAvatar,
-                  style: const TextStyle(fontSize: 50),
+          Hero(
+            tag: 'profile_avatar',
+            child: Material(
+              color: Colors.transparent,
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 100, maxHeight: 100),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppConfig.primaryColor.withOpacity(0.1),
+                    shape: BoxShape.circle,
+                    border: Border.all(color: AppConfig.primaryColor, width: 3),
+                  ),
+                  child: Center(
+                    child: Text(
+                      _selectedAvatar,
+                      style: const TextStyle(fontSize: 50),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -820,14 +826,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 return;
               }
 
-              await Provider.of<AuthProvider>(context, listen: false).signOut();
-
               if (!mounted) return;
+              final authProvider = Provider.of<AuthProvider>(context, listen: false);
               Navigator.pop(dialogContext);
               Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(builder: (_) => const LoginScreen()),
                 (route) => false,
               );
+              authProvider.signOut();
             },
             child: Text(l10n?.dictDeleteBtn ?? 'Eliminar'),
           ),

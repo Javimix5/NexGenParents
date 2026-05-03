@@ -30,7 +30,8 @@ class ForumProvider with ChangeNotifier {
         notifyListeners();
       },
       onError: (e) {
-        _errorMessage = null;
+        _posts = []; // Evita el bucle de carga infinito
+        _errorMessage = e.toString();
         notifyListeners();
       },
     );

@@ -43,19 +43,20 @@ class _ForumListScreenState extends State<ForumListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final forumProvider = context.watch<ForumProvider>();
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       backgroundColor:
           isDark ? const Color(0xFF0F0F1A) : const Color(0xFFF0F4FF),
-      body: forumProvider.isPostsLoading
-          ? const Center(child: CircularProgressIndicator())
-          : Builder(
-              builder: (context) {
-                final allPosts = forumProvider.posts;
-                return RefreshIndicator(
+      body: Consumer<ForumProvider>(
+        builder: (context, forumProvider, child) {
+          if (forumProvider.isPostsLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          
+          final allPosts = forumProvider.posts;
+          return RefreshIndicator(
             onRefresh: () async {
               await Future.delayed(const Duration(milliseconds: 600));
             },

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/games_provider.dart';
@@ -8,6 +9,7 @@ import '../../l10n/app_localizations.dart';
 import 'game_detail_screen.dart';
 import 'games_filters_screen.dart';
 import '../../widgets/common/app_footer.dart';
+import 'game_card_shimmer.dart';
 
 class GamesSearchScreen extends StatefulWidget {
   const GamesSearchScreen({super.key});
@@ -20,6 +22,7 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
   final _searchController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   bool _showBackToTopButton = false;
+  Timer? _debounce;
 
   @override
   void initState() {
@@ -47,6 +50,7 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
   void dispose() {
     _searchController.dispose();
     _scrollController.dispose();
+    _debounce?.cancel();
     super.dispose();
   }
 
@@ -73,6 +77,7 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                               onPressed: () {
                                 _searchController.clear();
                                 setState(() {});
+                            _debounce?.cancel();
                                 Provider.of<GamesProvider>(context,
                                         listen: false)
                                     .clearSearch();
@@ -82,13 +87,16 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                     ),
                     onChanged: (value) {
                       setState(() {});
-                      if (value.isNotEmpty) {
-                        Provider.of<GamesProvider>(context, listen: false)
-                            .searchGames(value);
-                      } else {
-                        Provider.of<GamesProvider>(context, listen: false)
-                            .clearSearch();
-                      }
+                  if (_debounce?.isActive ?? false) _debounce!.cancel();
+                  _debounce = Timer(const Duration(milliseconds: 500), () {
+                    if (value.isNotEmpty) {
+                      Provider.of<GamesProvider>(context, listen: false)
+                          .searchGames(value);
+                    } else {
+                      Provider.of<GamesProvider>(context, listen: false)
+                          .clearSearch();
+                    }
+                  });
                     },
                   ),
                 ),
@@ -179,8 +187,6 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                         onDeleted: () {
                           final newFilters = filters.copyWith(yearFrom: null);
                           gamesProvider.searchWithFilters(newFilters);
-                          setState(
-                              () {}); // Forzar reconstrucción para actualizar los chips
                         },
                       ),
                     if (filters.yearTo != null)
@@ -190,8 +196,6 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                         onDeleted: () {
                           final newFilters = filters.copyWith(yearTo: null);
                           gamesProvider.searchWithFilters(newFilters);
-                          setState(
-                              () {}); // Forzar reconstrucción para actualizar los chips
                         },
                       ),
                     if (filters.pegiAge != null)
@@ -201,8 +205,6 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                         onDeleted: () {
                           final newFilters = filters.copyWith(pegiAge: null);
                           gamesProvider.searchWithFilters(newFilters);
-                          setState(
-                              () {}); // Forzar reconstrucción para actualizar los chips
                         },
                       ),
                     if (filters.selectedGenres.isNotEmpty)
@@ -214,8 +216,6 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                           final newFilters =
                               filters.copyWith(selectedGenres: []);
                           gamesProvider.searchWithFilters(newFilters);
-                          setState(
-                              () {}); // Forzar reconstrucción para actualizar los chips
                         },
                       ),
                     if (filters.selectedPlatforms.isNotEmpty)
@@ -227,8 +227,6 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                           final newFilters =
                               filters.copyWith(selectedPlatforms: []);
                           gamesProvider.searchWithFilters(newFilters);
-                          setState(
-                              () {}); // Forzar reconstrucción para actualizar los chips
                         },
                       ),
 
@@ -255,9 +253,16 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
           Expanded(
             child: Consumer<GamesProvider>(
               builder: (context, gamesProvider, child) {
-                if (gamesProvider.isLoading || gamesProvider.isSearching) {
-                  return const Center(child: CircularProgressIndicator());
+                if (gamesProvider.isLoading) {
+                  // Renderizamos 6 tarjetas esqueleto mientras carga
+                  return ListView.builder(
+                    controller: _scrollController,
+                    padding: const EdgeInsets.symmetric(horizontal: AppConfig.paddingMedium),
+                    itemCount: 6,
+                    itemBuilder: (context, index) => const GameCardShimmer(),
+                  );
                 }
+
 
                 final games = _searchController.text.isEmpty &&
                         !gamesProvider.currentFilters.hasActiveFilters
@@ -307,22 +312,25 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                           child: Row(
                             children: [
                               // Imagen del juego
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(
-                                  AppConfig.borderRadiusSmall,
+                              Hero(
+                                tag: 'game_image_${game.id}',
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(
+                                    AppConfig.borderRadiusSmall,
+                                  ),
+                                  child: game.backgroundImage != null
+                                      ? Image.network(
+                                          game.backgroundImage!,
+                                          width: 80,
+                                          height: 80,
+                                          fit: BoxFit.cover,
+                                          errorBuilder:
+                                              (context, error, stackTrace) {
+                                            return _buildPlaceholderImage();
+                                          },
+                                        )
+                                      : _buildPlaceholderImage(),
                                 ),
-                                child: game.backgroundImage != null
-                                    ? Image.network(
-                                        game.backgroundImage!,
-                                        width: 80,
-                                        height: 80,
-                                        fit: BoxFit.cover,
-                                        errorBuilder:
-                                            (context, error, stackTrace) {
-                                          return _buildPlaceholderImage();
-                                        },
-                                      )
-                                    : _buildPlaceholderImage(),
                               ),
                               const SizedBox(width: AppConfig.paddingMedium),
 

@@ -44,11 +44,13 @@ dependencies:
   
   # Video playback
   video_player: ^2.8.2
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  mocktail: ^1.0.5
 
 flutter:
   uses-material-design: true

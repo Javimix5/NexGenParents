@@ -59,6 +59,8 @@ class _GamesFiltersScreenState extends State<GamesFiltersScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final genresMap = _getGenres(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n?.filtersTitle ?? 'Filtros de Búsqueda'),
@@ -91,12 +93,12 @@ class _GamesFiltersScreenState extends State<GamesFiltersScreen> {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.info_outline, color: AppConfig.primaryColor),
-                  SizedBox(width: AppConfig.paddingSmall),
+                  const Icon(Icons.info_outline, color: AppConfig.primaryColor),
+                  const SizedBox(width: AppConfig.paddingSmall),
                   Expanded(
                     child: Text(
                       l10n?.filtersInfoBanner ?? 'Combina múltiples filtros para encontrar el juego perfecto',
-                      style: TextStyle(fontSize: AppConfig.fontSizeCaption),
+                      style: const TextStyle(fontSize: AppConfig.fontSizeCaption),
                     ),
                   ),
                 ],
@@ -124,6 +126,10 @@ class _GamesFiltersScreenState extends State<GamesFiltersScreen> {
                     onChanged: (value) {
                       setState(() {
                         _filters = _filters.copyWith(yearFrom: value);
+                        // Auto-corregir "Hasta" si queda por debajo de "Desde"
+                        if (value != null && _filters.yearTo != null && _filters.yearTo! < value) {
+                          _filters = _filters.copyWith(yearTo: value);
+                        }
                       });
                     },
                   ),
@@ -137,6 +143,10 @@ class _GamesFiltersScreenState extends State<GamesFiltersScreen> {
                     onChanged: (value) {
                       setState(() {
                         _filters = _filters.copyWith(yearTo: value);
+                        // Auto-corregir "Desde" si queda por encima de "Hasta"
+                        if (value != null && _filters.yearFrom != null && _filters.yearFrom! > value) {
+                          _filters = _filters.copyWith(yearFrom: value);
+                        }
                       });
                     },
                   ),
@@ -219,7 +229,7 @@ class _GamesFiltersScreenState extends State<GamesFiltersScreen> {
             Wrap(
               spacing: AppConfig.paddingSmall,
               runSpacing: AppConfig.paddingSmall,
-              children: _getGenres(context).entries.map((entry) {
+              children: genresMap.entries.map((entry) {
                 final isSelected = _filters.selectedGenres.contains(entry.value);
                 return FilterChip(
                   label: Text(entry.key),
