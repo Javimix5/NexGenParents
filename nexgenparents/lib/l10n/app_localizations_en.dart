@@ -124,6 +124,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorLogin => 'Error logging in';
 
   @override
+  String get errorLoginGoogle => 'Could not log in with Google';
+
+  @override
   String get errorLoadingProfile => 'Failed to load user profile';
 
   @override
@@ -1348,4 +1351,611 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get forumSidebarNews3Text =>
       'Dark mode is now available in user settings!';
+
+  @override
+  String get privacyPolicyTitle => 'Privacy Policy';
+
+  @override
+  String get privacyPolicySubtitle => 'NexGen Parents Privacy Policy';
+
+  @override
+  String get privacyPolicyLastUpdate => 'Last update: March 2026';
+
+  @override
+  String get privacyPolicyS1Title => '1. Information Collection';
+
+  @override
+  String get privacyPolicyS1Text =>
+      'At NexGen Parents we take your privacy and that of your family very seriously. We collect basic profile information (such as email and username) to allow access to features like the collaborative dictionary and forum.';
+
+  @override
+  String get privacyPolicyS2Title => '2. Data Usage';
+
+  @override
+  String get privacyPolicyS2Text =>
+      'The data provided is used exclusively to improve your experience on the platform, personalize age recommendations (PEGI/ESRB), and maintain a safe environment in our community.';
+
+  @override
+  String get privacyPolicyS3Title => '3. Protection and Security';
+
+  @override
+  String get privacyPolicyS3Text =>
+      'Your data is protected by Firebase services and is never sold or shared with third parties for advertising purposes unrelated to the platform\'s educational purpose.';
+
+  @override
+  String get privacyPolicyS4Title => '4. Your Rights';
+
+  @override
+  String get privacyPolicyS4Text =>
+      'You can request the total deletion of your account and associated data at any time through your profile settings panel.';
+
+  @override
+  String get aboutUsTitle => 'About us';
+
+  @override
+  String get aboutUsSubtitle => 'About NexGen Parents';
+
+  @override
+  String get aboutUsP1 =>
+      'NexGen Parents was created to solve a real information gap: today, many families do not have clear references to interpret the content, risks, and great educational value offered by current video games.';
+
+  @override
+  String get aboutUsP2 =>
+      'Our main goal is to reduce the uncertainty of mothers, fathers, teachers, and counselors, facilitating much more responsible and informed digital consumption decisions.';
+
+  @override
+  String get aboutUsVersion => 'Version 1.0.0 (March 2026)\nTFC Project';
+
+  @override
+  String get contactUsTitle => 'Contact us';
+
+  @override
+  String get contactUsSubtitle => 'We\'d love to hear from you!';
+
+  @override
+  String get contactUsDescription =>
+      'Do you have any questions about our guides, want to propose an improvement, or need technical help with the application? Get in touch with us.';
+
+  @override
+  String get contactUsEmailLabel => 'Email';
+
+  @override
+  String get contactUsWebLabel => 'Website';
+
+  @override
+  String get contactUsForumHint =>
+      'You can also actively participate by leaving your questions in our app\'s Community Forum.';
+
+  @override
+  String parentalGuidesError(String error) {
+    return 'Error loading guides: $error';
+  }
+
+  @override
+  String get parentalGuidesEmptyTitle => 'No guides available';
+
+  @override
+  String get parentalGuidesEmptyMessage => 'Please try again later.';
+
+  @override
+  String parentalGuidesSelectPlatform(int count) {
+    return 'Select your platform ($count guides)';
+  }
+
+  @override
+  String get parentalGuidesBannerTitle => 'Parental Control Guides';
+
+  @override
+  String get parentalGuidesBannerSubtitle =>
+      'Learn how to set up security controls on the most popular platforms.';
+
+  @override
+  String get parentalGuidesMoreInfoBtn => 'Learn about PEGI/ESRB';
+
+  @override
+  String parentalGuidesStepsCount(int count) {
+    return '$count steps';
+  }
+
+  @override
+  String get parentalGuidesWhyImportant => 'Why is it important?';
+
+  @override
+  String get parentalGuidesProtectionTitle => 'Child protection';
+
+  @override
+  String get parentalGuidesProtectionDesc =>
+      'Prevent your children from accessing age-inappropriate content.';
+
+  @override
+  String get parentalGuidesTimeTitle => 'Time management';
+
+  @override
+  String get parentalGuidesTimeDesc =>
+      'Set playtime limits to maintain a healthy balance.';
+
+  @override
+  String get parentalGuidesSpendingTitle => 'Spending control';
+
+  @override
+  String get parentalGuidesSpendingDesc =>
+      'Prevent unauthorized in-game purchases.';
+
+  @override
+  String get esrbDescriptionE => 'Content for everyone. Equivalent to PEGI 3.';
+
+  @override
+  String get esrbDescriptionE10 => 'For ages 10 and up. Similar to PEGI 7.';
+
+  @override
+  String get esrbDescriptionT => 'Teens. Equivalent to PEGI 12.';
+
+  @override
+  String get esrbDescriptionM => 'Mature 17+. Similar to PEGI 16.';
+
+  @override
+  String get esrbDescriptionAO => 'Adults only. Equivalent to PEGI 18.';
+
+  @override
+  String get esrbDescriptionRP => 'Rating pending (pre-release games).';
+
+  @override
+  String get profileEditTitle => 'Edit Profile';
+
+  @override
+  String get profileNoAuthUser => 'No authenticated user';
+
+  @override
+  String get profilePersonalInfo => 'Personal Information';
+
+  @override
+  String get profileUsername => 'Username';
+
+  @override
+  String get profileNameRequired => 'Please enter your name';
+
+  @override
+  String get profileEmailRequired => 'Please enter your email';
+
+  @override
+  String get profileEmailChangeWarning =>
+      'Changing email requires additional verification';
+
+  @override
+  String get profileChangePasswordBtn => 'Change password';
+
+  @override
+  String get profileChildrenInfo => 'Children Information';
+
+  @override
+  String get profileChildrenInfoDesc =>
+      'Add birth years to customize game recommendations';
+
+  @override
+  String get profilePlatforms => 'Platforms you own';
+
+  @override
+  String get profilePlatformsDesc =>
+      'Select the consoles and devices you have at home';
+
+  @override
+  String get profileSaveChangesBtn => 'Save Changes';
+
+  @override
+  String get profileDeleteAccountBtn => 'Delete Account';
+
+  @override
+  String get profileChangeAvatar => 'Change Avatar';
+
+  @override
+  String get profileActivityTitle => 'Your Activity in NexGen Parents';
+
+  @override
+  String get profileTermsProposed => 'Proposed\nTerms';
+
+  @override
+  String get profileTermsApproved => 'Approved\nTerms';
+
+  @override
+  String get profileLevel => 'Level';
+
+  @override
+  String get profileYears => 'years';
+
+  @override
+  String get profileAddBirthYearBtn => 'Add Birth Year';
+
+  @override
+  String get profileSelectAvatarTitle => 'Select your Avatar';
+
+  @override
+  String get profileBirthYearLabel => 'Birth year';
+
+  @override
+  String get profileBirthYearHint => 'Example: 2015';
+
+  @override
+  String get profileBirthYearDesc =>
+      'Enter your child\'s birth year to get personalized recommendations.';
+
+  @override
+  String get profileInvalidBirthYear => 'Please enter a valid birth year';
+
+  @override
+  String get profileAddBtn => 'Add';
+
+  @override
+  String get profileErrorUpdateName => 'Could not update name';
+
+  @override
+  String get profileErrorUpdateChildren =>
+      'Could not update children information';
+
+  @override
+  String get profileErrorUpdatePlatforms => 'Could not update platforms';
+
+  @override
+  String get profileErrorUpdateAvatar => 'Could not update avatar';
+
+  @override
+  String get profileVerifyEmailTitle => 'Verification to change email';
+
+  @override
+  String get profileVerifyEmailDesc =>
+      'To change your email, confirm your current password.';
+
+  @override
+  String get profileEmailChangeCancelled => 'Email change cancelled';
+
+  @override
+  String get profileErrorChangeEmail => 'Could not change email';
+
+  @override
+  String get profileUpdateSuccess => 'Profile updated successfully';
+
+  @override
+  String get profileErrorSave => 'Error saving profile:';
+
+  @override
+  String get profileCurrentPassword => 'Current password';
+
+  @override
+  String get profileNewPassword => 'New password';
+
+  @override
+  String get profileConfirmNewPassword => 'Confirm new password';
+
+  @override
+  String get profileErrorEmptyFields => 'Fill all fields';
+
+  @override
+  String get profileErrorPasswordLength =>
+      'The new password must be at least 6 characters long';
+
+  @override
+  String get profileErrorPasswordMismatch => 'Passwords do not match';
+
+  @override
+  String get profileOperationCompleted => 'Operation completed';
+
+  @override
+  String get profileUpdateBtn => 'Update';
+
+  @override
+  String get profileConfirmDeleteTitle => 'Confirm deletion';
+
+  @override
+  String get profileConfirmDeleteDesc =>
+      'Are you sure you want to delete your profile? This action is irreversible.';
+
+  @override
+  String get profileNoBtn => 'No';
+
+  @override
+  String get profileYesDeleteBtn => 'Yes, delete';
+
+  @override
+  String get profileDeleteAccountTitle => 'Delete account';
+
+  @override
+  String get profileDeleteAccountDesc =>
+      'This action is permanent. Enter your password to confirm.';
+
+  @override
+  String get profileErrorPasswordRequired => 'You must enter your password';
+
+  @override
+  String get profileErrorValidatePassword => 'Could not validate the password';
+
+  @override
+  String get profileErrorDeleteFirestore =>
+      'Could not delete the profile in the database';
+
+  @override
+  String get profileErrorDeleteAuth =>
+      'Profile deleted, but not the access account';
+
+  @override
+  String get forumMainCategoriesTitle => 'Main Categories';
+
+  @override
+  String get forumViewAllBtn => 'View All';
+
+  @override
+  String get forumEmptySectionTitle => 'No posts in this section';
+
+  @override
+  String get forumEmptySectionMessage => 'Nothing new here yet.';
+
+  @override
+  String get forumPlatformsTitle => 'Platforms';
+
+  @override
+  String parentalGuidesStepProgress(int current, int total) {
+    return 'Step $current of $total';
+  }
+
+  @override
+  String get parentalGuidesScreenshot => 'Screenshot:';
+
+  @override
+  String get parentalGuidesLoadingImage => 'Loading image...';
+
+  @override
+  String get parentalGuidesImageNotAvailable => 'Image not available';
+
+  @override
+  String get parentalGuidesSetupComplete =>
+      'Setup complete! Your child can now play safely with the configured restrictions.';
+
+  @override
+  String get parentalGuidesPreviousBtn => 'Previous';
+
+  @override
+  String get parentalGuidesNextBtn => 'Next';
+
+  @override
+  String get parentalGuidesFinishBtn => 'Finish';
+
+  @override
+  String get parentalGuidesCompletedTitle => 'Guide completed!';
+
+  @override
+  String get parentalGuidesCompletedDesc =>
+      'You have completed all the steps in this parental control guide.';
+
+  @override
+  String get parentalGuidesRepeatBtn => 'Repeat';
+
+  @override
+  String get loginSubtitle => 'Gaming Guide and Dictionary for Parents';
+
+  @override
+  String get loginEmailHint => 'example@email.com';
+
+  @override
+  String get loginPasswordLabel => 'Password';
+
+  @override
+  String get loginPasswordHint => 'Enter your password';
+
+  @override
+  String get loginForgotPassword => 'Forgot your password?';
+
+  @override
+  String get loginBtn => 'Log in';
+
+  @override
+  String get loginGoogleBtn => 'Continue with Google';
+
+  @override
+  String get loginOr => 'or';
+
+  @override
+  String get loginCreateAccountBtn => 'Create new account';
+
+  @override
+  String get loginRecoveryTitle => 'Recover password';
+
+  @override
+  String get loginRecoveryDesc =>
+      'Enter your email address and we will send you a link to reset your password.';
+
+  @override
+  String get loginRecoverySendBtn => 'Send';
+
+  @override
+  String get loginRecoveryError => 'Error sending email';
+
+  @override
+  String get registerError => 'Error registering';
+
+  @override
+  String get registerErrorGoogle => 'Could not register with Google';
+
+  @override
+  String get registerTitle => 'Create account';
+
+  @override
+  String get registerHeader => 'Parents Registration';
+
+  @override
+  String get registerSubtitle => 'Create your account to access all features';
+
+  @override
+  String get registerNameLabel => 'Full name';
+
+  @override
+  String get registerNameHint => 'Your name';
+
+  @override
+  String get registerPasswordHint => 'Minimum 8 characters';
+
+  @override
+  String get registerConfirmPasswordLabel => 'Confirm password';
+
+  @override
+  String get registerConfirmPasswordHint => 'Repeat the password';
+
+  @override
+  String get registerInfoDesc =>
+      'Your information will be used solely to improve your experience in the app';
+
+  @override
+  String get registerGoogleBtn => 'Register with Google';
+
+  @override
+  String get registerAlreadyHaveAccount => 'Already have an account? ';
+
+  @override
+  String get errorNameLength => 'The name must be at least 3 characters long';
+
+  @override
+  String get errorPasswordLength8 =>
+      'The password must be at least 8 characters long';
+
+  @override
+  String get errorPasswordUppercase => 'Include at least one uppercase letter';
+
+  @override
+  String get errorPasswordLowercase => 'Include at least one lowercase letter';
+
+  @override
+  String get errorPasswordNumber => 'Include at least one number';
+
+  @override
+  String get errorConfirmPasswordRequired => 'Please confirm your password';
+
+  @override
+  String get errorTermExists => 'This term already exists in the dictionary';
+
+  @override
+  String get successTermProposed =>
+      'Term proposed successfully. It will be reviewed by a moderator';
+
+  @override
+  String get errorProposeTerm => 'Error proposing term';
+
+  @override
+  String get errorTermNotFound => 'The term does not exist';
+
+  @override
+  String get successTermApproved => 'Term approved successfully';
+
+  @override
+  String get errorApproveTerm => 'Error approving term';
+
+  @override
+  String get successTermRejected => 'Term rejected';
+
+  @override
+  String get errorRejectTerm => 'Error rejecting term';
+
+  @override
+  String get successTermUpdated => 'Term updated successfully';
+
+  @override
+  String get errorUpdateTerm => 'Error updating term';
+
+  @override
+  String get successTermDeleted => 'Term deleted successfully';
+
+  @override
+  String get errorDeleteTerm => 'Error deleting term';
+
+  @override
+  String get errorInvalidRole =>
+      'Invalid role. Must be: user, moderator, or admin';
+
+  @override
+  String get errorModifyOwnRole => 'You cannot modify your own role';
+
+  @override
+  String get successRoleUpdated => 'Role updated successfully';
+
+  @override
+  String get errorUpdateRole => 'Error updating role';
+
+  @override
+  String get successBirthYearsUpdated => 'Birth years updated successfully';
+
+  @override
+  String get errorUpdateBirthYears => 'Error updating birth years';
+
+  @override
+  String get successPlatformsUpdated => 'Platforms updated successfully';
+
+  @override
+  String get errorUpdatePlatforms => 'Error updating platforms';
+
+  @override
+  String get successAvatarUpdated => 'Avatar updated successfully';
+
+  @override
+  String get errorUpdateAvatar => 'Error updating avatar';
+
+  @override
+  String get successUserInfoUpdated => 'User information updated successfully';
+
+  @override
+  String get errorUpdateUserInfo => 'Error updating user information';
+
+  @override
+  String get successAccountDeleted => 'Account deleted successfully';
+
+  @override
+  String get errorDeleteAccount => 'Error deleting account';
+
+  @override
+  String get successPostDeleted => 'Post deleted successfully';
+
+  @override
+  String get errorDeletePost => 'Error deleting post';
+
+  @override
+  String get errorPostNotFound => 'The associated post does not exist';
+
+  @override
+  String get successReplyDeleted => 'Reply deleted successfully';
+
+  @override
+  String get errorDeleteReply => 'Error deleting reply';
+
+  @override
+  String get errorNoAuthUser => 'No authenticated user';
+
+  @override
+  String get successPasswordUpdated => 'Password updated successfully';
+
+  @override
+  String get errorChangePassword => 'Error changing password';
+
+  @override
+  String get errorWrongCurrentPassword => 'The current password is incorrect';
+
+  @override
+  String get errorWeakNewPassword => 'The new password is too weak';
+
+  @override
+  String get successEmailUpdated =>
+      'Email updated successfully. Please verify your new email.';
+
+  @override
+  String get errorChangeEmail => 'Error changing email';
+
+  @override
+  String get errorEmailAlreadyInUse => 'This email is already in use';
+
+  @override
+  String get errorInvalidNewEmail => 'The email is not valid';
+
+  @override
+  String get errorNoPasswordAccount =>
+      'Your account does not use a password. Log in again with your provider to continue.';
+
+  @override
+  String get successReauth => 'Reauthentication successful';
+
+  @override
+  String get errorReauth => 'Reauthentication error';
 }

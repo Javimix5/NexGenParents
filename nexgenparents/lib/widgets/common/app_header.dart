@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../config/app_config.dart';
 import '../../providers/locale_provider.dart';
 import 'user_avatar.dart';
+import '../../l10n/app_localizations.dart';
 
 enum AppSection {
   inicio,
@@ -94,6 +95,7 @@ class AppHeader extends StatelessWidget {
     LocaleProvider localeProvider,
     String currentLanguage,
   ) {
+    final l10n = AppLocalizations.of(context);
     return SizedBox(
       height: 58,
       child: Row(
@@ -107,47 +109,35 @@ class AppHeader extends StatelessWidget {
               children: [
                 _buildNavLink(
                   context,
-                  label: _t(context, es: 'Inicio', gl: 'Inicio', en: 'Home'),
+                  label: l10n?.navHome ?? 'Inicio',
                   active: activeSection == AppSection.inicio,
                   onTap: () => onNavigate(AppSection.inicio),
                 ),
                 const SizedBox(width: 4),
                 _buildNavLink(
                   context,
-                  label: _t(context,
-                      es: 'Diccionario',
-                      gl: 'Dicionario',
-                      en: 'Dictionary'),
+                  label: l10n?.navDictionary ?? 'Diccionario',
                   active: activeSection == AppSection.diccionario,
                   onTap: () => onNavigate(AppSection.diccionario),
                 ),
                 const SizedBox(width: 4),
                 _buildNavLink(
                   context,
-                  label: _t(context,
-                      es: 'Videojuegos',
-                      gl: 'Videoxogos',
-                      en: 'Game Search'),
+                  label: l10n?.navGames ?? 'Videojuegos',
                   active: activeSection == AppSection.videojuegos,
                   onTap: () => onNavigate(AppSection.videojuegos),
                 ),
                 const SizedBox(width: 4),
                 _buildNavLink(
                   context,
-                  label: _t(context,
-                      es: 'Control Parental',
-                      gl: 'Control Parental',
-                      en: 'Parental Control'),
+                  label: l10n?.navParentalControl ?? 'Control Parental',
                   active: activeSection == AppSection.controlParental,
                   onTap: () => onNavigate(AppSection.controlParental),
                 ),
                 const SizedBox(width: 4),
                 _buildNavLink(
                   context,
-                  label: _t(context,
-                      es: 'Comunidad',
-                      gl: 'Comunidade',
-                      en: 'Community'),
+                  label: l10n?.navCommunity ?? 'Comunidad',
                   active: activeSection == AppSection.comunidad,
                   onTap: () => onNavigate(AppSection.comunidad),
                 ),
@@ -250,7 +240,7 @@ _buildLocaleButton(
         onCloseMenu: () => accountMenuKey?.currentState?.closeMenu(),
       ),
       onSearchSubmitted: onSearchSubmitted,
-      hintText: _t(context, es: 'Buscar...', gl: 'Buscar...', en: 'Search forum...'),
+      hintText: AppLocalizations.of(context)?.headerSearchHint ?? 'Buscar...',
     );
   }
 
@@ -334,7 +324,7 @@ _buildLocaleButton(
         decoration: InputDecoration(
           isDense: true,
           hintText:
-              _t(context, es: 'Buscar...', gl: 'Buscar...', en: 'Search forum...'),
+              AppLocalizations.of(context)?.headerSearchHint ?? 'Buscar...',
           hintStyle: TextStyle(
             color: Colors.white.withValues(alpha: 0.35),
             fontSize: 13,
@@ -482,18 +472,6 @@ _buildLocaleButton(
         );
       },
     );
-  }
-
-  String _t(BuildContext context,
-      {required String es, required String gl, required String en}) {
-    switch (Localizations.localeOf(context).languageCode) {
-      case 'gl':
-        return gl;
-      case 'en':
-        return en;
-      default:
-        return es;
-    }
   }
 }
 
@@ -725,43 +703,32 @@ class _CompactNavMenuButtonState extends State<CompactNavMenuButton> {
     super.dispose();
   }
 
-  String _t(BuildContext context,
-      {required String es, required String gl, required String en}) {
-    switch (Localizations.localeOf(context).languageCode) {
-      case 'gl':
-        return gl;
-      case 'en':
-        return en;
-      default:
-        return es;
-    }
-  }
-
   List<Widget> _buildMenuItems(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return [
       _buildMenuItem(
         context,
-        text: _t(context, es: 'Inicio', gl: 'Inicio', en: 'Home'),
+        text: l10n?.navHome ?? 'Inicio',
         value: AppSection.inicio,
       ),
       _buildMenuItem(
         context,
-        text: _t(context, es: 'Diccionario', gl: 'Dicionario', en: 'Dictionary'),
+        text: l10n?.navDictionary ?? 'Diccionario',
         value: AppSection.diccionario,
       ),
       _buildMenuItem(
         context,
-        text: _t(context, es: 'Videojuegos', gl: 'Videoxogos', en: 'Games'),
+        text: l10n?.navGames ?? 'Videojuegos',
         value: AppSection.videojuegos,
       ),
       _buildMenuItem(
         context,
-        text: _t(context, es: 'Control Parental', gl: 'Control Parental', en: 'Parental Controls'),
+        text: l10n?.navParentalControl ?? 'Control Parental',
         value: AppSection.controlParental,
       ),
       _buildMenuItem(
         context,
-        text: _t(context, es: 'Comunidad', gl: 'Comunidade', en: 'Community'),
+        text: l10n?.navCommunity ?? 'Comunidad',
         value: AppSection.comunidad,
       ),
     ];
@@ -810,7 +777,7 @@ class _CompactNavMenuButtonState extends State<CompactNavMenuButton> {
               const SizedBox(width: 8),
               Flexible(
                 child: Text(
-                  _t(context, es: 'Menú', gl: 'Menú', en: 'Menu'),
+                  AppLocalizations.of(context)?.headerMenuBtn ?? 'Menú',
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     color: Colors.white,
@@ -963,24 +930,19 @@ class AccountMenuButtonState extends State<AccountMenuButton> {
   }
 
   List<Widget> _buildMenuItems(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final items = <Widget>[
       _buildMenuItem(
         context,
         icon: Icons.person,
-        text: _t(context, es: 'Mi perfil', gl: 'O meu perfil', en: 'My profile'),
+        text: l10n?.accountMenuProfile ?? 'Mi perfil',
         value: 'profile',
       ),
       _buildMenuItem(
         context,
         icon: Icons.list_alt,
-        text: _t(context,
-            es: 'Mis términos propuestos',
-            gl: 'Os meus termos propostos',
-            en: 'My proposed terms'),
-        subtitle: _t(context,
-            es: '${widget.proposedTermsCount} términos',
-            gl: '${widget.proposedTermsCount} termos',
-            en: '${widget.proposedTermsCount} terms'),
+        text: l10n?.accountMenuMyTerms ?? 'Mis términos propuestos',
+        subtitle: l10n?.accountMenuTermsCount(widget.proposedTermsCount) ?? '${widget.proposedTermsCount} términos',
         value: 'my_terms',
       ),
     ];
@@ -989,10 +951,7 @@ class AccountMenuButtonState extends State<AccountMenuButton> {
       items.add(_buildMenuItem(
         context,
         icon: Icons.admin_panel_settings,
-        text: _t(context,
-            es: 'Moderación',
-            gl: 'Moderación',
-            en: 'Moderation'),
+        text: l10n?.accountMenuModeration ?? 'Moderación',
         value: 'moderation',
       ));
     }
@@ -1001,10 +960,7 @@ class AccountMenuButtonState extends State<AccountMenuButton> {
       items.add(_buildMenuItem(
         context,
         icon: Icons.people,
-        text: _t(context,
-            es: 'Gestión de usuarios',
-            gl: 'Xestión de usuarios',
-            en: 'User management'),
+        text: l10n?.accountMenuUsers ?? 'Gestión de usuarios',
         value: 'users_management',
       ));
     }
@@ -1013,10 +969,7 @@ class AccountMenuButtonState extends State<AccountMenuButton> {
     items.add(_buildMenuItem(
       context,
       icon: Icons.logout,
-      text: _t(context,
-          es: 'Cerrar sesión',
-          gl: 'Pechar sesión',
-          en: 'Sign out'),
+      text: l10n?.accountMenuLogout ?? 'Cerrar sesión',
       color: const Color(0xFFEF4444),
       value: 'logout',
     ));
@@ -1068,17 +1021,5 @@ class AccountMenuButtonState extends State<AccountMenuButton> {
         ),
       ),
     );
-  }
-
-  String _t(BuildContext context,
-      {required String es, required String gl, required String en}) {
-    switch (Localizations.localeOf(context).languageCode) {
-      case 'gl':
-        return gl;
-      case 'en':
-        return en;
-      default:
-        return es;
-    }
   }
 }

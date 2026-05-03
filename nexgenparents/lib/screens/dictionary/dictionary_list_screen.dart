@@ -7,8 +7,6 @@ import 'propose_term_screen.dart';
 import 'term_detail_screen.dart';
 import '../../l10n/app_localizations.dart';
 import '../../widgets/common/app_footer.dart';
-import '../info/pegi_info_screen.dart';
-import '../parental_guides/parental_guides_list_screen.dart';
 
 class DictionaryListScreen extends StatefulWidget {
   const DictionaryListScreen({super.key});
@@ -74,14 +72,7 @@ class _DictionaryListScreenState extends State<DictionaryListScreen> {
               if (index == terms.length) {
                 return Padding(
                   padding: const EdgeInsets.only(top: AppConfig.paddingLarge),
-                  child: AppFooter(
-                    onPrivacyTap: () => Navigator.of(context).push(
-                        MaterialPageRoute(builder: (_) => const PegiInfoScreen())),
-                    onAboutTap: () => Navigator.of(context).push(
-                        MaterialPageRoute(builder: (_) => const PegiInfoScreen())),
-                    onContactTap: () => Navigator.of(context).push(
-                        MaterialPageRoute(builder: (_) => const ParentalGuidesListScreen())),
-                  ),
+                  child: const AppFooter(),
                 );
               }
               final term = terms[index];

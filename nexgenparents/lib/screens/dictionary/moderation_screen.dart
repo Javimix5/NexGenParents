@@ -7,6 +7,7 @@ import '../../models/dictionary_term_model.dart';
 import '../../config/app_config.dart';
 import '../../widgets/common/back_to_top_scaffold.dart';
 import '../../l10n/app_localizations.dart';
+import '../../utils/translation_helper.dart';
 
 class ModerationScreen extends StatefulWidget {
   const ModerationScreen({super.key});
@@ -618,8 +619,7 @@ class _ModerationScreenState extends State<ModerationScreen> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(
-                        dictionaryProvider.errorMessage ??
-                            l10n.dictModEditErrorGeneric,
+                        TranslationHelper.translateDynamicKey(context, dictionaryProvider.errorMessage, fallback: l10n.dictModEditErrorGeneric),
                       ),
                       backgroundColor: AppConfig.errorColor,
                     ),

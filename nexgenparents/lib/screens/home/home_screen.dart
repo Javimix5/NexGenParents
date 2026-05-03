@@ -12,6 +12,7 @@ import '../../providers/forum_provider.dart';
 import '../../providers/games_provider.dart';
 import '../../viewmodels/home_view_model.dart';
 import '../../widgets/common/app_footer.dart';
+import '../../l10n/app_localizations.dart';
 import '../../widgets/common/app_header.dart';
 import '../../widgets/common/persistent_frame.dart';
 import '../../widgets/common/user_avatar.dart';
@@ -24,7 +25,6 @@ import '../forum/forum_list_screen.dart';
 import '../forum/forum_category_posts_screen.dart';
 import '../games/game_detail_screen.dart';
 import '../games/games_search_screen.dart';
-import '../info/pegi_info_screen.dart';
 import '../parental_guides/parental_guides_list_screen.dart';
 import '../profile/edit_profile_screen.dart';
 
@@ -226,6 +226,7 @@ Widget _buildMainContent(BuildContext context) {
 Widget _buildHeroSection(BuildContext context) {
   final authProvider = Provider.of<AuthProvider>(context);
   final user = authProvider.currentUser;
+  final l10n = AppLocalizations.of(context);
   
   return FutureBuilder<int>(
     future: _userMessagesCountFuture,
@@ -235,12 +236,7 @@ Widget _buildHeroSection(BuildContext context) {
 
       return _buildHero(
         context,
-        userName: user?.displayName ?? _t(
-          context,
-          es: 'Usuario',
-          gl: 'Usuario',
-          en: 'User',
-        ),
+        userName: user?.displayName ?? (l10n?.homeDefaultUser ?? 'Usuario'),
         approvedTermsCount: user?.termsApproved ?? 0,
         proposedTermsCount: user?.termsProposed ?? 0,
         userLevel: userLevel,
@@ -253,23 +249,14 @@ Widget _buildHeroSection(BuildContext context) {
 }
 
 Widget _buildQuickAccessSection(BuildContext context) {
+  final l10n = AppLocalizations.of(context);
   return Column(
     crossAxisAlignment: CrossAxisAlignment.stretch,
     children: [
       _buildSectionHeader(
         context,
-        title: _t(
-          context,
-          es: 'Acceso rápido',
-          gl: 'Acceso rápido',
-          en: 'Quick access',
-        ),
-        subtitle: _t(
-          context,
-          es: 'Acceso a las zonas de la web más usadas',
-          gl: 'Acceso ás zonas da web máis usadas',
-          en: 'Access the most-used areas of the site',
-        ),
+        title: l10n?.homeQuickAccessTitle ?? 'Acceso rápido',
+        subtitle: l10n?.homeQuickAccessSubtitle ?? 'Acceso a las zonas de la web más usadas',
       ),
       const SizedBox(height: 16),
       _buildQuickActions(context),
@@ -317,23 +304,7 @@ Widget _buildFeaturedGameAndUpdates(BuildContext context) {
 }
 
 Widget _buildFooter(BuildContext context) {
-    return AppFooter(
-      onPrivacyTap: () => _navigateTo(
-        context,
-        const PegiInfoScreen(),
-        section: AppSection.controlParental,
-      ),
-      onAboutTap: () => _navigateTo(
-        context,
-        const PegiInfoScreen(),
-        section: AppSection.controlParental,
-      ),
-      onContactTap: () => _navigateTo(
-        context,
-        const ParentalGuidesListScreen(),
-        section: AppSection.controlParental,
-      ),
-    );
+    return const AppFooter();
 }
 
 void _handleNavigation(BuildContext context, AppSection section) {
@@ -366,6 +337,7 @@ void _handleNavigation(BuildContext context, AppSection section) {
   }) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context);
 
     return Container(
       decoration: BoxDecoration(
@@ -400,12 +372,7 @@ void _handleNavigation(BuildContext context, AppSection section) {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            _t(
-                        context,
-                        es: 'Bienvenido, $userName!',
-                        gl: 'Benvido, $userName!',
-                        en: 'Welcome, $userName!',
-                      ),
+                            l10n?.homeWelcomeUser(userName) ?? 'Bienvenido, $userName!',
                       style:
                           Theme.of(context).textTheme.displayMedium?.copyWith(
                                 fontSize: 28,
@@ -414,12 +381,7 @@ void _handleNavigation(BuildContext context, AppSection section) {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      _t(
-                        context,
-                        es: 'Tienes $approvedTermsCount términos aprobados y $proposedTermsCount términos propuestos.',
-                        gl: 'Tes $approvedTermsCount termos aprobados e $proposedTermsCount termos propostos.',
-                        en: 'You have $approvedTermsCount approved terms and $proposedTermsCount proposed terms.',
-                      ),
+                      l10n?.homeUserStats(approvedTermsCount, proposedTermsCount) ?? 'Tienes $approvedTermsCount términos aprobados y $proposedTermsCount términos propuestos.',
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                             color: AppConfig.textSecondaryColor,
                             height: 1.35,
@@ -440,12 +402,7 @@ void _handleNavigation(BuildContext context, AppSection section) {
                               : const Color(0xFF8B5CF6),
                         ),
                         _buildBadge(
-                          text: _t(
-                            context,
-                            es: '$totalActiveTerms términos activos',
-                            gl: '$totalActiveTerms termos activos',
-                            en: '$totalActiveTerms active terms',
-                          ),
+                          text: l10n?.homeActiveTerms(totalActiveTerms) ?? '$totalActiveTerms términos activos',
                           background: isDark
                               ? const Color(0xFF1E3A33)
                               : const Color(0xFFEAFBF3),
@@ -471,12 +428,7 @@ void _handleNavigation(BuildContext context, AppSection section) {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      _t(
-                        context,
-                        es: 'Bienvenido, $userName!',
-                        gl: 'Benvido, $userName!',
-                        en: 'Welcome, $userName!',
-                      ),
+                      l10n?.homeWelcomeUser(userName) ?? 'Bienvenido, $userName!',
                       style:
                           Theme.of(context).textTheme.displayMedium?.copyWith(
                                 fontSize: 28,
@@ -485,12 +437,7 @@ void _handleNavigation(BuildContext context, AppSection section) {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      _t(
-                        context,
-                        es: 'Tienes $approvedTermsCount términos aprobados y $proposedTermsCount términos propuestos.',
-                        gl: 'Tes $approvedTermsCount termos aprobados e $proposedTermsCount termos propostos.',
-                        en: 'You have $approvedTermsCount approved terms and $proposedTermsCount proposed terms.',
-                      ),
+                      l10n?.homeUserStats(approvedTermsCount, proposedTermsCount) ?? 'Tienes $approvedTermsCount términos aprobados y $proposedTermsCount términos propuestos.',
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                             color: AppConfig.textSecondaryColor,
                             height: 1.35,
@@ -511,12 +458,7 @@ void _handleNavigation(BuildContext context, AppSection section) {
                               : const Color(0xFF8B5CF6),
                         ),
                         _buildBadge(
-                          text: _t(
-                            context,
-                            es: '$totalActiveTerms términos activos',
-                            gl: '$totalActiveTerms termos activos',
-                            en: '$totalActiveTerms active terms',
-                          ),
+                          text: l10n?.homeActiveTerms(totalActiveTerms) ?? '$totalActiveTerms términos activos',
                           background: isDark
                               ? const Color(0xFF1E3A33)
                               : const Color(0xFFEAFBF3),
@@ -540,20 +482,11 @@ void _handleNavigation(BuildContext context, AppSection section) {
   }
 
   Widget _buildQuickActions(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final actions = [
       _QuickActionData(
-        title: _t(
-          context,
-          es: 'Buscar juegos por edad',
-          gl: 'Buscar xogos por idade',
-          en: 'Find games by age',
-        ),
-        subtitle: _t(
-          context,
-          es: 'Busca los juegos adecuados según la edad de tu hijo',
-          gl: 'Busca os xogos axeitados segundo a idade do teu fillo',
-          en: 'Find games that fit your child\'s age',
-        ),
+        title: l10n?.homeQuickActionGamesTitle ?? 'Buscar juegos por edad',
+        subtitle: l10n?.homeQuickActionGamesSubtitle ?? 'Busca los juegos adecuados según la edad de tu hijo',
         icon: Icons.visibility_outlined,
         tint: const Color(0xFF22C1DC),
         onTap: () => _navigateTo(
@@ -563,18 +496,8 @@ void _handleNavigation(BuildContext context, AppSection section) {
         ),
       ),
       _QuickActionData(
-        title: _t(
-          context,
-          es: 'Busca términos en el diccionario',
-          gl: 'Busca termos no dicionario',
-          en: 'Search dictionary terms',
-        ),
-        subtitle: _t(
-          context,
-          es: 'Descubre qué significan las palabras que usa tu hijo cuando juega',
-          gl: 'Descubre que significan as palabras que usa o teu fillo cando xoga',
-          en: 'Discover what the words your child uses while gaming mean',
-        ),
+        title: l10n?.homeQuickActionDictTitle ?? 'Busca términos en el diccionario',
+        subtitle: l10n?.homeQuickActionDictSubtitle ?? 'Descubre qué significan las palabras que usa tu hijo cuando juega',
         icon: Icons.translate_outlined,
         tint: const Color(0xFFA855F7),
         onTap: () => _navigateTo(
@@ -584,18 +507,8 @@ void _handleNavigation(BuildContext context, AppSection section) {
         ),
       ),
       _QuickActionData(
-        title: _t(
-          context,
-          es: 'Configurar Control Parental',
-          gl: 'Configurar Control Parental',
-          en: 'Set up Parental Controls',
-        ),
-        subtitle: _t(
-          context,
-          es: 'Configura los límites de edad y uso según la plataforma',
-          gl: 'Configura os límites de idade e uso segundo a plataforma',
-          en: 'Set age and usage limits based on the platform',
-        ),
+        title: l10n?.homeQuickActionGuidesTitle ?? 'Configurar Control Parental',
+        subtitle: l10n?.homeQuickActionGuidesSubtitle ?? 'Configura los límites de edad y uso según la plataforma',
         icon: Icons.tune_outlined,
         tint: const Color(0xFF0EA5E9),
         onTap: () => _navigateTo(
@@ -740,6 +653,7 @@ void _handleNavigation(BuildContext context, AppSection section) {
 
   Widget _buildGameFeature(BuildContext context, Game? featuredGame) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
 
     return Container(
       padding: const EdgeInsets.all(20),
@@ -756,12 +670,7 @@ void _handleNavigation(BuildContext context, AppSection section) {
             children: [
               Expanded(
                 child: Text(
-                  _t(
-                    context,
-                    es: 'Juego de la semana',
-                    gl: 'Xogo da semana',
-                    en: 'Game of the week',
-                  ),
+                  l10n?.homeGameOfTheWeek ?? 'Juego de la semana',
                   style: const TextStyle(fontSize: 21, fontWeight: FontWeight.w800),
                 ),
               ),
@@ -778,12 +687,7 @@ void _handleNavigation(BuildContext context, AppSection section) {
                   );
                 },
                 child: Text(
-                  _t(
-                    context,
-                    es: 'Ver los juegos del mes',
-                    gl: 'Ver os xogos do mes',
-                    en: 'See this month\'s games',
-                  ),
+                  l10n?.homeSeeMonthsGames ?? 'Ver los juegos del mes',
                 ),
               ),
             ],
@@ -894,12 +798,7 @@ void _handleNavigation(BuildContext context, AppSection section) {
                               horizontal: 18, vertical: 12),
                         ),
                         child: Text(
-                          _t(
-                            context,
-                            es: 'Análisis completo',
-                            gl: 'Análise completo',
-                            en: 'Full analysis',
-                          ),
+                          l10n?.homeFullAnalysisBtn ?? 'Análisis completo',
                         ),
                       ),
                     ],
@@ -917,6 +816,7 @@ void _handleNavigation(BuildContext context, AppSection section) {
     BuildContext context,
   ) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
 
     return Container(
       padding: const EdgeInsets.all(20),
@@ -929,12 +829,7 @@ void _handleNavigation(BuildContext context, AppSection section) {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            _t(
-              context,
-              es: 'Últimas actualizaciones',
-              gl: 'Últimas actualizacións',
-              en: 'Latest updates',
-            ),
+            l10n?.homeLatestUpdatesTitle ?? 'Últimas actualizaciones',
             style: const TextStyle(fontSize: 21, fontWeight: FontWeight.w800),
           ),
           const SizedBox(height: 16),
@@ -947,7 +842,7 @@ void _handleNavigation(BuildContext context, AppSection section) {
                   sectionId: ForumSections.general.id,
                   icon: Icons.forum_outlined,
                   tint: const Color(0xFF3B82F6),
-                  title: _t(context, es: 'General', gl: 'Xeral', en: 'General'),
+                  title: l10n?.forumSectionGeneral ?? 'General',
                   latest: _getLatestPostBySectionId(
                       posts, ForumSections.general.id),
                 ),
@@ -956,7 +851,7 @@ void _handleNavigation(BuildContext context, AppSection section) {
                   sectionId: ForumSections.news.id,
                   icon: Icons.newspaper_outlined,
                   tint: const Color(0xFFF59E0B),
-                  title: _t(context, es: 'Noticias', gl: 'Novas', en: 'News'),
+                  title: l10n?.forumSectionNews ?? 'Noticias',
                   latest:
                       _getLatestPostBySectionId(posts, ForumSections.news.id),
                 ),
@@ -965,7 +860,7 @@ void _handleNavigation(BuildContext context, AppSection section) {
                   sectionId: ForumSections.qna.id,
                   icon: Icons.help_outline,
                   tint: const Color(0xFF10B981),
-                  title: _t(context, es: 'Preguntas y respuestas', gl: 'Preguntas e respostas', en: 'Q&A'),
+                  title: l10n?.forumSectionQnA ?? 'Preguntas y respuestas',
                   latest:
                       _getLatestPostBySectionId(posts, ForumSections.qna.id),
                 ),
@@ -989,12 +884,7 @@ void _handleNavigation(BuildContext context, AppSection section) {
               side: BorderSide(color: theme.dividerColor.withValues(alpha: 0.5)),
             ),
             child: Text(
-              _t(
-                context,
-                es: 'Accede a la comunidad',
-                gl: 'Accede á comunidade',
-                en: 'Go to the community',
-              ),
+              l10n?.homeGoToCommunityBtn ?? 'Accede a la comunidad',
             ),
           ),
         ],
@@ -1138,45 +1028,42 @@ void _handleNavigation(BuildContext context, AppSection section) {
   }
 
   String _buildGameSummary(BuildContext context, Game? game) {
+    final l10n = AppLocalizations.of(context);
     if (game == null) {
-      return _t(
-        context,
-        es: 'No hay juego destacado esta semana. Consulta los juegos del mes para ver las novedades.',
-        gl: 'Non hai un xogo destacado esta semana. Consulta os xogos do mes para ver as novidades.',
-        en: 'There is no featured game this week. Check this month\'s games to see the latest releases.',
-      );
+      return l10n?.homeGameSummaryEmpty ?? 'No hay juego destacado esta semana. Consulta los juegos del mes para ver las novedades.';
     }
 
     final released = game.released != null && game.released!.isNotEmpty
-        ? _t(context, es: 'Salida: ${game.released}', gl: 'Saída: ${game.released}', en: 'Released: ${game.released}')
-        : _t(context, es: 'Salida: no disponible', gl: 'Saída: non dispoñible', en: 'Released: unavailable');
+        ? (l10n?.homeGameSummaryReleased(game.released!) ?? 'Salida: ${game.released}')
+        : (l10n?.homeGameSummaryReleasedEmpty ?? 'Salida: no disponible');
     final rating = game.rating > 0
-        ? _t(context, es: 'Rating: ${game.rating.toStringAsFixed(1)}', gl: 'Valoración: ${game.rating.toStringAsFixed(1)}', en: 'Rating: ${game.rating.toStringAsFixed(1)}')
-        : _t(context, es: 'Rating: sin datos', gl: 'Valoración: sen datos', en: 'Rating: no data');
+        ? (l10n?.homeGameSummaryRating(game.rating.toStringAsFixed(1)) ?? 'Rating: ${game.rating.toStringAsFixed(1)}')
+        : (l10n?.homeGameSummaryRatingEmpty ?? 'Rating: sin datos');
     final genre = game.genres.isNotEmpty
         ? game.genres.first
-        : _t(context, es: 'Sin género', gl: 'Sen xénero', en: 'No genre');
+        : (l10n?.homeGameSummaryNoGenre ?? 'Sin género');
     final ageRating = game.pegiRating != null
         ? 'PEGI ${game.pegiRating}+'
         : (game.esrbRating?.isNotEmpty == true
             ? 'ESRB ${game.esrbRating}'
-            : _t(context, es: 'Clasificación pendiente', gl: 'Clasificación pendente', en: 'Rating pending'));
-    return _t(context, es: 'Género: $genre · $released · $rating · $ageRating', gl: 'Xénero: $genre · $released · $rating · $ageRating', en: 'Genre: $genre · $released · $rating · $ageRating');
+            : (l10n?.homeGameSummaryRatingPending ?? 'Clasificación pendiente'));
+    return l10n?.homeGameSummaryFull(genre, released, rating, ageRating) ?? 'Género: $genre · $released · $rating · $ageRating';
   }
 
   String _buildGameTopLabel(BuildContext context, Game? game) {
+    final l10n = AppLocalizations.of(context);
     if (game == null) {
-      return _t(context, es: 'Selección semanal', gl: 'Selección semanal', en: 'Weekly pick');
+      return l10n?.homeGameTopLabelWeekly ?? 'Selección semanal';
     }
 
     final genreText = game.genres.isNotEmpty
         ? game.genres.first
-        : _t(context, es: 'Sin género', gl: 'Sen xénero', en: 'No genre');
+        : (l10n?.homeGameSummaryNoGenre ?? 'Sin género');
     final ageRating = game.pegiRating != null
         ? 'PEGI ${game.pegiRating}+'
         : (game.esrbRating?.isNotEmpty == true
             ? 'ESRB ${game.esrbRating}'
-            : _t(context, es: 'Sin clasificación', gl: 'Sen clasificación', en: 'Unrated'));
+            : (l10n?.homeGameTopLabelUnrated ?? 'Sin clasificación'));
 
     return '$ageRating  ·  $genreText';
   }
@@ -1199,10 +1086,11 @@ void _handleNavigation(BuildContext context, AppSection section) {
     required Color tint,
     required ForumPost? latest,
   }) {
+    final l10n = AppLocalizations.of(context);
     return _CommunityUpdateItem(
       title: title,
-      subtitle: latest?.title ?? _t(context, es: 'Sin novedades recientes en esta sección.', gl: 'Sen novidades recentes nesta sección.', en: 'No recent updates in this section.'),
-      meta: latest != null ? _t(context, es: 'Hilo actualizado recientemente', gl: 'Fío actualizado recentemente', en: 'Thread updated recently') : _t(context, es: 'Comunidad', gl: 'Comunidade', en: 'Community'),
+      subtitle: latest?.title ?? (l10n?.homeUpdateNoNews ?? 'Sin novedades recientes en esta sección.'),
+      meta: latest != null ? (l10n?.homeUpdateThreadUpdated ?? 'Hilo actualizado recientemente') : (l10n?.homeUpdateCommunity ?? 'Comunidad'),
       icon: icon,
       tint: tint,
       onTap: () =>
@@ -1210,41 +1098,26 @@ void _handleNavigation(BuildContext context, AppSection section) {
     );
   }
 
-  String _t(
-    BuildContext context, {
-    required String es,
-    required String gl,
-    required String en,
-  }) {
-    switch (Localizations.localeOf(context).languageCode) {
-      case 'gl':
-        return gl;
-      case 'en':
-        return en;
-      default:
-        return es;
-    }
-  }
-
   String _getCommunityLevel(
     BuildContext context,
     UserModel? user,
     int? messagesCount,
   ) {
+    final l10n = AppLocalizations.of(context);
     if (user?.isAdmin ?? false) {
-      return _t(context, es: 'Administrador', gl: 'Administrador', en: 'Administrator');
+      return l10n?.roleAdmin ?? 'Administrador';
     }
     if (user?.isModerator ?? false) {
-      return _t(context, es: 'Moderador', gl: 'Moderador', en: 'Moderator');
+      return l10n?.roleModerator ?? 'Moderador';
     }
 
     if (messagesCount == null) {
-      return _t(context, es: 'Cargando...', gl: 'Cargando...', en: 'Loading...');
+      return l10n?.commonLoading ?? 'Cargando...';
     }
 
     // Sube 1 nivel por cada 10 mensajes en la comunidad.
     final level = 1 + (messagesCount / 10).floor();
-    return _t(context, es: 'Nivel $level', gl: 'Nivel $level', en: 'Level $level');
+    return l10n?.userLevel(level) ?? 'Nivel $level';
   }
 }
 

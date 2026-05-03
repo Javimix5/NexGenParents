@@ -30,7 +30,7 @@ class ForumProvider with ChangeNotifier {
         notifyListeners();
       },
       onError: (e) {
-        _errorMessage = 'Error al cargar las publicaciones: $e';
+        _errorMessage = null;
         notifyListeners();
       },
     );
@@ -69,7 +69,7 @@ class ForumProvider with ChangeNotifier {
       _setLoading(false);
       return true;
     } catch (e) {
-      _errorMessage = 'Error al crear la publicación: $e';
+      _errorMessage = null;
       _setLoading(false);
       return false;
     }
@@ -93,11 +93,11 @@ class ForumProvider with ChangeNotifier {
     _setLoading(true);
     try {
       final result = await _firestoreService.deleteForumPost(postId);
-      _errorMessage = result['message'];
+      _errorMessage = result['messageKey'];
       _setLoading(false);
       return result['success'] == true;
     } catch (e) {
-      _errorMessage = 'Error al eliminar la publicación: $e';
+      _errorMessage = null;
       _setLoading(false);
       return false;
     }
@@ -111,11 +111,11 @@ class ForumProvider with ChangeNotifier {
         replyId: replyId,
         postId: postId,
       );
-      _errorMessage = result['message'];
+      _errorMessage = result['messageKey'];
       _setLoading(false);
       return result['success'] == true;
     } catch (e) {
-      _errorMessage = 'Error al eliminar la respuesta: $e';
+      _errorMessage = null;
       _setLoading(false);
       return false;
     }

@@ -304,6 +304,12 @@ abstract class AppLocalizations {
   /// **'Error al iniciar sesión'**
   String get errorLogin;
 
+  /// No description provided for @errorLoginGoogle.
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo iniciar sesión con Google'**
+  String get errorLoginGoogle;
+
   /// No description provided for @errorLoadingProfile.
   ///
   /// In es, this message translates to:
@@ -2566,6 +2572,1140 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'¡El modo oscuro ya está disponible en los ajustes de usuario!'**
   String get forumSidebarNews3Text;
+
+  /// No description provided for @privacyPolicyTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Política de Privacidad'**
+  String get privacyPolicyTitle;
+
+  /// No description provided for @privacyPolicySubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Política de Privacidad de NexGen Parents'**
+  String get privacyPolicySubtitle;
+
+  /// No description provided for @privacyPolicyLastUpdate.
+  ///
+  /// In es, this message translates to:
+  /// **'Última actualización: Marzo 2026'**
+  String get privacyPolicyLastUpdate;
+
+  /// No description provided for @privacyPolicyS1Title.
+  ///
+  /// In es, this message translates to:
+  /// **'1. Recopilación de Información'**
+  String get privacyPolicyS1Title;
+
+  /// No description provided for @privacyPolicyS1Text.
+  ///
+  /// In es, this message translates to:
+  /// **'En NexGen Parents nos tomamos muy en serio tu privacidad y la de tu familia. Recopilamos información básica del perfil (como el correo electrónico y tu nombre de usuario) para permitir el acceso a funcionalidades como el diccionario colaborativo y el foro.'**
+  String get privacyPolicyS1Text;
+
+  /// No description provided for @privacyPolicyS2Title.
+  ///
+  /// In es, this message translates to:
+  /// **'2. Uso de los Datos'**
+  String get privacyPolicyS2Title;
+
+  /// No description provided for @privacyPolicyS2Text.
+  ///
+  /// In es, this message translates to:
+  /// **'Los datos proporcionados se utilizan exclusivamente para mejorar tu experiencia en la plataforma, personalizar las recomendaciones por edad (PEGI/ESRB) y mantener un entorno seguro en nuestra comunidad.'**
+  String get privacyPolicyS2Text;
+
+  /// No description provided for @privacyPolicyS3Title.
+  ///
+  /// In es, this message translates to:
+  /// **'3. Protección y Seguridad'**
+  String get privacyPolicyS3Title;
+
+  /// No description provided for @privacyPolicyS3Text.
+  ///
+  /// In es, this message translates to:
+  /// **'Tus datos están protegidos mediante los servicios de Firebase y en ningún caso se venden o comparten con terceros con fines publicitarios no relacionados con el propósito educativo de la plataforma.'**
+  String get privacyPolicyS3Text;
+
+  /// No description provided for @privacyPolicyS4Title.
+  ///
+  /// In es, this message translates to:
+  /// **'4. Tus Derechos'**
+  String get privacyPolicyS4Title;
+
+  /// No description provided for @privacyPolicyS4Text.
+  ///
+  /// In es, this message translates to:
+  /// **'Puedes solicitar en cualquier momento la eliminación total de tu cuenta y tus datos asociados a través del panel de configuración de tu perfil.'**
+  String get privacyPolicyS4Text;
+
+  /// No description provided for @aboutUsTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Quiénes somos'**
+  String get aboutUsTitle;
+
+  /// No description provided for @aboutUsSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Acerca de NexGen Parents'**
+  String get aboutUsSubtitle;
+
+  /// No description provided for @aboutUsP1.
+  ///
+  /// In es, this message translates to:
+  /// **'NexGen Parents nace para resolver una brecha informativa real: hoy en día, muchas familias no tienen referencias claras para interpretar el contenido, los riesgos y el gran valor educativo que ofrecen los videojuegos actuales.'**
+  String get aboutUsP1;
+
+  /// No description provided for @aboutUsP2.
+  ///
+  /// In es, this message translates to:
+  /// **'Nuestro principal objetivo es reducir la incertidumbre de madres, padres, docentes y orientadores, facilitando decisiones de consumo digital mucho más responsables e informadas.'**
+  String get aboutUsP2;
+
+  /// No description provided for @aboutUsVersion.
+  ///
+  /// In es, this message translates to:
+  /// **'Versión 1.0.0 (Marzo 2026)\nProyecto TFC'**
+  String get aboutUsVersion;
+
+  /// No description provided for @contactUsTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Contáctanos'**
+  String get contactUsTitle;
+
+  /// No description provided for @contactUsSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'¡Nos encantaría escucharte!'**
+  String get contactUsSubtitle;
+
+  /// No description provided for @contactUsDescription.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Tienes alguna duda sobre nuestras guías, quieres proponer una mejora o necesitas ayuda técnica con la aplicación? Ponte en contacto con nosotros.'**
+  String get contactUsDescription;
+
+  /// No description provided for @contactUsEmailLabel.
+  ///
+  /// In es, this message translates to:
+  /// **'Correo electrónico'**
+  String get contactUsEmailLabel;
+
+  /// No description provided for @contactUsWebLabel.
+  ///
+  /// In es, this message translates to:
+  /// **'Sitio Web'**
+  String get contactUsWebLabel;
+
+  /// No description provided for @contactUsForumHint.
+  ///
+  /// In es, this message translates to:
+  /// **'También puedes participar activamente dejando tus dudas en nuestro Foro Comunitario de la app.'**
+  String get contactUsForumHint;
+
+  /// No description provided for @parentalGuidesError.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al cargar guías: {error}'**
+  String parentalGuidesError(String error);
+
+  /// No description provided for @parentalGuidesEmptyTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'No hay guías disponibles'**
+  String get parentalGuidesEmptyTitle;
+
+  /// No description provided for @parentalGuidesEmptyMessage.
+  ///
+  /// In es, this message translates to:
+  /// **'Vuelve a intentarlo más tarde.'**
+  String get parentalGuidesEmptyMessage;
+
+  /// No description provided for @parentalGuidesSelectPlatform.
+  ///
+  /// In es, this message translates to:
+  /// **'Selecciona tu plataforma ({count} guías)'**
+  String parentalGuidesSelectPlatform(int count);
+
+  /// No description provided for @parentalGuidesBannerTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Guías de Control Parental'**
+  String get parentalGuidesBannerTitle;
+
+  /// No description provided for @parentalGuidesBannerSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Aprende a configurar controles de seguridad en las plataformas más populares.'**
+  String get parentalGuidesBannerSubtitle;
+
+  /// No description provided for @parentalGuidesMoreInfoBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Saber más sobre PEGI/ESRB'**
+  String get parentalGuidesMoreInfoBtn;
+
+  /// No description provided for @parentalGuidesStepsCount.
+  ///
+  /// In es, this message translates to:
+  /// **'{count} pasos'**
+  String parentalGuidesStepsCount(int count);
+
+  /// No description provided for @parentalGuidesWhyImportant.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Por qué es importante?'**
+  String get parentalGuidesWhyImportant;
+
+  /// No description provided for @parentalGuidesProtectionTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Protección infantil'**
+  String get parentalGuidesProtectionTitle;
+
+  /// No description provided for @parentalGuidesProtectionDesc.
+  ///
+  /// In es, this message translates to:
+  /// **'Evita que tus hijos accedan a contenido no apropiado para su edad.'**
+  String get parentalGuidesProtectionDesc;
+
+  /// No description provided for @parentalGuidesTimeTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Gestión del tiempo'**
+  String get parentalGuidesTimeTitle;
+
+  /// No description provided for @parentalGuidesTimeDesc.
+  ///
+  /// In es, this message translates to:
+  /// **'Establece límites de tiempo de juego para mantener un equilibrio saludable.'**
+  String get parentalGuidesTimeDesc;
+
+  /// No description provided for @parentalGuidesSpendingTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Control de gastos'**
+  String get parentalGuidesSpendingTitle;
+
+  /// No description provided for @parentalGuidesSpendingDesc.
+  ///
+  /// In es, this message translates to:
+  /// **'Previene compras no autorizadas dentro de los juegos.'**
+  String get parentalGuidesSpendingDesc;
+
+  /// No description provided for @esrbDescriptionE.
+  ///
+  /// In es, this message translates to:
+  /// **'Contenido para todos. Equivalente a PEGI 3.'**
+  String get esrbDescriptionE;
+
+  /// No description provided for @esrbDescriptionE10.
+  ///
+  /// In es, this message translates to:
+  /// **'Para mayores de 10 años. Similar a PEGI 7.'**
+  String get esrbDescriptionE10;
+
+  /// No description provided for @esrbDescriptionT.
+  ///
+  /// In es, this message translates to:
+  /// **'Adolescentes. Equivalente a PEGI 12.'**
+  String get esrbDescriptionT;
+
+  /// No description provided for @esrbDescriptionM.
+  ///
+  /// In es, this message translates to:
+  /// **'Mayores de 17 años. Similar a PEGI 16.'**
+  String get esrbDescriptionM;
+
+  /// No description provided for @esrbDescriptionAO.
+  ///
+  /// In es, this message translates to:
+  /// **'Solo adultos. Equivalente a PEGI 18.'**
+  String get esrbDescriptionAO;
+
+  /// No description provided for @esrbDescriptionRP.
+  ///
+  /// In es, this message translates to:
+  /// **'Clasificación pendiente (juegos en preventa).'**
+  String get esrbDescriptionRP;
+
+  /// No description provided for @profileEditTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Editar Perfil'**
+  String get profileEditTitle;
+
+  /// No description provided for @profileNoAuthUser.
+  ///
+  /// In es, this message translates to:
+  /// **'No hay usuario autenticado'**
+  String get profileNoAuthUser;
+
+  /// No description provided for @profilePersonalInfo.
+  ///
+  /// In es, this message translates to:
+  /// **'Información Personal'**
+  String get profilePersonalInfo;
+
+  /// No description provided for @profileUsername.
+  ///
+  /// In es, this message translates to:
+  /// **'Nombre de usuario'**
+  String get profileUsername;
+
+  /// No description provided for @profileNameRequired.
+  ///
+  /// In es, this message translates to:
+  /// **'Por favor, introduce tu nombre'**
+  String get profileNameRequired;
+
+  /// No description provided for @profileEmailRequired.
+  ///
+  /// In es, this message translates to:
+  /// **'Por favor, introduce tu correo'**
+  String get profileEmailRequired;
+
+  /// No description provided for @profileEmailChangeWarning.
+  ///
+  /// In es, this message translates to:
+  /// **'Cambiar el email requiere verificación adicional'**
+  String get profileEmailChangeWarning;
+
+  /// No description provided for @profileChangePasswordBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Cambiar contraseña'**
+  String get profileChangePasswordBtn;
+
+  /// No description provided for @profileChildrenInfo.
+  ///
+  /// In es, this message translates to:
+  /// **'Información de tus Hijos'**
+  String get profileChildrenInfo;
+
+  /// No description provided for @profileChildrenInfoDesc.
+  ///
+  /// In es, this message translates to:
+  /// **'Añade los años de nacimiento para personalizar recomendaciones de juegos'**
+  String get profileChildrenInfoDesc;
+
+  /// No description provided for @profilePlatforms.
+  ///
+  /// In es, this message translates to:
+  /// **'Plataformas que Posees'**
+  String get profilePlatforms;
+
+  /// No description provided for @profilePlatformsDesc.
+  ///
+  /// In es, this message translates to:
+  /// **'Selecciona las consolas y dispositivos que tienes en casa'**
+  String get profilePlatformsDesc;
+
+  /// No description provided for @profileSaveChangesBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Guardar Cambios'**
+  String get profileSaveChangesBtn;
+
+  /// No description provided for @profileDeleteAccountBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Eliminar Cuenta'**
+  String get profileDeleteAccountBtn;
+
+  /// No description provided for @profileChangeAvatar.
+  ///
+  /// In es, this message translates to:
+  /// **'Cambiar Avatar'**
+  String get profileChangeAvatar;
+
+  /// No description provided for @profileActivityTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Tu Actividad en NexGen Parents'**
+  String get profileActivityTitle;
+
+  /// No description provided for @profileTermsProposed.
+  ///
+  /// In es, this message translates to:
+  /// **'Términos\nPropuestos'**
+  String get profileTermsProposed;
+
+  /// No description provided for @profileTermsApproved.
+  ///
+  /// In es, this message translates to:
+  /// **'Términos\nAprobados'**
+  String get profileTermsApproved;
+
+  /// No description provided for @profileLevel.
+  ///
+  /// In es, this message translates to:
+  /// **'Nivel'**
+  String get profileLevel;
+
+  /// No description provided for @profileYears.
+  ///
+  /// In es, this message translates to:
+  /// **'años'**
+  String get profileYears;
+
+  /// No description provided for @profileAddBirthYearBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Añadir Año de Nacimiento'**
+  String get profileAddBirthYearBtn;
+
+  /// No description provided for @profileSelectAvatarTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Selecciona tu Avatar'**
+  String get profileSelectAvatarTitle;
+
+  /// No description provided for @profileBirthYearLabel.
+  ///
+  /// In es, this message translates to:
+  /// **'Año de nacimiento'**
+  String get profileBirthYearLabel;
+
+  /// No description provided for @profileBirthYearHint.
+  ///
+  /// In es, this message translates to:
+  /// **'Ejemplo: 2015'**
+  String get profileBirthYearHint;
+
+  /// No description provided for @profileBirthYearDesc.
+  ///
+  /// In es, this message translates to:
+  /// **'Introduce el año de nacimiento de tu hijo para obtener recomendaciones personalizadas.'**
+  String get profileBirthYearDesc;
+
+  /// No description provided for @profileInvalidBirthYear.
+  ///
+  /// In es, this message translates to:
+  /// **'Por favor, introduce un año de nacimiento válido'**
+  String get profileInvalidBirthYear;
+
+  /// No description provided for @profileAddBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Añadir'**
+  String get profileAddBtn;
+
+  /// No description provided for @profileErrorUpdateName.
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo actualizar el nombre'**
+  String get profileErrorUpdateName;
+
+  /// No description provided for @profileErrorUpdateChildren.
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo actualizar la información de hijos'**
+  String get profileErrorUpdateChildren;
+
+  /// No description provided for @profileErrorUpdatePlatforms.
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudieron actualizar las plataformas'**
+  String get profileErrorUpdatePlatforms;
+
+  /// No description provided for @profileErrorUpdateAvatar.
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo actualizar el avatar'**
+  String get profileErrorUpdateAvatar;
+
+  /// No description provided for @profileVerifyEmailTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Verificación para cambiar email'**
+  String get profileVerifyEmailTitle;
+
+  /// No description provided for @profileVerifyEmailDesc.
+  ///
+  /// In es, this message translates to:
+  /// **'Para cambiar tu correo, confirma tu contraseña actual.'**
+  String get profileVerifyEmailDesc;
+
+  /// No description provided for @profileEmailChangeCancelled.
+  ///
+  /// In es, this message translates to:
+  /// **'Cambio de email cancelado'**
+  String get profileEmailChangeCancelled;
+
+  /// No description provided for @profileErrorChangeEmail.
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo cambiar el email'**
+  String get profileErrorChangeEmail;
+
+  /// No description provided for @profileUpdateSuccess.
+  ///
+  /// In es, this message translates to:
+  /// **'Perfil actualizado correctamente'**
+  String get profileUpdateSuccess;
+
+  /// No description provided for @profileErrorSave.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al guardar perfil:'**
+  String get profileErrorSave;
+
+  /// No description provided for @profileCurrentPassword.
+  ///
+  /// In es, this message translates to:
+  /// **'Contraseña actual'**
+  String get profileCurrentPassword;
+
+  /// No description provided for @profileNewPassword.
+  ///
+  /// In es, this message translates to:
+  /// **'Nueva contraseña'**
+  String get profileNewPassword;
+
+  /// No description provided for @profileConfirmNewPassword.
+  ///
+  /// In es, this message translates to:
+  /// **'Confirmar nueva contraseña'**
+  String get profileConfirmNewPassword;
+
+  /// No description provided for @profileErrorEmptyFields.
+  ///
+  /// In es, this message translates to:
+  /// **'Completa todos los campos'**
+  String get profileErrorEmptyFields;
+
+  /// No description provided for @profileErrorPasswordLength.
+  ///
+  /// In es, this message translates to:
+  /// **'La nueva contraseña debe tener al menos 6 caracteres'**
+  String get profileErrorPasswordLength;
+
+  /// No description provided for @profileErrorPasswordMismatch.
+  ///
+  /// In es, this message translates to:
+  /// **'Las contraseñas no coinciden'**
+  String get profileErrorPasswordMismatch;
+
+  /// No description provided for @profileOperationCompleted.
+  ///
+  /// In es, this message translates to:
+  /// **'Operación completada'**
+  String get profileOperationCompleted;
+
+  /// No description provided for @profileUpdateBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Actualizar'**
+  String get profileUpdateBtn;
+
+  /// No description provided for @profileConfirmDeleteTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Confirmar eliminación'**
+  String get profileConfirmDeleteTitle;
+
+  /// No description provided for @profileConfirmDeleteDesc.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Seguro que quieres eliminar tu perfil? Esta acción es irreversible.'**
+  String get profileConfirmDeleteDesc;
+
+  /// No description provided for @profileNoBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'No'**
+  String get profileNoBtn;
+
+  /// No description provided for @profileYesDeleteBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Sí, eliminar'**
+  String get profileYesDeleteBtn;
+
+  /// No description provided for @profileDeleteAccountTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Eliminar cuenta'**
+  String get profileDeleteAccountTitle;
+
+  /// No description provided for @profileDeleteAccountDesc.
+  ///
+  /// In es, this message translates to:
+  /// **'Esta acción es permanente. Introduce tu contraseña para confirmar.'**
+  String get profileDeleteAccountDesc;
+
+  /// No description provided for @profileErrorPasswordRequired.
+  ///
+  /// In es, this message translates to:
+  /// **'Debes introducir tu contraseña'**
+  String get profileErrorPasswordRequired;
+
+  /// No description provided for @profileErrorValidatePassword.
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo validar la contraseña'**
+  String get profileErrorValidatePassword;
+
+  /// No description provided for @profileErrorDeleteFirestore.
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo eliminar el perfil en la base de datos'**
+  String get profileErrorDeleteFirestore;
+
+  /// No description provided for @profileErrorDeleteAuth.
+  ///
+  /// In es, this message translates to:
+  /// **'Se eliminó el perfil, pero no la cuenta de acceso'**
+  String get profileErrorDeleteAuth;
+
+  /// No description provided for @forumMainCategoriesTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Categorías Principales'**
+  String get forumMainCategoriesTitle;
+
+  /// No description provided for @forumViewAllBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Ver todo'**
+  String get forumViewAllBtn;
+
+  /// No description provided for @forumEmptySectionTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'No hay publicaciones en esta sección'**
+  String get forumEmptySectionTitle;
+
+  /// No description provided for @forumEmptySectionMessage.
+  ///
+  /// In es, this message translates to:
+  /// **'Todavía no hay novedades aquí.'**
+  String get forumEmptySectionMessage;
+
+  /// No description provided for @forumPlatformsTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Plataformas'**
+  String get forumPlatformsTitle;
+
+  /// No description provided for @parentalGuidesStepProgress.
+  ///
+  /// In es, this message translates to:
+  /// **'Paso {current} de {total}'**
+  String parentalGuidesStepProgress(int current, int total);
+
+  /// No description provided for @parentalGuidesScreenshot.
+  ///
+  /// In es, this message translates to:
+  /// **'Captura de pantalla:'**
+  String get parentalGuidesScreenshot;
+
+  /// No description provided for @parentalGuidesLoadingImage.
+  ///
+  /// In es, this message translates to:
+  /// **'Cargando imagen...'**
+  String get parentalGuidesLoadingImage;
+
+  /// No description provided for @parentalGuidesImageNotAvailable.
+  ///
+  /// In es, this message translates to:
+  /// **'Imagen no disponible'**
+  String get parentalGuidesImageNotAvailable;
+
+  /// No description provided for @parentalGuidesSetupComplete.
+  ///
+  /// In es, this message translates to:
+  /// **'¡Configuración completada! Ahora tu hijo puede jugar de forma segura con las restricciones configuradas.'**
+  String get parentalGuidesSetupComplete;
+
+  /// No description provided for @parentalGuidesPreviousBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Anterior'**
+  String get parentalGuidesPreviousBtn;
+
+  /// No description provided for @parentalGuidesNextBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Siguiente'**
+  String get parentalGuidesNextBtn;
+
+  /// No description provided for @parentalGuidesFinishBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Finalizar'**
+  String get parentalGuidesFinishBtn;
+
+  /// No description provided for @parentalGuidesCompletedTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'¡Guía completada!'**
+  String get parentalGuidesCompletedTitle;
+
+  /// No description provided for @parentalGuidesCompletedDesc.
+  ///
+  /// In es, this message translates to:
+  /// **'Has completado todos los pasos de esta guía de control parental.'**
+  String get parentalGuidesCompletedDesc;
+
+  /// No description provided for @parentalGuidesRepeatBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Repetir'**
+  String get parentalGuidesRepeatBtn;
+
+  /// No description provided for @loginSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Guía y Diccionario Game para Padres'**
+  String get loginSubtitle;
+
+  /// No description provided for @loginEmailHint.
+  ///
+  /// In es, this message translates to:
+  /// **'ejemplo@correo.com'**
+  String get loginEmailHint;
+
+  /// No description provided for @loginPasswordLabel.
+  ///
+  /// In es, this message translates to:
+  /// **'Contraseña'**
+  String get loginPasswordLabel;
+
+  /// No description provided for @loginPasswordHint.
+  ///
+  /// In es, this message translates to:
+  /// **'Introduce tu contraseña'**
+  String get loginPasswordHint;
+
+  /// No description provided for @loginForgotPassword.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Olvidaste tu contraseña?'**
+  String get loginForgotPassword;
+
+  /// No description provided for @loginBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Iniciar sesión'**
+  String get loginBtn;
+
+  /// No description provided for @loginGoogleBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Continuar con Google'**
+  String get loginGoogleBtn;
+
+  /// No description provided for @loginOr.
+  ///
+  /// In es, this message translates to:
+  /// **'o'**
+  String get loginOr;
+
+  /// No description provided for @loginCreateAccountBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Crear cuenta nueva'**
+  String get loginCreateAccountBtn;
+
+  /// No description provided for @loginRecoveryTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Recuperar contraseña'**
+  String get loginRecoveryTitle;
+
+  /// No description provided for @loginRecoveryDesc.
+  ///
+  /// In es, this message translates to:
+  /// **'Introduce tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.'**
+  String get loginRecoveryDesc;
+
+  /// No description provided for @loginRecoverySendBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Enviar'**
+  String get loginRecoverySendBtn;
+
+  /// No description provided for @loginRecoveryError.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al enviar correo'**
+  String get loginRecoveryError;
+
+  /// No description provided for @registerError.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al registrarse'**
+  String get registerError;
+
+  /// No description provided for @registerErrorGoogle.
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo registrar con Google'**
+  String get registerErrorGoogle;
+
+  /// No description provided for @registerTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Crear cuenta'**
+  String get registerTitle;
+
+  /// No description provided for @registerHeader.
+  ///
+  /// In es, this message translates to:
+  /// **'Registro de Padres'**
+  String get registerHeader;
+
+  /// No description provided for @registerSubtitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Crea tu cuenta para acceder a todas las funciones'**
+  String get registerSubtitle;
+
+  /// No description provided for @registerNameLabel.
+  ///
+  /// In es, this message translates to:
+  /// **'Nombre completo'**
+  String get registerNameLabel;
+
+  /// No description provided for @registerNameHint.
+  ///
+  /// In es, this message translates to:
+  /// **'Tu nombre'**
+  String get registerNameHint;
+
+  /// No description provided for @registerPasswordHint.
+  ///
+  /// In es, this message translates to:
+  /// **'Mínimo 8 caracteres'**
+  String get registerPasswordHint;
+
+  /// No description provided for @registerConfirmPasswordLabel.
+  ///
+  /// In es, this message translates to:
+  /// **'Confirmar contraseña'**
+  String get registerConfirmPasswordLabel;
+
+  /// No description provided for @registerConfirmPasswordHint.
+  ///
+  /// In es, this message translates to:
+  /// **'Repite la contraseña'**
+  String get registerConfirmPasswordHint;
+
+  /// No description provided for @registerInfoDesc.
+  ///
+  /// In es, this message translates to:
+  /// **'Tu información será utilizada únicamente para mejorar tu experiencia en la app'**
+  String get registerInfoDesc;
+
+  /// No description provided for @registerGoogleBtn.
+  ///
+  /// In es, this message translates to:
+  /// **'Registrarse con Google'**
+  String get registerGoogleBtn;
+
+  /// No description provided for @registerAlreadyHaveAccount.
+  ///
+  /// In es, this message translates to:
+  /// **'¿Ya tienes cuenta? '**
+  String get registerAlreadyHaveAccount;
+
+  /// No description provided for @errorNameLength.
+  ///
+  /// In es, this message translates to:
+  /// **'El nombre debe tener al menos 3 caracteres'**
+  String get errorNameLength;
+
+  /// No description provided for @errorPasswordLength8.
+  ///
+  /// In es, this message translates to:
+  /// **'La contraseña debe tener al menos 8 caracteres'**
+  String get errorPasswordLength8;
+
+  /// No description provided for @errorPasswordUppercase.
+  ///
+  /// In es, this message translates to:
+  /// **'Incluye al menos una letra mayúscula'**
+  String get errorPasswordUppercase;
+
+  /// No description provided for @errorPasswordLowercase.
+  ///
+  /// In es, this message translates to:
+  /// **'Incluye al menos una letra minúscula'**
+  String get errorPasswordLowercase;
+
+  /// No description provided for @errorPasswordNumber.
+  ///
+  /// In es, this message translates to:
+  /// **'Incluye al menos un número'**
+  String get errorPasswordNumber;
+
+  /// No description provided for @errorConfirmPasswordRequired.
+  ///
+  /// In es, this message translates to:
+  /// **'Por favor, confirma tu contraseña'**
+  String get errorConfirmPasswordRequired;
+
+  /// No description provided for @errorTermExists.
+  ///
+  /// In es, this message translates to:
+  /// **'Este término ya existe en el diccionario'**
+  String get errorTermExists;
+
+  /// No description provided for @successTermProposed.
+  ///
+  /// In es, this message translates to:
+  /// **'Término propuesto correctamente. Será revisado por un moderador'**
+  String get successTermProposed;
+
+  /// No description provided for @errorProposeTerm.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al proponer término'**
+  String get errorProposeTerm;
+
+  /// No description provided for @errorTermNotFound.
+  ///
+  /// In es, this message translates to:
+  /// **'El término no existe'**
+  String get errorTermNotFound;
+
+  /// No description provided for @successTermApproved.
+  ///
+  /// In es, this message translates to:
+  /// **'Término aprobado correctamente'**
+  String get successTermApproved;
+
+  /// No description provided for @errorApproveTerm.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al aprobar término'**
+  String get errorApproveTerm;
+
+  /// No description provided for @successTermRejected.
+  ///
+  /// In es, this message translates to:
+  /// **'Término rechazado'**
+  String get successTermRejected;
+
+  /// No description provided for @errorRejectTerm.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al rechazar término'**
+  String get errorRejectTerm;
+
+  /// No description provided for @successTermUpdated.
+  ///
+  /// In es, this message translates to:
+  /// **'Término actualizado correctamente'**
+  String get successTermUpdated;
+
+  /// No description provided for @errorUpdateTerm.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al actualizar término'**
+  String get errorUpdateTerm;
+
+  /// No description provided for @successTermDeleted.
+  ///
+  /// In es, this message translates to:
+  /// **'Término eliminado correctamente'**
+  String get successTermDeleted;
+
+  /// No description provided for @errorDeleteTerm.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al eliminar término'**
+  String get errorDeleteTerm;
+
+  /// No description provided for @errorInvalidRole.
+  ///
+  /// In es, this message translates to:
+  /// **'Rol inválido. Debe ser: user, moderator o admin'**
+  String get errorInvalidRole;
+
+  /// No description provided for @errorModifyOwnRole.
+  ///
+  /// In es, this message translates to:
+  /// **'No puedes modificar tu propio rol'**
+  String get errorModifyOwnRole;
+
+  /// No description provided for @successRoleUpdated.
+  ///
+  /// In es, this message translates to:
+  /// **'Rol actualizado correctamente'**
+  String get successRoleUpdated;
+
+  /// No description provided for @errorUpdateRole.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al actualizar rol'**
+  String get errorUpdateRole;
+
+  /// No description provided for @successBirthYearsUpdated.
+  ///
+  /// In es, this message translates to:
+  /// **'Años de nacimiento actualizados correctamente'**
+  String get successBirthYearsUpdated;
+
+  /// No description provided for @errorUpdateBirthYears.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al actualizar años de nacimiento'**
+  String get errorUpdateBirthYears;
+
+  /// No description provided for @successPlatformsUpdated.
+  ///
+  /// In es, this message translates to:
+  /// **'Plataformas actualizadas correctamente'**
+  String get successPlatformsUpdated;
+
+  /// No description provided for @errorUpdatePlatforms.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al actualizar plataformas'**
+  String get errorUpdatePlatforms;
+
+  /// No description provided for @successAvatarUpdated.
+  ///
+  /// In es, this message translates to:
+  /// **'Avatar actualizado correctamente'**
+  String get successAvatarUpdated;
+
+  /// No description provided for @errorUpdateAvatar.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al actualizar avatar'**
+  String get errorUpdateAvatar;
+
+  /// No description provided for @successUserInfoUpdated.
+  ///
+  /// In es, this message translates to:
+  /// **'Información de usuario actualizada correctamente'**
+  String get successUserInfoUpdated;
+
+  /// No description provided for @errorUpdateUserInfo.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al actualizar información'**
+  String get errorUpdateUserInfo;
+
+  /// No description provided for @successAccountDeleted.
+  ///
+  /// In es, this message translates to:
+  /// **'Cuenta eliminada correctamente'**
+  String get successAccountDeleted;
+
+  /// No description provided for @errorDeleteAccount.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al eliminar cuenta'**
+  String get errorDeleteAccount;
+
+  /// No description provided for @successPostDeleted.
+  ///
+  /// In es, this message translates to:
+  /// **'Publicación eliminada correctamente'**
+  String get successPostDeleted;
+
+  /// No description provided for @errorDeletePost.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al eliminar la publicación'**
+  String get errorDeletePost;
+
+  /// No description provided for @errorPostNotFound.
+  ///
+  /// In es, this message translates to:
+  /// **'La publicación asociada no existe'**
+  String get errorPostNotFound;
+
+  /// No description provided for @successReplyDeleted.
+  ///
+  /// In es, this message translates to:
+  /// **'Respuesta eliminada correctamente'**
+  String get successReplyDeleted;
+
+  /// No description provided for @errorDeleteReply.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al eliminar la respuesta'**
+  String get errorDeleteReply;
+
+  /// No description provided for @errorNoAuthUser.
+  ///
+  /// In es, this message translates to:
+  /// **'No hay usuario autenticado'**
+  String get errorNoAuthUser;
+
+  /// No description provided for @successPasswordUpdated.
+  ///
+  /// In es, this message translates to:
+  /// **'Contraseña actualizada correctamente'**
+  String get successPasswordUpdated;
+
+  /// No description provided for @errorChangePassword.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al cambiar contraseña'**
+  String get errorChangePassword;
+
+  /// No description provided for @errorWrongCurrentPassword.
+  ///
+  /// In es, this message translates to:
+  /// **'La contraseña actual es incorrecta'**
+  String get errorWrongCurrentPassword;
+
+  /// No description provided for @errorWeakNewPassword.
+  ///
+  /// In es, this message translates to:
+  /// **'La nueva contraseña es demasiado débil'**
+  String get errorWeakNewPassword;
+
+  /// No description provided for @successEmailUpdated.
+  ///
+  /// In es, this message translates to:
+  /// **'Email actualizado correctamente. Verifica tu nuevo correo.'**
+  String get successEmailUpdated;
+
+  /// No description provided for @errorChangeEmail.
+  ///
+  /// In es, this message translates to:
+  /// **'Error al cambiar email'**
+  String get errorChangeEmail;
+
+  /// No description provided for @errorEmailAlreadyInUse.
+  ///
+  /// In es, this message translates to:
+  /// **'Este email ya está en uso'**
+  String get errorEmailAlreadyInUse;
+
+  /// No description provided for @errorInvalidNewEmail.
+  ///
+  /// In es, this message translates to:
+  /// **'El email no es válido'**
+  String get errorInvalidNewEmail;
+
+  /// No description provided for @errorNoPasswordAccount.
+  ///
+  /// In es, this message translates to:
+  /// **'Tu cuenta no usa contraseña. Inicia sesión de nuevo con tu proveedor para continuar.'**
+  String get errorNoPasswordAccount;
+
+  /// No description provided for @successReauth.
+  ///
+  /// In es, this message translates to:
+  /// **'Reautenticación correcta'**
+  String get successReauth;
+
+  /// No description provided for @errorReauth.
+  ///
+  /// In es, this message translates to:
+  /// **'Error de reautenticación'**
+  String get errorReauth;
 }
 
 class _AppLocalizationsDelegate

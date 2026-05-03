@@ -6,6 +6,7 @@ import '../../models/dictionary_term_model.dart';
 import '../../config/app_config.dart';
 import '../../config/app_theme.dart';
 import '../../l10n/app_localizations.dart';
+import '../../utils/translation_helper.dart';
 
 class TermDetailScreen extends StatefulWidget {
   final String termId;
@@ -590,8 +591,7 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
                     } else {
                       _showSnackBar(
                         context,
-                        dictionaryProvider.errorMessage ??
-                            l10n.dictUpdateError,
+                        TranslationHelper.translateDynamicKey(context, dictionaryProvider.errorMessage, fallback: l10n.dictUpdateError),
                         AppConfig.errorColor,
                       );
                     }
@@ -644,8 +644,7 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
                   } else {
                     _showSnackBar(
                       context,
-                      dictionaryProvider.errorMessage ??
-                          l10n.dictDeleteError,
+                      TranslationHelper.translateDynamicKey(context, dictionaryProvider.errorMessage, fallback: l10n.dictDeleteError),
                       AppConfig.errorColor,
                     );
                   }

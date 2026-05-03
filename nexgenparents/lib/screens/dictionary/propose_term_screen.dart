@@ -4,6 +4,7 @@ import '../../providers/auth_provider.dart';
 import '../../providers/dictionary_provider.dart';
 import '../../config/app_config.dart';
 import '../../l10n/app_localizations.dart';
+import '../../utils/translation_helper.dart';
 
 class ProposeTermScreen extends StatefulWidget {
   const ProposeTermScreen({super.key});
@@ -87,7 +88,7 @@ class _ProposeTermScreenState extends State<ProposeTermScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            dictionaryProvider.errorMessage ?? l10n.dictProposeErrorGeneric,
+            TranslationHelper.translateDynamicKey(context, dictionaryProvider.errorMessage, fallback: l10n.dictProposeErrorGeneric),
           ),
           backgroundColor: AppConfig.errorColor,
         ),

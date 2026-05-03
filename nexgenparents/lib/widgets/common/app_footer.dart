@@ -3,18 +3,12 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../config/app_config.dart';
 import '../../l10n/app_localizations.dart';
+import '../../screens/info/about_us_screen.dart';
+import '../../screens/info/privacy_policy_screen.dart';
+import '../../screens/info/contact_us_screen.dart';
 
 class AppFooter extends StatelessWidget {
-  const AppFooter({
-    super.key,
-    required this.onPrivacyTap,
-    required this.onAboutTap,
-    required this.onContactTap,
-  });
-
-  final VoidCallback onPrivacyTap;
-  final VoidCallback onAboutTap;
-  final VoidCallback onContactTap;
+  const AppFooter({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -67,9 +61,15 @@ class AppFooter extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              _buildFooterLink(l10n?.footerPrivacy ?? 'Política de privacidad', onPrivacyTap),
-              _buildFooterLink(l10n?.footerAbout ?? 'Quienes somos', onAboutTap),
-              _buildFooterLink(l10n?.footerContact ?? 'Contáctanos', onContactTap),
+              _buildFooterLink(l10n?.footerPrivacy ?? 'Política de privacidad', () {
+                Navigator.push(context, MaterialPageRoute(builder: (_) => const PrivacyPolicyScreen()));
+              }),
+              _buildFooterLink(l10n?.footerAbout ?? 'Quienes somos', () {
+                Navigator.push(context, MaterialPageRoute(builder: (_) => const AboutUsScreen()));
+              }),
+              _buildFooterLink(l10n?.footerContact ?? 'Contáctanos', () {
+                Navigator.push(context, MaterialPageRoute(builder: (_) => const ContactUsScreen()));
+              }),
             ],
           ),
 
@@ -193,9 +193,15 @@ class AppFooter extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildFooterLink(l10n?.footerPrivacy ?? 'Política de privacidad', onPrivacyTap),
-        _buildFooterLink(l10n?.footerAbout ?? 'Quienes somos', onAboutTap),
-        _buildFooterLink(l10n?.footerContact ?? 'Contáctanos', onContactTap),
+        _buildFooterLink(l10n?.footerPrivacy ?? 'Política de privacidad', () {
+          Navigator.push(context, MaterialPageRoute(builder: (_) => const PrivacyPolicyScreen()));
+        }),
+        _buildFooterLink(l10n?.footerAbout ?? 'Quienes somos', () {
+          Navigator.push(context, MaterialPageRoute(builder: (_) => const AboutUsScreen()));
+        }),
+        _buildFooterLink(l10n?.footerContact ?? 'Contáctanos', () {
+          Navigator.push(context, MaterialPageRoute(builder: (_) => const ContactUsScreen()));
+        }),
       ],
     );
   }

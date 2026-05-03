@@ -61,13 +61,13 @@ class AuthProvider with ChangeNotifier {
         notifyListeners();
         return true;
       } else {
-        _errorMessage = result['message'];
+        _errorMessage = result['messageKey'];
         _isLoading = false;
         notifyListeners();
         return false;
       }
     } catch (e) {
-      _errorMessage = 'Error inesperado: ${e.toString()}';
+      _errorMessage = null;
       _isLoading = false;
       notifyListeners();
       return false;
@@ -95,7 +95,7 @@ class AuthProvider with ChangeNotifier {
         notifyListeners();
         return true;
       } else {
-        _errorMessage = result['message'];
+        _errorMessage = result['messageKey'];
         _isLoading = false;
         notifyListeners();
         return false;
@@ -124,7 +124,7 @@ class AuthProvider with ChangeNotifier {
         notifyListeners();
         return true;
       } else {
-        _errorMessage = result['message'];
+        _errorMessage = result['messageKey'];
         _isLoading = false;
         notifyListeners();
         return false;
@@ -145,7 +145,7 @@ class AuthProvider with ChangeNotifier {
       _errorMessage = null;
       notifyListeners();
     } catch (e) {
-      _errorMessage = 'Error al cerrar sesión';
+      _errorMessage = null;
       notifyListeners();
     }
   }
@@ -164,12 +164,12 @@ class AuthProvider with ChangeNotifier {
         notifyListeners();
         return true;
       } else {
-        _errorMessage = result['message'];
+        _errorMessage = result['messageKey'];
         notifyListeners();
         return false;
       }
     } catch (e) {
-      _errorMessage = 'Error inesperado: ${e.toString()}';
+      _errorMessage = null;
       _isLoading = false;
       notifyListeners();
       return false;

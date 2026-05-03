@@ -55,7 +55,7 @@ class DictionaryProvider with ChangeNotifier {
       },
       onError: (error) {
         _approvedTerms = [];
-        _errorMessage = 'Error al cargar términos aprobados';
+        _errorMessage = null;
         notifyListeners();
       },
     );
@@ -78,7 +78,7 @@ class DictionaryProvider with ChangeNotifier {
         },
         onError: (error) {
           _approvedTerms = [];
-          _errorMessage = 'Error al filtrar términos';
+          _errorMessage = null;
           notifyListeners();
         },
       );
@@ -102,7 +102,7 @@ class DictionaryProvider with ChangeNotifier {
       _isSearching = false;
       notifyListeners();
     } catch (e) {
-      _errorMessage = 'Error al buscar términos';
+      _errorMessage = null;
       _isSearching = false;
       notifyListeners();
     }
@@ -131,7 +131,7 @@ class DictionaryProvider with ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     } catch (e) {
-      _errorMessage = 'Error al cargar el término';
+      _errorMessage = null;
       _isLoading = false;
       notifyListeners();
     }
@@ -164,12 +164,12 @@ class DictionaryProvider with ChangeNotifier {
         notifyListeners();
         return true;
       } else {
-        _errorMessage = result['message'];
+        _errorMessage = result['messageKey'];
         notifyListeners();
         return false;
       }
     } catch (e) {
-      _errorMessage = 'Error al proponer término: ${e.toString()}';
+      _errorMessage = null;
       _isLoading = false;
       notifyListeners();
       return false;
@@ -196,7 +196,7 @@ class DictionaryProvider with ChangeNotifier {
           return;
         }
 
-        _errorMessage = 'Error al cargar términos';
+        _errorMessage = null;
         notifyListeners();
       },
     );
@@ -213,7 +213,7 @@ class DictionaryProvider with ChangeNotifier {
       },
       onError: (error) {
         _pendingTerms = [];
-        _errorMessage = 'Error al cargar términos pendientes';
+        _errorMessage = null;
         notifyListeners();
       },
     );
@@ -240,12 +240,12 @@ class DictionaryProvider with ChangeNotifier {
         notifyListeners();
         return true;
       } else {
-        _errorMessage = result['message'];
+        _errorMessage = result['messageKey'];
         notifyListeners();
         return false;
       }
     } catch (e) {
-      _errorMessage = 'Error al aprobar término';
+      _errorMessage = null;
       _isLoading = false;
       notifyListeners();
       return false;
@@ -273,12 +273,12 @@ class DictionaryProvider with ChangeNotifier {
         notifyListeners();
         return true;
       } else {
-        _errorMessage = result['message'];
+        _errorMessage = result['messageKey'];
         notifyListeners();
         return false;
       }
     } catch (e) {
-      _errorMessage = 'Error al rechazar término';
+      _errorMessage = null;
       _isLoading = false;
       notifyListeners();
       return false;
@@ -312,12 +312,12 @@ class DictionaryProvider with ChangeNotifier {
         notifyListeners();
         return true;
       } else {
-        _errorMessage = result['message'];
+        _errorMessage = result['messageKey'];
         notifyListeners();
         return false;
       }
     } catch (e) {
-      _errorMessage = 'Error al actualizar término';
+      _errorMessage = null;
       _isLoading = false;
       notifyListeners();
       return false;
@@ -339,12 +339,12 @@ class DictionaryProvider with ChangeNotifier {
         notifyListeners();
         return true;
       } else {
-        _errorMessage = result['message'];
+        _errorMessage = result['messageKey'];
         notifyListeners();
         return false;
       }
     } catch (e) {
-      _errorMessage = 'Error al eliminar término';
+      _errorMessage = null;
       _isLoading = false;
       notifyListeners();
       return false;
@@ -364,7 +364,7 @@ class DictionaryProvider with ChangeNotifier {
         notifyListeners();
       }
     } catch (e) {
-      _errorMessage = 'Error al votar';
+      _errorMessage = null;
       notifyListeners();
     }
   }

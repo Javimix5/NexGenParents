@@ -7,6 +7,8 @@ import '../../../providers/auth_provider.dart';
 import '../../../providers/forum_provider.dart';
 import '../../../widgets/common/app_empty_state.dart';
 import '../../../screens/forum/forum_post_detail_screen.dart';
+import '../../../l10n/app_localizations.dart';
+import '../../../utils/translation_helper.dart';
 
 class ForumCategoriesGrid extends StatefulWidget {
   final List<ForumPost> allPosts;
@@ -43,14 +45,6 @@ class _ForumCategoriesGridState extends State<ForumCategoriesGrid> {
         : ForumSections.idFromLegacyTopic(widget.initialTopicFilter);
   }
 
-  String _t(BuildContext context, {required String es, required String gl, required String en}) {
-    switch (Localizations.localeOf(context).languageCode) {
-      case 'gl': return gl;
-      case 'en': return en;
-      default: return es;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final authProvider = context.watch<AuthProvider>();
@@ -58,6 +52,7 @@ class _ForumCategoriesGridState extends State<ForumCategoriesGrid> {
     final isAdmin = authProvider.isAdmin;
     final languageCode = Localizations.localeOf(context).languageCode;
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,7 +62,7 @@ class _ForumCategoriesGridState extends State<ForumCategoriesGrid> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              _t(context, es: 'Categorías Principales', gl: 'Categorías Principais', en: 'Main Categories'),
+              l10n?.forumMainCategoriesTitle ?? 'Categorías Principales',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -77,7 +72,7 @@ class _ForumCategoriesGridState extends State<ForumCategoriesGrid> {
             TextButton.icon(
               onPressed: () => setState(() => _selectedSectionId = null),
               icon: Text(
-                _t(context, es: 'Ver todo', gl: 'Ver todo', en: 'View All'),
+                l10n?.forumViewAllBtn ?? 'Ver todo',
                 style: TextStyle(
                   color: isDark ? const Color(0xFF8B5CF6) : const Color(0xFF6366F1),
                   fontWeight: FontWeight.w600,
@@ -148,11 +143,13 @@ class _ForumCategoriesGridState extends State<ForumCategoriesGrid> {
   }
 
   Widget _buildPostsList(BuildContext context, List<ForumPost> posts, String languageCode, bool isDark, bool isAdmin, ForumProvider forumProvider) {
+    final l10n = AppLocalizations.of(context);
+
     if (posts.isEmpty) {
       return AppEmptyState(
         icon: Icons.forum_outlined,
-        title: _t(context, es: 'No hay publicaciones en esta sección', gl: 'Non hai publicacións nesta sección', en: 'No posts in this section'),
-        message: _t(context, es: 'Todavía no hay novedades aquí.', gl: 'Aínda non hai novidades aquí.', en: 'Nothing new here yet.'),
+        title: l10n?.forumEmptySectionTitle ?? 'No hay publicaciones en esta sección',
+        message: l10n?.forumEmptySectionMessage ?? 'Todavía no hay novedades aquí.',
       );
     }
 
@@ -211,7 +208,7 @@ class _ForumCategoriesGridState extends State<ForumCategoriesGrid> {
                   style: TextStyle(fontWeight: FontWeight.bold, color: isDark ? Colors.white : Colors.black87, fontSize: 14),
                 ),
                 subtitle: Text(
-                  _t(context, es: 'por ${post.authorName} • ${post.replyCount} respuestas', gl: 'por ${post.authorName} • ${post.replyCount} respostas', en: 'by ${post.authorName} • ${post.replyCount} replies'),
+                  l10n?.forumPostSubtitle(post.authorName, post.replyCount) ?? 'por ${post.authorName} • ${post.replyCount} respuestas',
                   style: TextStyle(color: subtitleColor, fontSize: 12),
                 ),
                 trailing: Row(
@@ -219,7 +216,7 @@ class _ForumCategoriesGridState extends State<ForumCategoriesGrid> {
                   children: [
                     if (isAdmin)
                       IconButton(
-                        tooltip: _t(context, es: 'Eliminar', gl: 'Eliminar', en: 'Delete'),
+                        tooltip: l10n?.forumDeleteTooltip ?? 'Eliminar',
                         icon: const Icon(Icons.delete_outline, color: AppConfig.errorColor, size: 18),
                         onPressed: () => _confirmDeletePost(context, forumProvider, post),
                       ),
@@ -234,16 +231,17 @@ class _ForumCategoriesGridState extends State<ForumCategoriesGrid> {
   }
 
   Future<void> _confirmDeletePost(BuildContext context, ForumProvider forumProvider, ForumPost post) async {
+    final l10n = AppLocalizations.of(context);
     final shouldDelete = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: Text(_t(context, es: 'Eliminar publicación', gl: 'Eliminar publicación', en: 'Delete post')),
-        content: Text(_t(context, es: '¿Quieres eliminar "${post.title}" y todas sus respuestas?', gl: 'Queres eliminar "${post.title}" e todas as súas respostas?', en: 'Do you want to delete "${post.title}" and all its replies?')),
+        title: Text(l10n?.forumDeletePostTitle ?? 'Eliminar publicación'),
+        content: Text(l10n?.forumDeletePostContent(post.title) ?? '¿Quieres eliminar "${post.title}" y todas sus respuestas?'),
         actions: [
-          TextButton(onPressed: () => Navigator.of(dialogContext).pop(false), child: Text(_t(context, es: 'Cancelar', gl: 'Cancelar', en: 'Cancel'))),
+          TextButton(onPressed: () => Navigator.of(dialogContext).pop(false), child: Text(l10n?.forumCancelBtn ?? 'Cancelar')),
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(true),
-            child: Text(_t(context, es: 'Eliminar', gl: 'Eliminar', en: 'Delete'), style: const TextStyle(color: AppConfig.errorColor)),
+            child: Text(l10n?.forumDeleteBtn ?? 'Eliminar', style: const TextStyle(color: AppConfig.errorColor)),
           ),
         ],
       ),
@@ -253,7 +251,7 @@ class _ForumCategoriesGridState extends State<ForumCategoriesGrid> {
     final success = await forumProvider.deletePost(post.id);
     if (!context.mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(forumProvider.errorMessage ?? (success ? _t(context, es: 'Publicación eliminada', gl: 'Publicación eliminada', en: 'Post deleted') : _t(context, es: 'No se pudo eliminar la publicación', gl: 'Non se puido eliminar a publicación', en: 'Could not delete the post'))),
+      content: Text(TranslationHelper.translateDynamicKey(context, forumProvider.errorMessage, fallback: success ? (l10n?.forumPostDeletedSuccess ?? 'Publicación eliminada') : (l10n?.forumPostDeletedError ?? 'No se pudo eliminar la publicación'))),
     ));
   }
 }

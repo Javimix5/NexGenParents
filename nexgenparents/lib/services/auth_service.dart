@@ -523,7 +523,7 @@ class AuthService {
       if (user == null) {
         return {
           'success': false,
-          'message': 'No hay usuario autenticado',
+          'messageKey': 'errorNoAuthUser',
         };
       }
 
@@ -540,28 +540,29 @@ class AuthService {
 
       return {
         'success': true,
-        'message': 'Contraseña actualizada correctamente',
+        'messageKey': 'successPasswordUpdated',
       };
     } on FirebaseAuthException catch (e) {
-      String message = 'Error al cambiar contraseña';
+      String messageKey = 'errorChangePassword';
 
       switch (e.code) {
         case 'wrong-password':
-          message = 'La contraseña actual es incorrecta';
+          messageKey = 'errorWrongCurrentPassword';
           break;
         case 'weak-password':
-          message = 'La nueva contraseña es demasiado débil';
+          messageKey = 'errorWeakNewPassword';
           break;
       }
 
       return {
         'success': false,
-        'message': message,
+        'messageKey': messageKey,
       };
     } catch (e) {
       return {
         'success': false,
-        'message': 'Error inesperado: ${e.toString()}',
+        'messageKey': 'errorGeneric',
+        'errorDetails': e.toString(),
       };
     }
   }
@@ -576,7 +577,7 @@ class AuthService {
       if (user == null) {
         return {
           'success': false,
-          'message': 'No hay usuario autenticado',
+          'messageKey': 'errorNoAuthUser',
         };
       }
 
@@ -593,31 +594,32 @@ class AuthService {
 
       return {
         'success': true,
-        'message': 'Email actualizado correctamente. Verifica tu nuevo correo.',
+        'messageKey': 'successEmailUpdated',
       };
     } on FirebaseAuthException catch (e) {
-      String message = 'Error al cambiar email';
+      String messageKey = 'errorChangeEmail';
 
       switch (e.code) {
         case 'email-already-in-use':
-          message = 'Este email ya está en uso';
+          messageKey = 'errorEmailAlreadyInUse';
           break;
         case 'invalid-email':
-          message = 'El email no es válido';
+          messageKey = 'errorInvalidNewEmail';
           break;
         case 'wrong-password':
-          message = 'La contraseña es incorrecta';
+          messageKey = 'errorWrongCurrentPassword';
           break;
       }
 
       return {
         'success': false,
-        'message': message,
+        'messageKey': messageKey,
       };
     } catch (e) {
       return {
         'success': false,
-        'message': 'Error inesperado: ${e.toString()}',
+        'messageKey': 'errorGeneric',
+        'errorDetails': e.toString(),
       };
     }
   }
@@ -630,15 +632,14 @@ class AuthService {
       if (user == null) {
         return {
           'success': false,
-          'message': 'No hay usuario autenticado',
+          'messageKey': 'errorNoAuthUser',
         };
       }
 
       if (user.email == null || user.email!.trim().isEmpty) {
         return {
           'success': false,
-          'message':
-              'Tu cuenta no usa contraseña. Inicia sesión de nuevo con tu proveedor para continuar.',
+          'messageKey': 'errorNoPasswordAccount',
         };
       }
 
@@ -652,23 +653,24 @@ class AuthService {
 
       return {
         'success': true,
-        'message': 'Reautenticación correcta',
+        'messageKey': 'successReauth',
       };
     } on FirebaseAuthException catch (e) {
-      String message = 'Error de reautenticación';
+      String messageKey = 'errorReauth';
 
       if (e.code == 'wrong-password' || e.code == 'invalid-credential') {
-        message = 'La contraseña es incorrecta';
+        messageKey = 'errorWrongCurrentPassword';
       }
 
       return {
         'success': false,
-        'message': message,
+        'messageKey': messageKey,
       };
     } catch (e) {
       return {
         'success': false,
-        'message': 'Error inesperado: ${e.toString()}',
+        'messageKey': 'errorGeneric',
+        'errorDetails': e.toString(),
       };
     }
   }
@@ -679,7 +681,7 @@ class AuthService {
       if (user == null) {
         return {
           'success': false,
-          'message': 'No hay usuario autenticado',
+          'messageKey': 'errorNoAuthUser',
         };
       }
 
@@ -688,23 +690,24 @@ class AuthService {
 
       return {
         'success': true,
-        'message': 'Cuenta eliminada correctamente',
+        'messageKey': 'successAccountDeleted',
       };
     } on FirebaseAuthException catch (e) {
-      String message = 'Error al eliminar cuenta';
+      String messageKey = 'errorDeleteAccount';
 
       if (e.code == 'wrong-password') {
-        message = 'La contraseña es incorrecta';
+        messageKey = 'errorWrongCurrentPassword';
       }
 
       return {
         'success': false,
-        'message': message,
+        'messageKey': messageKey,
       };
     } catch (e) {
       return {
         'success': false,
-        'message': 'Error inesperado: ${e.toString()}',
+        'messageKey': 'errorGeneric',
+        'errorDetails': e.toString(),
       };
     }
   }

@@ -5,6 +5,8 @@ import '../../services/auth_service.dart';
 import '../../services/firestore_service.dart';
 import '../../config/app_config.dart';
 import '../auth/login_screen.dart';
+import '../../l10n/app_localizations.dart';
+import '../../utils/translation_helper.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -74,33 +76,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     }
   }
 
-  String _t(BuildContext context,
-      {required String es, required String gl, required String en}) {
-    switch (Localizations.localeOf(context).languageCode) {
-      case 'gl':
-        return gl;
-      case 'en':
-        return en;
-      default:
-        return es;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
     final user = authProvider.currentUser;
+    final l10n = AppLocalizations.of(context);
 
     if (user == null) {
       return Scaffold(
-        appBar: AppBar(title: Text(_t(context, es: 'Editar Perfil', gl: 'Editar Perfil', en: 'Edit Profile'))),
-        body: Center(child: Text(_t(context, es: 'No hay usuario autenticado', gl: 'Non hai usuario autenticado', en: 'No authenticated user'))),
+        appBar: AppBar(title: Text(l10n?.profileEditTitle ?? 'Editar Perfil')),
+        body: Center(child: Text(l10n?.profileNoAuthUser ?? 'No hay usuario autenticado')),
       );
     }
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_t(context, es: 'Editar Perfil', gl: 'Editar Perfil', en: 'Edit Profile')),
+        title: Text(l10n?.profileEditTitle ?? 'Editar Perfil'),
         actions: [
           if (_isLoading)
             const Center(
@@ -137,17 +128,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               const SizedBox(height: AppConfig.paddingLarge),
 
               // Nombre
-              _buildSectionTitle(_t(context, es: 'Información Personal', gl: 'Información Persoal', en: 'Personal Information')),
+              _buildSectionTitle(l10n?.profilePersonalInfo ?? 'Información Personal'),
               _buildConstrainedField(
                 TextFormField(
                   controller: _nameController,
                   decoration: InputDecoration(
-                    labelText: _t(context, es: 'Nombre de usuario', gl: 'Nome de usuario', en: 'Username'),
+                    labelText: l10n?.profileUsername ?? 'Nombre de usuario',
                     prefixIcon: const Icon(Icons.person),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return _t(context, es: 'Por favor, introduce tu nombre', gl: 'Por favor, introduce o teu nome', en: 'Please enter your name');
+                      return l10n?.profileNameRequired ?? 'Por favor, introduce tu nombre';
                     }
                     return null;
                   },
@@ -160,17 +151,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 TextFormField(
                   controller: _emailController,
                   decoration: InputDecoration(
-                    labelText: _t(context, es: 'Correo electrónico', gl: 'Correo electrónico', en: 'Email address'),
+                    labelText: l10n?.contactUsEmailLabel ?? 'Correo electrónico',
                     prefixIcon: const Icon(Icons.email),
                     suffixIcon: const Icon(Icons.lock_outline, size: 16),
                   ),
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return _t(context, es: 'Por favor, introduce tu correo', gl: 'Por favor, introduce o teu correo', en: 'Please enter your email');
+                      return l10n?.profileEmailRequired ?? 'Por favor, introduce tu correo';
                     }
                     if (!value.contains('@')) {
-                      return _t(context, es: 'Correo no válido', gl: 'Correo non válido', en: 'Invalid email');
+                      return l10n?.errorInvalidEmail ?? 'Correo no válido';
                     }
                     return null;
                   },
@@ -183,7 +174,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   const SizedBox(width: 4),
                   Expanded(
                     child: Text(
-                      _t(context, es: 'Cambiar el email requiere verificación adicional', gl: 'Cambiar o correo require verificación adicional', en: 'Changing email requires additional verification'),
+                      l10n?.profileEmailChangeWarning ?? 'Cambiar el email requiere verificación adicional',
                       style: TextStyle(
                         fontSize: AppConfig.fontSizeCaption,
                         color: AppConfig.textSecondaryColor,
@@ -198,14 +189,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               OutlinedButton.icon(
                 onPressed: _showChangePasswordDialog,
                 icon: const Icon(Icons.lock),
-                label: Text(_t(context, es: 'Cambiar contraseña', gl: 'Cambiar contrasinal', en: 'Change password')),
+                label: Text(l10n?.profileChangePasswordBtn ?? 'Cambiar contraseña'),
               ),
               const SizedBox(height: AppConfig.paddingLarge),
 
               // Edades de hijos (calculadas desde año de nacimiento)
-              _buildSectionTitle(_t(context, es: 'Información de tus Hijos', gl: 'Información dos teus fillos', en: 'Children Information')),
+              _buildSectionTitle(l10n?.profileChildrenInfo ?? 'Información de tus Hijos'),
               Text(
-                _t(context, es: 'Añade los años de nacimiento para personalizar recomendaciones de juegos', gl: 'Engade os anos de nacemento para personalizar as recomendacións de xogos', en: 'Add birth years to customize game recommendations'),
+                l10n?.profileChildrenInfoDesc ?? 'Añade los años de nacimiento para personalizar recomendaciones de juegos',
                 style: const TextStyle(
                   fontSize: AppConfig.fontSizeCaption,
                   color: AppConfig.textSecondaryColor,
@@ -216,9 +207,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               const SizedBox(height: AppConfig.paddingLarge),
 
               // Plataformas
-              _buildSectionTitle(_t(context, es: 'Plataformas que Posees', gl: 'Plataformas que posúes', en: 'Platforms you own')),
+              _buildSectionTitle(l10n?.profilePlatforms ?? 'Plataformas que Posees'),
               Text(
-                _t(context, es: 'Selecciona las consolas y dispositivos que tienes en casa', gl: 'Selecciona as consolas e dispositivos que tes na casa', en: 'Select the consoles and devices you have at home'),
+                l10n?.profilePlatformsDesc ?? 'Selecciona las consolas y dispositivos que tienes en casa',
                 style: const TextStyle(
                   fontSize: AppConfig.fontSizeCaption,
                   color: AppConfig.textSecondaryColor,
@@ -236,7 +227,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   child: ElevatedButton.icon(
                     onPressed: _isLoading ? null : _saveProfile,
                     icon: const Icon(Icons.save),
-                    label: Text(_t(context, es: 'Guardar Cambios', gl: 'Gardar cambios', en: 'Save Changes')),
+                    label: Text(l10n?.profileSaveChangesBtn ?? 'Guardar Cambios'),
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(
                         vertical: AppConfig.paddingMedium,
@@ -257,7 +248,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   child: OutlinedButton.icon(
                     onPressed: _showDeleteAccountDialog,
                     icon: const Icon(Icons.delete_forever, color: AppConfig.errorColor),
-                    label: Text(_t(context, es: 'Eliminar Cuenta', gl: 'Eliminar conta', en: 'Delete Account')),
+                    label: Text(l10n?.profileDeleteAccountBtn ?? 'Eliminar Cuenta'),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: AppConfig.errorColor,
                       side: const BorderSide(color: AppConfig.errorColor),
@@ -304,6 +295,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   Widget _buildAvatarSection() {
+    final l10n = AppLocalizations.of(context);
     return Center(
       child: Column(
         children: [
@@ -327,7 +319,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           TextButton.icon(
             onPressed: _showAvatarSelector,
             icon: const Icon(Icons.edit),
-            label: Text(_t(context, es: 'Cambiar Avatar', gl: 'Cambiar avatar', en: 'Change Avatar')),
+            label: Text(l10n?.profileChangeAvatar ?? 'Cambiar Avatar'),
           ),
         ],
       ),
@@ -335,6 +327,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   Widget _buildStatsSection(user) {
+    final l10n = AppLocalizations.of(context);
     return Container(
       padding: const EdgeInsets.all(AppConfig.paddingMedium),
       decoration: BoxDecoration(
@@ -345,7 +338,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       child: Column(
         children: [
           Text(
-            _t(context, es: 'Tu Actividad en NexGen Parents', gl: 'A túa actividade en NexGen Parents', en: 'Your Activity in NexGen Parents'),
+              l10n?.profileActivityTitle ?? 'Tu Actividad en NexGen Parents',
             style: TextStyle(
               fontSize: AppConfig.fontSizeBody,
               fontWeight: FontWeight.bold,
@@ -358,17 +351,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               _buildStatItem(
                 Icons.article_outlined,
                 '${user.termsProposed}',
-                _t(context, es: 'Términos\nPropuestos', gl: 'Termos\nPropostos', en: 'Proposed\nTerms'),
+                  l10n?.profileTermsProposed ?? 'Términos\nPropuestos',
               ),
               _buildStatItem(
                 Icons.verified,
                 '${user.termsApproved}',
-                _t(context, es: 'Términos\nAprobados', gl: 'Termos\nAprobados', en: 'Approved\nTerms'),
+                  l10n?.profileTermsApproved ?? 'Términos\nAprobados',
               ),
               _buildStatItem(
                 Icons.emoji_events,
-                user.isAdmin ? 'Admin' : user.isModerator ? 'Mod' : _t(context, es: 'Usuario', gl: 'Usuario', en: 'User'),
-                _t(context, es: 'Nivel', gl: 'Nivel', en: 'Level'),
+                  user.isAdmin ? (l10n?.adminRoleAdmin ?? 'Admin') : user.isModerator ? (l10n?.adminRoleModerator ?? 'Mod') : (l10n?.adminRoleUser ?? 'Usuario'),
+                  l10n?.profileLevel ?? 'Nivel',
               ),
             ],
           ),
@@ -404,6 +397,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   // Widget modificado para mostrar año de nacimiento y edad calculada
   Widget _buildChildrenBirthYearsSection() {
+    final l10n = AppLocalizations.of(context);
     return Column(
       children: [
         Wrap(
@@ -412,7 +406,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           children: _childrenBirthYears.map((birthYear) {
             final age = _calculateAge(birthYear);
             return Chip(
-              label: Text(_t(context, es: '$age años ($birthYear)', gl: '$age anos ($birthYear)', en: '$age years ($birthYear)')),
+              label: Text('$age ${l10n?.profileYears ?? "años"} ($birthYear)'),
               deleteIcon: const Icon(Icons.close, size: 18),
               onDeleted: () {
                 setState(() {
@@ -426,7 +420,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         OutlinedButton.icon(
           onPressed: _showAddBirthYearDialog,
           icon: const Icon(Icons.add),
-          label: Text(_t(context, es: 'Añadir Año de Nacimiento', gl: 'Engadir ano de nacemento', en: 'Add Birth Year')),
+          label: Text(l10n?.profileAddBirthYearBtn ?? 'Añadir Año de Nacimiento'),
         ),
       ],
     );
@@ -456,10 +450,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   void _showAvatarSelector() {
+    final l10n = AppLocalizations.of(context);
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(_t(context, es: 'Selecciona tu Avatar', gl: 'Selecciona o teu avatar', en: 'Select your Avatar')),
+        title: Text(l10n?.profileSelectAvatarTitle ?? 'Selecciona tu Avatar'),
         content: Wrap(
           spacing: 16,
           runSpacing: 16,
@@ -500,13 +495,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   // Diálogo modificado para pedir año de nacimiento en lugar de edad
   void _showAddBirthYearDialog() {
+    final l10n = AppLocalizations.of(context);
     final birthYearController = TextEditingController();
     final currentYear = DateTime.now().year;
 
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(_t(context, es: 'Añadir Año de Nacimiento', gl: 'Engadir ano de nacemento', en: 'Add Birth Year')),
+        title: Text(l10n?.profileAddBirthYearBtn ?? 'Añadir Año de Nacimiento'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -514,13 +510,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               controller: birthYearController,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                labelText: _t(context, es: 'Año de nacimiento', gl: 'Ano de nacemento', en: 'Birth year'),
-                hintText: _t(context, es: 'Ejemplo: 2015', gl: 'Exemplo: 2015', en: 'Example: 2015'),
+                labelText: l10n?.profileBirthYearLabel ?? 'Año de nacimiento',
+                hintText: l10n?.profileBirthYearHint ?? 'Ejemplo: 2015',
               ),
             ),
             const SizedBox(height: AppConfig.paddingSmall),
             Text(
-              _t(context, es: 'Introduce el año de nacimiento de tu hijo para obtener recomendaciones personalizadas.', gl: 'Introduce o ano de nacemento do teu fillo para obter recomendacións personalizadas.', en: 'Enter your child\'s birth year to get personalized recommendations.'),
+              l10n?.profileBirthYearDesc ?? 'Introduce el año de nacimiento de tu hijo para obtener recomendaciones personalizadas.',
               style: const TextStyle(
                 fontSize: AppConfig.fontSizeCaption,
                 color: AppConfig.textSecondaryColor,
@@ -531,7 +527,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text(_t(context, es: 'Cancelar', gl: 'Cancelar', en: 'Cancel')),
+            child: Text(l10n?.adminCancelBtn ?? 'Cancelar'),
           ),
           ElevatedButton(
             onPressed: () {
@@ -543,11 +539,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 Navigator.pop(context);
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(_t(context, es: 'Por favor, introduce un año de nacimiento válido', gl: 'Por favor, introduce un ano de nacemento válido', en: 'Please enter a valid birth year'))),
+                  SnackBar(content: Text(l10n?.profileInvalidBirthYear ?? 'Por favor, introduce un año de nacimiento válido')),
                 );
               }
             },
-            child: Text(_t(context, es: 'Añadir', gl: 'Engadir', en: 'Add')),
+            child: Text(l10n?.profileAddBtn ?? 'Añadir'),
           ),
         ],
       ),
@@ -560,6 +556,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final user = authProvider.currentUser;
     if (user == null) return;
+    final l10n = AppLocalizations.of(context);
 
     setState(() {
       _isLoading = true;
@@ -575,7 +572,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       );
 
       if (!(basicInfoResult['success'] ?? false)) {
-        throw Exception(basicInfoResult['message'] ?? _t(context, es: 'No se pudo actualizar el nombre', gl: 'Non se puido actualizar o nome', en: 'Could not update name'));
+        throw Exception(TranslationHelper.translateDynamicKey(context, basicInfoResult['messageKey'], fallback: l10n?.profileErrorUpdateName ?? 'No se pudo actualizar el nombre'));
       }
 
       final birthYearsResult = await _firestoreService.updateChildrenBirthYears(
@@ -584,7 +581,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       );
 
       if (!(birthYearsResult['success'] ?? false)) {
-        throw Exception(birthYearsResult['message'] ?? _t(context, es: 'No se pudo actualizar la información de hijos', gl: 'Non se puido actualizar a información dos fillos', en: 'Could not update children information'));
+        throw Exception(TranslationHelper.translateDynamicKey(context, birthYearsResult['messageKey'], fallback: l10n?.profileErrorUpdateChildren ?? 'No se pudo actualizar la información de hijos'));
       }
 
       final platformsResult = await _firestoreService.updateOwnedPlatforms(
@@ -593,7 +590,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       );
 
       if (!(platformsResult['success'] ?? false)) {
-        throw Exception(platformsResult['message'] ?? _t(context, es: 'No se pudieron actualizar las plataformas', gl: 'Non se puideron actualizar as plataformas', en: 'Could not update platforms'));
+        throw Exception(TranslationHelper.translateDynamicKey(context, platformsResult['messageKey'], fallback: l10n?.profileErrorUpdatePlatforms ?? 'No se pudieron actualizar las plataformas'));
       }
 
       final avatarResult = await _firestoreService.updatePhotoUrl(
@@ -602,17 +599,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       );
 
       if (!(avatarResult['success'] ?? false)) {
-        throw Exception(avatarResult['message'] ?? _t(context, es: 'No se pudo actualizar el avatar', gl: 'Non se puido actualizar o avatar', en: 'Could not update avatar'));
+        throw Exception(TranslationHelper.translateDynamicKey(context, avatarResult['messageKey'], fallback: l10n?.profileErrorUpdateAvatar ?? 'No se pudo actualizar el avatar'));
       }
 
       if (trimmedEmail != user.email) {
         final password = await _askForCurrentPassword(
-          title: _t(context, es: 'Verificación para cambiar email', gl: 'Verificación para cambiar o correo', en: 'Verification to change email'),
-          message: _t(context, es: 'Para cambiar tu correo, confirma tu contraseña actual.', gl: 'Para cambiar o teu correo, confirma o teu contrasinal actual.', en: 'To change your email, confirm your current password.'),
+          title: l10n?.profileVerifyEmailTitle ?? 'Verificación para cambiar email',
+          message: l10n?.profileVerifyEmailDesc ?? 'Para cambiar tu correo, confirma tu contraseña actual.',
         );
 
         if (password == null || password.isEmpty) {
-          throw Exception(_t(context, es: 'Cambio de email cancelado', gl: 'Cambio de correo cancelado', en: 'Email change cancelled'));
+          throw Exception(l10n?.profileEmailChangeCancelled ?? 'Cambio de email cancelado');
         }
 
         final emailResult = await _authService.changeEmail(
@@ -621,7 +618,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         );
 
         if (!(emailResult['success'] ?? false)) {
-          throw Exception(emailResult['message'] ?? _t(context, es: 'No se pudo cambiar el email', gl: 'Non se puido cambiar o correo', en: 'Could not change email'));
+          throw Exception(TranslationHelper.translateDynamicKey(context, emailResult['messageKey'], fallback: l10n?.profileErrorChangeEmail ?? 'No se pudo cambiar el email'));
         }
 
         await _firestoreService.updateUserBasicInfo(
@@ -632,13 +629,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(_t(context, es: 'Perfil actualizado correctamente', gl: 'Perfil actualizado correctamente', en: 'Profile updated successfully'))),
+        SnackBar(content: Text(l10n?.profileUpdateSuccess ?? 'Perfil actualizado correctamente')),
       );
       Navigator.pop(context);
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(_t(context, es: 'Error al guardar perfil: $e', gl: 'Erro ao gardar perfil: $e', en: 'Error saving profile: $e'))),
+        SnackBar(content: Text('${l10n?.profileErrorSave ?? "Error al guardar perfil:"} $e')),
       );
     } finally {
       if (mounted) {
@@ -650,6 +647,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   Future<void> _showChangePasswordDialog() async {
+    final l10n = AppLocalizations.of(context);
     final currentPasswordController = TextEditingController();
     final newPasswordController = TextEditingController();
     final confirmPasswordController = TextEditingController();
@@ -657,33 +655,33 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     await showDialog(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: Text(_t(context, es: 'Cambiar contraseña', gl: 'Cambiar contrasinal', en: 'Change password')),
+        title: Text(l10n?.profileChangePasswordBtn ?? 'Cambiar contraseña'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
               controller: currentPasswordController,
               obscureText: true,
-              decoration: InputDecoration(labelText: _t(context, es: 'Contraseña actual', gl: 'Contrasinal actual', en: 'Current password')),
+              decoration: InputDecoration(labelText: l10n?.profileCurrentPassword ?? 'Contraseña actual'),
             ),
             const SizedBox(height: 8),
             TextField(
               controller: newPasswordController,
               obscureText: true,
-              decoration: InputDecoration(labelText: _t(context, es: 'Nueva contraseña', gl: 'Novo contrasinal', en: 'New password')),
+              decoration: InputDecoration(labelText: l10n?.profileNewPassword ?? 'Nueva contraseña'),
             ),
             const SizedBox(height: 8),
             TextField(
               controller: confirmPasswordController,
               obscureText: true,
-              decoration: InputDecoration(labelText: _t(context, es: 'Confirmar nueva contraseña', gl: 'Confirmar novo contrasinal', en: 'Confirm new password')),
+              decoration: InputDecoration(labelText: l10n?.profileConfirmNewPassword ?? 'Confirmar nueva contraseña'),
             ),
           ],
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext),
-            child: Text(_t(context, es: 'Cancelar', gl: 'Cancelar', en: 'Cancel')),
+            child: Text(l10n?.adminCancelBtn ?? 'Cancelar'),
           ),
           ElevatedButton(
             onPressed: () async {
@@ -693,21 +691,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
               if (currentPassword.isEmpty || newPassword.isEmpty || confirmPassword.isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(_t(context, es: 'Completa todos los campos', gl: 'Completa todos os campos', en: 'Fill all fields'))),
+                  SnackBar(content: Text(l10n?.profileErrorEmptyFields ?? 'Completa todos los campos')),
                 );
                 return;
               }
 
               if (newPassword.length < 6) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(_t(context, es: 'La nueva contraseña debe tener al menos 6 caracteres', gl: 'O novo contrasinal debe ter polo menos 6 caracteres', en: 'The new password must be at least 6 characters long'))),
+                  SnackBar(content: Text(l10n?.profileErrorPasswordLength ?? 'La nueva contraseña debe tener al menos 6 caracteres')),
                 );
                 return;
               }
 
               if (newPassword != confirmPassword) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(_t(context, es: 'Las contraseñas no coinciden', gl: 'Os contrasinais non coinciden', en: 'Passwords do not match'))),
+                  SnackBar(content: Text(l10n?.profileErrorPasswordMismatch ?? 'Las contraseñas no coinciden')),
                 );
                 return;
               }
@@ -721,10 +719,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
               Navigator.pop(dialogContext);
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(result['message'] ?? _t(context, es: 'Operación completada', gl: 'Operación completada', en: 'Operation completed'))),
+                SnackBar(content: Text(TranslationHelper.translateDynamicKey(context, result['messageKey'], fallback: l10n?.profileOperationCompleted ?? 'Operación completada'))),
               );
             },
-            child: Text(_t(context, es: 'Actualizar', gl: 'Actualizar', en: 'Update')),
+            child: Text(l10n?.profileUpdateBtn ?? 'Actualizar'),
           ),
         ],
       ),
@@ -732,22 +730,23 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   Future<void> _showDeleteAccountDialog() async {
+    final l10n = AppLocalizations.of(context);
     final confirmDelete = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: Text(_t(context, es: 'Confirmar eliminación', gl: 'Confirmar eliminación', en: 'Confirm deletion')),
+        title: Text(l10n?.profileConfirmDeleteTitle ?? 'Confirmar eliminación'),
         content: Text(
-          _t(context, es: '¿Seguro que quieres eliminar tu perfil? Esta acción es irreversible.', gl: 'Seguro que queres eliminar o teu perfil? Esta acción é irreversible.', en: 'Are you sure you want to delete your profile? This action is irreversible.'),
+          l10n?.profileConfirmDeleteDesc ?? '¿Seguro que quieres eliminar tu perfil? Esta acción es irreversible.',
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext, false),
-            child: Text(_t(context, es: 'No', gl: 'Non', en: 'No')),
+            child: Text(l10n?.profileNoBtn ?? 'No'),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: AppConfig.errorColor),
             onPressed: () => Navigator.pop(dialogContext, true),
-            child: Text(_t(context, es: 'Sí, eliminar', gl: 'Si, eliminar', en: 'Yes, delete')),
+            child: Text(l10n?.profileYesDeleteBtn ?? 'Sí, eliminar'),
           ),
         ],
       ),
@@ -762,24 +761,24 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     await showDialog(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: Text(_t(context, es: 'Eliminar cuenta', gl: 'Eliminar conta', en: 'Delete account')),
+        title: Text(l10n?.profileDeleteAccountTitle ?? 'Eliminar cuenta'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(_t(context, es: 'Esta acción es permanente. Introduce tu contraseña para confirmar.', gl: 'Esta acción é permanente. Introduce o teu contrasinal para confirmar.', en: 'This action is permanent. Enter your password to confirm.')),
+            Text(l10n?.profileDeleteAccountDesc ?? 'Esta acción es permanente. Introduce tu contraseña para confirmar.'),
             const SizedBox(height: 12),
             TextField(
               controller: passwordController,
               obscureText: true,
-              decoration: InputDecoration(labelText: _t(context, es: 'Contraseña actual', gl: 'Contrasinal actual', en: 'Current password')),
+              decoration: InputDecoration(labelText: l10n?.profileCurrentPassword ?? 'Contraseña actual'),
             ),
           ],
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext),
-            child: Text(_t(context, es: 'Cancelar', gl: 'Cancelar', en: 'Cancel')),
+            child: Text(l10n?.adminCancelBtn ?? 'Cancelar'),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: AppConfig.errorColor),
@@ -789,7 +788,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
               if (user == null || password.isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(_t(context, es: 'Debes introducir tu contraseña', gl: 'Debes introducir o teu contrasinal', en: 'You must enter your password'))),
+                  SnackBar(content: Text(l10n?.profileErrorPasswordRequired ?? 'Debes introducir tu contraseña')),
                 );
                 return;
               }
@@ -798,7 +797,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               if (!(reauthResult['success'] ?? false)) {
                 if (!mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(reauthResult['message'] ?? _t(context, es: 'No se pudo validar la contraseña', gl: 'Non se puido validar o contrasinal', en: 'Could not validate the password'))),
+                  SnackBar(content: Text(TranslationHelper.translateDynamicKey(context, reauthResult['messageKey'], fallback: l10n?.profileErrorValidatePassword ?? 'No se pudo validar la contraseña'))),
                 );
                 return;
               }
@@ -807,7 +806,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               if (!(deleteFirestoreResult['success'] ?? false)) {
                 if (!mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(deleteFirestoreResult['message'] ?? _t(context, es: 'No se pudo eliminar el perfil en la base de datos', gl: 'Non se puido eliminar o perfil na base de datos', en: 'Could not delete the profile in the database'))),
+                  SnackBar(content: Text(TranslationHelper.translateDynamicKey(context, deleteFirestoreResult['messageKey'], fallback: l10n?.profileErrorDeleteFirestore ?? 'No se pudo eliminar el perfil en la base de datos'))),
                 );
                 return;
               }
@@ -816,7 +815,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               if (!(deleteAuthResult['success'] ?? false)) {
                 if (!mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(deleteAuthResult['message'] ?? _t(context, es: 'Se eliminó el perfil, pero no la cuenta de acceso', gl: 'Eliminouse o perfil, pero non a conta de acceso', en: 'Profile deleted, but not the access account'))),
+                  SnackBar(content: Text(TranslationHelper.translateDynamicKey(context, deleteAuthResult['messageKey'], fallback: l10n?.profileErrorDeleteAuth ?? 'Se eliminó el perfil, pero no la cuenta de acceso'))),
                 );
                 return;
               }
@@ -830,7 +829,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 (route) => false,
               );
             },
-            child: Text(_t(context, es: 'Eliminar', gl: 'Eliminar', en: 'Delete')),
+            child: Text(l10n?.dictDeleteBtn ?? 'Eliminar'),
           ),
         ],
       ),
@@ -841,6 +840,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     required String title,
     required String message,
   }) async {
+    final l10n = AppLocalizations.of(context);
     final passwordController = TextEditingController();
 
     return showDialog<String>(
@@ -856,18 +856,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             TextField(
               controller: passwordController,
               obscureText: true,
-              decoration: InputDecoration(labelText: _t(context, es: 'Contraseña actual', gl: 'Contrasinal actual', en: 'Current password')),
+              decoration: InputDecoration(labelText: l10n?.profileCurrentPassword ?? 'Contraseña actual'),
             ),
           ],
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext, null),
-            child: Text(_t(context, es: 'Cancelar', gl: 'Cancelar', en: 'Cancel')),
+            child: Text(l10n?.adminCancelBtn ?? 'Cancelar'),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(dialogContext, passwordController.text.trim()),
-            child: Text(_t(context, es: 'Confirmar', gl: 'Confirmar', en: 'Confirm')),
+            child: Text(l10n?.adminConfirmBtn ?? 'Confirmar'),
           ),
         ],
       ),

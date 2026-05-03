@@ -125,6 +125,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get errorLogin => 'Error al iniciar sesión';
 
   @override
+  String get errorLoginGoogle => 'No se pudo iniciar sesión con Google';
+
+  @override
   String get errorLoadingProfile => 'No se pudo cargar el perfil del usuario';
 
   @override
@@ -1359,4 +1362,620 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get forumSidebarNews3Text =>
       '¡El modo oscuro ya está disponible en los ajustes de usuario!';
+
+  @override
+  String get privacyPolicyTitle => 'Política de Privacidad';
+
+  @override
+  String get privacyPolicySubtitle =>
+      'Política de Privacidad de NexGen Parents';
+
+  @override
+  String get privacyPolicyLastUpdate => 'Última actualización: Marzo 2026';
+
+  @override
+  String get privacyPolicyS1Title => '1. Recopilación de Información';
+
+  @override
+  String get privacyPolicyS1Text =>
+      'En NexGen Parents nos tomamos muy en serio tu privacidad y la de tu familia. Recopilamos información básica del perfil (como el correo electrónico y tu nombre de usuario) para permitir el acceso a funcionalidades como el diccionario colaborativo y el foro.';
+
+  @override
+  String get privacyPolicyS2Title => '2. Uso de los Datos';
+
+  @override
+  String get privacyPolicyS2Text =>
+      'Los datos proporcionados se utilizan exclusivamente para mejorar tu experiencia en la plataforma, personalizar las recomendaciones por edad (PEGI/ESRB) y mantener un entorno seguro en nuestra comunidad.';
+
+  @override
+  String get privacyPolicyS3Title => '3. Protección y Seguridad';
+
+  @override
+  String get privacyPolicyS3Text =>
+      'Tus datos están protegidos mediante los servicios de Firebase y en ningún caso se venden o comparten con terceros con fines publicitarios no relacionados con el propósito educativo de la plataforma.';
+
+  @override
+  String get privacyPolicyS4Title => '4. Tus Derechos';
+
+  @override
+  String get privacyPolicyS4Text =>
+      'Puedes solicitar en cualquier momento la eliminación total de tu cuenta y tus datos asociados a través del panel de configuración de tu perfil.';
+
+  @override
+  String get aboutUsTitle => 'Quiénes somos';
+
+  @override
+  String get aboutUsSubtitle => 'Acerca de NexGen Parents';
+
+  @override
+  String get aboutUsP1 =>
+      'NexGen Parents nace para resolver una brecha informativa real: hoy en día, muchas familias no tienen referencias claras para interpretar el contenido, los riesgos y el gran valor educativo que ofrecen los videojuegos actuales.';
+
+  @override
+  String get aboutUsP2 =>
+      'Nuestro principal objetivo es reducir la incertidumbre de madres, padres, docentes y orientadores, facilitando decisiones de consumo digital mucho más responsables e informadas.';
+
+  @override
+  String get aboutUsVersion => 'Versión 1.0.0 (Marzo 2026)\nProyecto TFC';
+
+  @override
+  String get contactUsTitle => 'Contáctanos';
+
+  @override
+  String get contactUsSubtitle => '¡Nos encantaría escucharte!';
+
+  @override
+  String get contactUsDescription =>
+      '¿Tienes alguna duda sobre nuestras guías, quieres proponer una mejora o necesitas ayuda técnica con la aplicación? Ponte en contacto con nosotros.';
+
+  @override
+  String get contactUsEmailLabel => 'Correo electrónico';
+
+  @override
+  String get contactUsWebLabel => 'Sitio Web';
+
+  @override
+  String get contactUsForumHint =>
+      'También puedes participar activamente dejando tus dudas en nuestro Foro Comunitario de la app.';
+
+  @override
+  String parentalGuidesError(String error) {
+    return 'Error al cargar guías: $error';
+  }
+
+  @override
+  String get parentalGuidesEmptyTitle => 'No hay guías disponibles';
+
+  @override
+  String get parentalGuidesEmptyMessage => 'Vuelve a intentarlo más tarde.';
+
+  @override
+  String parentalGuidesSelectPlatform(int count) {
+    return 'Selecciona tu plataforma ($count guías)';
+  }
+
+  @override
+  String get parentalGuidesBannerTitle => 'Guías de Control Parental';
+
+  @override
+  String get parentalGuidesBannerSubtitle =>
+      'Aprende a configurar controles de seguridad en las plataformas más populares.';
+
+  @override
+  String get parentalGuidesMoreInfoBtn => 'Saber más sobre PEGI/ESRB';
+
+  @override
+  String parentalGuidesStepsCount(int count) {
+    return '$count pasos';
+  }
+
+  @override
+  String get parentalGuidesWhyImportant => '¿Por qué es importante?';
+
+  @override
+  String get parentalGuidesProtectionTitle => 'Protección infantil';
+
+  @override
+  String get parentalGuidesProtectionDesc =>
+      'Evita que tus hijos accedan a contenido no apropiado para su edad.';
+
+  @override
+  String get parentalGuidesTimeTitle => 'Gestión del tiempo';
+
+  @override
+  String get parentalGuidesTimeDesc =>
+      'Establece límites de tiempo de juego para mantener un equilibrio saludable.';
+
+  @override
+  String get parentalGuidesSpendingTitle => 'Control de gastos';
+
+  @override
+  String get parentalGuidesSpendingDesc =>
+      'Previene compras no autorizadas dentro de los juegos.';
+
+  @override
+  String get esrbDescriptionE => 'Contenido para todos. Equivalente a PEGI 3.';
+
+  @override
+  String get esrbDescriptionE10 => 'Para mayores de 10 años. Similar a PEGI 7.';
+
+  @override
+  String get esrbDescriptionT => 'Adolescentes. Equivalente a PEGI 12.';
+
+  @override
+  String get esrbDescriptionM => 'Mayores de 17 años. Similar a PEGI 16.';
+
+  @override
+  String get esrbDescriptionAO => 'Solo adultos. Equivalente a PEGI 18.';
+
+  @override
+  String get esrbDescriptionRP =>
+      'Clasificación pendiente (juegos en preventa).';
+
+  @override
+  String get profileEditTitle => 'Editar Perfil';
+
+  @override
+  String get profileNoAuthUser => 'No hay usuario autenticado';
+
+  @override
+  String get profilePersonalInfo => 'Información Personal';
+
+  @override
+  String get profileUsername => 'Nombre de usuario';
+
+  @override
+  String get profileNameRequired => 'Por favor, introduce tu nombre';
+
+  @override
+  String get profileEmailRequired => 'Por favor, introduce tu correo';
+
+  @override
+  String get profileEmailChangeWarning =>
+      'Cambiar el email requiere verificación adicional';
+
+  @override
+  String get profileChangePasswordBtn => 'Cambiar contraseña';
+
+  @override
+  String get profileChildrenInfo => 'Información de tus Hijos';
+
+  @override
+  String get profileChildrenInfoDesc =>
+      'Añade los años de nacimiento para personalizar recomendaciones de juegos';
+
+  @override
+  String get profilePlatforms => 'Plataformas que Posees';
+
+  @override
+  String get profilePlatformsDesc =>
+      'Selecciona las consolas y dispositivos que tienes en casa';
+
+  @override
+  String get profileSaveChangesBtn => 'Guardar Cambios';
+
+  @override
+  String get profileDeleteAccountBtn => 'Eliminar Cuenta';
+
+  @override
+  String get profileChangeAvatar => 'Cambiar Avatar';
+
+  @override
+  String get profileActivityTitle => 'Tu Actividad en NexGen Parents';
+
+  @override
+  String get profileTermsProposed => 'Términos\nPropuestos';
+
+  @override
+  String get profileTermsApproved => 'Términos\nAprobados';
+
+  @override
+  String get profileLevel => 'Nivel';
+
+  @override
+  String get profileYears => 'años';
+
+  @override
+  String get profileAddBirthYearBtn => 'Añadir Año de Nacimiento';
+
+  @override
+  String get profileSelectAvatarTitle => 'Selecciona tu Avatar';
+
+  @override
+  String get profileBirthYearLabel => 'Año de nacimiento';
+
+  @override
+  String get profileBirthYearHint => 'Ejemplo: 2015';
+
+  @override
+  String get profileBirthYearDesc =>
+      'Introduce el año de nacimiento de tu hijo para obtener recomendaciones personalizadas.';
+
+  @override
+  String get profileInvalidBirthYear =>
+      'Por favor, introduce un año de nacimiento válido';
+
+  @override
+  String get profileAddBtn => 'Añadir';
+
+  @override
+  String get profileErrorUpdateName => 'No se pudo actualizar el nombre';
+
+  @override
+  String get profileErrorUpdateChildren =>
+      'No se pudo actualizar la información de hijos';
+
+  @override
+  String get profileErrorUpdatePlatforms =>
+      'No se pudieron actualizar las plataformas';
+
+  @override
+  String get profileErrorUpdateAvatar => 'No se pudo actualizar el avatar';
+
+  @override
+  String get profileVerifyEmailTitle => 'Verificación para cambiar email';
+
+  @override
+  String get profileVerifyEmailDesc =>
+      'Para cambiar tu correo, confirma tu contraseña actual.';
+
+  @override
+  String get profileEmailChangeCancelled => 'Cambio de email cancelado';
+
+  @override
+  String get profileErrorChangeEmail => 'No se pudo cambiar el email';
+
+  @override
+  String get profileUpdateSuccess => 'Perfil actualizado correctamente';
+
+  @override
+  String get profileErrorSave => 'Error al guardar perfil:';
+
+  @override
+  String get profileCurrentPassword => 'Contraseña actual';
+
+  @override
+  String get profileNewPassword => 'Nueva contraseña';
+
+  @override
+  String get profileConfirmNewPassword => 'Confirmar nueva contraseña';
+
+  @override
+  String get profileErrorEmptyFields => 'Completa todos los campos';
+
+  @override
+  String get profileErrorPasswordLength =>
+      'La nueva contraseña debe tener al menos 6 caracteres';
+
+  @override
+  String get profileErrorPasswordMismatch => 'Las contraseñas no coinciden';
+
+  @override
+  String get profileOperationCompleted => 'Operación completada';
+
+  @override
+  String get profileUpdateBtn => 'Actualizar';
+
+  @override
+  String get profileConfirmDeleteTitle => 'Confirmar eliminación';
+
+  @override
+  String get profileConfirmDeleteDesc =>
+      '¿Seguro que quieres eliminar tu perfil? Esta acción es irreversible.';
+
+  @override
+  String get profileNoBtn => 'No';
+
+  @override
+  String get profileYesDeleteBtn => 'Sí, eliminar';
+
+  @override
+  String get profileDeleteAccountTitle => 'Eliminar cuenta';
+
+  @override
+  String get profileDeleteAccountDesc =>
+      'Esta acción es permanente. Introduce tu contraseña para confirmar.';
+
+  @override
+  String get profileErrorPasswordRequired => 'Debes introducir tu contraseña';
+
+  @override
+  String get profileErrorValidatePassword => 'No se pudo validar la contraseña';
+
+  @override
+  String get profileErrorDeleteFirestore =>
+      'No se pudo eliminar el perfil en la base de datos';
+
+  @override
+  String get profileErrorDeleteAuth =>
+      'Se eliminó el perfil, pero no la cuenta de acceso';
+
+  @override
+  String get forumMainCategoriesTitle => 'Categorías Principales';
+
+  @override
+  String get forumViewAllBtn => 'Ver todo';
+
+  @override
+  String get forumEmptySectionTitle => 'No hay publicaciones en esta sección';
+
+  @override
+  String get forumEmptySectionMessage => 'Todavía no hay novedades aquí.';
+
+  @override
+  String get forumPlatformsTitle => 'Plataformas';
+
+  @override
+  String parentalGuidesStepProgress(int current, int total) {
+    return 'Paso $current de $total';
+  }
+
+  @override
+  String get parentalGuidesScreenshot => 'Captura de pantalla:';
+
+  @override
+  String get parentalGuidesLoadingImage => 'Cargando imagen...';
+
+  @override
+  String get parentalGuidesImageNotAvailable => 'Imagen no disponible';
+
+  @override
+  String get parentalGuidesSetupComplete =>
+      '¡Configuración completada! Ahora tu hijo puede jugar de forma segura con las restricciones configuradas.';
+
+  @override
+  String get parentalGuidesPreviousBtn => 'Anterior';
+
+  @override
+  String get parentalGuidesNextBtn => 'Siguiente';
+
+  @override
+  String get parentalGuidesFinishBtn => 'Finalizar';
+
+  @override
+  String get parentalGuidesCompletedTitle => '¡Guía completada!';
+
+  @override
+  String get parentalGuidesCompletedDesc =>
+      'Has completado todos los pasos de esta guía de control parental.';
+
+  @override
+  String get parentalGuidesRepeatBtn => 'Repetir';
+
+  @override
+  String get loginSubtitle => 'Guía y Diccionario Game para Padres';
+
+  @override
+  String get loginEmailHint => 'ejemplo@correo.com';
+
+  @override
+  String get loginPasswordLabel => 'Contraseña';
+
+  @override
+  String get loginPasswordHint => 'Introduce tu contraseña';
+
+  @override
+  String get loginForgotPassword => '¿Olvidaste tu contraseña?';
+
+  @override
+  String get loginBtn => 'Iniciar sesión';
+
+  @override
+  String get loginGoogleBtn => 'Continuar con Google';
+
+  @override
+  String get loginOr => 'o';
+
+  @override
+  String get loginCreateAccountBtn => 'Crear cuenta nueva';
+
+  @override
+  String get loginRecoveryTitle => 'Recuperar contraseña';
+
+  @override
+  String get loginRecoveryDesc =>
+      'Introduce tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.';
+
+  @override
+  String get loginRecoverySendBtn => 'Enviar';
+
+  @override
+  String get loginRecoveryError => 'Error al enviar correo';
+
+  @override
+  String get registerError => 'Error al registrarse';
+
+  @override
+  String get registerErrorGoogle => 'No se pudo registrar con Google';
+
+  @override
+  String get registerTitle => 'Crear cuenta';
+
+  @override
+  String get registerHeader => 'Registro de Padres';
+
+  @override
+  String get registerSubtitle =>
+      'Crea tu cuenta para acceder a todas las funciones';
+
+  @override
+  String get registerNameLabel => 'Nombre completo';
+
+  @override
+  String get registerNameHint => 'Tu nombre';
+
+  @override
+  String get registerPasswordHint => 'Mínimo 8 caracteres';
+
+  @override
+  String get registerConfirmPasswordLabel => 'Confirmar contraseña';
+
+  @override
+  String get registerConfirmPasswordHint => 'Repite la contraseña';
+
+  @override
+  String get registerInfoDesc =>
+      'Tu información será utilizada únicamente para mejorar tu experiencia en la app';
+
+  @override
+  String get registerGoogleBtn => 'Registrarse con Google';
+
+  @override
+  String get registerAlreadyHaveAccount => '¿Ya tienes cuenta? ';
+
+  @override
+  String get errorNameLength => 'El nombre debe tener al menos 3 caracteres';
+
+  @override
+  String get errorPasswordLength8 =>
+      'La contraseña debe tener al menos 8 caracteres';
+
+  @override
+  String get errorPasswordUppercase => 'Incluye al menos una letra mayúscula';
+
+  @override
+  String get errorPasswordLowercase => 'Incluye al menos una letra minúscula';
+
+  @override
+  String get errorPasswordNumber => 'Incluye al menos un número';
+
+  @override
+  String get errorConfirmPasswordRequired =>
+      'Por favor, confirma tu contraseña';
+
+  @override
+  String get errorTermExists => 'Este término ya existe en el diccionario';
+
+  @override
+  String get successTermProposed =>
+      'Término propuesto correctamente. Será revisado por un moderador';
+
+  @override
+  String get errorProposeTerm => 'Error al proponer término';
+
+  @override
+  String get errorTermNotFound => 'El término no existe';
+
+  @override
+  String get successTermApproved => 'Término aprobado correctamente';
+
+  @override
+  String get errorApproveTerm => 'Error al aprobar término';
+
+  @override
+  String get successTermRejected => 'Término rechazado';
+
+  @override
+  String get errorRejectTerm => 'Error al rechazar término';
+
+  @override
+  String get successTermUpdated => 'Término actualizado correctamente';
+
+  @override
+  String get errorUpdateTerm => 'Error al actualizar término';
+
+  @override
+  String get successTermDeleted => 'Término eliminado correctamente';
+
+  @override
+  String get errorDeleteTerm => 'Error al eliminar término';
+
+  @override
+  String get errorInvalidRole =>
+      'Rol inválido. Debe ser: user, moderator o admin';
+
+  @override
+  String get errorModifyOwnRole => 'No puedes modificar tu propio rol';
+
+  @override
+  String get successRoleUpdated => 'Rol actualizado correctamente';
+
+  @override
+  String get errorUpdateRole => 'Error al actualizar rol';
+
+  @override
+  String get successBirthYearsUpdated =>
+      'Años de nacimiento actualizados correctamente';
+
+  @override
+  String get errorUpdateBirthYears => 'Error al actualizar años de nacimiento';
+
+  @override
+  String get successPlatformsUpdated =>
+      'Plataformas actualizadas correctamente';
+
+  @override
+  String get errorUpdatePlatforms => 'Error al actualizar plataformas';
+
+  @override
+  String get successAvatarUpdated => 'Avatar actualizado correctamente';
+
+  @override
+  String get errorUpdateAvatar => 'Error al actualizar avatar';
+
+  @override
+  String get successUserInfoUpdated =>
+      'Información de usuario actualizada correctamente';
+
+  @override
+  String get errorUpdateUserInfo => 'Error al actualizar información';
+
+  @override
+  String get successAccountDeleted => 'Cuenta eliminada correctamente';
+
+  @override
+  String get errorDeleteAccount => 'Error al eliminar cuenta';
+
+  @override
+  String get successPostDeleted => 'Publicación eliminada correctamente';
+
+  @override
+  String get errorDeletePost => 'Error al eliminar la publicación';
+
+  @override
+  String get errorPostNotFound => 'La publicación asociada no existe';
+
+  @override
+  String get successReplyDeleted => 'Respuesta eliminada correctamente';
+
+  @override
+  String get errorDeleteReply => 'Error al eliminar la respuesta';
+
+  @override
+  String get errorNoAuthUser => 'No hay usuario autenticado';
+
+  @override
+  String get successPasswordUpdated => 'Contraseña actualizada correctamente';
+
+  @override
+  String get errorChangePassword => 'Error al cambiar contraseña';
+
+  @override
+  String get errorWrongCurrentPassword => 'La contraseña actual es incorrecta';
+
+  @override
+  String get errorWeakNewPassword => 'La nueva contraseña es demasiado débil';
+
+  @override
+  String get successEmailUpdated =>
+      'Email actualizado correctamente. Verifica tu nuevo correo.';
+
+  @override
+  String get errorChangeEmail => 'Error al cambiar email';
+
+  @override
+  String get errorEmailAlreadyInUse => 'Este email ya está en uso';
+
+  @override
+  String get errorInvalidNewEmail => 'El email no es válido';
+
+  @override
+  String get errorNoPasswordAccount =>
+      'Tu cuenta no usa contraseña. Inicia sesión de nuevo con tu proveedor para continuar.';
+
+  @override
+  String get successReauth => 'Reautenticación correcta';
+
+  @override
+  String get errorReauth => 'Error de reautenticación';
 }

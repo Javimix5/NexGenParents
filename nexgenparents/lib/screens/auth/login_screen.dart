@@ -6,6 +6,9 @@ import '../../config/app_config.dart';
 import '../../utils/auth_validators.dart';
 import 'register_screen.dart';
 import '../home/home_screen.dart';
+import '../../l10n/app_localizations.dart';
+import '../../providers/locale_provider.dart';
+import '../../utils/translation_helper.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -32,6 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _handleLogin() async {
     if (!_formKey.currentState!.validate()) return;
 
+    final l10n = AppLocalizations.of(context);
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
     final success = await authProvider.signIn(
@@ -48,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
       // Mostrar error
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(authProvider.errorMessage ?? 'Error al iniciar sesión'),
+          content: Text(TranslationHelper.translateDynamicKey(context, authProvider.errorMessage, fallback: l10n?.errorLogin ?? 'Error al iniciar sesión')),
           backgroundColor: AppConfig.errorColor,
         ),
       );
@@ -56,6 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _handleGoogleSignIn() async {
+    final l10n = AppLocalizations.of(context);
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
     if (authProvider.isLoading) return;
@@ -74,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            authProvider.errorMessage ?? 'No se pudo iniciar sesión con Google',
+            TranslationHelper.translateDynamicKey(context, authProvider.errorMessage, fallback: l10n?.errorLoginGoogle ?? 'No se pudo iniciar sesión con Google'),
           ),
           backgroundColor: AppConfig.errorColor,
         ),
@@ -84,10 +89,16 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final localeProvider = context.watch<LocaleProvider>();
+    final currentLang = localeProvider.locale?.languageCode ?? 'es';
+
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
-        child: Center(
+        child: Stack(
+          children: [
+            Center(
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(AppConfig.paddingLarge),
             child: Consumer<AuthProvider>(
@@ -131,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         // Subtítulo
                         Text(
-                          'Guía y Diccionario Game para Padres',
+                          l10n?.loginSubtitle ?? 'Guía y Diccionario Game para Padres',
                           style: Theme.of(context).textTheme.bodyMedium,
                           textAlign: TextAlign.center,
                         ),
@@ -142,13 +153,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           controller: _emailController,
                           keyboardType: TextInputType.emailAddress,
                           textInputAction: TextInputAction.next,
-                          decoration: const InputDecoration(
-                            labelText: 'Correo electrónico',
-                            hintText: 'ejemplo@correo.com',
-                            prefixIcon: Icon(Icons.email_outlined),
+                          decoration: InputDecoration(
+                            labelText: l10n?.contactUsEmailLabel ?? 'Correo electrónico',
+                            hintText: l10n?.loginEmailHint ?? 'ejemplo@correo.com',
+                            prefixIcon: const Icon(Icons.email_outlined),
                           ),
                           validator: (value) {
-                            return AuthValidators.validateEmail(value);
+                            return AuthValidators.validateEmail(value, l10n);
                           },
                           onFieldSubmitted: (_) {
                             FocusScope.of(context)
@@ -165,8 +176,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           textInputAction: TextInputAction.done,
                           onFieldSubmitted: (_) => _handleLogin(),
                           decoration: InputDecoration(
-                            labelText: 'Contraseña',
-                            hintText: 'Introduce tu contraseña',
+                            labelText: l10n?.loginPasswordLabel ?? 'Contraseña',
+                            hintText: l10n?.loginPasswordHint ?? 'Introduce tu contraseña',
                             prefixIcon: const Icon(Icons.lock_outline),
                             suffixIcon: IconButton(
                               icon: Icon(
@@ -183,7 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Por favor, introduce tu contraseña';
+                              return l10n?.profileErrorPasswordRequired ?? 'Por favor, introduce tu contraseña';
                             }
                             return null;
                           },
@@ -197,7 +208,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             onPressed: () {
                               _showForgotPasswordDialog();
                             },
-                            child: const Text('¿Olvidaste tu contraseña?'),
+                            child: Text(l10n?.loginForgotPassword ?? '¿Olvidaste tu contraseña?'),
                           ),
                         ),
                         const SizedBox(height: AppConfig.paddingMedium),
@@ -222,9 +233,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                   ),
                                 )
-                              : const Text(
-                                  'Iniciar sesión',
-                                  style: TextStyle(
+                              : Text(
+                                  l10n?.loginBtn ?? 'Iniciar sesión',
+                                  style: const TextStyle(
                                       fontSize: AppConfig.fontSizeBody),
                                 ),
                         ),
@@ -239,9 +250,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               vertical: AppConfig.paddingMedium,
                             ),
                           ),
-                          label: const Text(
-                            'Continuar con Google',
-                            style: TextStyle(fontSize: AppConfig.fontSizeBody),
+                          label: Text(
+                            l10n?.loginGoogleBtn ?? 'Continuar con Google',
+                            style: const TextStyle(fontSize: AppConfig.fontSizeBody),
                           ),
                         ),
                         const SizedBox(height: AppConfig.paddingLarge),
@@ -249,14 +260,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         // Divider
                         Row(
                           children: [
-                            Expanded(child: Divider()),
+                            const Expanded(child: Divider()),
                             Padding(
                               padding: EdgeInsets.symmetric(
                                 horizontal: AppConfig.paddingMedium,
                               ),
-                              child: Text('o'),
+                              child: Text(l10n?.loginOr ?? 'o'),
                             ),
-                            Expanded(child: Divider()),
+                            const Expanded(child: Divider()),
                           ],
                         ),
                         const SizedBox(height: AppConfig.paddingLarge),
@@ -275,9 +286,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               vertical: AppConfig.paddingMedium,
                             ),
                           ),
-                          child: const Text(
-                            'Crear cuenta nueva',
-                            style: TextStyle(fontSize: AppConfig.fontSizeBody),
+                          child: Text(
+                            l10n?.loginCreateAccountBtn ?? 'Crear cuenta nueva',
+                            style: const TextStyle(fontSize: AppConfig.fontSizeBody),
                           ),
                         ),
                       ],
@@ -286,34 +297,75 @@ class _LoginScreenState extends State<LoginScreen> {
                 );
               },
             ),
-          ),
+            ),
+            ),
+            Positioned(
+              top: 16,
+              right: 16,
+              child: _buildLanguageSelector(localeProvider, currentLang),
+            ),
+          ],
         ),
       ),
+    );
+  }
+
+  Widget _buildLanguageSelector(LocaleProvider provider, String currentLang) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor.withOpacity(0.8),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _langBtn(provider, currentLang, 'es', 'ES'),
+          const Text('|', style: TextStyle(color: Colors.grey, fontSize: 12)),
+          _langBtn(provider, currentLang, 'en', 'EN'),
+          const Text('|', style: TextStyle(color: Colors.grey, fontSize: 12)),
+          _langBtn(provider, currentLang, 'gl', 'GL'),
+        ],
+      ),
+    );
+  }
+
+  Widget _langBtn(LocaleProvider provider, String current, String code, String label) {
+    final isActive = current == code;
+    return TextButton(
+      onPressed: () => provider.setLocale(Locale(code)),
+      style: TextButton.styleFrom(
+        foregroundColor: isActive ? AppConfig.primaryColor : Colors.grey,
+        minimumSize: const Size(36, 36),
+        padding: EdgeInsets.zero,
+      ),
+      child: Text(label, style: TextStyle(fontWeight: isActive ? FontWeight.bold : FontWeight.normal, fontSize: 13)),
     );
   }
 
   void _showForgotPasswordDialog() {
     final emailController = TextEditingController();
     final rootContext = context;
+    final l10n = AppLocalizations.of(context);
 
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Recuperar contraseña'),
+        title: Text(l10n?.loginRecoveryTitle ?? 'Recuperar contraseña'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Introduce tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.',
+              l10n?.loginRecoveryDesc ?? 'Introduce tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(height: AppConfig.paddingMedium),
             TextField(
               controller: emailController,
               keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(
-                labelText: 'Correo electrónico',
-                prefixIcon: Icon(Icons.email_outlined),
+              decoration: InputDecoration(
+                labelText: l10n?.contactUsEmailLabel ?? 'Correo electrónico',
+                prefixIcon: const Icon(Icons.email_outlined),
               ),
             ),
           ],
@@ -321,13 +373,13 @@ class _LoginScreenState extends State<LoginScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Cancelar'),
+            child: Text(l10n?.adminCancelBtn ?? 'Cancelar'),
           ),
           ElevatedButton(
             onPressed: () async {
               final email = emailController.text.trim();
               final messenger = ScaffoldMessenger.of(rootContext);
-              final emailError = AuthValidators.validateEmail(email);
+              final emailError = AuthValidators.validateEmail(email, l10n);
               if (emailError != null) {
                 messenger.showSnackBar(SnackBar(content: Text(emailError)));
                 return;
@@ -346,9 +398,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   SnackBar(
                     content: Text(
                       success
-                          ? 'Correo de recuperación enviado. Revisa tu bandeja de entrada.'
-                          : authProvider.errorMessage ??
-                              'Error al enviar correo',
+                        ? (l10n?.successPasswordReset ?? 'Correo de recuperación enviado. Revisa tu bandeja de entrada.')
+                        : TranslationHelper.translateDynamicKey(context, authProvider.errorMessage, fallback: l10n?.loginRecoveryError ?? 'Error al enviar correo'),
                     ),
                     backgroundColor:
                         success ? AppConfig.accentColor : AppConfig.errorColor,
@@ -356,7 +407,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 );
               }
             },
-            child: const Text('Enviar'),
+            child: Text(l10n?.loginRecoverySendBtn ?? 'Enviar'),
           ),
         ],
       ),

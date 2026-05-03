@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../models/forum_post_model.dart';
 import '../../../models/forum_section.dart';
 import 'forum_category_posts_screen.dart';
+import '../../l10n/app_localizations.dart';
 
 class ForumCategoriesGrid extends StatelessWidget {
   final List<ForumPost> allPosts;
@@ -22,24 +23,17 @@ class ForumCategoriesGrid extends StatelessWidget {
     'offtopic': 'https://images.unsplash.com/photo-1560419015-7c427e8ae5ba?w=400',
   };
 
-  String _t(BuildContext context, {required String es, required String gl, required String en}) {
-    switch (Localizations.localeOf(context).languageCode) {
-      case 'gl': return gl;
-      case 'en': return en;
-      default: return es;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final languageCode = Localizations.localeOf(context).languageCode;
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          _t(context, es: 'Categorías Principales', gl: 'Categorías Principais', en: 'Main Categories'),
+          l10n?.forumMainCategoriesTitle ?? 'Categorías Principales',
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,

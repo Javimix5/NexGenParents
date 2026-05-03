@@ -56,7 +56,7 @@ class GamesProvider with ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     } catch (e) {
-      _errorMessage = 'Error al cargar juegos populares';
+      _errorMessage = null;
       _isLoading = false;
       notifyListeners();
     }
@@ -80,7 +80,7 @@ class GamesProvider with ChangeNotifier {
       _isSearching = false;
       notifyListeners();
     } catch (e) {
-      _errorMessage = 'Error al buscar juegos';
+      _errorMessage = null;
       _isSearching = false;
       notifyListeners();
     }
@@ -97,7 +97,7 @@ class GamesProvider with ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     } catch (e) {
-      _errorMessage = 'Error al buscar juegos por edad';
+      _errorMessage = null;
       _isLoading = false;
       notifyListeners();
     }
@@ -120,7 +120,7 @@ class GamesProvider with ChangeNotifier {
       _isLoadingDetails = false;
       notifyListeners();
     } catch (e) {
-      _errorMessage = 'Error al cargar detalles del juego';
+      _errorMessage = null;
       _isLoadingDetails = false;
       notifyListeners();
     }
@@ -171,7 +171,7 @@ class GamesProvider with ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     } catch (e) {
-      _errorMessage = 'Error al cargar juegos por género';
+      _errorMessage = null;
       _isLoading = false;
       notifyListeners();
     }
@@ -188,7 +188,7 @@ class GamesProvider with ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     } catch (e) {
-      _errorMessage = 'Error al cargar juegos por plataforma';
+      _errorMessage = null;
       _isLoading = false;
       notifyListeners();
     }
@@ -205,7 +205,7 @@ class GamesProvider with ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     } catch (e) {
-      _errorMessage = 'Error al cargar juegos nuevos';
+      _errorMessage = null;
       _isLoading = false;
       notifyListeners();
     }
@@ -222,7 +222,7 @@ class GamesProvider with ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     } catch (e) {
-      _errorMessage = 'Error al cargar el juego de la semana';
+      _errorMessage = null;
       _isLoading = false;
       notifyListeners();
     }
@@ -240,7 +240,7 @@ class GamesProvider with ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     } catch (e) {
-      _errorMessage = 'Error al cargar los juegos del mes';
+      _errorMessage = null;
       _isLoading = false;
       notifyListeners();
     }
@@ -307,7 +307,7 @@ Future<void> searchWithFilters(GameFilters filters) async {
     _isSearching = false;
     notifyListeners();
   } catch (e) {
-    _errorMessage = 'Error al buscar juegos con filtros';
+    _errorMessage = null;
     _isSearching = false;
     notifyListeners();
   }
@@ -346,7 +346,7 @@ void applyPegiFilter(int age) {
 
       notifyListeners();
     } catch (e) {
-      _errorMessage = 'No se pudieron restaurar favoritos y filtros locales';
+      _errorMessage = null;
       notifyListeners();
     }
   }
@@ -359,7 +359,7 @@ void applyPegiFilter(int age) {
           .toList();
       await prefs.setStringList(_favoritesStorageKey, payload);
     } catch (e) {
-      _errorMessage = 'No se pudieron guardar los favoritos';
+      _errorMessage = null;
       notifyListeners();
     }
   }
@@ -372,7 +372,7 @@ void applyPegiFilter(int age) {
         json.encode(_currentFilters.toJson()),
       );
     } catch (e) {
-      _errorMessage = 'No se pudieron guardar los filtros';
+      _errorMessage = null;
       notifyListeners();
     }
   }

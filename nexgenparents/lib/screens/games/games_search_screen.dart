@@ -8,8 +8,6 @@ import '../../l10n/app_localizations.dart';
 import 'game_detail_screen.dart';
 import 'games_filters_screen.dart';
 import '../../widgets/common/app_footer.dart';
-import '../info/pegi_info_screen.dart';
-import '../parental_guides/parental_guides_list_screen.dart';
 
 class GamesSearchScreen extends StatefulWidget {
   const GamesSearchScreen({super.key});
@@ -296,14 +294,7 @@ class _GamesSearchScreenState extends State<GamesSearchScreen> {
                     if (index == games.length) {
                       return Padding(
                         padding: const EdgeInsets.only(top: AppConfig.paddingLarge, bottom: AppConfig.paddingLarge),
-                        child: AppFooter(
-                          onPrivacyTap: () => Navigator.of(context).push(
-                              MaterialPageRoute(builder: (_) => const PegiInfoScreen())),
-                          onAboutTap: () => Navigator.of(context).push(
-                              MaterialPageRoute(builder: (_) => const PegiInfoScreen())),
-                          onContactTap: () => Navigator.of(context).push(
-                              MaterialPageRoute(builder: (_) => const ParentalGuidesListScreen())),
-                        ),
+                      child: const AppFooter(),
                       );
                     }
                     final game = games[index];

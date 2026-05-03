@@ -93,7 +93,7 @@ class FirestoreService {
       if (existingTerms.docs.isNotEmpty) {
         return {
           'success': false,
-          'message': 'Este término ya existe en el diccionario',
+          'messageKey': 'errorTermExists',
         };
       }
 
@@ -121,13 +121,14 @@ class FirestoreService {
 
       return {
         'success': true,
-        'message': 'Término propuesto correctamente. Será revisado por un moderador',
+        'messageKey': 'successTermProposed',
         'termId': docRef.id,
       };
     } catch (e) {
       return {
         'success': false,
-        'message': 'Error al proponer término: ${e.toString()}',
+        'messageKey': 'errorProposeTerm',
+        'errorDetails': e.toString(),
       };
     }
   }
@@ -170,7 +171,7 @@ class FirestoreService {
       if (!termDoc.exists) {
         return {
           'success': false,
-          'message': 'El término no existe',
+          'messageKey': 'errorTermNotFound',
         };
       }
 
@@ -190,12 +191,13 @@ class FirestoreService {
 
       return {
         'success': true,
-        'message': 'Término aprobado correctamente',
+        'messageKey': 'successTermApproved',
       };
     } catch (e) {
       return {
         'success': false,
-        'message': 'Error al aprobar término: ${e.toString()}',
+        'messageKey': 'errorApproveTerm',
+        'errorDetails': e.toString(),
       };
     }
   }
@@ -214,12 +216,13 @@ class FirestoreService {
 
       return {
         'success': true,
-        'message': 'Término rechazado',
+        'messageKey': 'successTermRejected',
       };
     } catch (e) {
       return {
         'success': false,
-        'message': 'Error al rechazar término: ${e.toString()}',
+        'messageKey': 'errorRejectTerm',
+        'errorDetails': e.toString(),
       };
     }
   }
@@ -249,12 +252,13 @@ class FirestoreService {
 
       return {
         'success': true,
-        'message': 'Término actualizado correctamente',
+        'messageKey': 'successTermUpdated',
       };
     } catch (e) {
       return {
         'success': false,
-        'message': 'Error al actualizar término: ${e.toString()}',
+        'messageKey': 'errorUpdateTerm',
+        'errorDetails': e.toString(),
       };
     }
   }
@@ -266,12 +270,13 @@ class FirestoreService {
 
       return {
         'success': true,
-        'message': 'Término eliminado correctamente',
+        'messageKey': 'successTermDeleted',
       };
     } catch (e) {
       return {
         'success': false,
-        'message': 'Error al eliminar término: ${e.toString()}',
+        'messageKey': 'errorDeleteTerm',
+        'errorDetails': e.toString(),
       };
     }
   }
@@ -337,7 +342,7 @@ Future<Map<String, dynamic>> updateUserRole({
     if (!['user', 'moderator', 'admin'].contains(newRole)) {
       return {
         'success': false,
-        'message': 'Rol inválido. Debe ser: user, moderator o admin',
+        'messageKey': 'errorInvalidRole',
       };
     }
 
@@ -345,7 +350,7 @@ Future<Map<String, dynamic>> updateUserRole({
     if (userId == adminId) {
       return {
         'success': false,
-        'message': 'No puedes modificar tu propio rol',
+        'messageKey': 'errorModifyOwnRole',
       };
     }
 
@@ -356,12 +361,13 @@ Future<Map<String, dynamic>> updateUserRole({
 
     return {
       'success': true,
-      'message': 'Rol actualizado correctamente',
+      'messageKey': 'successRoleUpdated',
     };
   } catch (e) {
     return {
       'success': false,
-      'message': 'Error al actualizar rol: ${e.toString()}',
+      'messageKey': 'errorUpdateRole',
+      'errorDetails': e.toString(),
     };
   }
 }
@@ -380,12 +386,13 @@ Future<Map<String, dynamic>> updateChildrenBirthYears({
 
     return {
       'success': true,
-      'message': 'Años de nacimiento actualizados correctamente',
+      'messageKey': 'successBirthYearsUpdated',
     };
   } catch (e) {
     return {
       'success': false,
-      'message': 'Error al actualizar años de nacimiento: ${e.toString()}',
+      'messageKey': 'errorUpdateBirthYears',
+      'errorDetails': e.toString(),
     };
   }
 }
@@ -402,12 +409,13 @@ Future<Map<String, dynamic>> updateOwnedPlatforms({
     
     return {
       'success': true,
-      'message': 'Plataformas actualizadas correctamente',
+      'messageKey': 'successPlatformsUpdated',
     };
   } catch (e) {
     return {
       'success': false,
-      'message': 'Error al actualizar plataformas: ${e.toString()}',
+      'messageKey': 'errorUpdatePlatforms',
+      'errorDetails': e.toString(),
     };
   }
 }
@@ -424,12 +432,13 @@ Future<Map<String, dynamic>> updatePhotoUrl({
     
     return {
       'success': true,
-      'message': 'Avatar actualizado correctamente',
+      'messageKey': 'successAvatarUpdated',
     };
   } catch (e) {
     return {
       'success': false,
-      'message': 'Error al actualizar avatar: ${e.toString()}',
+      'messageKey': 'errorUpdateAvatar',
+      'errorDetails': e.toString(),
     };
   }
 }
@@ -451,12 +460,13 @@ Future<Map<String, dynamic>> updateUserBasicInfo({
 
     return {
       'success': true,
-      'message': 'Información de usuario actualizada correctamente',
+      'messageKey': 'successUserInfoUpdated',
     };
   } catch (e) {
     return {
       'success': false,
-      'message': 'Error al actualizar información: ${e.toString()}',
+      'messageKey': 'errorUpdateUserInfo',
+      'errorDetails': e.toString(),
     };
   }
 }
@@ -468,12 +478,13 @@ Future<Map<String, dynamic>> deleteUserAccount(String userId) async {
     
     return {
       'success': true,
-      'message': 'Cuenta eliminada correctamente',
+      'messageKey': 'successAccountDeleted',
     };
   } catch (e) {
     return {
       'success': false,
-      'message': 'Error al eliminar cuenta: ${e.toString()}',
+      'messageKey': 'errorDeleteAccount',
+      'errorDetails': e.toString(),
     };
   }
 }
@@ -586,12 +597,13 @@ Future<Map<String, dynamic>> deleteForumPost(String postId) async {
 
     return {
       'success': true,
-      'message': 'Publicación eliminada correctamente',
+      'messageKey': 'successPostDeleted',
     };
   } catch (e) {
     return {
       'success': false,
-      'message': 'Error al eliminar la publicación: ${e.toString()}',
+      'messageKey': 'errorDeletePost',
+      'errorDetails': e.toString(),
     };
   }
 }
@@ -611,7 +623,7 @@ Future<Map<String, dynamic>> deleteForumReply({
         throw FirebaseException(
           plugin: 'cloud_firestore',
           code: 'not-found',
-          message: 'La publicación asociada no existe',
+          message: 'errorPostNotFound',
         );
       }
 
@@ -626,12 +638,13 @@ Future<Map<String, dynamic>> deleteForumReply({
 
     return {
       'success': true,
-      'message': 'Respuesta eliminada correctamente',
+      'messageKey': 'successReplyDeleted',
     };
   } catch (e) {
     return {
       'success': false,
-      'message': 'Error al eliminar la respuesta: ${e.toString()}',
+      'messageKey': 'errorDeleteReply',
+      'errorDetails': e.toString(),
     };
   }
 }

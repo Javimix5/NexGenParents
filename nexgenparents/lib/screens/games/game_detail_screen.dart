@@ -4,8 +4,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../../providers/games_provider.dart';
 import '../../models/game_model.dart';
 import '../../config/app_config.dart';
-import '../../config/app_theme.dart';
 import '../../l10n/app_localizations.dart';
+import '../../widgets/common/app_footer.dart';
 
 class GameDetailScreen extends StatefulWidget {
   final int gameId;
@@ -126,7 +126,8 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                     if (gamesProvider.selectedGameScreenshots.isNotEmpty)
                       _buildScreenshotsSection(gamesProvider.selectedGameScreenshots),
                     
-                    const SizedBox(height: AppConfig.paddingLarge * 2),
+                    const SizedBox(height: AppConfig.paddingLarge),
+                    const AppFooter(),
                   ],
                 ),
               ),
@@ -208,6 +209,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
   }
 
   Widget _buildBasicInfo(Game game) {
+    final l10n = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.all(AppConfig.paddingMedium),
       child: Column(
@@ -257,7 +259,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                 const Icon(Icons.calendar_today, size: 16, color: AppConfig.textSecondaryColor),
                 const SizedBox(width: AppConfig.paddingSmall / 2),
                 Text(
-                  _t(context, es: 'Lanzamiento: ${game.released}', gl: 'Lanzamento: ${game.released}', en: 'Release: ${game.released}'),
+                  l10n?.gameDetailRelease(game.released!) ?? 'Lanzamiento: ${game.released}',
                   style: const TextStyle(color: AppConfig.textSecondaryColor),
                 ),
               ],
@@ -270,18 +272,19 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
 
   Widget _buildPegiSection(Game game) {
     final pegi = game.pegiRating;
+    final l10n = AppLocalizations.of(context);
     
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(AppConfig.paddingMedium),
       color: pegi != null
-          ? AppTheme.getPegiColor(pegi).withOpacity(0.1)
+          ? _getPegiColor(pegi).withOpacity(0.1)
           : AppConfig.backgroundLight,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            _t(context, es: 'Clasificación por edad (PEGI)', gl: 'Clasificación por idade (PEGI)', en: 'Age rating (PEGI)'),
+            l10n?.gameDetailPegiTitle ?? 'Clasificación por edad (PEGI)',
             style: TextStyle(
               fontSize: AppConfig.fontSizeHeading,
               fontWeight: FontWeight.bold,
@@ -296,7 +299,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                   width: 60,
                   height: 60,
                   decoration: BoxDecoration(
-                    color: AppTheme.getPegiColor(pegi),
+                    color: _getPegiColor(pegi),
                     borderRadius: BorderRadius.circular(AppConfig.borderRadiusSmall),
                   ),
                   child: Center(
@@ -336,7 +339,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                   const SizedBox(width: AppConfig.paddingSmall),
                   Expanded(
                     child: Text(
-                      _t(context, es: 'Recomendado para mayores de $pegi años', gl: 'Recomendado para maiores de $pegi anos', en: 'Recommended for ages $pegi and up'),
+                      l10n?.gameDetailPegiWarning(pegi) ?? 'Recomendado para mayores de $pegi años',
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: AppConfig.fontSizeBody,
@@ -348,7 +351,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
             ),
           ] else ...[
             Text(
-              _t(context, es: 'No hay información de clasificación PEGI disponible', gl: 'Non hai información de clasificación PEGI dispoñible', en: 'No PEGI rating information available'),
+              l10n?.gameDetailPegiNotAvailable ?? 'No hay información de clasificación PEGI disponible',
               style: TextStyle(
                 color: AppConfig.textSecondaryColor,
                 fontStyle: FontStyle.italic,
@@ -361,13 +364,14 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
   }
 
   Widget _buildDescriptionSection(Game game) {
+    final l10n = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.all(AppConfig.paddingMedium),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            _t(context, es: 'Descripción del juego', gl: 'Descrición do xogo', en: 'Game description'),
+            l10n?.gameDetailDescriptionTitle ?? 'Descripción del juego',
             style: TextStyle(
               fontSize: AppConfig.fontSizeHeading,
               fontWeight: FontWeight.bold,
@@ -375,7 +379,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
           ),
           const SizedBox(height: AppConfig.paddingSmall),
           Text(
-            game.description ?? _t(context, es: 'No hay descripción disponible', gl: 'Non hai descrición dispoñible', en: 'No description available'),
+            game.description ?? (l10n?.gameDetailDescriptionEmpty ?? 'No hay descripción disponible'),
             style: const TextStyle(
               fontSize: AppConfig.fontSizeBody,
               height: 1.5,
@@ -387,6 +391,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
   }
 
   Widget _buildGenresSection(Game game) {
+    final l10n = AppLocalizations.of(context);
     if (game.genres.isEmpty) return const SizedBox.shrink();
 
     return Padding(
@@ -395,7 +400,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            _t(context, es: 'Géneros', gl: 'Xéneros', en: 'Genres'),
+            l10n?.gameDetailGenresTitle ?? 'Géneros',
             style: TextStyle(
               fontSize: AppConfig.fontSizeHeading,
               fontWeight: FontWeight.bold,
@@ -419,6 +424,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
   }
 
   Widget _buildPlatformsSection(Game game) {
+    final l10n = AppLocalizations.of(context);
     if (game.platforms.isEmpty) return const SizedBox.shrink();
 
     return Padding(
@@ -427,7 +433,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            _t(context, es: 'Plataformas disponibles', gl: 'Plataformas dispoñibles', en: 'Available platforms'),
+            l10n?.gameDetailPlatformsTitle ?? 'Plataformas disponibles',
             style: TextStyle(
               fontSize: AppConfig.fontSizeHeading,
               fontWeight: FontWeight.bold,
@@ -451,13 +457,14 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
   }
 
   Widget _buildScreenshotsSection(List<String> screenshots) {
+    final l10n = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppConfig.paddingMedium),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            _t(context, es: 'Capturas de pantalla', gl: 'Capturas de pantalla', en: 'Screenshots'),
+            l10n?.gameDetailScreenshotsTitle ?? 'Capturas de pantalla',
             style: TextStyle(
               fontSize: AppConfig.fontSizeHeading,
               fontWeight: FontWeight.bold,
@@ -505,31 +512,28 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
     return Colors.red;
   }
 
-  String _getPegiDescription(BuildContext context, int pegi) {
-    switch (pegi) {
-      case 3:
-        return _t(context, es: 'Contenido apropiado para todas las edades. Sin violencia ni lenguaje inapropiado.', gl: 'Contido apropiado para todas as idades. Sen violencia nin linguaxe inapropiada.', en: 'Content suitable for all ages. No violence or inappropriate language.');
-      case 7:
-        return _t(context, es: 'Puede contener escenas o sonidos que asusten a niños pequeños.', gl: 'Pode conter escenas ou sons que asusten a nenos pequenos.', en: 'May contain scenes or sounds that can frighten young children.');
-      case 12:
-        return _t(context, es: 'Puede incluir violencia no realista hacia personajes de fantasía o violencia realista leve.', gl: 'Pode incluír violencia non realista cara a personaxes de fantasía ou violencia realista leve.', en: 'May include non-realistic violence towards fantasy characters or mild realistic violence.');
-      case 16:
-        return _t(context, es: 'Puede contener violencia realista, lenguaje fuerte o contenido sexual leve.', gl: 'Pode conter violencia realista, linguaxe forte ou contido sexual leve.', en: 'May contain realistic violence, strong language or mild sexual content.');
-      case 18:
-        return _t(context, es: 'Contenido para adultos. Puede incluir violencia intensa, lenguaje fuerte, contenido sexual explícito o uso de drogas.', gl: 'Contido para adultos. Pode incluír violencia intensa, linguaxe forte, contido sexual explícito ou uso de drogas.', en: 'Adult content. May include intense violence, strong language, explicit sexual content, or drug use.');
-      default:
-        return _t(context, es: 'No hay una descripción disponible para esta clasificación PEGI.', gl: 'Non hai unha descrición dispoñible para esta clasificación PEGI.', en: 'No description available for this PEGI rating.');
-    }
+  Color _getPegiColor(int rating) {
+    if (rating <= 7) return Colors.green;
+    if (rating <= 12) return Colors.blue;
+    if (rating <= 16) return Colors.orange;
+    return Colors.red;
   }
 
-  String _t(BuildContext context, {required String es, required String gl, required String en}) {
-    switch (Localizations.localeOf(context).languageCode) {
-      case 'gl':
-        return gl;
-      case 'en':
-        return en;
+  String _getPegiDescription(BuildContext context, int pegi) {
+    final l10n = AppLocalizations.of(context);
+    switch (pegi) {
+      case 3:
+        return l10n?.pegiDescription3 ?? 'Contenido apropiado para todas las edades.';
+      case 7:
+        return l10n?.pegiDescription7 ?? 'Puede contener escenas o sonidos que asusten a niños pequeños.';
+      case 12:
+        return l10n?.pegiDescription12 ?? 'Puede incluir violencia no realista.';
+      case 16:
+        return l10n?.pegiDescription16 ?? 'Puede contener violencia realista, lenguaje fuerte o contenido sexual leve.';
+      case 18:
+        return l10n?.pegiDescription18 ?? 'Contenido para adultos. Puede incluir violencia intensa, lenguaje fuerte, contenido sexual explícito o uso de drogas.';
       default:
-        return es;
+        return l10n?.pegiDescriptionUnknown ?? 'No hay una descripción disponible para esta clasificación PEGI.';
     }
   }
 }

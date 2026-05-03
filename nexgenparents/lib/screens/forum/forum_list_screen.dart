@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../config/app_config.dart';
-import '../../models/forum_post_model.dart';
 import '../../providers/forum_provider.dart';
 import 'create_post_screen.dart';
 import '../../widgets/common/app_footer.dart';
-import '../info/pegi_info_screen.dart';
-import '../parental_guides/parental_guides_list_screen.dart';
 import 'forum_categories_grid.dart';
 import 'forum_platforms_section.dart';
 import 'forum_sidebar.dart';
+import '../../l10n/app_localizations.dart';
 
 class ForumListScreen extends StatefulWidget {
   final String? topicFilter;
@@ -43,18 +41,11 @@ class _ForumListScreenState extends State<ForumListScreen> {
     super.dispose();
   }
 
-  String _t(BuildContext context, {required String es, required String gl, required String en}) {
-    switch (Localizations.localeOf(context).languageCode) {
-      case 'gl': return gl;
-      case 'en': return en;
-      default: return es;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final forumProvider = context.watch<ForumProvider>();
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       backgroundColor:
@@ -93,21 +84,7 @@ class _ForumListScreenState extends State<ForumListScreen> {
                                 isDark: isDark,
                               ),
                               const SizedBox(height: 24),
-                              AppFooter(
-                                onPrivacyTap: () => Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                      builder: (_) => const PegiInfoScreen()),
-                                ),
-                                onAboutTap: () => Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                      builder: (_) => const PegiInfoScreen()),
-                                ),
-                                onContactTap: () => Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                      builder: (_) =>
-                                          const ParentalGuidesListScreen()),
-                                ),
-                              ),
+                              const AppFooter(),
                             ],
                           ),
                         ),
@@ -157,7 +134,7 @@ class _ForumListScreenState extends State<ForumListScreen> {
                 MaterialPageRoute(builder: (_) => const CreatePostScreen()),
               );
             },
-            label: Text(_t(context, es: 'Nuevo Hilo', gl: 'Novo Fío', en: 'New Thread')),
+            label: Text(l10n?.forumNewPostBtn ?? 'Nuevo Hilo'),
             icon: const Icon(Icons.add),
             backgroundColor: AppConfig.accentColor,
           ),

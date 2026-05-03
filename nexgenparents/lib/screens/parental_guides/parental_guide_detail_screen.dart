@@ -18,18 +18,6 @@ class ParentalGuideDetailScreen extends StatefulWidget {
 class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
   int _currentStep = 0;
 
-  String _t(BuildContext context,
-      {required String es, required String gl, required String en}) {
-    switch (Localizations.localeOf(context).languageCode) {
-      case 'gl':
-        return gl;
-      case 'en':
-        return en;
-      default:
-        return es;
-    }
-  }
-
   String _resolveClosureOrString(BuildContext context, dynamic value) {
     if (value is Function) {
       try {
@@ -155,6 +143,7 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
   }
 
   Widget _buildProgressIndicator() {
+    final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     return Container(
       padding: const EdgeInsets.all(AppConfig.paddingMedium),
@@ -173,7 +162,7 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                _t(context, es: 'Paso ${_currentStep + 1} de ${widget.guide.steps.length}', gl: 'Paso ${_currentStep + 1} de ${widget.guide.steps.length}', en: 'Step ${_currentStep + 1} of ${widget.guide.steps.length}'),
+                l10n?.parentalGuidesStepProgress(_currentStep + 1, widget.guide.steps.length) ?? 'Paso ${_currentStep + 1} de ${widget.guide.steps.length}',
                 style: TextStyle(
                   fontSize: AppConfig.fontSizeBody,
                   fontWeight: FontWeight.bold,
@@ -204,6 +193,7 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
   }
 
   Widget _buildStepContent() {
+    final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final step = widget.guide.steps[_currentStep];
 
@@ -263,7 +253,7 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
               ),
               const SizedBox(height: AppConfig.paddingLarge),
               Text(
-                _t(context, es: 'Captura de pantalla:', gl: 'Captura de pantalla:', en: 'Screenshot:'),
+                l10n?.parentalGuidesScreenshot ?? 'Captura de pantalla:',
                 style: const TextStyle(
                   fontSize: AppConfig.fontSizeHeading,
                   fontWeight: FontWeight.bold,
@@ -300,7 +290,7 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
                                   const CircularProgressIndicator(),
                                   const SizedBox(height: AppConfig.paddingMedium),
                                   Text(
-                                    _t(context, es: 'Cargando imagen...', gl: 'Cargando imaxe...', en: 'Loading image...'),
+                                    l10n?.parentalGuidesLoadingImage ?? 'Cargando imagen...',
                                     style: TextStyle(color: theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.7)),
                                   ),
                                 ],
@@ -319,7 +309,7 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
                                   Icon(Icons.image_not_supported, size: 60, color: theme.colorScheme.error),
                                   const SizedBox(height: AppConfig.paddingMedium),
                                   Text(
-                                    _t(context, es: 'Imagen no disponible', gl: 'Imaxe non dispoñible', en: 'Image not available'),
+                                    l10n?.parentalGuidesImageNotAvailable ?? 'Imagen no disponible',
                                     style: TextStyle(
                                       color: theme.colorScheme.error,
                                       fontSize: AppConfig.fontSizeBody,
@@ -350,7 +340,7 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
                       const SizedBox(width: AppConfig.paddingMedium),
                       Expanded(
                         child: Text(
-                          _t(context, es: '¡Configuración completada! Ahora tu hijo puede jugar de forma segura con las restricciones configuradas.', gl: 'Configuración completada! Agora o teu fillo pode xogar de forma segura coas restricións configuradas.', en: 'Setup complete! Your child can now play safely with the configured restrictions.'),
+                          l10n?.parentalGuidesSetupComplete ?? '¡Configuración completada! Ahora tu hijo puede jugar de forma segura con las restricciones configuradas.',
                           style: const TextStyle(
                             fontSize: AppConfig.fontSizeCaption,
                           ),
@@ -368,6 +358,7 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
   }
 
   Widget _buildNavigationButtons() {
+    final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     return Container(
       padding: const EdgeInsets.all(AppConfig.paddingMedium),
@@ -391,7 +382,7 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
                   });
                 },
                 icon: const Icon(Icons.arrow_back),
-                label: Text(_t(context, es: 'Anterior', gl: 'Anterior', en: 'Previous')),
+                label: Text(l10n?.parentalGuidesPreviousBtn ?? 'Anterior'),
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: AppConfig.paddingMedium),
                 ),
@@ -417,8 +408,8 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
               ),
               label: Text(
                 _currentStep < widget.guide.steps.length - 1
-                    ? _t(context, es: 'Siguiente', gl: 'Seguinte', en: 'Next')
-                    : _t(context, es: 'Finalizar', gl: 'Finalizar', en: 'Finish'),
+                    ? (l10n?.parentalGuidesNextBtn ?? 'Siguiente')
+                    : (l10n?.parentalGuidesFinishBtn ?? 'Finalizar'),
               ),
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: AppConfig.paddingMedium),
@@ -431,12 +422,13 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
   }
 
   void _showCompletionDialog() {
+    final l10n = AppLocalizations.of(context);
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(_t(context, es: '¡Guía completada!', gl: 'Guía completada!', en: 'Guide completed!')),
+        title: Text(l10n?.parentalGuidesCompletedTitle ?? '¡Guía completada!'),
         content: Text(
-          _t(context, es: 'Has completado todos los pasos de esta guía de control parental.', gl: 'Completaches todos os pasos desta guía de control parental.', en: 'You have completed all the steps in this parental control guide.'),
+          l10n?.parentalGuidesCompletedDesc ?? 'Has completado todos los pasos de esta guía de control parental.',
         ),
         actions: [
           TextButton(
@@ -444,7 +436,7 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
               Navigator.of(context).pop();
               Navigator.of(context).pop();
             },
-            child: Text(_t(context, es: 'Volver', gl: 'Volver', en: 'Go back')),
+            child: Text(l10n?.dictBackBtn ?? 'Volver'),
           ),
           ElevatedButton(
             onPressed: () {
@@ -453,7 +445,7 @@ class _ParentalGuideDetailScreenState extends State<ParentalGuideDetailScreen> {
                 _currentStep = 0;
               });
             },
-            child: Text(_t(context, es: 'Repetir', gl: 'Repetir', en: 'Repeat')),
+            child: Text(l10n?.parentalGuidesRepeatBtn ?? 'Repetir'),
           ),
         ],
       ),

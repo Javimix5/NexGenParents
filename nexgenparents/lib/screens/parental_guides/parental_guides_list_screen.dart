@@ -50,18 +50,6 @@ class _ParentalGuidesListScreenState extends State<ParentalGuidesListScreen> {
     super.dispose();
   }
 
-  String _t(BuildContext context,
-      {required String es, required String gl, required String en}) {
-    switch (Localizations.localeOf(context).languageCode) {
-      case 'gl':
-        return gl;
-      case 'en':
-        return en;
-      default:
-        return es;
-    }
-  }
-
   String _resolveClosureOrString(BuildContext context, dynamic value) {
     if (value is Function) {
       try {
@@ -126,7 +114,7 @@ class _ParentalGuidesListScreenState extends State<ParentalGuidesListScreen> {
           if (snapshot.hasError) {
             return Center(
               child: Text(
-                _t(context, es: 'Error al cargar guías: ${snapshot.error}', gl: 'Erro ao cargar guías: ${snapshot.error}', en: 'Error loading guides: ${snapshot.error}'),
+                l10n.parentalGuidesError(snapshot.error.toString()),
                 textAlign: TextAlign.center,
               ),
             );
@@ -135,8 +123,8 @@ class _ParentalGuidesListScreenState extends State<ParentalGuidesListScreen> {
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return AppEmptyState(
               icon: Icons.shield_outlined,
-              title: _t(context, es: 'No hay guías disponibles', gl: 'Non hai guías dispoñibles', en: 'No guides available'),
-              message: _t(context, es: 'Vuelve a intentarlo más tarde.', gl: 'Volve intentalo máis tarde.', en: 'Please try again later.'),
+              title: l10n.parentalGuidesEmptyTitle,
+              message: l10n.parentalGuidesEmptyMessage,
             );
           }
 
@@ -160,7 +148,7 @@ class _ParentalGuidesListScreenState extends State<ParentalGuidesListScreen> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: AppConfig.paddingMedium),
                       child: Text(
-                        _t(context, es: 'Selecciona tu plataforma (${allGuides.length} guía${allGuides.length != 1 ? 's' : ''})', gl: 'Selecciona a túa plataforma (${allGuides.length} guía${allGuides.length != 1 ? 's' : ''})', en: 'Select your platform (${allGuides.length} guide${allGuides.length != 1 ? 's' : ''})'),
+                        l10n.parentalGuidesSelectPlatform(allGuides.length),
                         style: const TextStyle(
                           fontSize: AppConfig.fontSizeHeading,
                           fontWeight: FontWeight.bold,
@@ -174,15 +162,7 @@ class _ParentalGuidesListScreenState extends State<ParentalGuidesListScreen> {
                     const SizedBox(height: AppConfig.paddingLarge),
                     _buildInfoSection(context),
                     const SizedBox(height: AppConfig.paddingLarge * 2),
-                    AppFooter(
-                      onPrivacyTap: () => Navigator.of(context).push(
-                          MaterialPageRoute(builder: (_) => const PegiInfoScreen())),
-                      onAboutTap: () => Navigator.of(context).push(
-                          MaterialPageRoute(builder: (_) => const PegiInfoScreen())),
-                      onContactTap: () => Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (_) => const ParentalGuidesListScreen())),
-                    ),
+                    const AppFooter(),
                     const SizedBox(height: AppConfig.paddingLarge),
                   ],
                 ),
@@ -212,6 +192,7 @@ class _ParentalGuidesListScreenState extends State<ParentalGuidesListScreen> {
   }
 
   Widget _buildBanner(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(AppConfig.paddingLarge),
@@ -230,7 +211,7 @@ class _ParentalGuidesListScreenState extends State<ParentalGuidesListScreen> {
         children: [
           const SizedBox(height: AppConfig.paddingMedium),
           Text(
-            _t(context, es: 'Guías de Control Parental', gl: 'Guías de Control Parental', en: 'Parental Control Guides'),
+            l10n.parentalGuidesBannerTitle,
             style: const TextStyle(
               fontSize: AppConfig.fontSizeTitle,
               fontWeight: FontWeight.bold,
@@ -239,7 +220,7 @@ class _ParentalGuidesListScreenState extends State<ParentalGuidesListScreen> {
           ),
           const SizedBox(height: AppConfig.paddingSmall),
           Text(
-            _t(context, es: 'Aprende a configurar controles de seguridad en las plataformas más populares.', gl: 'Aprende a configurar controis de seguridade nas plataformas máis populares.', en: 'Learn how to set up security controls on the most popular platforms.'),
+            l10n.parentalGuidesBannerSubtitle,
             style: TextStyle(
               fontSize: AppConfig.fontSizeBody,
               color: Colors.white.withValues(alpha: 0.9),
@@ -254,7 +235,7 @@ class _ParentalGuidesListScreenState extends State<ParentalGuidesListScreen> {
             },
             icon: const Icon(Icons.info_outline, color: Colors.white),
             label: Text(
-              _t(context, es: 'Saber más sobre PEGI/ESRB', gl: 'Saber máis sobre PEGI/ESRB', en: 'Learn about PEGI/ESRB'),
+              l10n.parentalGuidesMoreInfoBtn,
               style: const TextStyle(color: Colors.white),
             ),
             style: OutlinedButton.styleFrom(
@@ -317,6 +298,7 @@ class _ParentalGuidesListScreenState extends State<ParentalGuidesListScreen> {
 
   Widget _buildGuideCard(BuildContext context, ParentalGuide guide) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     return Card(
       margin: const EdgeInsets.symmetric(
         horizontal: AppConfig.paddingMedium,
@@ -369,7 +351,7 @@ class _ParentalGuidesListScreenState extends State<ParentalGuidesListScreen> {
                     ),
                     const SizedBox(height: AppConfig.paddingSmall / 2),
                     Text(
-                      '${_resolveClosureOrString(context, guide.typeDisplayName)} • ${guide.steps.length} ${_t(context, es: 'pasos', gl: 'pasos', en: 'steps')}',
+                      '${_resolveClosureOrString(context, guide.typeDisplayName)} • ${l10n.parentalGuidesStepsCount(guide.steps.length)}',
                       style: TextStyle(
                         fontSize: AppConfig.fontSizeCaption,
                         color: theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.7),
@@ -391,13 +373,14 @@ class _ParentalGuidesListScreenState extends State<ParentalGuidesListScreen> {
   }
 
   Widget _buildInfoSection(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppConfig.paddingMedium),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            _t(context, es: '¿Por qué es importante?', gl: 'Por que é importante?', en: 'Why is it important?'),
+            l10n.parentalGuidesWhyImportant,
             style: const TextStyle(
               fontSize: AppConfig.fontSizeHeading,
               fontWeight: FontWeight.bold,
@@ -407,22 +390,22 @@ class _ParentalGuidesListScreenState extends State<ParentalGuidesListScreen> {
           _buildInfoCard(
             context,
             icon: Icons.child_care,
-            title: _t(context, es: 'Protección infantil', gl: 'Protección infantil', en: 'Child protection'),
-            description: _t(context, es: 'Evita que tus hijos accedan a contenido no apropiado para su edad.', gl: 'Evita que os teus fillos accedan a contido non apropiado para a súa idade.', en: 'Prevent your children from accessing age-inappropriate content.'),
+            title: l10n.parentalGuidesProtectionTitle,
+            description: l10n.parentalGuidesProtectionDesc,
           ),
           const SizedBox(height: AppConfig.paddingSmall),
           _buildInfoCard(
             context,
             icon: Icons.schedule,
-            title: _t(context, es: 'Gestión del tiempo', gl: 'Xestión do tempo', en: 'Time management'),
-            description: _t(context, es: 'Establece límites de tiempo de juego para mantener un equilibrio saludable.', gl: 'Establece límites de tempo de xogo para manter un equilibrio saudable.', en: 'Set playtime limits to maintain a healthy balance.'),
+            title: l10n.parentalGuidesTimeTitle,
+            description: l10n.parentalGuidesTimeDesc,
           ),
           const SizedBox(height: AppConfig.paddingSmall),
           _buildInfoCard(
             context,
             icon: Icons.credit_card,
-            title: _t(context, es: 'Control de gastos', gl: 'Control de gastos', en: 'Spending control'),
-            description: _t(context, es: 'Previene compras no autorizadas dentro de los juegos.', gl: 'Prevén compras non autorizadas dentro dos xogos.', en: 'Prevent unauthorized in-game purchases.'),
+            title: l10n.parentalGuidesSpendingTitle,
+            description: l10n.parentalGuidesSpendingDesc,
           ),
         ],
       ),
