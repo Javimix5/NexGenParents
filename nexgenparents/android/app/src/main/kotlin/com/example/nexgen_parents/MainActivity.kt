@@ -1,4 +1,4 @@
-package com.example.nexgenparents
+package com.example.nexgen_parents
 
 import io.flutter.embedding.android.FlutterActivity
 

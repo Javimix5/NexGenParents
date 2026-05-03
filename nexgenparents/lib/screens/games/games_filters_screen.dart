@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/game_filters.dart';
 import '../../config/app_config.dart';
+import '../../l10n/app_localizations.dart';
 
 class GamesFiltersScreen extends StatefulWidget {
   final GameFilters initialFilters;
@@ -30,20 +31,24 @@ class _GamesFiltersScreenState extends State<GamesFiltersScreen> {
   };
 
   // Opciones de géneros principales
-  final Map<String, String> genres = {
-    'Acción': 'action',
-    'Aventura': 'adventure',
-    'RPG': 'role-playing-games-rpg',
-    'Estrategia': 'strategy',
-    'Shooter': 'shooter',
-    'Puzzle': 'puzzle',
-    'Deportes': 'sports',
-    'Carreras': 'racing',
-    'Simulación': 'simulation',
-    'Plataformas': 'platformer',
-    'Lucha': 'fighting',
-    'Arcade': 'arcade',
-  };
+  Map<String, String> _getGenres(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return {
+      l10n?.genreAction ?? 'Acción': 'action',
+      l10n?.genreAdventure ?? 'Aventura': 'adventure',
+      l10n?.genreRPG ?? 'RPG': 'role-playing-games-rpg',
+      l10n?.genreStrategy ?? 'Estrategia': 'strategy',
+      l10n?.genreShooter ?? 'Shooter': 'shooter',
+      l10n?.genrePuzzle ?? 'Puzzle': 'puzzle',
+      l10n?.genreSports ?? 'Deportes': 'sports',
+      l10n?.genreRacing ?? 'Carreras': 'racing',
+      l10n?.genreSimulation ?? 'Simulación': 'simulation',
+      l10n?.genrePlatformer ?? 'Plataformas': 'platformer',
+      l10n?.genreFighting ?? 'Lucha': 'fighting',
+      l10n?.genreArcade ?? 'Arcade': 'arcade',
+    };
+  }
+
 
   @override
   void initState() {
@@ -53,9 +58,12 @@ class _GamesFiltersScreenState extends State<GamesFiltersScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final genresMap = _getGenres(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Filtros de Búsqueda'),
+        title: Text(l10n?.filtersTitle ?? 'Filtros de Búsqueda'),
         actions: [
           TextButton(
             onPressed: () {
@@ -63,9 +71,9 @@ class _GamesFiltersScreenState extends State<GamesFiltersScreen> {
                 _filters = GameFilters();
               });
             },
-            child: const Text(
-              'Limpiar',
-              style: TextStyle(color: Colors.white),
+            child: Text(
+              l10n?.filtersClear ?? 'Limpiar',
+              style: const TextStyle(color: Colors.white),
             ),
           ),
         ],
@@ -83,14 +91,14 @@ class _GamesFiltersScreenState extends State<GamesFiltersScreen> {
                 borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
                 border: Border.all(color: AppConfig.primaryColor),
               ),
-              child: const Row(
+              child: Row(
                 children: [
-                  Icon(Icons.info_outline, color: AppConfig.primaryColor),
-                  SizedBox(width: AppConfig.paddingSmall),
+                  const Icon(Icons.info_outline, color: AppConfig.primaryColor),
+                  const SizedBox(width: AppConfig.paddingSmall),
                   Expanded(
                     child: Text(
-                      'Combina múltiples filtros para encontrar el juego perfecto',
-                      style: TextStyle(fontSize: AppConfig.fontSizeCaption),
+                      l10n?.filtersInfoBanner ?? 'Combina múltiples filtros para encontrar el juego perfecto',
+                      style: const TextStyle(fontSize: AppConfig.fontSizeCaption),
                     ),
                   ),
                 ],
@@ -99,10 +107,10 @@ class _GamesFiltersScreenState extends State<GamesFiltersScreen> {
             const SizedBox(height: AppConfig.paddingLarge),
 
             // Filtro por Año
-            _buildSectionTitle('Año de lanzamiento'),
-            const Text(
-              'Filtra juegos por su año de salida',
-              style: TextStyle(
+            _buildSectionTitle(l10n?.filtersYearTitle ?? 'Año de lanzamiento'),
+            Text(
+              l10n?.filtersYearSubtitle ?? 'Filtra juegos por su año de salida',
+              style: const TextStyle(
                 fontSize: AppConfig.fontSizeCaption,
                 color: AppConfig.textSecondaryColor,
               ),
@@ -113,11 +121,15 @@ class _GamesFiltersScreenState extends State<GamesFiltersScreen> {
                 Expanded(
                   child: DropdownButtonFormField<int>(
                     initialValue: _filters.yearFrom,
-                    decoration: const InputDecoration(labelText: 'Desde'),
-                    items: _buildYearItems(),
+                    decoration: InputDecoration(labelText: l10n?.filtersYearFrom ?? 'Desde'),
+                    items: _buildYearItems(context),
                     onChanged: (value) {
                       setState(() {
                         _filters = _filters.copyWith(yearFrom: value);
+                        // Auto-corregir "Hasta" si queda por debajo de "Desde"
+                        if (value != null && _filters.yearTo != null && _filters.yearTo! < value) {
+                          _filters = _filters.copyWith(yearTo: value);
+                        }
                       });
                     },
                   ),
@@ -126,11 +138,15 @@ class _GamesFiltersScreenState extends State<GamesFiltersScreen> {
                 Expanded(
                   child: DropdownButtonFormField<int>(
                     initialValue: _filters.yearTo,
-                    decoration: const InputDecoration(labelText: 'Hasta'),
-                    items: _buildYearItems(),
+                    decoration: InputDecoration(labelText: l10n?.filtersYearTo ?? 'Hasta'),
+                    items: _buildYearItems(context),
                     onChanged: (value) {
                       setState(() {
                         _filters = _filters.copyWith(yearTo: value);
+                        // Auto-corregir "Desde" si queda por encima de "Hasta"
+                        if (value != null && _filters.yearFrom != null && _filters.yearFrom! > value) {
+                          _filters = _filters.copyWith(yearFrom: value);
+                        }
                       });
                     },
                   ),
@@ -140,10 +156,10 @@ class _GamesFiltersScreenState extends State<GamesFiltersScreen> {
             const SizedBox(height: AppConfig.paddingLarge),
 
             // Filtro por Edad PEGI
-            _buildSectionTitle('Edad recomendada (PEGI)'),
-            const Text(
-              'Selecciona la edad de tu hijo para ver juegos apropiados',
-              style: TextStyle(
+            _buildSectionTitle(l10n?.filtersPegiTitle ?? 'Edad recomendada (PEGI)'),
+            Text(
+              l10n?.filtersPegiSubtitle ?? 'Selecciona la edad de tu hijo para ver juegos apropiados',
+              style: const TextStyle(
                 fontSize: AppConfig.fontSizeCaption,
                 color: AppConfig.textSecondaryColor,
               ),
@@ -170,10 +186,10 @@ class _GamesFiltersScreenState extends State<GamesFiltersScreen> {
             const SizedBox(height: AppConfig.paddingLarge),
 
             // Filtro por Plataforma
-            _buildSectionTitle('Plataforma'),
-            const Text(
-              'Selecciona en qué dispositivos quieres que esté disponible',
-              style: TextStyle(
+            _buildSectionTitle(l10n?.filtersPlatformTitle ?? 'Plataforma'),
+            Text(
+              l10n?.filtersPlatformSubtitle ?? 'Selecciona en qué dispositivos quieres que esté disponible',
+              style: const TextStyle(
                 fontSize: AppConfig.fontSizeCaption,
                 color: AppConfig.textSecondaryColor,
               ),
@@ -201,10 +217,10 @@ class _GamesFiltersScreenState extends State<GamesFiltersScreen> {
             const SizedBox(height: AppConfig.paddingLarge),
 
             // Filtro por Género
-            _buildSectionTitle('Género de juego'),
-            const Text(
-              'Elige el tipo de juegos que te interesan',
-              style: TextStyle(
+            _buildSectionTitle(l10n?.filtersGenreTitle ?? 'Género de juego'),
+            Text(
+              l10n?.filtersGenreSubtitle ?? 'Elige el tipo de juegos que te interesan',
+              style: const TextStyle(
                 fontSize: AppConfig.fontSizeCaption,
                 color: AppConfig.textSecondaryColor,
               ),
@@ -213,7 +229,7 @@ class _GamesFiltersScreenState extends State<GamesFiltersScreen> {
             Wrap(
               spacing: AppConfig.paddingSmall,
               runSpacing: AppConfig.paddingSmall,
-              children: genres.entries.map((entry) {
+              children: genresMap.entries.map((entry) {
                 final isSelected = _filters.selectedGenres.contains(entry.value);
                 return FilterChip(
                   label: Text(entry.key),
@@ -246,9 +262,9 @@ class _GamesFiltersScreenState extends State<GamesFiltersScreen> {
               Navigator.of(context).pop(_filters);
             },
             icon: const Icon(Icons.check),
-            label: const Text(
-              'Aplicar Filtros',
-              style: TextStyle(fontSize: AppConfig.fontSizeBody),
+            label: Text(
+              l10n?.filtersApplyBtn ?? 'Aplicar Filtros',
+              style: const TextStyle(fontSize: AppConfig.fontSizeBody),
             ),
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: AppConfig.paddingMedium),
@@ -273,12 +289,13 @@ class _GamesFiltersScreenState extends State<GamesFiltersScreen> {
     );
   }
 
-  List<DropdownMenuItem<int>> _buildYearItems() {
+  List<DropdownMenuItem<int>> _buildYearItems(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final currentYear = DateTime.now().year;
     List<DropdownMenuItem<int>> items = [
-      const DropdownMenuItem(
+      DropdownMenuItem(
         value: null,
-        child: Text('Cualquiera'),
+        child: Text(l10n?.filtersYearAny ?? 'Cualquiera'),
       ),
     ];
     

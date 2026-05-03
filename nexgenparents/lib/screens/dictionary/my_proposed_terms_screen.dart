@@ -3,7 +3,10 @@ import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/dictionary_provider.dart';
 import '../../config/app_config.dart';
+import '../../widgets/common/app_empty_state.dart';
+import '../../widgets/common/app_loading_state.dart';
 import 'term_detail_screen.dart';
+import '../../l10n/app_localizations.dart';
 
 class MyProposedTermsScreen extends StatefulWidget {
   const MyProposedTermsScreen({super.key});
@@ -13,105 +16,61 @@ class MyProposedTermsScreen extends StatefulWidget {
 }
 
 class _MyProposedTermsScreenState extends State<MyProposedTermsScreen> {
+  final ScrollController _scrollController = ScrollController();
+  bool _showBackToTopButton = false;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
-      final dictionaryProvider = Provider.of<DictionaryProvider>(context, listen: false);
-      
+      final dictionaryProvider =
+          Provider.of<DictionaryProvider>(context, listen: false);
+
       if (authProvider.currentUser != null) {
-        print('🔍 Cargando términos del usuario: ${authProvider.currentUser!.id}');
         dictionaryProvider.loadUserProposedTerms(authProvider.currentUser!.id);
-      } else{
-        print('❌ No hay usuario autenticado');
       }
     });
+    _scrollController.addListener(() {
+      if (!_scrollController.hasClients) return;
+      if (_scrollController.offset >= 300 && !_showBackToTopButton) {
+        setState(() => _showBackToTopButton = true);
+      } else if (_scrollController.offset < 300 && _showBackToTopButton) {
+        setState(() => _showBackToTopButton = false);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
     final user = authProvider.currentUser;
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Mis Términos Propuestos'),
+        title: Text(l10n.myTermsTitle),
       ),
       body: Consumer<DictionaryProvider>(
         builder: (context, dictionaryProvider, child) {
           if (dictionaryProvider.isLoading) {
-            return const Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CircularProgressIndicator(),
-                  SizedBox(height: AppConfig.paddingMedium),
-                  Text('Cargando tus términos...'),
-                ],
-              ),
+            return AppLoadingState(
+              message: l10n.myTermsLoading,
             );
           }
 
           final terms = dictionaryProvider.userProposedTerms;
-          print('📝 Términos cargados: ${terms.length}');
           if (terms.isEmpty) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.all(AppConfig.paddingLarge),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.article_outlined,
-                      size: 80,
-                      color: AppConfig.textSecondaryColor,
-                    ),
-                    const SizedBox(height: AppConfig.paddingMedium),
-                    Text(
-                      'No has propuesto términos aún',
-                      style: Theme.of(context).textTheme.displayMedium,
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: AppConfig.paddingSmall),
-                    Text(
-                      'Contribuye al diccionario proponiendo nuevos términos',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }
-
-          if (terms.isEmpty) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.all(AppConfig.paddingLarge),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.article_outlined,
-                      size: 80,
-                      color: AppConfig.textSecondaryColor,
-                    ),
-                    const SizedBox(height: AppConfig.paddingMedium),
-                    Text(
-                      'No has propuesto términos aún',
-                      style: Theme.of(context).textTheme.displayMedium,
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: AppConfig.paddingSmall),
-                    Text(
-                      'Contribuye al diccionario proponiendo nuevos términos',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              ),
+            return AppEmptyState(
+              icon: Icons.article_outlined,
+              title: l10n.myTermsEmptyTitle,
+              message: l10n.myTermsEmptyMessage,
             );
           }
 
@@ -142,7 +101,7 @@ class _MyProposedTermsScreenState extends State<MyProposedTermsScreen> {
                       ),
                     ),
                     Text(
-                      'Términos propuestos',
+                      l10n.myTermsProposedCount,
                       style: TextStyle(
                         fontSize: AppConfig.fontSizeBody,
                         color: Colors.white.withOpacity(0.9),
@@ -153,13 +112,13 @@ class _MyProposedTermsScreenState extends State<MyProposedTermsScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         _buildStatChip(
-                          'Aprobados',
+                          l10n.myTermsApproved,
                           user?.termsApproved ?? 0,
                           AppConfig.accentColor,
                         ),
                         const SizedBox(width: AppConfig.paddingSmall),
                         _buildStatChip(
-                          'Pendientes',
+                          l10n.myTermsPending,
                           terms.where((t) => t.status == 'pending').length,
                           AppConfig.warningColor,
                         ),
@@ -171,122 +130,162 @@ class _MyProposedTermsScreenState extends State<MyProposedTermsScreen> {
 
               // Lista de términos
               Expanded(
-                child: ListView.builder(
-                  padding: const EdgeInsets.all(AppConfig.paddingMedium),
-                  itemCount: terms.length,
-                  itemBuilder: (context, index) {
-                    final term = terms[index];
-                    return Card(
-                      margin: const EdgeInsets.only(bottom: AppConfig.paddingMedium),
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => TermDetailScreen(termId: term.id),
-                            ),
-                          );
-                        },
-                        borderRadius: BorderRadius.circular(AppConfig.borderRadiusMedium),
-                        child: Padding(
-                          padding: const EdgeInsets.all(AppConfig.paddingMedium),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      term.term,
-                                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                        fontWeight: FontWeight.bold,
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+                    final dictionaryProvider = Provider.of<DictionaryProvider>(context, listen: false);
+                    if (authProvider.currentUser != null) {
+                      dictionaryProvider.loadUserProposedTerms(authProvider.currentUser!.id);
+                    }
+                    await Future.delayed(const Duration(milliseconds: 600));
+                  },
+                  child: ListView.builder(
+                    controller: _scrollController,
+                    padding: const EdgeInsets.all(AppConfig.paddingMedium),
+                    itemCount: terms.length,
+                    itemBuilder: (context, index) {
+                      final term = terms[index];
+                      return Card(
+                        margin: const EdgeInsets.only(
+                            bottom: AppConfig.paddingMedium),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => TermDetailScreen(termId: term.id),
+                              ),
+                            );
+                          },
+                          borderRadius:
+                              BorderRadius.circular(AppConfig.borderRadiusMedium),
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.all(AppConfig.paddingMedium),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        term.term,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge
+                                            ?.copyWith(
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                       ),
                                     ),
-                                  ),
-                                  _buildStatusChip(term.status),
-                                ],
-                              ),
-                              const SizedBox(height: AppConfig.paddingSmall),
-                              Text(
-                                term.definition,
-                                style: Theme.of(context).textTheme.bodyMedium,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              const SizedBox(height: AppConfig.paddingSmall),
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.category,
-                                    size: 14,
-                                    color: AppConfig.textSecondaryColor,
-                                  ),
-                                  const SizedBox(width: AppConfig.paddingSmall / 2),
-                                  Text(
-                                    term.categoryDisplayName,
-                                    style: const TextStyle(
-                                      fontSize: AppConfig.fontSizeCaption,
+                                    _buildStatusChip(term.status, l10n),
+                                  ],
+                                ),
+                                const SizedBox(height: AppConfig.paddingSmall),
+                                Text(
+                                  term.definition,
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                const SizedBox(height: AppConfig.paddingSmall),
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.category,
+                                      size: 14,
                                       color: AppConfig.textSecondaryColor,
                                     ),
-                                  ),
-                                  const Spacer(),
-                                  if (term.rejectionReason != null) ...[
-                                    const Icon(
-                                      Icons.info_outline,
-                                      size: 14,
-                                      color: AppConfig.errorColor,
-                                    ),
-                                    const SizedBox(width: AppConfig.paddingSmall / 2),
-                                    const Text(
-                                      'Ver motivo',
-                                      style: TextStyle(
+                                    const SizedBox(
+                                        width: AppConfig.paddingSmall / 2),
+                                    Text(
+                                      _getCategoryLabel(term.category, l10n),
+                                      style: const TextStyle(
                                         fontSize: AppConfig.fontSizeCaption,
-                                        color: AppConfig.errorColor,
+                                        color: AppConfig.textSecondaryColor,
                                       ),
                                     ),
-                                  ],
-                                ],
-                              ),
-                              if (term.rejectionReason != null) ...[
-                                const SizedBox(height: AppConfig.paddingSmall),
-                                Container(
-                                  padding: const EdgeInsets.all(AppConfig.paddingSmall),
-                                  decoration: BoxDecoration(
-                                    color: AppConfig.errorColor.withOpacity(0.1),
-                                    borderRadius: BorderRadius.circular(AppConfig.borderRadiusSmall),
-                                  ),
-                                  child: Row(
-                                    children: [
+                                    const Spacer(),
+                                    if (term.rejectionReason != null) ...[
                                       const Icon(
-                                        Icons.block,
-                                        size: 16,
+                                        Icons.info_outline,
+                                        size: 14,
                                         color: AppConfig.errorColor,
                                       ),
-                                      const SizedBox(width: AppConfig.paddingSmall / 2),
-                                      Expanded(
-                                        child: Text(
-                                          term.rejectionReason!,
-                                          style: const TextStyle(
-                                            fontSize: AppConfig.fontSizeCaption,
-                                            color: AppConfig.errorColor,
-                                          ),
+                                      const SizedBox(
+                                          width: AppConfig.paddingSmall / 2),
+                                      Text(
+                                        l10n.myTermsViewReason,
+                                        style: const TextStyle(
+                                          fontSize: AppConfig.fontSizeCaption,
+                                          color: AppConfig.errorColor,
                                         ),
                                       ),
                                     ],
-                                  ),
+                                  ],
                                 ),
+                                if (term.rejectionReason != null) ...[
+                                  const SizedBox(height: AppConfig.paddingSmall),
+                                  Container(
+                                    padding: const EdgeInsets.all(
+                                        AppConfig.paddingSmall),
+                                    decoration: BoxDecoration(
+                                      color:
+                                          AppConfig.errorColor.withOpacity(0.1),
+                                      borderRadius: BorderRadius.circular(
+                                          AppConfig.borderRadiusSmall),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.block,
+                                          size: 16,
+                                          color: AppConfig.errorColor,
+                                        ),
+                                        const SizedBox(
+                                            width: AppConfig.paddingSmall / 2),
+                                        Expanded(
+                                          child: Text(
+                                            term.rejectionReason!,
+                                            style: const TextStyle(
+                                              fontSize: AppConfig.fontSizeCaption,
+                                              color: AppConfig.errorColor,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ],
-                            ],
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               ),
             ],
           );
         },
       ),
+      floatingActionButton: _showBackToTopButton
+          ? FloatingActionButton.small(
+              heroTag: 'my_terms_back_to_top_btn',
+              onPressed: () {
+                if (_scrollController.hasClients) {
+                  _scrollController.animateTo(
+                    0,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                  );
+                }
+              },
+              backgroundColor: AppConfig.primaryColor,
+              foregroundColor: Colors.white,
+              child: const Icon(Icons.arrow_upward),
+            )
+          : null,
     );
   }
 
@@ -324,7 +323,7 @@ class _MyProposedTermsScreenState extends State<MyProposedTermsScreen> {
     );
   }
 
-  Widget _buildStatusChip(String status) {
+  Widget _buildStatusChip(String status, AppLocalizations l10n) {
     Color color;
     String text;
     IconData icon;
@@ -332,17 +331,17 @@ class _MyProposedTermsScreenState extends State<MyProposedTermsScreen> {
     switch (status) {
       case 'approved':
         color = AppConfig.accentColor;
-        text = 'Aprobado';
+        text = l10n.dictStatusApproved;
         icon = Icons.check_circle;
         break;
       case 'pending':
         color = AppConfig.warningColor;
-        text = 'Pendiente';
+        text = l10n.dictStatusPending;
         icon = Icons.schedule;
         break;
       case 'rejected':
         color = AppConfig.errorColor;
-        text = 'Rechazado';
+        text = l10n.dictStatusRejected;
         icon = Icons.cancel;
         break;
       default:
@@ -377,5 +376,18 @@ class _MyProposedTermsScreenState extends State<MyProposedTermsScreen> {
         ],
       ),
     );
+  }
+
+  String _getCategoryLabel(String category, AppLocalizations l10n) {
+    switch (category) {
+      case 'jerga_gamer':
+        return l10n.dictCategoryJerga;
+      case 'mecánicas_juego':
+        return l10n.dictCategoryMechanics;
+      case 'plataformas':
+        return l10n.dictCategoryPlatforms;
+      default:
+        return category;
+    }
   }
 }

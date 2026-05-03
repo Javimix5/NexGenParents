@@ -1,0 +1,85 @@
+{
+
+    "forumSearchHint": "Buscar fíos por título...",
+    "forumEmptySearchTitle": "Sen resultados",
+    "forumEmptySearchMessage": "Non se atoparon fíos que coincidan coa túa busca.",
+    "forumEmptyCategoryTitle": "Categoría baleira",
+    "forumEmptyCategoryMessage": "Aínda non hai novidades nesta sección. Anímate e publica algo!",
+    "forumPostSubtitle": "por {author} • {count} respostas",
+    "@forumPostSubtitle": {
+        "placeholders": {
+            "author": { "type": "String" },
+            "count": { "type": "int" }
+        }
+    },
+    "forumDeleteTooltip": "Eliminar",
+    "forumDeletePostTitle": "Eliminar publicación",
+    "forumDeletePostContent": "Queres eliminar \"{title}\" e todas as súas respostas?",
+    "@forumDeletePostContent": {
+        "placeholders": {
+            "title": { "type": "String" }
+        }
+    },
+    "forumCancelBtn": "Cancelar",
+    "forumDeleteBtn": "Eliminar",
+    "forumNewPostBtn": "Novo Fío",
+    "forumPostDeletedSuccess": "Publicación eliminada",
+    "forumPostDeletedError": "Non se puido eliminar a publicación",
+
+    "forumCreateLoginRequired": "Debes iniciar sesión para publicar",
+    "forumCreateUnknownError": "Erro descoñecido",
+    "forumCreateTitle": "Crear Novo Fío",
+    "forumCreateFieldTitle": "Título",
+    "forumCreateErrorTitle": "O título é obrigatorio",
+    "forumCreateFieldSection": "Sección",
+    "forumCreateFieldContent": "Contido",
+    "forumCreateErrorContent": "O contido é obrigatorio",
+    "forumCreatePublishingBtn": "Publicando...",
+    "forumCreatePublishBtn": "Publicar",
+
+    "forumPostByAuthor": "por {author}",
+    "@forumPostByAuthor": {
+        "placeholders": {
+            "author": { "type": "String" }
+        }
+    },
+    "forumDetailRepliesTitle": "Respostas",
+    "forumDetailEmptyReplies": "Aínda non hai respostas.",
+    "forumDeleteReplyTooltip": "Eliminar resposta",
+    "forumDeleteReplyTitle": "Eliminar resposta",
+    "forumDeleteReplyContent": "Queres eliminar esta resposta?",
+    "forumReplyDeletedSuccess": "Resposta eliminada",
+    "forumReplyDeletedError": "Non se puido eliminar a resposta",
+    "forumDetailReplyInputHint": "Escribe unha resposta...",
+"forumSidebarFollowedTopics": "Temas Seguidos",
+    "forumSidebarTopic1Title": "Límites de tempo para nenos de 10 anos?",
+    "forumSidebarTopic1Subtitle": "24 respostas novas hoxe",
+    "forumSidebarTopic2Title": "Os mellores xogos educativos en Switch",
+    "forumSidebarTopic2Subtitle": "15 respostas novas hoxe",
+    "forumSidebarTopic3Title": "Como xestionar a seguridade en chats online",
+    "forumSidebarTopic3Subtitle": "8 respostas novas hoxe",
+    "forumSidebarRepliesToYou": "Respostas para ti",
+    "forumSidebarReply1Link": "Seguridade en Fortnite",
+    "forumSidebarReply1Action": "respondeu ao teu co...",
+    "forumSidebarReply1Time": "hai 2 minutos",
+    "forumSidebarReply2Link": "Comparativa de consolas",
+    "forumSidebarReply2Action": "etiquetoute en...",
+    "forumSidebarReply2Time": "hai 1 hora",
+    "forumSidebarReply3Link": "Fío de Benvida",
+    "forumSidebarReply3Action": "gustoulle a túa respo...",
+    "forumSidebarReply3Time": "hai 3 horas",
+    "forumSidebarGlobalNews": "Novas Globais do Foro",
+    "forumSidebarNews1Tag": "Actualización",
+    "forumSidebarNews1Text": "Novas guías de control parental engadidas ao Dicionario.",
+    "forumSidebarNews2Tag": "Evento",
+    "forumSidebarNews2Text": "Q&A en directo con psicólogo infantil este xoves ás 18:00.",
+    "forumSidebarNews3Tag": "Novidade",
+    "forumSidebarNews3Text": "O modo escuro xa está dispoñible nos axustes de usuario!",
+
+    "forumMainCategoriesTitle": "Categorías Principais",
+    "forumViewAllBtn": "Ver todo",
+    "forumEmptySectionTitle": "Non hai publicacións nesta sección",
+    "forumEmptySectionMessage": "Aínda non hai novidades aquí.",
+    "forumPlatformsTitle": "Plataformas"
+    
+}

@@ -1,0 +1,851 @@
+{
+    "@@locale": "gl",
+    "privacyPolicyTitle": "Política de Privacidade",
+    "privacyPolicySubtitle": "Política de Privacidade de NexGen Parents",
+    "privacyPolicyLastUpdate": "Última actualización: Marzo 2026",
+    "privacyPolicyS1Title": "1. Recompilación de Información",
+    "privacyPolicyS1Text": "En NexGen Parents tomámonos moi en serio a túa privacidade e a da túa familia. Recompilamos información básica do perfil (como o correo electrónico e o teu nome de usuario) para permitir o acceso a funcionalidades como o dicionario colaborativo e o foro.",
+    "privacyPolicyS2Title": "2. Uso dos Datos",
+    "privacyPolicyS2Text": "Os datos proporcionados utilízanse exclusivamente para mellorar a túa experiencia na plataforma, personalizar as recomendacións por idade (PEGI/ESRB) e manter un contorno seguro na nosa comunidade.",
+    "privacyPolicyS3Title": "3. Protección e Seguridade",
+    "privacyPolicyS3Text": "Os teus datos están protexidos mediante os servizos de Firebase e en ningún caso se venden ou comparten con terceiros con fins publicitarios non relacionados co propósito educativo da plataforma.",
+    "privacyPolicyS4Title": "4. Os teus Dereitos",
+    "privacyPolicyS4Text": "Podes solicitar en calquera momento a eliminación total da túa conta e dos teus datos asociados a través do panel de configuración do teu perfil.",
+    "aboutUsTitle": "Quen somos",
+    "aboutUsSubtitle": "Acerca de NexGen Parents",
+    "aboutUsP1": "NexGen Parents nace para resolver unha fenda informativa real: hoxe en día, moitas familias non teñen referencias claras para interpretar o contido, os riscos e o gran valor educativo que ofrecen os videoxogos actuais.",
+    "aboutUsP2": "O noso principal obxectivo é reducir a incerteza de nais, pais, docentes e orientadores, facilitando decisións de consumo dixital moito máis responsables e informadas.",
+    "aboutUsVersion": "Versión 1.0.0 (Marzo 2026)\nProxecto TFC",
+    "contactUsTitle": "Contacta connosco",
+    "contactUsSubtitle": "Encantaríanos escoitarte!",
+    "contactUsDescription": "Tes algunha dúbida sobre as nosas guías, queres propoñer unha mellora ou precisas axuda técnica coa aplicación? Ponte en contacto connosco.",
+    "contactUsEmailLabel": "Correo electrónico",
+    "contactUsWebLabel": "Sitio Web",
+    "contactUsForumHint": "Tamén podes participar activamente deixando as túas dúbidas no noso Foro Comunitario da app.",
+    "errorInvalidEmail": "O correo electrónico non é válido",
+    "errorWeakPassword": "O contrasinal debe ter polo menos 8 caracteres, unha maiúscula, unha minúscula e un número",
+    "errorUserNotFound": "Non existe un usuario con este correo",
+    "errorWrongPassword": "O contrasinal é incorrecto",
+    "errorUserDisabled": "Esta conta foi deshabilitada",
+    "errorEmailInUse": "Este correo xa está rexistrado",
+    "errorEmailInUseRecovery": "Este correo xa está rexistrado. Se borraches só o perfil na base de datos, inicia sesión co teu contrasinal anterior para restauralo.",
+    "errorDifferentCredential": "Este correo xa está rexistrado con outro método de acceso",
+    "errorInvalidCredential": "As credenciais non son válidas",
+    "errorPopupClosed": "Pechaches a xanela de Google antes de completar o acceso",
+    "errorPopupBlocked": "O navegador bloqueou a xanela emerxente de Google. Téntao de novo",
+    "errorPermissionDenied": "Non hai permisos para acceder ao perfil en Firestore. Revisa e desprega firestore.rules.",
+    "errorGeneric": "Erro inesperado: {error}",
+    "@errorGeneric": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "errorCreatingUser": "Erro ao crear o usuario",
+    "errorCreatingProfile": "Non se puido crear o perfil do usuario",
+    "errorLogin": "Erro ao iniciar sesión",
+    "errorLoginGoogle": "Non se puido iniciar sesión con Google",
+    "errorLoadingProfile": "Non se puido cargar o perfil do usuario",
+    "successUserRegistered": "Usuario rexistrado correctamente",
+    "successLogin": "Sesión iniciada correctamente",
+    "successLoginGoogle": "Sesión iniciada correctamente con Google",
+    "@successLoginGoogle": {
+        "description": "Mensaxe de éxito ao iniciar sesión con Google"
+    },
+    "successPasswordReset": "Correo de recuperación enviado. Revisa a túa bandexa de entrada",
+    "errorNameLength": "O nome debe ter polo menos 3 caracteres",
+    "errorPasswordLength8": "O contrasinal debe ter polo menos 8 caracteres",
+    "errorPasswordUppercase": "Inclúe polo menos unha letra maiúscula",
+    "errorPasswordLowercase": "Inclúe polo menos unha letra minúscula",
+    "errorPasswordNumber": "Inclúe polo menos un número",
+    "errorConfirmPasswordRequired": "Por favor, confirma o teu contrasinal",
+    "errorTermExists": "Este termo xa existe no dicionario",
+    "successTermProposed": "Termo proposto correctamente. Será revisado por un moderador",
+    "errorProposeTerm": "Erro ao propoñer termo",
+    "errorTermNotFound": "O termo non existe",
+    "successTermApproved": "Termo aprobado correctamente",
+    "errorApproveTerm": "Erro ao aprobar termo",
+    "successTermRejected": "Termo rexeitado",
+    "errorRejectTerm": "Erro ao rexeitar termo",
+    "successTermUpdated": "Termo actualizado correctamente",
+    "errorUpdateTerm": "Erro ao actualizar termo",
+    "successTermDeleted": "Termo eliminado correctamente",
+    "errorDeleteTerm": "Erro ao eliminar termo",
+    "errorInvalidRole": "Rol inválido. Debe ser: user, moderator ou admin",
+    "errorModifyOwnRole": "Non podes modificar o teu propio rol",
+    "successRoleUpdated": "Rol actualizado correctamente",
+    "errorUpdateRole": "Erro ao actualizar rol",
+    "successBirthYearsUpdated": "Anos de nacemento actualizados correctamente",
+    "errorUpdateBirthYears": "Erro ao actualizar anos de nacemento",
+    "successPlatformsUpdated": "Plataformas actualizadas correctamente",
+    "errorUpdatePlatforms": "Erro ao actualizar plataformas",
+    "successAvatarUpdated": "Avatar actualizado correctamente",
+    "errorUpdateAvatar": "Erro ao actualizar avatar",
+    "successUserInfoUpdated": "Información de usuario actualizada correctamente",
+    "errorUpdateUserInfo": "Erro ao actualizar información",
+    "successAccountDeleted": "Conta eliminada correctamente",
+    "errorDeleteAccount": "Erro ao eliminar conta",
+    "successPostDeleted": "Publicación eliminada correctamente",
+    "errorDeletePost": "Erro ao eliminar a publicación",
+    "errorPostNotFound": "A publicación asociada non existe",
+    "successReplyDeleted": "Resposta eliminada correctamente",
+    "errorDeleteReply": "Erro ao eliminar a resposta",
+    "errorNoAuthUser": "Non hai usuario autenticado",
+    "successPasswordUpdated": "Contrasinal actualizado correctamente",
+    "errorChangePassword": "Erro ao cambiar contrasinal",
+    "errorWrongCurrentPassword": "O contrasinal actual é incorrecto",
+    "errorWeakNewPassword": "O novo contrasinal é demasiado débil",
+    "successEmailUpdated": "Email actualizado correctamente. Verifica o teu novo correo.",
+    "errorChangeEmail": "Erro ao cambiar email",
+    "errorEmailAlreadyInUse": "Este email xa está en uso",
+    "errorInvalidNewEmail": "O email non é válido",
+    "errorNoPasswordAccount": "A túa conta non usa contrasinal. Inicia sesión de novo co teu provedor para continuar.",
+    "successReauth": "Reautenticación correcta",
+    "errorReauth": "Erro de reautenticación",
+    "alertLoginRequiredForum": "Debes iniciar sesión para acceder á comunidade e participar no foro.",
+    "homeWelcomeGuest": "Benvido a NexGen Parents!",
+    "homeGuestDescription": "A túa guía definitiva sobre videoxogos. Descobre clasificacións por idade, explora o noso dicionario de termos gaming e aprende a configurar controis parentais.",
+    "dictRequireLoginDefault": "Debes iniciar sesión para acceder a esta función.",
+    "alertLoginRequiredProfile": "Debes iniciar sesión para ver e editar o teu perfil.",
+    "alertLoginRequiredProposeTerm": "Debes iniciar sesión para propoñer un novo termo.",
+    "dictDetailTitle": "Detalle do Termo",
+    "dictEditTooltip": "Editar Termo",
+    "dictDeleteTooltip": "Eliminar Termo",
+    "dictLoadingTerm": "Cargando termo...",
+    "dictErrorLoadingTerm": "Non se puido cargar o termo",
+    "dictBackBtn": "Volver",
+    "dictDefinitionLabel": "Definición",
+    "dictExampleLabel": "Exemplo de uso",
+    "dictUsefulQuestion": "Fóiche útil este termo?",
+    "dictVoteThanks": "Grazas polo teu voto!",
+    "dictVoteRegistered": "Voto rexistrado",
+    "dictVoteBtn": "Si, axudoume",
+    "dictUsefulVotes": "Votos útiles",
+    "dictViews": "Visualizacións",
+    "dictAdditionalInfo": "Información adicional",
+    "dictAddedOn": "Engadido o",
+    "dictLastUpdate": "Última actualización",
+    "dictStatusLabel": "Estado",
+    "dictStatusApproved": "Aprobado",
+    "dictStatusPending": "Pendente",
+    "dictStatusRejected": "Rexeitado",
+    "dictEditDialogTitle": "Editar Termo",
+    "dictEditFieldTerm": "Termo",
+    "dictEditErrorTerm": "O termo non pode estar baleiro",
+    "dictEditFieldDefinition": "Definición",
+    "dictEditErrorDefinition": "A definición non pode estar baleira",
+    "dictEditFieldExample": "Exemplo (opcional)",
+    "dictEditFieldCategory": "Categoría",
+    "dictCancelBtn": "Cancelar",
+    "dictSaveChangesBtn": "Gardar Cambios",
+    "dictUpdateSuccess": "Termo actualizado correctamente",
+    "dictUpdateError": "Erro ao actualizar o termo",
+    "dictDeleteConfirmTitle": "Confirmar Eliminación",
+    "dictDeleteConfirmContent": "Estás seguro de que queres eliminar este termo de forma permanente? Esta acción non se pode desfacer.",
+    "dictDeleteBtn": "Eliminar",
+    "dictDeleteSuccess": "Termo eliminado correctamente",
+    "dictDeleteError": "Erro ao eliminar o termo",
+    "dictListEmptyTitle": "Non hai termos no dicionario",
+    "dictListEmptyMessage": "Sé o primeiro en propoñer un termo",
+    "dictListProposeBtn": "Propoñer termo",
+    "dictProposeErrorAuth": "Erro: Usuario non autenticado",
+    "dictProposeSuccessTitle": "Termo enviado!",
+    "dictProposeSuccessMessage": "O teu termo foi proposto correctamente e será revisado por un moderador. Notificarémosche cando sexa aprobado.",
+    "dictProposeUnderstoodBtn": "Entendido",
+    "dictProposeErrorGeneric": "Erro ao propoñer termo",
+    "dictProposeTitle": "Propoñer Termo",
+    "dictProposeHelpText": "Axuda a outros pais engadindo termos que coñezas",
+    "dictProposeFieldTerm": "Termo ou palabra",
+    "dictProposeFieldTermHint": "Ex: GG, Nerf, Farming",
+    "dictProposeErrorTermEmpty": "Por favor, introduce o termo",
+    "dictProposeErrorTermLength": "O termo debe ter polo menos 2 caracteres",
+    "dictProposeFieldCategory": "Categoría",
+    "dictProposeFieldDefinition": "Definición",
+    "dictProposeFieldDefinitionHint": "Explica que significa este termo de forma clara e sinxela",
+    "dictProposeErrorDefinitionEmpty": "Por favor, introduce a definición",
+    "dictProposeErrorDefinitionLength": "A definición debe ter polo menos 10 caracteres",
+    "dictProposeFieldExample": "Exemplo de uso",
+    "dictProposeFieldExampleHint": "Ex: \"Os nenos din GG ao final de cada partida\"",
+    "dictProposeErrorExampleEmpty": "Por favor, introduce un exemplo de uso",
+    "dictProposeErrorExampleLength": "O exemplo debe ter polo menos 10 caracteres",
+    "dictProposeWarningText": "O teu termo será revisado por un moderador antes de aparecer no dicionario. Isto axuda a manter a calidade do contido.",
+    "dictProposeSendingBtn": "Enviando...",
+    "dictProposeSubmitBtn": "Propoñer termo",
+    "dictCategoryJerga": "Xerga Gamer",
+    "dictCategoryMechanics": "Mecánicas de Xogo",
+    "dictCategoryPlatforms": "Plataformas",
+    "dictModAccessDeniedTitle": "Acceso Denegado",
+    "dictModAccessDeniedMessage": "Non tes permisos para acceder a esta sección",
+    "dictModAccessDeniedSubtitle": "Só os moderadores poden revisar termos propostos",
+    "dictModTitle": "Panel de Moderación",
+    "dictModRefreshTooltip": "Actualizar",
+    "dictModLoading": "Cargando termos pendentes...",
+    "dictModAllReviewedTitle": "Todo revisado!",
+    "dictModAllReviewedMessage": "Non hai termos pendentes de revisar",
+    "dictModPendingCount": "{count} termos pendentes de revisión",
+    "@dictModPendingCount": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "dictModDefinitionLabel": "Definición:",
+    "dictModExampleLabel": "Exemplo de uso:",
+    "dictModProposedOn": "Proposto o {date}",
+    "@dictModProposedOn": {
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "dictModEditBtn": "Editar termo",
+    "dictModSwipeHint": "Desliza para aprobar ou rexeitar",
+    "dictModApproveTitle": "Aprobar termo",
+    "dictModApproveConfirm": "Estás seguro de que desexas aprobar o termo \"{term}\"?\n\nSerá visible para todos os usuarios.",
+    "@dictModApproveConfirm": {
+        "placeholders": {
+            "term": {
+                "type": "String"
+            }
+        }
+    },
+    "dictModCancelBtn": "Cancelar",
+    "dictModApproveBtn": "Aprobar",
+    "dictModApproveSuccess": "✓ Termo \"{term}\" aprobado correctamente",
+    "@dictModApproveSuccess": {
+        "placeholders": {
+            "term": {
+                "type": "String"
+            }
+        }
+    },
+    "dictModApproveError": "✗ Erro ao aprobar o termo",
+    "dictModRejectTitle": "Rexeitar termo",
+    "dictModRejectReasonTitle": "Por que rexeitas o termo \"{term}\"?",
+    "@dictModRejectReasonTitle": {
+        "placeholders": {
+            "term": {
+                "type": "String"
+            }
+        }
+    },
+    "dictModRejectHint": "Escribe o motivo do rexeitamento...",
+    "dictModRejectWarning": "O usuario verá este motivo nos seus termos propostos",
+    "dictModRejectErrorEmpty": "Debes indicar un motivo para rexeitar",
+    "dictModRejectBtn": "Rexeitar",
+    "dictModRejectSuccess": "✓ Termo \"{term}\" rexeitado",
+    "@dictModRejectSuccess": {
+        "placeholders": {
+            "term": {
+                "type": "String"
+            }
+        }
+    },
+    "dictModRejectError": "✗ Erro ao rexeitar o termo",
+    "dictModEditTitle": "Editar termo",
+    "dictModEditFieldTerm": "Termo",
+    "dictModEditFieldDef": "Definición",
+    "dictModEditFieldEx": "Exemplo (opcional)",
+    "dictModEditFieldCat": "Categoría",
+    "dictModEditErrorEmpty": "Termo e definición son obrigatorios",
+    "dictModEditErrorGeneric": "Non se puido actualizar o termo",
+    "dictModEditSaveBtn": "Gardar cambios",
+    "dictModEditSuccess": "✓ Termo actualizado correctamente",
+    "myTermsTitle": "Os Meus Termos Propostos",
+    "myTermsLoading": "Cargando os teus termos...",
+    "myTermsEmptyTitle": "Aínda non propuxeches termos",
+    "myTermsEmptyMessage": "Contribúe ao dicionario propoñendo novos termos",
+    "myTermsProposedCount": "Termos propostos",
+    "myTermsApproved": "Aprobados",
+    "myTermsPending": "Pendentes",
+    "myTermsViewReason": "Ver motivo",
+    "dictGuestLockMessage": "O dicionario conta con {totalTerms} termos. Inicia sesión para velos todos.",
+    "@dictGuestLockMessage": {
+        "placeholders": {
+            "totalTerms": {
+                "type": "int"
+            }
+        }
+    },
+    "dictRequireLoginPropose": "Debes iniciar sesión para propoñer un novo termo.",
+    "forumSearchHint": "Buscar fíos por título...",
+    "forumEmptySearchTitle": "Sen resultados",
+    "forumEmptySearchMessage": "Non se atoparon fíos que coincidan coa túa busca.",
+    "forumEmptyCategoryTitle": "Categoría baleira",
+    "forumEmptyCategoryMessage": "Aínda non hai novidades nesta sección. Anímate e publica algo!",
+    "forumPostSubtitle": "por {author} • {count} respostas",
+    "@forumPostSubtitle": {
+        "placeholders": {
+            "author": {
+                "type": "String"
+            },
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "forumDeleteTooltip": "Eliminar",
+    "forumDeletePostTitle": "Eliminar publicación",
+    "forumDeletePostContent": "Queres eliminar \"{title}\" e todas as súas respostas?",
+    "@forumDeletePostContent": {
+        "placeholders": {
+            "title": {
+                "type": "String"
+            }
+        }
+    },
+    "forumCancelBtn": "Cancelar",
+    "forumDeleteBtn": "Eliminar",
+    "forumNewPostBtn": "Novo Fío",
+    "forumPostDeletedSuccess": "Publicación eliminada",
+    "forumPostDeletedError": "Non se puido eliminar a publicación",
+    "forumCreateLoginRequired": "Debes iniciar sesión para publicar",
+    "forumCreateUnknownError": "Erro descoñecido",
+    "forumCreateTitle": "Crear Novo Fío",
+    "forumCreateFieldTitle": "Título",
+    "forumCreateErrorTitle": "O título é obrigatorio",
+    "forumCreateFieldSection": "Sección",
+    "forumCreateFieldContent": "Contido",
+    "forumCreateErrorContent": "O contido é obrigatorio",
+    "forumCreatePublishingBtn": "Publicando...",
+    "forumCreatePublishBtn": "Publicar",
+    "forumPostByAuthor": "por {author}",
+    "@forumPostByAuthor": {
+        "placeholders": {
+            "author": {
+                "type": "String"
+            }
+        }
+    },
+    "forumDetailRepliesTitle": "Respostas",
+    "forumDetailEmptyReplies": "Aínda non hai respostas.",
+    "forumDeleteReplyTooltip": "Eliminar resposta",
+    "forumDeleteReplyTitle": "Eliminar resposta",
+    "forumDeleteReplyContent": "Queres eliminar esta resposta?",
+    "forumReplyDeletedSuccess": "Resposta eliminada",
+    "forumReplyDeletedError": "Non se puido eliminar a resposta",
+    "forumDetailReplyInputHint": "Escribe unha resposta...",
+    "forumSidebarFollowedTopics": "Temas Seguidos",
+    "forumSidebarTopic1Title": "Límites de tempo para nenos de 10 anos?",
+    "forumSidebarTopic1Subtitle": "24 respostas novas hoxe",
+    "forumSidebarTopic2Title": "Os mellores xogos educativos en Switch",
+    "forumSidebarTopic2Subtitle": "15 respostas novas hoxe",
+    "forumSidebarTopic3Title": "Como xestionar a seguridade en chats online",
+    "forumSidebarTopic3Subtitle": "8 respostas novas hoxe",
+    "forumSidebarRepliesToYou": "Respostas para ti",
+    "forumSidebarReply1Link": "Seguridade en Fortnite",
+    "forumSidebarReply1Action": "respondeu ao teu co...",
+    "forumSidebarReply1Time": "hai 2 minutos",
+    "forumSidebarReply2Link": "Comparativa de consolas",
+    "forumSidebarReply2Action": "etiquetoute en...",
+    "forumSidebarReply2Time": "hai 1 hora",
+    "forumSidebarReply3Link": "Fío de Benvida",
+    "forumSidebarReply3Action": "gustoulle a túa respo...",
+    "forumSidebarReply3Time": "hai 3 horas",
+    "forumSidebarGlobalNews": "Novas Globais do Foro",
+    "forumSidebarNews1Tag": "Actualización",
+    "forumSidebarNews1Text": "Novas guías de control parental engadidas ao Dicionario.",
+    "forumSidebarNews2Tag": "Evento",
+    "forumSidebarNews2Text": "Q&A en directo con psicólogo infantil este xoves ás 18:00.",
+    "forumSidebarNews3Tag": "Novidade",
+    "forumSidebarNews3Text": "O modo escuro xa está dispoñible nos axustes de usuario!",
+    "forumMainCategoriesTitle": "Categorías Principais",
+    "forumViewAllBtn": "Ver todo",
+    "forumEmptySectionTitle": "Non hai publicacións nesta sección",
+    "forumEmptySectionMessage": "Aínda non hai novidades aquí.",
+    "forumPlatformsTitle": "Plataformas",
+    "guideTypeEnable": "Habilitar guía",
+    "guideTypeDisable": "Deshabilitar guía",
+    "guideTypeApp": "Guía de aplicacións",
+    "guideTypeTime": "Guía de tempo",
+    "guideTypeDefault": "Guía por defecto",
+    "psEnableGuideTitle": "Como habilitar a guía parental",
+    "psEnableGuideDescription": "Sigue estes pasos para habilitar a guía parental no teu dispositivo.",
+    "psEnableGuideStep1": "Abre a aplicación de configuración.",
+    "psEnableGuideStep2": "Selecciona 'Controis parentais'.",
+    "psEnableGuideStep3": "Activa a opción de guía parental.",
+    "psEnableGuideStep4": "Configura as restricións segundo as túas necesidades.",
+    "psEnableGuideStep5": "Garda os cambios.",
+    "psEnableGuideStep6": "Verifica que a guía estea activa.",
+    "psDisableGuideTitle": "Como deshabilitar a guía parental",
+    "psDisableGuideDescription": "Sigue estes pasos para deshabilitar a guía parental no teu dispositivo.",
+    "psDisableGuideStep1": "Abre a aplicación de configuración.",
+    "psDisableGuideStep2": "Selecciona 'Controis parentais'.",
+    "psDisableGuideStep3": "Desactiva a opción de guía parental.",
+    "psDisableGuideStep4": "Garda os cambios.",
+    "psDisableGuideStep5": "Verifica que a guía estea desactivada.",
+    "nintendoAppGuideStep2": "Paso 2: Abre a aplicación de Nintendo.",
+    "nintendoAppGuideStep3": "Paso 3: Vai á sección de controis parentais.",
+    "nintendoAppGuideStep4": "Paso 4: Configura as restricións segundo sexa necesario.",
+    "nintendoAppGuideStep5": "Paso 5: Garda a configuración.",
+    "nintendoAppGuideStep6": "Paso 6: Vincula a túa conta.",
+    "nintendoAppGuideStep7": "Paso 7: Confirma a configuración.",
+    "nintendoAppGuideStep8": "Paso 8: Proba os controis parentais.",
+    "steamGuideTitle": "Guía parental de Steam",
+    "steamGuideDescription": "Aprende a configurar os controis parentais en Steam.",
+    "steamGuideStep1": "Paso 1: Abre a configuración de Steam.",
+    "steamGuideStep2": "Paso 2: Vai á sección Familia.",
+    "steamGuideStep3": "Paso 3: Habilita a Vista Familiar.",
+    "steamGuideStep4": "Paso 4: Configura un PIN.",
+    "steamGuideStep5": "Paso 5: Restringe o contido segundo sexa necesario.",
+    "iosGuideTitle": "Guía parental de iOS",
+    "iosGuideDescription": "Aprende a configurar os controis parentais en dispositivos iOS.",
+    "iosGuideStep1": "Paso 1: Abre Configuración.",
+    "iosGuideStep2": "Paso 2: Vai a Tempo de Pantalla.",
+    "iosGuideStep3": "Paso 3: Habilita as restricións.",
+    "iosGuideStep4": "Paso 4: Configura un código de acceso.",
+    "xboxGuideTitle": "Guía parental de Xbox",
+    "xboxGuideDescription": "Aprende a configurar os controis parentais en Xbox.",
+    "xboxGuideStep1": "Paso 1: Abre a configuración de Xbox.",
+    "xboxGuideStep2": "Paso 2: Vai á sección Familia.",
+    "xboxGuideStep3": "Paso 3: Habilita os controis parentais.",
+    "xboxGuideStep4": "Paso 4: Configura as restricións.",
+    "xboxGuideStep5": "Paso 5: Garda a configuración.",
+    "xboxTimeGuideTitle": "Guía de tempo de Xbox",
+    "xboxTimeGuideDescription": "Aprende a configurar límites de tempo en Xbox.",
+    "xboxTimeGuideStep1": "Paso 1: Abre a configuración de Xbox.",
+    "xboxTimeGuideStep2": "Paso 2: Vai á sección Familia.",
+    "xboxTimeGuideStep3": "Paso 3: Habilita os límites de tempo.",
+    "xboxTimeGuideStep4": "Paso 4: Configura os horarios.",
+    "xboxTimeGuideStep5": "Paso 5: Garda a configuración.",
+    "nintendoGuideTitle": "Guía parental de Nintendo",
+    "nintendoGuideDescription": "Aprende a configurar os controis parentais en Nintendo.",
+    "nintendoGuideStep1": "Paso 1: Abre a configuración de Nintendo.",
+    "nintendoGuideStep2": "Paso 2: Vai á sección de controis parentais.",
+    "nintendoGuideStep3": "Paso 3: Configura as restricións.",
+    "nintendoGuideStep4": "Paso 4: Garda a configuración.",
+    "nintendoGuideStep5": "Paso 5: Proba os controis parentais.",
+    "parentalGuidesError": "Erro ao cargar guías: {error}",
+    "@parentalGuidesError": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "parentalGuidesEmptyTitle": "Non hai guías dispoñibles",
+    "parentalGuidesEmptyMessage": "Volve intentalo máis tarde.",
+    "parentalGuidesSelectPlatform": "Selecciona a túa plataforma ({count} guías)",
+    "@parentalGuidesSelectPlatform": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "parentalGuidesBannerTitle": "Guías de Control Parental",
+    "parentalGuidesBannerSubtitle": "Aprende a configurar controis de seguridade nas plataformas máis populares.",
+    "parentalGuidesMoreInfoBtn": "Saber máis sobre PEGI/ESRB",
+    "parentalGuidesStepsCount": "{count} pasos",
+    "@parentalGuidesStepsCount": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "parentalGuidesWhyImportant": "Por que é importante?",
+    "parentalGuidesProtectionTitle": "Protección infantil",
+    "parentalGuidesProtectionDesc": "Evita que os teus fillos accedan a contido non apropiado para a súa idade.",
+    "parentalGuidesTimeTitle": "Xestión do tempo",
+    "parentalGuidesTimeDesc": "Establece límites de tempo de xogo para manter un equilibrio saudable.",
+    "parentalGuidesSpendingTitle": "Control de gastos",
+    "parentalGuidesSpendingDesc": "Prevén compras non autorizadas dentro dos xogos.",
+    "esrbDescriptionE": "Contido para todos. Equivalente a PEGI 3.",
+    "esrbDescriptionE10": "Para maiores de 10 anos. Similar a PEGI 7.",
+    "esrbDescriptionT": "Adolescentes. Equivalente a PEGI 12.",
+    "esrbDescriptionM": "Maiores de 17 anos. Similar a PEGI 16.",
+    "esrbDescriptionAO": "Só adultos. Equivalente a PEGI 18.",
+    "esrbDescriptionRP": "Clasificación pendente (xogos en preventa).",
+    "parentalGuidesStepProgress": "Paso {current} de {total}",
+    "@parentalGuidesStepProgress": {
+        "placeholders": {
+            "current": {
+                "type": "int"
+            },
+            "total": {
+                "type": "int"
+            }
+        }
+    },
+    "parentalGuidesScreenshot": "Captura de pantalla:",
+    "parentalGuidesLoadingImage": "Cargando imaxe...",
+    "parentalGuidesImageNotAvailable": "Imaxe non dispoñible",
+    "parentalGuidesSetupComplete": "Configuración completada! Agora o teu fillo pode xogar de forma segura coas restricións configuradas.",
+    "parentalGuidesPreviousBtn": "Anterior",
+    "parentalGuidesNextBtn": "Seguinte",
+    "parentalGuidesFinishBtn": "Finalizar",
+    "parentalGuidesCompletedTitle": "Guía completada!",
+    "parentalGuidesCompletedDesc": "Completaches todos os pasos desta guía de control parental.",
+    "parentalGuidesRepeatBtn": "Repetir",
+    "homeDefaultUser": "Usuario",
+    "homeWelcomeUser": "Benvido, {userName}!",
+    "@homeWelcomeUser": {
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "homeUserStats": "Tes {approved} termos aprobados e {proposed} termos propostos.",
+    "@homeUserStats": {
+        "placeholders": {
+            "approved": {
+                "type": "int"
+            },
+            "proposed": {
+                "type": "int"
+            }
+        }
+    },
+    "homeActiveTerms": "{count} termos activos",
+    "@homeActiveTerms": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "homeQuickAccessTitle": "Acceso rápido",
+    "homeQuickAccessSubtitle": "Acceso ás zonas da web máis usadas",
+    "homeQuickActionGamesTitle": "Buscar xogos por idade",
+    "homeQuickActionGamesSubtitle": "Busca os xogos axeitados segundo a idade do teu fillo",
+    "homeQuickActionDictTitle": "Busca termos no dicionario",
+    "homeQuickActionDictSubtitle": "Descubre que significan as palabras que usa o teu fillo cando xoga",
+    "homeQuickActionGuidesTitle": "Configurar Control Parental",
+    "homeQuickActionGuidesSubtitle": "Configura os límites de idade e uso segundo a plataforma",
+    "homeGameOfTheWeek": "Xogo da semana",
+    "homeSeeMonthsGames": "Ver os xogos do mes",
+    "homeFullAnalysisBtn": "Análise completo",
+    "homeLatestUpdatesTitle": "Últimas actualizacións",
+    "forumSectionGeneral": "Xeral",
+    "forumSectionNews": "Novas",
+    "forumSectionQnA": "Preguntas e respostas",
+    "homeGoToCommunityBtn": "Accede á comunidade",
+    "homeGameSummaryEmpty": "Non hai un xogo destacado esta semana. Consulta os xogos do mes para ver as novidades.",
+    "homeGameSummaryReleased": "Saída: {date}",
+    "@homeGameSummaryReleased": {
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "homeGameSummaryReleasedEmpty": "Saída: non dispoñible",
+    "homeGameSummaryRating": "Valoración: {rating}",
+    "@homeGameSummaryRating": {
+        "placeholders": {
+            "rating": {
+                "type": "String"
+            }
+        }
+    },
+    "homeGameSummaryRatingEmpty": "Valoración: sen datos",
+    "homeGameSummaryNoGenre": "Sen xénero",
+    "homeGameSummaryRatingPending": "Clasificación pendente",
+    "homeGameSummaryFull": "Xénero: {genre} · {released} · {rating} · {ageRating}",
+    "@homeGameSummaryFull": {
+        "placeholders": {
+            "genre": {
+                "type": "String"
+            },
+            "released": {
+                "type": "String"
+            },
+            "rating": {
+                "type": "String"
+            },
+            "ageRating": {
+                "type": "String"
+            }
+        }
+    },
+    "homeGameTopLabelWeekly": "Selección semanal",
+    "homeGameTopLabelUnrated": "Sen clasificación",
+    "homeUpdateNoNews": "Sen novidades recentes nesta sección.",
+    "homeUpdateThreadUpdated": "Fío actualizado recentemente",
+    "homeUpdateCommunity": "Comunidade",
+    "roleAdmin": "Administrador",
+    "roleModerator": "Moderador",
+    "commonLoading": "Cargando...",
+    "userLevel": "Nivel {level}",
+    "@userLevel": {
+        "placeholders": {
+            "level": {
+                "type": "int"
+            }
+        }
+    },
+    "navHome": "Inicio",
+    "navSearch": "Buscar",
+    "navGuides": "Guías",
+    "navDictionary": "Dicionario",
+    "navGames": "Xogos",
+    "navParentalControl": "Control Parental",
+    "navCommunity": "Comunidade",
+    "headerSearchHint": "Buscar...",
+    "headerMenuBtn": "Menú",
+    "footerTaglineMobile": "Empoderando á vindeira xeración\nde pais na era dixital",
+    "footerPrivacy": "Política de privacidade",
+    "footerAbout": "Quen somos",
+    "footerContact": "Contacta connosco",
+    "footerCopyright": "© {year} {appName}. Todos os dereitos reservados.",
+    "@footerCopyright": {
+        "placeholders": {
+            "year": {
+                "type": "String"
+            },
+            "appName": {
+                "type": "String"
+            }
+        }
+    },
+    "footerTaglineDesktop": "Empoderando á vindeira xeración de pais na era dixital",
+    "footerErrorLink": "Non se puido abrir a ligazón externa.",
+    "adminAccessDeniedTitle": "Acceso Denegado",
+    "adminAccessDeniedMessage": "Só os administradores poden acceder",
+    "adminUsersTitle": "Xestión de Usuarios",
+    "adminUsersInfoTooltip": "Información",
+    "adminUsersLoading": "Cargando usuarios...",
+    "adminUsersError": "Erro ao cargar usuarios",
+    "adminUsersEmpty": "Non hai usuarios rexistrados",
+    "adminUsersStatTotal": "Total",
+    "adminUsersStatAdmins": "Admins",
+    "adminUsersStatMods": "Moderadores",
+    "adminUsersStatUsers": "Usuarios",
+    "adminUsersBadgeYou": "Ti",
+    "adminUsersProposedApproved": "{proposed} propostos | {approved} aprobados",
+    "@adminUsersProposedApproved": {
+        "placeholders": {
+            "proposed": {
+                "type": "int"
+            },
+            "approved": {
+                "type": "int"
+            }
+        }
+    },
+    "adminUsersActionMakeUser": "Cambiar a Usuario",
+    "adminUsersActionMakeMod": "Cambiar a Moderador",
+    "adminUsersActionMakeAdmin": "Cambiar a Admin",
+    "adminRoleAdmin": "Admin",
+    "adminRoleModerator": "Moderador",
+    "adminRoleUser": "Usuario",
+    "adminChangeRoleTitle": "Confirmar cambio de rol",
+    "adminChangeRoleConfirm": "Estás seguro de que desexas cambiar o rol de \"{user}\" a \"{role}\"?",
+    "@adminChangeRoleConfirm": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            },
+            "role": {
+                "type": "String"
+            }
+        }
+    },
+    "adminCancelBtn": "Cancelar",
+    "adminConfirmBtn": "Confirmar",
+    "adminInfoDialogTitle": "Xestión de Roles",
+    "adminInfoDialogSubtitle": "Roles dispoñibles:",
+    "adminInfoUserDesc": "Pode consultar o dicionario e propoñer termos",
+    "adminInfoModDesc": "Pode aprobar ou rexeitar termos propostos",
+    "adminInfoAdminDesc": "Ten acceso completo, incluída a xestión de usuarios",
+    "adminInfoUnderstoodBtn": "Entendido",
+    "accountMenuProfile": "O meu perfil",
+    "accountMenuMyTerms": "Os meus termos propostos",
+    "accountMenuTermsCount": "{count} termos",
+    "@accountMenuTermsCount": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "accountMenuModeration": "Moderación",
+    "accountMenuUsers": "Xestión de usuarios",
+    "accountMenuLogout": "Pechar sesión",
+    "profileEditTitle": "Editar Perfil",
+    "profileNoAuthUser": "Non hai usuario autenticado",
+    "profilePersonalInfo": "Información Persoal",
+    "profileUsername": "Nome de usuario",
+    "profileNameRequired": "Por favor, introduce o teu nome",
+    "profileEmailRequired": "Por favor, introduce o teu correo",
+    "profileEmailChangeWarning": "Cambiar o correo require verificación adicional",
+    "profileChangePasswordBtn": "Cambiar contrasinal",
+    "profileChildrenInfo": "Información dos teus fillos",
+    "profileChildrenInfoDesc": "Engade os anos de nacemento para personalizar as recomendacións de xogos",
+    "profilePlatforms": "Plataformas que posúes",
+    "profilePlatformsDesc": "Selecciona as consolas e dispositivos que tes na casa",
+    "profileSaveChangesBtn": "Gardar cambios",
+    "profileDeleteAccountBtn": "Eliminar conta",
+    "profileChangeAvatar": "Cambiar avatar",
+    "profileActivityTitle": "A túa actividade en NexGen Parents",
+    "profileTermsProposed": "Termos\nPropostos",
+    "profileTermsApproved": "Termos\nAprobados",
+    "profileLevel": "Nivel",
+    "profileYears": "anos",
+    "profileAddBirthYearBtn": "Engadir ano de nacemento",
+    "profileSelectAvatarTitle": "Selecciona o teu avatar",
+    "profileBirthYearLabel": "Ano de nacemento",
+    "profileBirthYearHint": "Exemplo: 2015",
+    "profileBirthYearDesc": "Introduce o ano de nacemento do teu fillo para obter recomendacións personalizadas.",
+    "profileInvalidBirthYear": "Por favor, introduce un ano de nacemento válido",
+    "profileAddBtn": "Engadir",
+    "profileErrorUpdateName": "Non se puido actualizar o nome",
+    "profileErrorUpdateChildren": "Non se puido actualizar a información dos fillos",
+    "profileErrorUpdatePlatforms": "Non se puideron actualizar as plataformas",
+    "profileErrorUpdateAvatar": "Non se puido actualizar o avatar",
+    "profileVerifyEmailTitle": "Verificación para cambiar o correo",
+    "profileVerifyEmailDesc": "Para cambiar o teu correo, confirma o teu contrasinal actual.",
+    "profileEmailChangeCancelled": "Cambio de correo cancelado",
+    "profileErrorChangeEmail": "Non se puido cambiar o correo",
+    "profileUpdateSuccess": "Perfil actualizado correctamente",
+    "profileErrorSave": "Erro ao gardar perfil:",
+    "profileCurrentPassword": "Contrasinal actual",
+    "profileNewPassword": "Novo contrasinal",
+    "profileConfirmNewPassword": "Confirmar novo contrasinal",
+    "profileErrorEmptyFields": "Completa todos os campos",
+    "profileErrorPasswordLength": "O novo contrasinal debe ter polo menos 6 caracteres",
+    "profileErrorPasswordMismatch": "Os contrasinais non coinciden",
+    "profileOperationCompleted": "Operación completada",
+    "profileUpdateBtn": "Actualizar",
+    "profileConfirmDeleteTitle": "Confirmar eliminación",
+    "profileConfirmDeleteDesc": "Seguro que queres eliminar o teu perfil? Esta acción é irreversible.",
+    "profileNoBtn": "Non",
+    "profileYesDeleteBtn": "Si, eliminar",
+    "profileDeleteAccountTitle": "Eliminar conta",
+    "profileDeleteAccountDesc": "Esta acción é permanente. Introduce o teu contrasinal para confirmar.",
+    "profileErrorPasswordRequired": "Debes introducir o teu contrasinal",
+    "profileErrorValidatePassword": "Non se puido validar o contrasinal",
+    "profileErrorDeleteFirestore": "Non se puido eliminar o perfil na base de datos",
+    "profileErrorDeleteAuth": "Eliminouse o perfil, pero non a conta de acceso",
+    "profileDeleteSuccess": "Conta eliminada correctamente",
+    "loginSubtitle": "Guía e Dicionario Game para Pais",
+    "loginEmailHint": "exemplo@correo.com",
+    "loginPasswordLabel": "Contrasinal",
+    "loginPasswordHint": "Introduce o teu contrasinal",
+    "loginForgotPassword": "Esqueciches o teu contrasinal?",
+    "loginBtn": "Iniciar sesión",
+    "loginGoogleBtn": "Continuar con Google",
+    "loginOr": "ou",
+    "loginCreateAccountBtn": "Crear conta nova",
+    "loginRecoveryTitle": "Recuperar contrasinal",
+    "loginRecoveryDesc": "Introduce o teu correo electrónico e enviarémosche unha ligazón para restablecer o teu contrasinal.",
+    "loginRecoverySendBtn": "Enviar",
+    "loginRecoveryError": "Erro ao enviar correo",
+    "registerError": "Erro ao rexistrarse",
+    "registerErrorGoogle": "Non se puido rexistrar con Google",
+    "registerTitle": "Crear conta",
+    "registerHeader": "Rexistro de Pais",
+    "registerSubtitle": "Crea a túa conta para acceder a todas as funcións",
+    "registerNameLabel": "Nome completo",
+    "registerNameHint": "O teu nome",
+    "registerPasswordHint": "Mínimo 8 caracteres",
+    "registerConfirmPasswordLabel": "Confirmar contrasinal",
+    "registerConfirmPasswordHint": "Repite o contrasinal",
+    "registerInfoDesc": "A túa información utilizarase unicamente para mellorar a túa experiencia na app",
+    "registerGoogleBtn": "Rexistrarse con Google",
+    "registerAlreadyHaveAccount": "Xa tes conta? ",
+    "registerLoginBtn": "Inicia sesión",
+    "registerSuccess": "Usuario rexistrado correctamente. Por favor, inicia sesión",
+    "classificationSystemsTitle": "Sistemas de Clasificación",
+    "pegiInfoSubtitle": "Aprende a interpretar PEGI e ESRB para elixir xogos axeitados para cada idade.",
+    "ageRatingsMeaningTitle": "Que significan as clasificacións por idade?",
+    "pegiSystemEuropa": "Sistema PEGI (Europa)",
+    "esrbSystemUsa": "Sistema ESRB (EE. UU.)",
+    "esrbApiNote": "Este é o sistema que adoita aparecer na API de videoxogos que utilizamos.",
+    "pegiContentDescriptorsTitle": "Descritores de Contido PEGI",
+    "pegiContentDescriptorsSubtitle": "Ademais da idade, as clasificacións inclúen iconas que indican o tipo de contido:",
+    "contentDescriptorViolence": "Violencia",
+    "contentDescriptorFear": "Medo",
+    "contentDescriptorOnline": "En liña",
+    "contentDescriptorDiscrimination": "Discriminación",
+    "contentDescriptorDrugs": "Drogas",
+    "contentDescriptorSex": "Sexo",
+    "contentDescriptorBadLanguage": "Linguaxe soez",
+    "contentDescriptorGambling": "Xogo/Apostas",
+    "genreAction": "Acción",
+    "genreAdventure": "Aventura",
+    "genreRPG": "RPG",
+    "genreStrategy": "Estratexia",
+    "genreShooter": "Shooter",
+    "genrePuzzle": "Puzzle",
+    "genreSports": "Deportes",
+    "genreRacing": "Carreiras",
+    "genreSimulation": "Simulación",
+    "genrePlatformer": "Plataformas",
+    "genreFighting": "Loita",
+    "genreArcade": "Arcade",
+    "gameDetailLoading": "Cargando información do xogo...",
+    "gameDetailError": "Non se puido cargar a información do xogo",
+    "gameDetailBackBtn": "Volver",
+    "gameDetailRelease": "Lanzamento: {date}",
+    "@gameDetailRelease": {
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "gameDetailPegiTitle": "Clasificación por idade (PEGI)",
+    "gameDetailPegiWarning": "Recomendado para maiores de {pegi} anos",
+    "@gameDetailPegiWarning": {
+        "placeholders": {
+            "pegi": {
+                "type": "int"
+            }
+        }
+    },
+    "gameDetailPegiNotAvailable": "Non hai información de clasificación PEGI dispoñible",
+    "gameDetailDescriptionTitle": "Descrición do xogo",
+    "gameDetailDescriptionEmpty": "Non hai descrición dispoñible",
+    "gameDetailGenresTitle": "Xéneros",
+    "gameDetailPlatformsTitle": "Plataformas dispoñibles",
+    "gameDetailScreenshotsTitle": "Capturas de pantalla",
+    "pegiDescription3": "Contido apropiado para todas as idades. Sen violencia nin linguaxe inapropiada.",
+    "pegiDescription7": "Pode conter escenas ou sons que asusten a nenos pequenos.",
+    "pegiDescription12": "Pode incluír violencia non realista cara a personaxes de fantasía ou violencia realista leve.",
+    "pegiDescription16": "Pode conter violencia realista, linguaxe forte ou contido sexual leve.",
+    "pegiDescription18": "Contido para adultos. Pode incluír violencia intensa, linguaxe forte, contido sexual explícito ou uso de drogas.",
+    "pegiDescriptionUnknown": "Non hai unha descrición dispoñible para esta clasificación PEGI.",
+    "searchGamesHint": "Buscar xogo por nome...",
+    "searchGamesAdvancedFilters": "Filtros avanzados",
+    "searchGamesShowingRecent": "Mostrando os xogos máis recentes do último ano",
+    "searchGamesFilterFrom": "Desde",
+    "searchGamesFilterTo": "Ata",
+    "searchGamesFilterGenres": "xénero(s)",
+    "searchGamesFilterPlatforms": "plataforma(s)",
+    "searchGamesClearAll": "Limpar todo",
+    "searchGamesEmptyTitle": "Non se atoparon xogos",
+    "searchGamesEmptyMessage": "Tenta axustar os filtros ou busca outro termo",
+    "filtersTitle": "Filtros de Busca",
+    "filtersClear": "Limpar",
+    "filtersInfoBanner": "Combina múltiples filtros para atopar o xogo perfecto",
+    "filtersYearTitle": "Ano de lanzamento",
+    "filtersYearSubtitle": "Filtra xogos polo seu ano de saída",
+    "filtersYearFrom": "Desde",
+    "filtersYearTo": "Ata",
+    "filtersYearAny": "Calquera",
+    "filtersPegiTitle": "Idade recomendada (PEGI)",
+    "filtersPegiSubtitle": "Selecciona a idade do teu fillo para ver xogos apropiados",
+    "filtersPlatformTitle": "Plataforma",
+    "filtersPlatformSubtitle": "Selecciona en que dispositivos queres que estea dispoñible",
+    "filtersGenreTitle": "Xénero de xogo",
+    "filtersGenreSubtitle": "Elixe o tipo de xogos que che interesan",
+    "filtersApplyBtn": "Aplicar Filtros",
+    "appName": "NexGen Parents",
+    "@appName": {
+        "description": "Nome da aplicación"
+    },
+    "loading": "Cargando {appName}...",
+    "@loading": {
+        "placeholders": {
+            "appName": {
+                "type": "String"
+            }
+        }
+    }
+}

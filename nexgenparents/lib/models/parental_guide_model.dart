@@ -1,3 +1,5 @@
+import '../l10n/app_localizations.dart';
+
 class ParentalGuide {
   final String id;
   final String platform;
@@ -69,18 +71,18 @@ class ParentalGuide {
     }
   }
   
-  String get typeDisplayName {
+  String typeDisplayName(AppLocalizations l10n) {
     switch (type) {
       case 'enable':
-        return 'Activar';
+        return l10n.guideTypeEnable;
       case 'disable':
-        return 'Desactivar';
+        return l10n.guideTypeDisable;
       case 'app':
-        return 'Activar en App';
+        return l10n.guideTypeApp;
       case 'time':
-        return 'Tiempo de uso';
+        return l10n.guideTypeTime;
       default:
-        return 'Guía';
+        return l10n.guideTypeDefault;
     }
   }
 }

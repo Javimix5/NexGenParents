@@ -20,8 +20,10 @@ class GamesProvider with ChangeNotifier {
   List<Game> _searchResults = [];
   List<Game> _gamesByAge = [];
   List<Game> _favoriteGames = [];
+  List<Game> _currentMonthGames = [];
 
   Game? _selectedGame;
+  Game? _weeklyTopGame;
   List<String> _selectedGameScreenshots = [];
 
   bool _isLoading = false;
@@ -34,7 +36,9 @@ class GamesProvider with ChangeNotifier {
   List<Game> get searchResults => _searchResults;
   List<Game> get gamesByAge => _gamesByAge;
   List<Game> get favoriteGames => _favoriteGames;
+  List<Game> get currentMonthGames => _currentMonthGames;
   Game? get selectedGame => _selectedGame;
+  Game? get weeklyTopGame => _weeklyTopGame;
   List<String> get selectedGameScreenshots => _selectedGameScreenshots;
   bool get isLoading => _isLoading;
   bool get isSearching => _isSearching;
@@ -52,7 +56,7 @@ class GamesProvider with ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     } catch (e) {
-      _errorMessage = 'Error al cargar juegos populares';
+      _errorMessage = null;
       _isLoading = false;
       notifyListeners();
     }
@@ -76,7 +80,7 @@ class GamesProvider with ChangeNotifier {
       _isSearching = false;
       notifyListeners();
     } catch (e) {
-      _errorMessage = 'Error al buscar juegos';
+      _errorMessage = null;
       _isSearching = false;
       notifyListeners();
     }
@@ -93,7 +97,7 @@ class GamesProvider with ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     } catch (e) {
-      _errorMessage = 'Error al buscar juegos por edad';
+      _errorMessage = null;
       _isLoading = false;
       notifyListeners();
     }
@@ -116,7 +120,7 @@ class GamesProvider with ChangeNotifier {
       _isLoadingDetails = false;
       notifyListeners();
     } catch (e) {
-      _errorMessage = 'Error al cargar detalles del juego';
+      _errorMessage = null;
       _isLoadingDetails = false;
       notifyListeners();
     }
@@ -167,7 +171,7 @@ class GamesProvider with ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     } catch (e) {
-      _errorMessage = 'Error al cargar juegos por género';
+      _errorMessage = null;
       _isLoading = false;
       notifyListeners();
     }
@@ -184,7 +188,7 @@ class GamesProvider with ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     } catch (e) {
-      _errorMessage = 'Error al cargar juegos por plataforma';
+      _errorMessage = null;
       _isLoading = false;
       notifyListeners();
     }
@@ -201,7 +205,42 @@ class GamesProvider with ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     } catch (e) {
-      _errorMessage = 'Error al cargar juegos nuevos';
+      _errorMessage = null;
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  // Cargar juego con mejor rating de la semana actual
+  Future<void> loadWeeklyTopGame() async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      _weeklyTopGame = await _rawgService.getTopRatedGameOfCurrentWeek();
+      _isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      _errorMessage = null;
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  // Cargar juegos del mes actual.
+  Future<void> loadCurrentMonthGames() async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      _currentMonthGames = await _rawgService.getCurrentMonthGames();
+      _popularGames = _currentMonthGames;
+      _isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      _errorMessage = null;
       _isLoading = false;
       notifyListeners();
     }
@@ -268,7 +307,7 @@ Future<void> searchWithFilters(GameFilters filters) async {
     _isSearching = false;
     notifyListeners();
   } catch (e) {
-    _errorMessage = 'Error al buscar juegos con filtros';
+    _errorMessage = null;
     _isSearching = false;
     notifyListeners();
   }
@@ -307,7 +346,7 @@ void applyPegiFilter(int age) {
 
       notifyListeners();
     } catch (e) {
-      _errorMessage = 'No se pudieron restaurar favoritos y filtros locales';
+      _errorMessage = null;
       notifyListeners();
     }
   }
@@ -320,7 +359,7 @@ void applyPegiFilter(int age) {
           .toList();
       await prefs.setStringList(_favoritesStorageKey, payload);
     } catch (e) {
-      _errorMessage = 'No se pudieron guardar los favoritos';
+      _errorMessage = null;
       notifyListeners();
     }
   }
@@ -333,7 +372,7 @@ void applyPegiFilter(int age) {
         json.encode(_currentFilters.toJson()),
       );
     } catch (e) {
-      _errorMessage = 'No se pudieron guardar los filtros';
+      _errorMessage = null;
       notifyListeners();
     }
   }

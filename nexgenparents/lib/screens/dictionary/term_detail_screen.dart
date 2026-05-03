@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../providers/auth_provider.dart';
 import '../../providers/dictionary_provider.dart';
 import '../../models/dictionary_term_model.dart';
 import '../../config/app_config.dart';
 import '../../config/app_theme.dart';
+import '../../l10n/app_localizations.dart';
+import '../../utils/translation_helper.dart';
 
 class TermDetailScreen extends StatefulWidget {
   final String termId;
@@ -32,81 +35,107 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Obtenemos el rol del usuario actual desde el AuthProvider
+    final currentUser = Provider.of<AuthProvider>(context).currentUser;
+    final dictionaryProvider = Provider.of<DictionaryProvider>(context);
+    final isModeratorOrAdmin =
+        ['moderator', 'admin'].contains(currentUser?.role);
+    final isAdmin = currentUser?.isAdmin ?? false;
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Detalle del Término'),
-      ),
-      body: Consumer<DictionaryProvider>(
-        builder: (context, dictionaryProvider, child) {
-          if (dictionaryProvider.isLoading) {
-            return const Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CircularProgressIndicator(),
-                  SizedBox(height: AppConfig.paddingMedium),
-                  Text('Cargando término...'),
-                ],
-              ),
-            );
-          }
-
-          final term = dictionaryProvider.selectedTerm;
-
-          if (term == null) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.error_outline,
-                    size: 60,
-                    color: AppConfig.errorColor,
-                  ),
-                  const SizedBox(height: AppConfig.paddingMedium),
-                  const Text('No se pudo cargar el término'),
-                  const SizedBox(height: AppConfig.paddingMedium),
-                  ElevatedButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: const Text('Volver'),
-                  ),
-                ],
-              ),
-            );
-          }
-
-          return SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Header con el término y categoría
-                _buildHeader(term),
-
-                const Divider(height: 1),
-
-                // Definición
-                _buildDefinitionSection(term),
-
-                const Divider(height: 1),
-
-                // Ejemplo de uso
-                _buildExampleSection(term),
-
-                const Divider(height: 1),
-
-                // Estadísticas y votos
-                _buildStatsSection(term, dictionaryProvider),
-
-                const Divider(height: 1),
-
-                // Información adicional
-                _buildAdditionalInfo(term),
-
-                const SizedBox(height: AppConfig.paddingLarge * 2),
-              ],
+        title: Text(l10n.dictDetailTitle),
+        actions: [
+          // Mostramos los botones solo si el usuario tiene el rol adecuado
+          if (isModeratorOrAdmin && dictionaryProvider.selectedTerm != null)
+            IconButton(
+              icon: const Icon(Icons.edit),
+              tooltip: l10n.dictEditTooltip,
+              onPressed: () =>
+                  _showEditTermDialog(context, dictionaryProvider.selectedTerm!),
             ),
-          );
-        },
+          if (isAdmin && dictionaryProvider.selectedTerm != null)
+            IconButton(
+              icon: const Icon(Icons.delete, color: AppConfig.errorColor),
+              tooltip: l10n.dictDeleteTooltip,
+              onPressed: () => _showDeleteConfirmationDialog(
+                  context, dictionaryProvider.selectedTerm!.id),
+            ),
+        ],
+      ),
+      body: _buildBody(context, dictionaryProvider),
+    );
+  }
+
+  Widget _buildBody(BuildContext context, DictionaryProvider dictionaryProvider) {
+    final l10n = AppLocalizations.of(context)!;
+    if (dictionaryProvider.isLoading) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const CircularProgressIndicator(),
+            const SizedBox(height: AppConfig.paddingMedium),
+            Text(l10n.dictLoadingTerm),
+          ],
+        ),
+      );
+    }
+
+    final term = dictionaryProvider.selectedTerm;
+
+    if (term == null) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(
+              Icons.error_outline,
+              size: 60,
+              color: AppConfig.errorColor,
+            ),
+            const SizedBox(height: AppConfig.paddingMedium),
+            Text(l10n.dictErrorLoadingTerm),
+            const SizedBox(height: AppConfig.paddingMedium),
+            ElevatedButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(l10n.dictBackBtn),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header con el término y categoría
+          _buildHeader(term),
+
+          const Divider(height: 1),
+
+          // Definición
+          _buildDefinitionSection(term),
+
+          const Divider(height: 1),
+
+          // Ejemplo de uso
+          _buildExampleSection(term),
+
+          const Divider(height: 1),
+
+          // Estadísticas y votos
+          _buildStatsSection(term, dictionaryProvider),
+
+          const Divider(height: 1),
+
+          // Información adicional
+          _buildAdditionalInfo(term),
+
+          const SizedBox(height: AppConfig.paddingLarge * 2),
+        ],
       ),
     );
   }
@@ -175,18 +204,19 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
   }
 
   Widget _buildDefinitionSection(DictionaryTerm term) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.all(AppConfig.paddingLarge),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
-              Icon(Icons.description, color: AppConfig.primaryColor),
-              SizedBox(width: AppConfig.paddingSmall),
+              const Icon(Icons.description, color: AppConfig.primaryColor),
+              const SizedBox(width: AppConfig.paddingSmall),
               Text(
-                'Definición',
-                style: TextStyle(
+                l10n.dictDefinitionLabel,
+                style: const TextStyle(
                   fontSize: AppConfig.fontSizeHeading,
                   fontWeight: FontWeight.bold,
                 ),
@@ -209,6 +239,7 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
   Widget _buildExampleSection(DictionaryTerm term) {
     if (term.example.isEmpty) return const SizedBox.shrink();
 
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(AppConfig.paddingLarge),
@@ -216,13 +247,13 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
-              Icon(Icons.format_quote, color: AppConfig.accentColor),
-              SizedBox(width: AppConfig.paddingSmall),
+              const Icon(Icons.format_quote, color: AppConfig.accentColor),
+              const SizedBox(width: AppConfig.paddingSmall),
               Text(
-                'Ejemplo de uso',
-                style: TextStyle(
+                l10n.dictExampleLabel,
+                style: const TextStyle(
                   fontSize: AppConfig.fontSizeHeading,
                   fontWeight: FontWeight.bold,
                 ),
@@ -255,14 +286,15 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
   }
 
   Widget _buildStatsSection(DictionaryTerm term, DictionaryProvider provider) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.all(AppConfig.paddingLarge),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            '¿Te ha sido útil este término?',
-            style: TextStyle(
+          Text(
+            l10n.dictUsefulQuestion,
+            style: const TextStyle(
               fontSize: AppConfig.fontSizeHeading,
               fontWeight: FontWeight.bold,
             ),
@@ -283,8 +315,8 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
                           });
                           if (mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('¡Gracias por tu voto!'),
+                              SnackBar(
+                                content: Text(l10n.dictVoteThanks),
                                 backgroundColor: AppConfig.accentColor,
                                 duration: Duration(seconds: 2),
                               ),
@@ -293,7 +325,7 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
                         },
                   icon: Icon(_hasVoted ? Icons.check_circle : Icons.thumb_up),
                   label: Text(
-                    _hasVoted ? 'Voto registrado' : 'Sí, me ha ayudado',
+                    _hasVoted ? l10n.dictVoteRegistered : l10n.dictVoteBtn,
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor:
@@ -314,13 +346,13 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
             children: [
               _buildStatCard(
                 icon: Icons.thumb_up,
-                label: 'Votos útiles',
+                label: l10n.dictUsefulVotes,
                 value: '${term.votes}',
                 color: AppConfig.accentColor,
               ),
               _buildStatCard(
                 icon: Icons.visibility,
-                label: 'Visualizaciones',
+                label: l10n.dictViews,
                 value: '${term.viewCount}',
                 color: AppConfig.primaryColor,
               ),
@@ -370,14 +402,15 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
   }
 
   Widget _buildAdditionalInfo(DictionaryTerm term) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.all(AppConfig.paddingLarge),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Información adicional',
-            style: TextStyle(
+          Text(
+            l10n.dictAdditionalInfo,
+            style: const TextStyle(
               fontSize: AppConfig.fontSizeHeading,
               fontWeight: FontWeight.bold,
             ),
@@ -386,22 +419,22 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
 
           _buildInfoRow(
             icon: Icons.calendar_today,
-            label: 'Añadido el',
+            label: l10n.dictAddedOn,
             value: _formatDate(term.createdAt),
           ),
           const SizedBox(height: AppConfig.paddingSmall),
 
           _buildInfoRow(
             icon: Icons.update,
-            label: 'Última actualización',
+            label: l10n.dictLastUpdate,
             value: _formatDate(term.updatedAt),
           ),
           const SizedBox(height: AppConfig.paddingSmall),
 
           _buildInfoRow(
             icon: Icons.verified,
-            label: 'Estado',
-            value: _getStatusText(term.status),
+            label: l10n.dictStatusLabel,
+            value: _getStatusText(term.status, l10n),
             valueColor: AppTheme.getStatusColor(term.status),
           ),
         ],
@@ -455,16 +488,183 @@ class _TermDetailScreenState extends State<TermDetailScreen> {
     return '${date.day}/${date.month}/${date.year}';
   }
 
-  String _getStatusText(String status) {
+  String _getStatusText(String status, AppLocalizations l10n) {
     switch (status) {
       case 'approved':
-        return 'Aprobado';
+        return l10n.dictStatusApproved;
       case 'pending':
-        return 'Pendiente';
+        return l10n.dictStatusPending;
       case 'rejected':
-        return 'Rechazado';
+        return l10n.dictStatusRejected;
       default:
         return status;
     }
+  }
+
+  // Diálogo para editar el término (solo para Admin/Moderator)
+  void _showEditTermDialog(BuildContext context, DictionaryTerm currentTerm) {
+    final l10n = AppLocalizations.of(context)!;
+    final formKey = GlobalKey<FormState>();
+    final termController = TextEditingController(text: currentTerm.term);
+    final definitionController =
+        TextEditingController(text: currentTerm.definition);
+    final exampleController = TextEditingController(text: currentTerm.example);
+    String selectedCategory = currentTerm.category;
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(l10n.dictEditDialogTitle),
+          content: Form(
+            key: formKey,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextFormField(
+                    controller: termController,
+                    decoration: InputDecoration(labelText: l10n.dictEditFieldTerm),
+                    validator: (value) =>
+                        value!.isEmpty ? l10n.dictEditErrorTerm : null,
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    controller: definitionController,
+                    decoration: InputDecoration(labelText: l10n.dictEditFieldDefinition),
+                    maxLines: 3,
+                    validator: (value) => value!.isEmpty
+                        ? l10n.dictEditErrorDefinition
+                        : null,
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    controller: exampleController,
+                    decoration: InputDecoration(labelText: l10n.dictEditFieldExample),
+                    maxLines: 2,
+                  ),
+                  const SizedBox(height: 16),
+                  DropdownButtonFormField<String>(
+                    initialValue: selectedCategory,
+                    items: AppConfig.dictionaryCategories.map((category) {
+                      return DropdownMenuItem(
+                          value: category, child: Text(category));
+                    }).toList(),
+                    onChanged: (value) {
+                      if (value != null) {
+                        selectedCategory = value;
+                      }
+                    },
+                    decoration: InputDecoration(labelText: l10n.dictEditFieldCategory),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(l10n.dictCancelBtn),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                if (formKey.currentState!.validate()) {
+                  final dictionaryProvider =
+                      Provider.of<DictionaryProvider>(context, listen: false);
+                  final success = await dictionaryProvider.updateTerm(
+                    termId: currentTerm.id,
+                    term: termController.text,
+                    definition: definitionController.text,
+                    example: exampleController.text,
+                    category: selectedCategory,
+                  );
+
+                  Navigator.of(context).pop(); // Cierra el diálogo
+
+                  if (context.mounted) {
+                    if (success) {
+                      _showSnackBar(
+                        context,
+                        l10n.dictUpdateSuccess,
+                        AppConfig.accentColor,
+                      );
+                    } else {
+                      _showSnackBar(
+                        context,
+                        TranslationHelper.translateDynamicKey(context, dictionaryProvider.errorMessage, fallback: l10n.dictUpdateError),
+                        AppConfig.errorColor,
+                      );
+                    }
+                  }
+                }
+              },
+              child: Text(l10n.dictSaveChangesBtn),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // Diálogo de confirmación para eliminar (solo para Admin)
+  void _showDeleteConfirmationDialog(BuildContext context, String termId) {
+    final l10n = AppLocalizations.of(context)!;
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(l10n.dictDeleteConfirmTitle),
+          content: Text(l10n.dictDeleteConfirmContent),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(l10n.dictCancelBtn),
+            ),
+            ElevatedButton(
+              style:
+                  ElevatedButton.styleFrom(backgroundColor: AppConfig.errorColor),
+              onPressed: () async {
+                final dictionaryProvider =
+                    Provider.of<DictionaryProvider>(context, listen: false);
+                final success = await dictionaryProvider.deleteTerm(termId);
+
+                // Cierra el diálogo de confirmación
+                Navigator.of(context).pop();
+
+                if (context.mounted) {
+                  // Cierra la pantalla de detalle y vuelve a la lista
+                  Navigator.of(context).pop();
+
+                  if (success) {
+                    _showSnackBar(
+                      context,
+                      l10n.dictDeleteSuccess,
+                      AppConfig.accentColor,
+                    );
+                  } else {
+                    _showSnackBar(
+                      context,
+                      TranslationHelper.translateDynamicKey(context, dictionaryProvider.errorMessage, fallback: l10n.dictDeleteError),
+                      AppConfig.errorColor,
+                    );
+                  }
+                }
+              },
+              child: Text(l10n.dictDeleteBtn),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showSnackBar(BuildContext context, String message, Color backgroundColor) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: backgroundColor,
+        duration: const Duration(seconds: 2),
+      ),
+    );
   }
 }

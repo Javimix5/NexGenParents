@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../providers/games_provider.dart';
 import '../../models/game_model.dart';
 import '../../config/app_config.dart';
-import '../../config/app_theme.dart';
+import '../../l10n/app_localizations.dart';
+import '../../widgets/common/app_footer.dart';
 
 class GameDetailScreen extends StatefulWidget {
   final int gameId;
@@ -21,6 +23,9 @@ class GameDetailScreen extends StatefulWidget {
 }
 
 class _GameDetailScreenState extends State<GameDetailScreen> {
+  final ScrollController _scrollController = ScrollController();
+  bool _showBackToTopButton = false;
+
   @override
   void initState() {
     super.initState();
@@ -29,24 +34,30 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
       Provider.of<GamesProvider>(context, listen: false)
           .loadGameDetails(widget.gameId);
     });
+    _scrollController.addListener(() {
+      if (!_scrollController.hasClients) return;
+      if (_scrollController.offset >= 300 && !_showBackToTopButton) {
+        setState(() => _showBackToTopButton = true);
+      } else if (_scrollController.offset < 300 && _showBackToTopButton) {
+        setState(() => _showBackToTopButton = false);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
       body: Consumer<GamesProvider>(
         builder: (context, gamesProvider, child) {
           if (gamesProvider.isLoadingDetails) {
-            return const Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CircularProgressIndicator(),
-                  SizedBox(height: AppConfig.paddingMedium),
-                  Text('Cargando información del juego...'),
-                ],
-              ),
-            );
+            return _buildDetailShimmer(context);
           }
 
           final game = gamesProvider.selectedGame;
@@ -62,11 +73,11 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                     color: AppConfig.errorColor,
                   ),
                   const SizedBox(height: AppConfig.paddingMedium),
-                  const Text('No se pudo cargar la información del juego'),
+                  Text(l10n?.gameDetailError ?? 'No se pudo cargar la información del juego'),
                   const SizedBox(height: AppConfig.paddingMedium),
                   ElevatedButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    child: const Text('Volver'),
+                    child: Text(l10n?.gameDetailBackBtn ?? 'Volver'),
                   ),
                 ],
               ),
@@ -74,6 +85,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
           }
 
           return CustomScrollView(
+            controller: _scrollController,
             slivers: [
               // AppBar con imagen de fondo
               _buildAppBar(game),
@@ -106,7 +118,8 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                     if (gamesProvider.selectedGameScreenshots.isNotEmpty)
                       _buildScreenshotsSection(gamesProvider.selectedGameScreenshots),
                     
-                    const SizedBox(height: AppConfig.paddingLarge * 2),
+                    const SizedBox(height: AppConfig.paddingLarge),
+                    const AppFooter(),
                   ],
                 ),
               ),
@@ -114,63 +127,95 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
           );
         },
       ),
+      floatingActionButton: _showBackToTopButton
+          ? FloatingActionButton.small(
+              heroTag: 'game_detail_back_to_top_btn',
+              onPressed: () {
+                if (_scrollController.hasClients) {
+                  _scrollController.animateTo(
+                    0,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                  );
+                }
+              },
+              backgroundColor: AppConfig.primaryColor,
+              foregroundColor: Colors.white,
+              child: const Icon(Icons.arrow_upward),
+            )
+          : null,
     );
   }
 
   Widget _buildAppBar(Game game) {
+    final bgImage = game.backgroundImage;
     return SliverAppBar(
       expandedHeight: 250,
       pinned: true,
       flexibleSpace: FlexibleSpaceBar(
-        title: Container(
-  padding: const EdgeInsets.symmetric(
-    horizontal: AppConfig.paddingSmall,
-    vertical: AppConfig.paddingSmall / 2,
-  ),
-  decoration: BoxDecoration(
-    color: Colors.black.withOpacity(0.7),
-    borderRadius: BorderRadius.circular(AppConfig.borderRadiusSmall),
-  ),
-  child: Text(
-    game.name,
-    style: TextStyle(
-      fontSize: AppConfig.fontSizeBody,
-      fontWeight: FontWeight.bold,
-      color: Colors.white,
-      shadows: [
-        Shadow(
-          offset: const Offset(0, 1),
-          blurRadius: 3.0,
-          color: Colors.black.withOpacity(0.8),
-        ),
-      ],
-    ),
-    maxLines: 2,
-    overflow: TextOverflow.ellipsis,
-  ),
-),
-        background: game.backgroundImage != null
-            ? CachedNetworkImage(
-                imageUrl: game.backgroundImage!,
-                fit: BoxFit.cover,
-                placeholder: (context, url) => Container(
-                  color: AppConfig.textSecondaryColor,
-                  child: const Center(child: CircularProgressIndicator()),
-                ),
-                errorWidget: (context, url, error) => Container(
-                  color: AppConfig.textSecondaryColor,
-                  child: const Icon(Icons.videogame_asset, size: 60),
-                ),
-              )
-            : Container(
-                color: AppConfig.textSecondaryColor,
-                child: const Icon(Icons.videogame_asset, size: 60, color: Colors.white),
+        titlePadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        title: Text(
+          game.name,
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w800,
+            color: Colors.white,
+            shadows: [
+              Shadow(
+                offset: const Offset(0, 2),
+                blurRadius: 6.0,
+                color: Colors.black.withOpacity(0.8),
               ),
+            ],
+          ),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
+        background: Stack(
+          fit: StackFit.expand,
+          children: [
+            Hero(
+              tag: 'game_image_${game.id}',
+              child: bgImage != null
+                  ? CachedNetworkImage(
+                      imageUrl: bgImage,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => Container(color: AppConfig.backgroundDark),
+                      errorWidget: (context, url, error) => Container(
+                        color: AppConfig.backgroundDark,
+                        child: const Center(
+                          child: Icon(Icons.videogame_asset, size: 60, color: Colors.white24),
+                        ),
+                      ),
+                    )
+                  : Container(
+                      color: AppConfig.backgroundDark,
+                      child: const Center(
+                        child: Icon(Icons.videogame_asset, size: 60, color: Colors.white24),
+                      ),
+                    ),
+            ),
+            // Gradiente suave desde transparente hasta negro
+            DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Colors.transparent, Colors.black.withOpacity(0.9)],
+                  stops: const [0.4, 1.0],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildBasicInfo(Game game) {
+    final metacritic = game.metacritic;
+    final released = game.released;
+    final l10n = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.all(AppConfig.paddingMedium),
       child: Column(
@@ -191,18 +236,18 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
               const SizedBox(width: AppConfig.paddingMedium),
               
               // Metacritic
-              if (game.metacritic != null) ...[
+              if (metacritic != null) ...[
                 Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: AppConfig.paddingSmall,
                     vertical: AppConfig.paddingSmall / 2,
                   ),
                   decoration: BoxDecoration(
-                    color: _getMetacriticColor(game.metacritic!),
+                    color: _getMetacriticColor(metacritic),
                     borderRadius: BorderRadius.circular(AppConfig.borderRadiusSmall),
                   ),
                   child: Text(
-                    'Metacritic: ${game.metacritic}',
+                    'Metacritic: $metacritic',
                     style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -213,14 +258,14 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
             ],
           ),
           
-          if (game.released != null) ...[
+          if (released != null) ...[
             const SizedBox(height: AppConfig.paddingSmall),
             Row(
               children: [
                 const Icon(Icons.calendar_today, size: 16, color: AppConfig.textSecondaryColor),
                 const SizedBox(width: AppConfig.paddingSmall / 2),
                 Text(
-                  'Lanzamiento: ${game.released}',
+                  l10n?.gameDetailRelease(released) ?? 'Lanzamiento: $released',
                   style: const TextStyle(color: AppConfig.textSecondaryColor),
                 ),
               ],
@@ -233,18 +278,19 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
 
   Widget _buildPegiSection(Game game) {
     final pegi = game.pegiRating;
+    final l10n = AppLocalizations.of(context);
     
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(AppConfig.paddingMedium),
       color: pegi != null
-          ? AppTheme.getPegiColor(pegi).withOpacity(0.1)
-          : AppConfig.backgroundColor,
+          ? _getPegiColor(pegi).withOpacity(0.1)
+          : AppConfig.backgroundLight,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Clasificación por edad (PEGI)',
+          Text(
+            l10n?.gameDetailPegiTitle ?? 'Clasificación por edad (PEGI)',
             style: TextStyle(
               fontSize: AppConfig.fontSizeHeading,
               fontWeight: FontWeight.bold,
@@ -259,7 +305,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                   width: 60,
                   height: 60,
                   decoration: BoxDecoration(
-                    color: AppTheme.getPegiColor(pegi),
+                    color: _getPegiColor(pegi),
                     borderRadius: BorderRadius.circular(AppConfig.borderRadiusSmall),
                   ),
                   child: Center(
@@ -277,7 +323,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                 const SizedBox(width: AppConfig.paddingMedium),
                 Expanded(
                   child: Text(
-                    _getPegiDescription(pegi),
+                    _getPegiDescription(context, pegi),
                     style: const TextStyle(fontSize: AppConfig.fontSizeBody),
                   ),
                 ),
@@ -299,7 +345,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                   const SizedBox(width: AppConfig.paddingSmall),
                   Expanded(
                     child: Text(
-                      'Recomendado para mayores de $pegi años',
+                      l10n?.gameDetailPegiWarning(pegi) ?? 'Recomendado para mayores de $pegi años',
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: AppConfig.fontSizeBody,
@@ -310,8 +356,8 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
               ),
             ),
           ] else ...[
-            const Text(
-              'No hay información de clasificación PEGI disponible',
+            Text(
+              l10n?.gameDetailPegiNotAvailable ?? 'No hay información de clasificación PEGI disponible',
               style: TextStyle(
                 color: AppConfig.textSecondaryColor,
                 fontStyle: FontStyle.italic,
@@ -324,13 +370,14 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
   }
 
   Widget _buildDescriptionSection(Game game) {
+    final l10n = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.all(AppConfig.paddingMedium),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Descripción del juego',
+          Text(
+            l10n?.gameDetailDescriptionTitle ?? 'Descripción del juego',
             style: TextStyle(
               fontSize: AppConfig.fontSizeHeading,
               fontWeight: FontWeight.bold,
@@ -338,7 +385,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
           ),
           const SizedBox(height: AppConfig.paddingSmall),
           Text(
-            game.description ?? 'No hay descripción disponible',
+            game.description ?? (l10n?.gameDetailDescriptionEmpty ?? 'No hay descripción disponible'),
             style: const TextStyle(
               fontSize: AppConfig.fontSizeBody,
               height: 1.5,
@@ -350,6 +397,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
   }
 
   Widget _buildGenresSection(Game game) {
+    final l10n = AppLocalizations.of(context);
     if (game.genres.isEmpty) return const SizedBox.shrink();
 
     return Padding(
@@ -357,8 +405,8 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Géneros',
+          Text(
+            l10n?.gameDetailGenresTitle ?? 'Géneros',
             style: TextStyle(
               fontSize: AppConfig.fontSizeHeading,
               fontWeight: FontWeight.bold,
@@ -382,6 +430,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
   }
 
   Widget _buildPlatformsSection(Game game) {
+    final l10n = AppLocalizations.of(context);
     if (game.platforms.isEmpty) return const SizedBox.shrink();
 
     return Padding(
@@ -389,8 +438,8 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Plataformas disponibles',
+          Text(
+            l10n?.gameDetailPlatformsTitle ?? 'Plataformas disponibles',
             style: TextStyle(
               fontSize: AppConfig.fontSizeHeading,
               fontWeight: FontWeight.bold,
@@ -414,13 +463,14 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
   }
 
   Widget _buildScreenshotsSection(List<String> screenshots) {
+    final l10n = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppConfig.paddingMedium),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Capturas de pantalla',
+          Text(
+            l10n?.gameDetailScreenshotsTitle ?? 'Capturas de pantalla',
             style: TextStyle(
               fontSize: AppConfig.fontSizeHeading,
               fontWeight: FontWeight.bold,
@@ -468,20 +518,73 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
     return Colors.red;
   }
 
-  String _getPegiDescription(int pegi) {
+  Color _getPegiColor(int rating) {
+    if (rating <= 7) return Colors.green;
+    if (rating <= 12) return Colors.blue;
+    if (rating <= 16) return Colors.orange;
+    return Colors.red;
+  }
+
+  String _getPegiDescription(BuildContext context, int pegi) {
+    final l10n = AppLocalizations.of(context);
     switch (pegi) {
       case 3:
-        return 'Contenido apropiado para todas las edades. Sin violencia ni lenguaje inapropiado.';
+        return l10n?.pegiDescription3 ?? 'Contenido apropiado para todas las edades.';
       case 7:
-        return 'Puede contener escenas o sonidos que asusten a niños pequeños.';
+        return l10n?.pegiDescription7 ?? 'Puede contener escenas o sonidos que asusten a niños pequeños.';
       case 12:
-        return 'Puede incluir violencia no realista hacia personajes de fantasía o violencia realista leve.';
-        case 16:
-        return 'Puede contener violencia realista, lenguaje fuerte o contenido sexual leve.';
-        case 18:
-        return 'Contenido para adultos. Puede incluir violencia intensa, lenguaje fuerte, contenido sexual explícito o uso de drogas.';
-        default:
-        return 'No hay una descripción disponible para esta clasificación PEGI.';
+        return l10n?.pegiDescription12 ?? 'Puede incluir violencia no realista.';
+      case 16:
+        return l10n?.pegiDescription16 ?? 'Puede contener violencia realista, lenguaje fuerte o contenido sexual leve.';
+      case 18:
+        return l10n?.pegiDescription18 ?? 'Contenido para adultos. Puede incluir violencia intensa, lenguaje fuerte, contenido sexual explícito o uso de drogas.';
+      default:
+        return l10n?.pegiDescriptionUnknown ?? 'No hay una descripción disponible para esta clasificación PEGI.';
     }
+  }
+
+  Widget _buildDetailShimmer(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final baseColor = isDark ? Colors.grey[850]! : Colors.grey[300]!;
+    final highlightColor = isDark ? Colors.grey[700]! : Colors.grey[100]!;
+
+    return Shimmer.fromColors(
+      baseColor: baseColor,
+      highlightColor: highlightColor,
+      child: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            expandedHeight: 250,
+            pinned: true,
+            flexibleSpace: FlexibleSpaceBar(
+              background: Container(color: Colors.white),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.all(AppConfig.paddingMedium),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(width: 150, height: 30, color: Colors.white),
+                  const SizedBox(height: AppConfig.paddingMedium),
+                  Container(width: double.infinity, height: 100, color: Colors.white),
+                  const SizedBox(height: AppConfig.paddingLarge),
+                  Container(width: 200, height: 20, color: Colors.white),
+                  const SizedBox(height: AppConfig.paddingMedium),
+                  Container(width: double.infinity, height: 14, color: Colors.white),
+                  const SizedBox(height: 8),
+                  Container(width: double.infinity, height: 14, color: Colors.white),
+                  const SizedBox(height: 8),
+                  Container(width: 250, height: 14, color: Colors.white),
+                  const SizedBox(height: AppConfig.paddingLarge),
+                  Container(width: 100, height: 30, color: Colors.white),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

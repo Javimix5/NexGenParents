@@ -1,10 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import '../models/user_model.dart';
+// Importar condicionalmente la función para obtener GoogleSignIn
+import '_google_sign_in_mobile.dart' if (dart.library.html) '_google_sign_in_stub.dart' as google_sign_in_service;
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  static const int _maxPermissionDeniedRetries = 3;
+  static const Duration _permissionDeniedRetryDelay = Duration(milliseconds: 350);
 
   // Stream para escuchar cambios en el estado de autenticación
   Stream<User?> get authStateChanges => _auth.authStateChanges();
@@ -36,30 +42,60 @@ class AuthService {
     User user, {
     String? displayName,
   }) async {
-    final docRef = _firestore.collection('users').doc(user.uid);
-    final doc = await docRef.get();
-
-    if (doc.exists) {
-      await docRef.update({
-        'lastLogin': Timestamp.now(),
-        if (displayName != null && displayName.trim().isNotEmpty)
-          'displayName': displayName.trim(),
-        if (user.email != null) 'email': user.email,
-      });
-
-      final refreshedDoc = await docRef.get();
-      return UserModel.fromFirestore(refreshedDoc);
-    }
-
-    final recoveredUser = _buildUserModelFromAuth(
+    return _runWithFreshTokenRetry(
       user,
-      displayName: displayName,
-      createdAt: user.metadata.creationTime,
-    );
+      () async {
+        final docRef = _firestore.collection('users').doc(user.uid);
+        final doc = await docRef.get();
 
-    await docRef.set(recoveredUser.toMap());
-    final createdDoc = await docRef.get();
-    return UserModel.fromFirestore(createdDoc);
+        if (doc.exists) {
+          await docRef.update({
+            'lastLogin': Timestamp.now(),
+            if (displayName != null && displayName.trim().isNotEmpty)
+              'displayName': displayName.trim(),
+            if (user.email != null) 'email': user.email,
+          });
+
+          final refreshedDoc = await docRef.get();
+          return UserModel.fromFirestore(refreshedDoc);
+        }
+
+        final recoveredUser = _buildUserModelFromAuth(
+          user,
+          displayName: displayName,
+          createdAt: user.metadata.creationTime,
+        );
+
+        await docRef.set(recoveredUser.toMap());
+        final createdDoc = await docRef.get();
+        return UserModel.fromFirestore(createdDoc);
+      },
+    );
+  }
+
+  Future<T> _runWithFreshTokenRetry<T>(
+    User user,
+    Future<T> Function() operation,
+  ) async {
+    var attempts = 0;
+
+    while (true) {
+      try {
+        return await operation();
+      } on FirebaseException catch (e) {
+        final shouldRetry =
+            e.code == 'permission-denied' && attempts < _maxPermissionDeniedRetries;
+
+        if (!shouldRetry) {
+      print('Firestore operation failed after retries: ${e.code} - ${e.message}');
+          rethrow;
+        }
+
+        attempts++;
+        await user.getIdToken(true);
+        await Future.delayed(_permissionDeniedRetryDelay * attempts);
+      }
+    }
   }
 
   // Obtener UserModel completo del usuario actual
@@ -82,8 +118,23 @@ class AuthService {
     required String displayName,
   }) async {
     try {
+      if (!_isValidEmail(email)) {
+        return {
+          'success': false,
+          'messageKey': 'errorInvalidEmail',
+        };
+      }
+
+      if (!_isStrongPassword(password)) {
+        return {
+          'success': false,
+          'messageKey': 'errorWeakPassword',
+        };
+      }
+
       // Crear usuario en Firebase Auth
-      final UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+      final UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -92,7 +143,7 @@ class AuthService {
       if (user == null) {
         return {
           'success': false,
-          'message': 'Error al crear el usuario',
+          'messageKey': 'errorCreatingUser',
         };
       }
 
@@ -107,13 +158,13 @@ class AuthService {
       if (newUser == null) {
         return {
           'success': false,
-          'message': 'No se pudo crear el perfil del usuario',
+          'messageKey': 'errorCreatingProfile',
         };
       }
 
       return {
         'success': true,
-        'message': 'Usuario registrado correctamente',
+        'messageKey': 'successUserRegistered',
         'user': newUser,
       };
     } on FirebaseAuthException catch (e) {
@@ -126,7 +177,8 @@ class AuthService {
 
           final existingUser = existingCredential.user;
           if (existingUser != null) {
-            if ((existingUser.displayName ?? '').isEmpty && displayName.trim().isNotEmpty) {
+            if ((existingUser.displayName ?? '').isEmpty &&
+                displayName.trim().isNotEmpty) {
               await existingUser.updateDisplayName(displayName.trim());
             }
 
@@ -138,7 +190,7 @@ class AuthService {
             if (recoveredUser != null) {
               return {
                 'success': true,
-                'message': 'La cuenta ya existía en autenticación y se ha restaurado el perfil.',
+                'messageKey': 'successUserRegistered', // Or a more specific one
                 'user': recoveredUser,
               };
             }
@@ -148,34 +200,48 @@ class AuthService {
               recoveryError.code == 'invalid-credential') {
             return {
               'success': false,
-              'message': 'Este correo ya está registrado. Si borraste solo el perfil en la base de datos, inicia sesión con tu contraseña anterior para restaurarlo.',
+              'messageKey': 'errorEmailInUseRecovery',
             };
           }
         } catch (_) {}
       }
 
-      String message = 'Error al registrar usuario';
-      
+      String messageKey = 'errorGeneric';
+
       switch (e.code) {
         case 'email-already-in-use':
-          message = 'Este correo ya está registrado';
+          messageKey = 'errorEmailInUse';
           break;
         case 'weak-password':
-          message = 'La contraseña es demasiado débil (mínimo 6 caracteres)';
+          messageKey = 'errorWeakPassword';
           break;
         case 'invalid-email':
-          message = 'El correo electrónico no es válido';
+          messageKey = 'errorInvalidEmail';
           break;
       }
 
       return {
         'success': false,
-        'message': message,
+        'messageKey': messageKey,
+      };
+    } on FirebaseException catch (e) {
+      if (e.code == 'permission-denied') {
+        return {
+          'success': false,
+          'messageKey': 'errorPermissionDenied',
+        };
+      }
+
+      return {
+        'success': false,
+        'messageKey': 'errorGeneric',
+        'errorDetails': e.message ?? e.code,
       };
     } catch (e) {
       return {
         'success': false,
-        'message': 'Error inesperado: ${e.toString()}',
+        'messageKey': 'errorGeneric',
+        'errorDetails': e.toString(),
       };
     }
   }
@@ -186,7 +252,15 @@ class AuthService {
     required String password,
   }) async {
     try {
-      final UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+      if (!_isValidEmail(email)) {
+        return {
+          'success': false,
+          'messageKey': 'errorInvalidEmail',
+        };
+      }
+
+      final UserCredential userCredential =
+          await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -195,7 +269,7 @@ class AuthService {
       if (user == null) {
         return {
           'success': false,
-          'message': 'Error al iniciar sesión',
+          'messageKey': 'errorLogin',
         };
       }
 
@@ -203,41 +277,175 @@ class AuthService {
       if (userModel == null) {
         return {
           'success': false,
-          'message': 'No se pudo cargar el perfil del usuario',
+          'messageKey': 'errorLoadingProfile',
         };
       }
 
       return {
         'success': true,
-        'message': 'Sesión iniciada correctamente',
+        'messageKey': 'successLogin',
         'user': userModel,
       };
     } on FirebaseAuthException catch (e) {
-      String message = 'Error al iniciar sesión';
-      
+      String messageKey = 'errorLogin';
+
       switch (e.code) {
         case 'user-not-found':
-          message = 'No existe un usuario con este correo';
-          break;
-        case 'wrong-password':
-          message = 'Contraseña incorrecta';
+          messageKey = 'errorUserNotFound';
           break;
         case 'invalid-email':
-          message = 'El correo electrónico no es válido';
+          messageKey = 'errorInvalidEmail';
           break;
         case 'user-disabled':
-          message = 'Esta cuenta ha sido deshabilitada';
+          messageKey = 'errorUserDisabled';
+          break;
+        case 'wrong-password':
+        case 'invalid-credential':
+          messageKey = 'errorWrongPassword';
           break;
       }
 
       return {
         'success': false,
-        'message': message,
+        'messageKey': messageKey,
+      };
+    } on FirebaseException catch (e) {
+      if (e.code == 'permission-denied') {
+        return {
+          'success': false,
+          'messageKey': 'errorPermissionDenied',
+        };
+      }
+
+      return {
+        'success': false,
+        'messageKey': 'errorGeneric',
+        'errorDetails': e.message ?? e.code,
       };
     } catch (e) {
       return {
         'success': false,
-        'message': 'Error inesperado: ${e.toString()}',
+        'messageKey': 'errorGeneric',
+        'errorDetails': e.toString(),
+      };
+    }
+  }
+
+  Future<Map<String, dynamic>> signInWithGoogle() async {
+    try {
+      UserCredential userCredential;
+
+      if (kIsWeb) {
+        final googleProvider = GoogleAuthProvider()
+          ..addScope('email')
+          ..addScope('profile');
+
+        try {
+          userCredential = await _auth.signInWithPopup(googleProvider);
+        } on FirebaseAuthException catch (e) {
+          // Fallback para navegadores que bloquean popups o cancelan el contexto.
+          if (e.code == 'popup-blocked' ||
+              e.code == 'cancelled-popup-request' ||
+              e.code == 'web-context-cancelled') {
+            await _auth.signInWithRedirect(googleProvider);
+            // No se puede devolver un resultado aquí, la app se recargará.
+            // Por simplicidad, devolvemos un estado de "redirigiendo".
+            return {'success': true, 'redirecting': true};
+          }
+          rethrow;
+        }
+      } else {
+        final googleUser = google_sign_in_service.getGoogleSignIn();
+        if (googleUser == null) {
+          return {
+            'success': false,
+            'messageKey': 'errorGeneric',
+            'errorDetails': 'Google Sign-In not available',
+          };
+        }
+
+        final dynamic googleUserAccount = await googleUser.signIn();
+        if (googleUserAccount == null) {
+          // El usuario canceló, no es un error, simplemente no hacemos nada.
+          return {'success': false, 'cancelled': true};
+        }
+
+        final dynamic googleAuth =
+            await googleUserAccount.authentication;
+        final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken ?? googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+
+        userCredential = await _auth.signInWithCredential(credential);
+      }
+
+      final user = userCredential.user;
+      if (user == null) {
+        return {
+          'success': false,
+          'messageKey': 'errorGeneric',
+          'errorDetails': 'Google UserCredential was null',
+        };
+      }
+
+      final UserModel? userModel = await _ensureUserDocument(
+        user,
+        displayName: user.displayName,
+      );
+
+      if (userModel == null) {
+        return {
+          'success': false,
+          'messageKey': 'errorLoadingProfile',
+        };
+      }
+
+      return {
+        'success': true,
+        'messageKey': 'successLoginGoogle',
+        'user': userModel,
+      };
+    } on FirebaseAuthException catch (e) {
+      var messageKey = 'errorLogin';
+
+      switch (e.code) {
+        case 'account-exists-with-different-credential':
+          messageKey = 'errorDifferentCredential';
+          break;
+        case 'invalid-credential':
+          messageKey = 'errorInvalidCredential';
+          break;
+        case 'popup-closed-by-user':
+          messageKey = 'errorPopupClosed';
+          break;
+        case 'popup-blocked':
+          messageKey = 'errorPopupBlocked';
+          break;
+      }
+
+      return {
+        'success': false,
+        'messageKey': messageKey,
+      };
+    } on FirebaseException catch (e) {
+      if (e.code == 'permission-denied') {
+        return {
+          'success': false,
+          'messageKey': 'errorPermissionDenied',
+        };
+      }
+
+      return {
+        'success': false,
+        'messageKey': 'errorGeneric',
+        'errorDetails': e.message ?? e.code,
+      };
+    } catch (e) {
+      return {
+        'success': false,
+        'messageKey': 'errorGeneric',
+        'errorDetails': e.toString(),
       };
     }
   }
@@ -245,6 +453,10 @@ class AuthService {
   // Cerrar sesión
   Future<void> signOut() async {
     try {
+      final googleSignIn = google_sign_in_service.getGoogleSignIn();
+      if (googleSignIn != null) {
+        await googleSignIn.signOut();
+      }
       await _auth.signOut();
     } catch (e) {
       print('Error al cerrar sesión: $e');
@@ -258,25 +470,26 @@ class AuthService {
       await _auth.sendPasswordResetEmail(email: email);
       return {
         'success': true,
-        'message': 'Correo de recuperación enviado. Revisa tu bandeja de entrada',
+        'messageKey': 'successPasswordReset',
       };
     } on FirebaseAuthException catch (e) {
-      String message = 'Error al enviar correo de recuperación';
-      
+      String messageKey = 'errorGeneric';
+
       if (e.code == 'user-not-found') {
-        message = 'No existe un usuario con este correo';
+        messageKey = 'errorUserNotFound';
       } else if (e.code == 'invalid-email') {
-        message = 'El correo electrónico no es válido';
+        messageKey = 'errorInvalidEmail';
       }
 
       return {
         'success': false,
-        'message': message,
+        'messageKey': messageKey,
       };
     } catch (e) {
       return {
         'success': false,
-        'message': 'Error inesperado: ${e.toString()}',
+        'messageKey': 'errorGeneric',
+        'errorDetails': e.toString(),
       };
     }
   }
@@ -286,157 +499,226 @@ class AuthService {
     return currentUser != null;
   }
 
+  bool _isValidEmail(String value) {
+    return RegExp(r'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')
+        .hasMatch(value.trim());
+  }
+
+  bool _isStrongPassword(String value) {
+    if (value.length < 8) return false;
+    final hasUpperCase = RegExp(r'[A-Z]').hasMatch(value);
+    final hasLowerCase = RegExp(r'[a-z]').hasMatch(value);
+    final hasNumber = RegExp(r'[0-9]').hasMatch(value);
+
+    return hasUpperCase && hasLowerCase && hasNumber;
+  }
+
   // Cambiar contraseña
-Future<Map<String, dynamic>> changePassword({
-  required String currentPassword,
-  required String newPassword,
-}) async {
-  try {
-    final user = currentUser;
-    if (user == null) {
+  Future<Map<String, dynamic>> changePassword({
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    try {
+      final user = currentUser;
+      if (user == null) {
+        return {
+          'success': false,
+          'messageKey': 'errorNoAuthUser',
+        };
+      }
+
+      // Reautenticar usuario
+      final credential = EmailAuthProvider.credential(
+        email: user.email!,
+        password: currentPassword,
+      );
+
+      await user.reauthenticateWithCredential(credential);
+
+      // Cambiar contraseña
+      await user.updatePassword(newPassword);
+
+      return {
+        'success': true,
+        'messageKey': 'successPasswordUpdated',
+      };
+    } on FirebaseAuthException catch (e) {
+      String messageKey = 'errorChangePassword';
+
+      switch (e.code) {
+        case 'wrong-password':
+          messageKey = 'errorWrongCurrentPassword';
+          break;
+        case 'weak-password':
+          messageKey = 'errorWeakNewPassword';
+          break;
+      }
+
       return {
         'success': false,
-        'message': 'No hay usuario autenticado',
+        'messageKey': messageKey,
+      };
+    } catch (e) {
+      return {
+        'success': false,
+        'messageKey': 'errorGeneric',
+        'errorDetails': e.toString(),
       };
     }
-
-    // Reautenticar usuario
-    final credential = EmailAuthProvider.credential(
-      email: user.email!,
-      password: currentPassword,
-    );
-    
-    await user.reauthenticateWithCredential(credential);
-    
-    // Cambiar contraseña
-    await user.updatePassword(newPassword);
-    
-    return {
-      'success': true,
-      'message': 'Contraseña actualizada correctamente',
-    };
-  } on FirebaseAuthException catch (e) {
-    String message = 'Error al cambiar contraseña';
-    
-    switch (e.code) {
-      case 'wrong-password':
-        message = 'La contraseña actual es incorrecta';
-        break;
-      case 'weak-password':
-        message = 'La nueva contraseña es demasiado débil';
-        break;
-    }
-    
-    return {
-      'success': false,
-      'message': message,
-    };
-  } catch (e) {
-    return {
-      'success': false,
-      'message': 'Error inesperado: ${e.toString()}',
-    };
   }
-}
 
 // Cambiar email
-Future<Map<String, dynamic>> changeEmail({
-  required String currentPassword,
-  required String newEmail,
-}) async {
-  try {
-    final user = currentUser;
-    if (user == null) {
+  Future<Map<String, dynamic>> changeEmail({
+    required String currentPassword,
+    required String newEmail,
+  }) async {
+    try {
+      final user = currentUser;
+      if (user == null) {
+        return {
+          'success': false,
+          'messageKey': 'errorNoAuthUser',
+        };
+      }
+
+      // Reautenticar usuario
+      final credential = EmailAuthProvider.credential(
+        email: user.email!,
+        password: currentPassword,
+      );
+
+      await user.reauthenticateWithCredential(credential);
+
+      // Cambiar email
+      await user.verifyBeforeUpdateEmail(newEmail);
+
+      return {
+        'success': true,
+        'messageKey': 'successEmailUpdated',
+      };
+    } on FirebaseAuthException catch (e) {
+      String messageKey = 'errorChangeEmail';
+
+      switch (e.code) {
+        case 'email-already-in-use':
+          messageKey = 'errorEmailAlreadyInUse';
+          break;
+        case 'invalid-email':
+          messageKey = 'errorInvalidNewEmail';
+          break;
+        case 'wrong-password':
+          messageKey = 'errorWrongCurrentPassword';
+          break;
+      }
+
       return {
         'success': false,
-        'message': 'No hay usuario autenticado',
+        'messageKey': messageKey,
       };
-    }
-
-    // Reautenticar usuario
-    final credential = EmailAuthProvider.credential(
-      email: user.email!,
-      password: currentPassword,
-    );
-    
-    await user.reauthenticateWithCredential(credential);
-    
-    // Cambiar email
-    await user.updateEmail(newEmail);
-    
-    return {
-      'success': true,
-      'message': 'Email actualizado correctamente. Verifica tu nuevo correo.',
-    };
-  } on FirebaseAuthException catch (e) {
-    String message = 'Error al cambiar email';
-    
-    switch (e.code) {
-      case 'email-already-in-use':
-        message = 'Este email ya está en uso';
-        break;
-      case 'invalid-email':
-        message = 'El email no es válido';
-        break;
-      case 'wrong-password':
-        message = 'La contraseña es incorrecta';
-        break;
-    }
-    
-    return {
-      'success': false,
-      'message': message,
-    };
-  } catch (e) {
-    return {
-      'success': false,
-      'message': 'Error inesperado: ${e.toString()}',
-    };
-  }
-}
-
-// Eliminar cuenta (autenticación)
-Future<Map<String, dynamic>> deleteAccount(String password) async {
-  try {
-    final user = currentUser;
-    if (user == null) {
+    } catch (e) {
       return {
         'success': false,
-        'message': 'No hay usuario autenticado',
+        'messageKey': 'errorGeneric',
+        'errorDetails': e.toString(),
       };
     }
-
-    // Reautenticar antes de eliminar
-    final credential = EmailAuthProvider.credential(
-      email: user.email!,
-      password: password,
-    );
-    
-    await user.reauthenticateWithCredential(credential);
-    
-    // Eliminar cuenta de Firebase Auth
-    await user.delete();
-    
-    return {
-      'success': true,
-      'message': 'Cuenta eliminada correctamente',
-    };
-  } on FirebaseAuthException catch (e) {
-    String message = 'Error al eliminar cuenta';
-    
-    if (e.code == 'wrong-password') {
-      message = 'La contraseña es incorrecta';
-    }
-    
-    return {
-      'success': false,
-      'message': message,
-    };
-  } catch (e) {
-    return {
-      'success': false,
-      'message': 'Error inesperado: ${e.toString()}',
-    };
   }
-}
+
+  Future<Map<String, dynamic>> reauthenticateForSensitiveAction(
+    String password,
+  ) async {
+    try {
+      final user = currentUser;
+      if (user == null) {
+        return {
+          'success': false,
+          'messageKey': 'errorNoAuthUser',
+        };
+      }
+
+      if (user.email == null || user.email!.trim().isEmpty) {
+        return {
+          'success': false,
+          'messageKey': 'errorNoPasswordAccount',
+        };
+      }
+
+      // Reautenticar antes de eliminar
+      final credential = EmailAuthProvider.credential(
+        email: user.email!,
+        password: password,
+      );
+
+      await user.reauthenticateWithCredential(credential);
+
+      return {
+        'success': true,
+        'messageKey': 'successReauth',
+      };
+    } on FirebaseAuthException catch (e) {
+      String messageKey = 'errorReauth';
+
+      if (e.code == 'wrong-password' || e.code == 'invalid-credential') {
+        messageKey = 'errorWrongCurrentPassword';
+      }
+
+      return {
+        'success': false,
+        'messageKey': messageKey,
+      };
+    } catch (e) {
+      return {
+        'success': false,
+        'messageKey': 'errorGeneric',
+        'errorDetails': e.toString(),
+      };
+    }
+  }
+
+  Future<Map<String, dynamic>> deleteCurrentAuthUser() async {
+    try {
+      final user = currentUser;
+      if (user == null) {
+        return {
+          'success': false,
+          'messageKey': 'errorNoAuthUser',
+        };
+      }
+
+      // Eliminar cuenta de Firebase Auth
+      await user.delete();
+
+      return {
+        'success': true,
+        'messageKey': 'successAccountDeleted',
+      };
+    } on FirebaseAuthException catch (e) {
+      String messageKey = 'errorDeleteAccount';
+
+      if (e.code == 'wrong-password') {
+        messageKey = 'errorWrongCurrentPassword';
+      }
+
+      return {
+        'success': false,
+        'messageKey': messageKey,
+      };
+    } catch (e) {
+      return {
+        'success': false,
+        'messageKey': 'errorGeneric',
+        'errorDetails': e.toString(),
+      };
+    }
+  }
+
+// Eliminar cuenta (atajo con reautenticación + borrado Auth)
+  Future<Map<String, dynamic>> deleteAccount(String password) async {
+    final reauthResult = await reauthenticateForSensitiveAction(password);
+    if (!(reauthResult['success'] ?? false)) {
+      return reauthResult;
+    }
+
+    return deleteCurrentAuthUser();
+  }
 }

@@ -12,7 +12,20 @@
           "package_name": "com.company.nexgenparents"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "932380773717-2b1bv241asmp5lmnj3jk91jp9r0ep90i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.company.nexgenparents",
+            "certificate_hash": "1e8da30231c85470242aa42abaa3df57bbc06375"
+          }
+        },
+        {
+          "client_id": "932380773717-ogk4c1bufik06a3ivdvvqv7llnaq05rn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAEYvrVyrj8JfvAepzXA2pO0LFOs2sbcCs"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "932380773717-ogk4c1bufik06a3ivdvvqv7llnaq05rn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

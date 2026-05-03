@@ -5,7 +5,7 @@ import '../models/user_model.dart';
 
 class AuthProvider with ChangeNotifier {
   final AuthService _authService = AuthService();
-  
+
   UserModel? _currentUser;
   bool _isLoading = false;
   String? _errorMessage;
@@ -61,13 +61,13 @@ class AuthProvider with ChangeNotifier {
         notifyListeners();
         return true;
       } else {
-        _errorMessage = result['message'];
+        _errorMessage = result['messageKey'];
         _isLoading = false;
         notifyListeners();
         return false;
       }
     } catch (e) {
-      _errorMessage = 'Error inesperado: ${e.toString()}';
+      _errorMessage = null;
       _isLoading = false;
       notifyListeners();
       return false;
@@ -95,7 +95,36 @@ class AuthProvider with ChangeNotifier {
         notifyListeners();
         return true;
       } else {
-        _errorMessage = result['message'];
+        _errorMessage = result['messageKey'];
+        _isLoading = false;
+        notifyListeners();
+        return false;
+      }
+    } catch (e) {
+      _errorMessage = 'Error inesperado: ${e.toString()}';
+      _isLoading = false;
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<bool> signInWithGoogle() async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      final result = await _authService.signInWithGoogle();
+
+      if (result['success']) {
+        if (result['user'] != null) {
+          _currentUser = result['user'];
+        }
+        _isLoading = false;
+        notifyListeners();
+        return true;
+      } else {
+        _errorMessage = result['messageKey'];
         _isLoading = false;
         notifyListeners();
         return false;
@@ -116,7 +145,7 @@ class AuthProvider with ChangeNotifier {
       _errorMessage = null;
       notifyListeners();
     } catch (e) {
-      _errorMessage = 'Error al cerrar sesión';
+      _errorMessage = null;
       notifyListeners();
     }
   }
@@ -135,12 +164,12 @@ class AuthProvider with ChangeNotifier {
         notifyListeners();
         return true;
       } else {
-        _errorMessage = result['message'];
+        _errorMessage = result['messageKey'];
         notifyListeners();
         return false;
       }
     } catch (e) {
-      _errorMessage = 'Error inesperado: ${e.toString()}';
+      _errorMessage = null;
       _isLoading = false;
       notifyListeners();
       return false;

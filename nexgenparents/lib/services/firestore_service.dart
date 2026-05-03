@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/dictionary_term_model.dart';
 import '../models/user_model.dart';
+import '../models/forum_post_model.dart';
+import '../models/forum_reply_model.dart';
 import '../models/parental_guide_model.dart';
 import '../config/app_config.dart';
 
@@ -91,7 +93,7 @@ class FirestoreService {
       if (existingTerms.docs.isNotEmpty) {
         return {
           'success': false,
-          'message': 'Este término ya existe en el diccionario',
+          'messageKey': 'errorTermExists',
         };
       }
 
@@ -119,13 +121,14 @@ class FirestoreService {
 
       return {
         'success': true,
-        'message': 'Término propuesto correctamente. Será revisado por un moderador',
+        'messageKey': 'successTermProposed',
         'termId': docRef.id,
       };
     } catch (e) {
       return {
         'success': false,
-        'message': 'Error al proponer término: ${e.toString()}',
+        'messageKey': 'errorProposeTerm',
+        'errorDetails': e.toString(),
       };
     }
   }
@@ -168,7 +171,7 @@ class FirestoreService {
       if (!termDoc.exists) {
         return {
           'success': false,
-          'message': 'El término no existe',
+          'messageKey': 'errorTermNotFound',
         };
       }
 
@@ -188,12 +191,13 @@ class FirestoreService {
 
       return {
         'success': true,
-        'message': 'Término aprobado correctamente',
+        'messageKey': 'successTermApproved',
       };
     } catch (e) {
       return {
         'success': false,
-        'message': 'Error al aprobar término: ${e.toString()}',
+        'messageKey': 'errorApproveTerm',
+        'errorDetails': e.toString(),
       };
     }
   }
@@ -212,12 +216,13 @@ class FirestoreService {
 
       return {
         'success': true,
-        'message': 'Término rechazado',
+        'messageKey': 'successTermRejected',
       };
     } catch (e) {
       return {
         'success': false,
-        'message': 'Error al rechazar término: ${e.toString()}',
+        'messageKey': 'errorRejectTerm',
+        'errorDetails': e.toString(),
       };
     }
   }
@@ -225,6 +230,7 @@ class FirestoreService {
   // Actualizar término existente (UPDATE - CRUD)
   Future<Map<String, dynamic>> updateTerm({
     required String termId,
+    String? term,
     String? definition,
     String? example,
     String? category,
@@ -234,8 +240,9 @@ class FirestoreService {
         'updatedAt': Timestamp.now(),
       };
 
-      if (definition != null) updates['definition'] = definition;
-      if (example != null) updates['example'] = example;
+      if (term != null) updates['term'] = term.trim();
+      if (definition != null) updates['definition'] = definition.trim();
+      if (example != null) updates['example'] = example.trim();
       if (category != null) updates['category'] = category;
 
       await _firestore
@@ -245,12 +252,13 @@ class FirestoreService {
 
       return {
         'success': true,
-        'message': 'Término actualizado correctamente',
+        'messageKey': 'successTermUpdated',
       };
     } catch (e) {
       return {
         'success': false,
-        'message': 'Error al actualizar término: ${e.toString()}',
+        'messageKey': 'errorUpdateTerm',
+        'errorDetails': e.toString(),
       };
     }
   }
@@ -262,12 +270,13 @@ class FirestoreService {
 
       return {
         'success': true,
-        'message': 'Término eliminado correctamente',
+        'messageKey': 'successTermDeleted',
       };
     } catch (e) {
       return {
         'success': false,
-        'message': 'Error al eliminar término: ${e.toString()}',
+        'messageKey': 'errorDeleteTerm',
+        'errorDetails': e.toString(),
       };
     }
   }
@@ -333,7 +342,7 @@ Future<Map<String, dynamic>> updateUserRole({
     if (!['user', 'moderator', 'admin'].contains(newRole)) {
       return {
         'success': false,
-        'message': 'Rol inválido. Debe ser: user, moderator o admin',
+        'messageKey': 'errorInvalidRole',
       };
     }
 
@@ -341,7 +350,7 @@ Future<Map<String, dynamic>> updateUserRole({
     if (userId == adminId) {
       return {
         'success': false,
-        'message': 'No puedes modificar tu propio rol',
+        'messageKey': 'errorModifyOwnRole',
       };
     }
 
@@ -352,12 +361,13 @@ Future<Map<String, dynamic>> updateUserRole({
 
     return {
       'success': true,
-      'message': 'Rol actualizado correctamente',
+      'messageKey': 'successRoleUpdated',
     };
   } catch (e) {
     return {
       'success': false,
-      'message': 'Error al actualizar rol: ${e.toString()}',
+      'messageKey': 'errorUpdateRole',
+      'errorDetails': e.toString(),
     };
   }
 }
@@ -376,12 +386,13 @@ Future<Map<String, dynamic>> updateChildrenBirthYears({
 
     return {
       'success': true,
-      'message': 'Años de nacimiento actualizados correctamente',
+      'messageKey': 'successBirthYearsUpdated',
     };
   } catch (e) {
     return {
       'success': false,
-      'message': 'Error al actualizar años de nacimiento: ${e.toString()}',
+      'messageKey': 'errorUpdateBirthYears',
+      'errorDetails': e.toString(),
     };
   }
 }
@@ -398,12 +409,13 @@ Future<Map<String, dynamic>> updateOwnedPlatforms({
     
     return {
       'success': true,
-      'message': 'Plataformas actualizadas correctamente',
+      'messageKey': 'successPlatformsUpdated',
     };
   } catch (e) {
     return {
       'success': false,
-      'message': 'Error al actualizar plataformas: ${e.toString()}',
+      'messageKey': 'errorUpdatePlatforms',
+      'errorDetails': e.toString(),
     };
   }
 }
@@ -420,12 +432,13 @@ Future<Map<String, dynamic>> updatePhotoUrl({
     
     return {
       'success': true,
-      'message': 'Avatar actualizado correctamente',
+      'messageKey': 'successAvatarUpdated',
     };
   } catch (e) {
     return {
       'success': false,
-      'message': 'Error al actualizar avatar: ${e.toString()}',
+      'messageKey': 'errorUpdateAvatar',
+      'errorDetails': e.toString(),
     };
   }
 }
@@ -447,12 +460,13 @@ Future<Map<String, dynamic>> updateUserBasicInfo({
 
     return {
       'success': true,
-      'message': 'Información de usuario actualizada correctamente',
+      'messageKey': 'successUserInfoUpdated',
     };
   } catch (e) {
     return {
       'success': false,
-      'message': 'Error al actualizar información: ${e.toString()}',
+      'messageKey': 'errorUpdateUserInfo',
+      'errorDetails': e.toString(),
     };
   }
 }
@@ -464,12 +478,13 @@ Future<Map<String, dynamic>> deleteUserAccount(String userId) async {
     
     return {
       'success': true,
-      'message': 'Cuenta eliminada correctamente',
+      'messageKey': 'successAccountDeleted',
     };
   } catch (e) {
     return {
       'success': false,
-      'message': 'Error al eliminar cuenta: ${e.toString()}',
+      'messageKey': 'errorDeleteAccount',
+      'errorDetails': e.toString(),
     };
   }
 }
@@ -502,5 +517,169 @@ Future<List<ParentalGuide>> getExtraGuides() async {
     print('Error al obtener guías extras desde Firestore: $e');
     return [];
   }
+}
+
+// --- Métodos para el Foro ---
+
+// Obtiene el total de mensajes aportados por un usuario (hilos + respuestas).
+Future<int> getUserCommunityMessagesCount(String userId) async {
+  try {
+    final postsCountSnapshot = await _firestore
+        .collection('forum_posts')
+        .where('authorId', isEqualTo: userId)
+        .count()
+        .get();
+
+    final repliesCountSnapshot = await _firestore
+        .collection('forum_replies')
+        .where('authorId', isEqualTo: userId)
+        .count()
+        .get();
+
+    final postsCount = postsCountSnapshot.count ?? 0;
+    final repliesCount = repliesCountSnapshot.count ?? 0;
+    return postsCount + repliesCount;
+  } catch (e) {
+    print('Error al obtener total de mensajes de comunidad: $e');
+    return 0;
+  }
+}
+
+// Obtiene un stream de todas las publicaciones del foro, ordenadas por la actividad más reciente.
+Stream<List<ForumPost>> getForumPosts() {
+  return _firestore
+      .collection('forum_posts')
+      .orderBy('updatedAt', descending: true)
+      .limit(100) // Protege tu cuota de lecturas de Firebase y evita sobrecarga de RAM
+      .snapshots()
+      .map((snapshot) {
+    return snapshot.docs
+        .map((doc) => ForumPost.fromMap(doc.id, doc.data()))
+        .toList();
+  });
+}
+
+// Obtiene un stream de las respuestas para una publicación específica.
+Stream<List<ForumReply>> getRepliesForPost(String postId) {
+  return _firestore
+      .collection('forum_replies')
+      .where('postId', isEqualTo: postId)
+      .orderBy('createdAt', descending: false)
+      .snapshots()
+      .map((snapshot) {
+    return snapshot.docs
+        .map((doc) => ForumReply.fromMap(doc.id, doc.data()))
+        .toList();
+  });
+}
+
+// Crea una nueva publicación en el foro.
+Future<void> createForumPost(ForumPost post) async {
+  final postData = post.toMap();
+  // Forzar timestamps del servidor evita errores si el reloj del móvil del usuario está mal
+  postData['createdAt'] = FieldValue.serverTimestamp();
+  postData['updatedAt'] = FieldValue.serverTimestamp();
+  
+  await _firestore.collection('forum_posts').add(postData);
+}
+
+// Elimina una publicación del foro y sus respuestas asociadas.
+Future<Map<String, dynamic>> deleteForumPost(String postId) async {
+  try {
+    final repliesSnapshot = await _firestore
+        .collection('forum_replies')
+        .where('postId', isEqualTo: postId)
+        .get();
+
+    // Firestore permite un máximo de 500 operaciones por Batch.
+    // Implementamos "Chunking" para hilos virales con muchas respuestas.
+    final batches = <WriteBatch>[_firestore.batch()];
+    int opCount = 0;
+
+    for (final replyDoc in repliesSnapshot.docs) {
+      if (opCount >= 490) { // Margen de seguridad antes de los 500
+        batches.add(_firestore.batch());
+        opCount = 0;
+      }
+      batches.last.delete(replyDoc.reference);
+      opCount++;
+    }
+
+    // El post principal se elimina en el último batch
+    batches.last.delete(_firestore.collection('forum_posts').doc(postId));
+
+    // Ejecutamos todos los batches de forma segura
+    for (final b in batches) {
+      await b.commit();
+    }
+
+    return {
+      'success': true,
+      'messageKey': 'successPostDeleted',
+    };
+  } catch (e) {
+    return {
+      'success': false,
+      'messageKey': 'errorDeletePost',
+      'errorDetails': e.toString(),
+    };
+  }
+}
+
+// Elimina una respuesta del foro y actualiza el contador del post.
+Future<Map<String, dynamic>> deleteForumReply({
+  required String replyId,
+  required String postId,
+}) async {
+  try {
+    final postRef = _firestore.collection('forum_posts').doc(postId);
+    final replyRef = _firestore.collection('forum_replies').doc(replyId);
+
+    await _firestore.runTransaction((transaction) async {
+      final postSnapshot = await transaction.get(postRef);
+      if (!postSnapshot.exists) {
+        throw FirebaseException(
+          plugin: 'cloud_firestore',
+          code: 'not-found',
+          message: 'errorPostNotFound',
+        );
+      }
+
+      transaction.delete(replyRef);
+
+      final currentReplyCount = (postSnapshot.data()?['replyCount'] ?? 0) as int;
+      transaction.update(postRef, {
+        'replyCount': currentReplyCount > 0 ? currentReplyCount - 1 : 0,
+        'updatedAt': FieldValue.serverTimestamp(),
+      });
+    });
+
+    return {
+      'success': true,
+      'messageKey': 'successReplyDeleted',
+    };
+  } catch (e) {
+    return {
+      'success': false,
+      'messageKey': 'errorDeleteReply',
+      'errorDetails': e.toString(),
+    };
+  }
+}
+
+// Añade una respuesta y actualiza el contador y la fecha en la publicación principal.
+Future<void> createForumReply(ForumReply reply) async {
+  final postRef = _firestore.collection('forum_posts').doc(reply.postId);
+  final replyRef = _firestore.collection('forum_replies').doc();
+
+  // Usamos una transacción para asegurar que ambas operaciones se completen correctamente.
+  await _firestore.runTransaction((transaction) async {
+    transaction.set(replyRef, reply.toMap());
+    transaction.update(postRef, {
+      'replyCount': FieldValue.increment(1),
+      'updatedAt': FieldValue.serverTimestamp(),
+      'lastReplyAt': FieldValue.serverTimestamp(),
+    });
+  });
 }
 }

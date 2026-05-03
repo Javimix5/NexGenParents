@@ -60,6 +60,17 @@ class RawgService {
     return '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
   }
 
+  String _formatDate(DateTime date) {
+    return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+  }
+
+    // Obtener primer día del año actual en formato YYYY-MM-DD
+    String _getStartOfYear() {
+      final now = DateTime.now();
+      final startOfYear = DateTime(now.year, 1, 1);
+      return '${startOfYear.year}-${startOfYear.month.toString().padLeft(2, '0')}-${startOfYear.day.toString().padLeft(2, '0')}';
+    }
+
   // Buscar juegos por nombre
   Future<List<Game>> searchGames(String query) async {
   try {
@@ -75,7 +86,7 @@ class RawgService {
     if (data != null) {
       final List results = data['results'] as List? ?? [];
       
-      return results.map((gameJson) => Game.fromJson(gameJson)).toList();
+      return results.map((gameJson) => Game.fromJson(gameJson as Map<String, dynamic>)).toList();
     } else {
       return [];
     }
@@ -98,7 +109,7 @@ class RawgService {
     if (data != null) {
       final List results = data['results'] as List? ?? [];
       
-      return results.map((gameJson) => Game.fromJson(gameJson)).toList();
+      return results.map((gameJson) => Game.fromJson(gameJson as Map<String, dynamic>)).toList();
     } else {
       return [];
     }
@@ -121,7 +132,7 @@ class RawgService {
     if (data != null) {
       final List results = data['results'] as List? ?? [];
       
-      final allGames = results.map((gameJson) => Game.fromJson(gameJson)).toList();
+      final allGames = results.map((gameJson) => Game.fromJson(gameJson as Map<String, dynamic>)).toList();
       
       // Filtrar juegos apropiados para la edad
       return allGames.where((game) => game.isAppropriateForAge(age)).toList();
@@ -162,7 +173,7 @@ class RawgService {
       if (data != null) {
         final List results = data['results'] as List? ?? [];
         
-        return results.map((gameJson) => Game.fromJson(gameJson)).toList();
+        return results.map((gameJson) => Game.fromJson(gameJson as Map<String, dynamic>)).toList();
       } else {
         return [];
       }
@@ -184,7 +195,7 @@ class RawgService {
       if (data != null) {
         final List results = data['results'] as List? ?? [];
         
-        return results.map((gameJson) => Game.fromJson(gameJson)).toList();
+        return results.map((gameJson) => Game.fromJson(gameJson as Map<String, dynamic>)).toList();
       } else {
         return [];
       }
@@ -218,17 +229,18 @@ class RawgService {
   // Obtener juegos nuevos/recientes
   Future<List<Game>> getNewGames() async {
   try {
-    final dateRange = '${_getDateFiveYearsAgo()},${_getCurrentDate()}';
+     final dateRange = '${_getStartOfYear()},${_getCurrentDate()}';
     
+    // Usar -added en vez de -released filtra el shovelware/basura y prioriza juegos relevantes
     final url = Uri.parse(
-      '$_baseUrl/games?key=$_apiKey&dates=$dateRange&ordering=-released&page_size=20'
+      '$_baseUrl/games?key=$_apiKey&dates=$dateRange&ordering=-added&page_size=20'
     );
     
     final data = await _fetchJson(url);
     if (data != null) {
       final List results = data['results'] as List? ?? [];
       
-      return results.map((gameJson) => Game.fromJson(gameJson)).toList();
+      return results.map((gameJson) => Game.fromJson(gameJson as Map<String, dynamic>)).toList();
     } else {
       return [];
     }
@@ -286,7 +298,7 @@ Future<List<Game>> searchGamesWithFilters({
     if (data != null) {
       final List results = data['results'] as List? ?? [];
       
-      var games = results.map((gameJson) => Game.fromJson(gameJson)).toList();
+      var games = results.map((gameJson) => Game.fromJson(gameJson as Map<String, dynamic>)).toList();
       
       if (pegiAge != null) {
         games = games.where((game) => game.isAppropriateForAge(pegiAge)).toList();
@@ -318,6 +330,55 @@ Future<List<Map<String, dynamic>>> getGenres() async {
     return [];
   } catch (e) {
     print('Error al obtener géneros: $e');
+    return [];
+  }
+}
+
+// Obtener el juego más popular de los últimos 7 días (Ventana dinámica)
+Future<Game?> getTopRatedGameOfCurrentWeek() async {
+  try {
+    final now = DateTime.now();
+    final start = _formatDate(now.subtract(const Duration(days: 7)));
+    final end = _formatDate(now);
+    
+    // IMPORTANTE: -added garantiza que nos devuelva el juego más hypeado por la comunidad esta semana.
+    final url = Uri.parse(
+      '$_baseUrl/games?key=$_apiKey&dates=$start,$end&ordering=-added&page_size=1',
+    );
+
+    final data = await _fetchJson(url);
+    if (data == null) return null;
+
+    final List results = data['results'] as List? ?? [];
+    if (results.isEmpty) return null;
+
+    return Game.fromJson(results.first as Map<String, dynamic>);
+  } catch (e) {
+    print('Error al obtener el juego de la semana: $e');
+    return null;
+  }
+}
+
+// Obtener juegos populares de los últimos 30 días
+Future<List<Game>> getCurrentMonthGames() async {
+  try {
+    final now = DateTime.now();
+    final start = _formatDate(now.subtract(const Duration(days: 30)));
+    final end = _formatDate(now);
+    
+    final url = Uri.parse(
+      '$_baseUrl/games?key=$_apiKey&dates=$start,$end&ordering=-added&page_size=40',
+    );
+
+    final data = await _fetchJson(url);
+    if (data == null) return [];
+
+    final List results = data['results'] as List? ?? [];
+    return results
+        .map((gameJson) => Game.fromJson(gameJson as Map<String, dynamic>))
+        .toList();
+  } catch (e) {
+    print('Error al obtener juegos del mes actual: $e');
     return [];
   }
 }

@@ -9,6 +9,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  # Internacionalización
+  flutter_localizations:
+    sdk: flutter
 
   # UI & Icons
   cupertino_icons: ^1.0.6
@@ -17,9 +20,10 @@ dependencies:
   provider: ^6.1.1
   
   # Firebase
-  firebase_core: ^3.0.0
-  firebase_auth: ^5.0.0
-  cloud_firestore: ^5.0.0
+  firebase_core: ^4.7.0
+  firebase_auth: ^6.4.0
+  cloud_firestore: ^6.3.0
+  google_sign_in: ^7.2.0
   
   # HTTP & API
   http: ^1.1.2
@@ -32,22 +36,30 @@ dependencies:
   shared_preferences: ^2.2.2
   
   # Utilities
-  intl: ^0.18.1
+  intl: any # Dejar que flutter_localizations resuelva la versión
+  url_launcher: ^6.3.1
   
   # Loading & UI helpers
   flutter_spinkit: ^5.2.0
+  
+  # Video playback
+  video_player: ^2.8.2
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
+  flutter_lints: ^6.0.0
+  mocktail: ^1.0.5
 
 flutter:
   uses-material-design: true
+  generate: true
   
-  # Aquí añadiremos assets más adelante si son necesarios
-  # assets:
-  #   - assets/images/
+  # Assets de la aplicación
+  assets:
+    - assets/images/logo_principal.png
+    - assets/video/introNgP.mp4
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
