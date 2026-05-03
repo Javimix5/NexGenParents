@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class UserAvatar extends StatelessWidget {
   const UserAvatar({
@@ -24,10 +25,11 @@ class UserAvatar extends StatelessWidget {
       ),
       clipBehavior: Clip.antiAlias,
       child: hasAvatar
-          ? Image.network(
-              imageUrl,
+          ? CachedNetworkImage(
+              imageUrl: imageUrl,
               fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
+              placeholder: (context, url) => const SizedBox.shrink(),
+              errorWidget: (context, url, error) {
                 return Icon(
                   Icons.person_rounded,
                   color: Colors.white.withOpacity(0.95),

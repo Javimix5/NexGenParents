@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
 import 'home/home_screen.dart';
@@ -40,7 +41,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> with WidgetsBindingObserv
       await _videoController!.initialize();
       
       // 3. Configuramos volumen y marcamos para que la próxima vez se salte
-      await _videoController!.setVolume(1.0);
+      // En la web, los navegadores bloquean el autoplay si el vídeo tiene sonido.
+      await _videoController!.setVolume(kIsWeb ? 0.0 : 1.0);
       await prefs.setBool('is_first_time_welcome', false);
 
       setState(() {
@@ -110,9 +112,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> with WidgetsBindingObserv
       backgroundColor: Colors.black, // Fondo negro para evitar franjas claras
       body: Center(
         child: _isVideoInitialized && _videoController != null
-            ? AspectRatio(
-                aspectRatio: _videoController!.value.aspectRatio,
-                child: VideoPlayer(_videoController!),
+            ? GestureDetector(
+                onTap: _navigateToHome, // Permite saltar la intro al tocar la pantalla
+                child: AspectRatio(
+                  aspectRatio: _videoController!.value.aspectRatio,
+                  child: VideoPlayer(_videoController!),
+                ),
               )
             : const CircularProgressIndicator(),
       ),

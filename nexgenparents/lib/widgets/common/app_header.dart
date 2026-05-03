@@ -24,6 +24,7 @@ class AppHeader extends StatelessWidget {
     required this.proposedTermsCount,
     required this.isModerator,
     required this.isAdmin,
+    required this.isLoggedIn,
     required this.onNavigate,
     required this.onSearchSubmitted,
     required this.onMenuSelected,
@@ -37,6 +38,7 @@ class AppHeader extends StatelessWidget {
   final int proposedTermsCount;
   final bool isModerator;
   final bool isAdmin;
+  final bool isLoggedIn;
   final ValueChanged<AppSection> onNavigate;
   final ValueChanged<String> onSearchSubmitted;
   final ValueChanged<String> onMenuSelected;
@@ -195,6 +197,7 @@ _buildLocaleButton(
     proposedTermsCount: proposedTermsCount,
     isModerator: isModerator,
     isAdmin: isAdmin,
+    isLoggedIn: isLoggedIn,
     onMenuSelected: onMenuSelected,
     navigatorContextGetter: navigatorContextGetter,
     onCloseMenu: () => accountMenuKey?.currentState?.closeMenu(),
@@ -247,6 +250,7 @@ _buildLocaleButton(
         proposedTermsCount: proposedTermsCount,
         isModerator: isModerator,
         isAdmin: isAdmin,
+        isLoggedIn: isLoggedIn,
         onMenuSelected: onMenuSelected,
         navigatorContextGetter: navigatorContextGetter,
         onCloseMenu: () => accountMenuKey?.currentState?.closeMenu(),
@@ -812,6 +816,7 @@ class AccountMenuButton extends StatefulWidget {
     required this.proposedTermsCount,
     required this.isModerator,
     required this.isAdmin,
+    required this.isLoggedIn,
     required this.onMenuSelected,
     this.navigatorContextGetter,
     this.onCloseMenu,
@@ -821,6 +826,7 @@ class AccountMenuButton extends StatefulWidget {
   final int proposedTermsCount;
   final bool isModerator;
   final bool isAdmin;
+  final bool isLoggedIn;
   final ValueChanged<String> onMenuSelected;
   final BuildContext? Function()? navigatorContextGetter;
   final VoidCallback? onCloseMenu;
@@ -846,6 +852,11 @@ class AccountMenuButtonState extends State<AccountMenuButton> {
   }
 
   void _toggleMenu() {
+    if (!widget.isLoggedIn) {
+      widget.onMenuSelected('login');
+      return;
+    }
+
     if (_isOpen) {
       closeMenu();
     } else {

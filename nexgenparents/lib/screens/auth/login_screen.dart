@@ -67,10 +67,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
     final success = await authProvider.signInWithGoogle();
 
-    if (kIsWeb) {
-      return;
-    }
-
     if (success && mounted) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (_) => const HomeScreen()), // Navegar directamente a HomeScreen

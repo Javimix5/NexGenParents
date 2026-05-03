@@ -95,6 +95,7 @@ class _PersistentFrameState extends State<PersistentFrame> {
                     proposedTermsCount: user?.termsProposed ?? 0,
                     isModerator: authProvider.isModerator,
                     isAdmin: authProvider.isAdmin,
+                    isLoggedIn: user != null,
                       accountMenuKey: headerKey,
 
                     // Proveemos el contexto del Navigator raíz via getter
@@ -142,6 +143,9 @@ class _PersistentFrameState extends State<PersistentFrame> {
                           if (authProvider.isAdmin) {
                             _navigateTo(const UsersManagementScreen());
                           }
+                          break;
+                        case 'login':
+                          _navigateTo(const LoginScreen());
                           break;
                         case 'logout':
                           final nav = widget.navigatorKey.currentState;

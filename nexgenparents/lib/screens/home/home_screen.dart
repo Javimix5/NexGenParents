@@ -194,6 +194,7 @@ Widget _buildHeader(BuildContext context) {
       proposedTermsCount: proposedTermsCount,
       isModerator: authProvider.isModerator,
       isAdmin: authProvider.isAdmin,
+      isLoggedIn: authProvider.isAuthenticated,
       accountMenuKey: _accountMenuKey,
       onSearchSubmitted: (_) =>
           _navigateTo(context, const GamesSearchScreen()),
@@ -1271,6 +1272,9 @@ void _handleNavigation(BuildContext context, AppSection section) {
   void _handleMenuAction(
       BuildContext context, AuthProvider authProvider, String value) {
     switch (value) {
+      case 'login':
+        _navigateTo(context, const LoginScreen());
+        break;
       case 'profile':
         _navigateTo(context, const EditProfileScreen());
         break;
