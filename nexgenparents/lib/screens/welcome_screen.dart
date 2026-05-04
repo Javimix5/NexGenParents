@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
 import 'home/home_screen.dart';
+import '../main.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -85,6 +86,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> with WidgetsBindingObserv
   void _navigateToHome() {
     if (_navigated || !mounted) return;
     _navigated = true;
+
+    // Activa el marco persistente con la cabecera para toda la aplicación
+    appHeaderVisibility.value = true;
+
     Navigator.of(context).pushReplacement(
       PageRouteBuilder(
         transitionDuration: const Duration(milliseconds: 800), // Duración del fundido

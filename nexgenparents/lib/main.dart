@@ -16,6 +16,9 @@ import 'providers/theme_provider.dart';
 import 'screens/welcome_screen.dart';
 import 'widgets/common/persistent_frame.dart';
 
+// Notificador global para mostrar/ocultar el AppHeader de forma manual
+final ValueNotifier<bool> appHeaderVisibility = ValueNotifier<bool>(false);
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -69,38 +72,42 @@ class MyApp extends StatelessWidget {
 
             builder: (context, child) {
               final content = child ?? const SizedBox.shrink();
-              final authProvider = Provider.of<AuthProvider>(context);
-              final frameAwareContent =
-                  authProvider.isAuthenticated && !authProvider.isLoading
+
+              return ValueListenableBuilder<bool>(
+                valueListenable: appHeaderVisibility,
+                builder: (context, showHeader, _) {
+                  final frameAwareContent = showHeader
                       ? PersistentFrame(
                           navigatorKey: appNavigatorKey,
                           child: content,
                         )
                       : content;
 
-              return LayoutBuilder(
-                builder: (context, constraints) {
-                  // Vista móvil/tablet
-                  if (constraints.maxWidth < 1200) {
-                    return frameAwareContent;
-                  }
+                  return LayoutBuilder(
+                    builder: (context, constraints) {
+                      // Vista móvil/tablet
+                      if (constraints.maxWidth < 1200) {
+                        return frameAwareContent;
+                      }
 
-                  // Vista de escritorio centrada
-                  return Container(
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                    child: Row(
-                      children: [
-                        const Expanded(child: SizedBox()),
-                        ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 1200),
-                          child: Material(
-                            elevation: 16,
-                            child: frameAwareContent,
-                          ),
+                      // Vista de escritorio centrada
+                      return Container(
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        child: Row(
+                          children: [
+                            const Expanded(child: SizedBox()),
+                            ConstrainedBox(
+                              constraints: const BoxConstraints(maxWidth: 1200),
+                              child: Material(
+                                elevation: 16,
+                                child: frameAwareContent,
+                              ),
+                            ),
+                            const Expanded(child: SizedBox()),
+                          ],
                         ),
-                        const Expanded(child: SizedBox()),
-                      ],
-                    ),
+                      );
+                    },
                   );
                 },
               );

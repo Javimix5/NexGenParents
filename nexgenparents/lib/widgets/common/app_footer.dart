@@ -169,10 +169,12 @@ class AppFooter extends StatelessWidget {
             color: AppConfig.primaryColor.withOpacity(0.18),
             borderRadius: BorderRadius.circular(8),
           ),
-          child: const Icon(
-            Icons.videogame_asset_outlined,
-            color: Colors.white,
-            size: 16,
+          child: Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Image.asset(
+              'assets/images/logo_principal.png',
+              fit: BoxFit.contain,
+            ),
           ),
         ),
         const SizedBox(width: 10),

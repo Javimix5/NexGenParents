@@ -271,10 +271,12 @@ _buildLocaleButton(
           color: AppConfig.primaryColor.withOpacity(0.35),
         ),
       ),
-      child: const Icon(
-        Icons.videogame_asset_outlined,
-        size: 20,
-        color: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.all(6.0),
+        child: Image.asset(
+          'assets/images/logo_principal.png',
+          fit: BoxFit.contain,
+        ),
       ),
     );
   }
@@ -760,8 +762,11 @@ class _CompactNavMenuButtonState extends State<CompactNavMenuButton> {
 
     return InkWell(
       onTap: () {
-        closeMenu();
-        widget.onNavigate(value);
+        // Retraso para que se vea el efecto ripple y evitar el cuelgue en Web
+        Future.delayed(const Duration(milliseconds: 120), () {
+          closeMenu();
+          widget.onNavigate(value);
+        });
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -779,6 +784,27 @@ class _CompactNavMenuButtonState extends State<CompactNavMenuButton> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    
+    String currentSectionName = l10n?.headerMenuBtn ?? 'Menú';
+    switch (widget.activeSection) {
+      case AppSection.inicio:
+        currentSectionName = l10n?.navHome ?? 'Inicio';
+        break;
+      case AppSection.diccionario:
+        currentSectionName = l10n?.navDictionary ?? 'Diccionario';
+        break;
+      case AppSection.videojuegos:
+        currentSectionName = l10n?.navGames ?? 'Videojuegos';
+        break;
+      case AppSection.controlParental:
+        currentSectionName = l10n?.navParentalControl ?? 'Control Parental';
+        break;
+      case AppSection.comunidad:
+        currentSectionName = l10n?.navCommunity ?? 'Comunidad';
+        break;
+    }
+
     return TapRegion(
       groupId: 'nav_menu',
       child: InkWell(
@@ -793,7 +819,7 @@ class _CompactNavMenuButtonState extends State<CompactNavMenuButton> {
               const SizedBox(width: 8),
               Flexible(
                 child: Text(
-                  AppLocalizations.of(context)?.headerMenuBtn ?? 'Menú',
+                  currentSectionName,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     color: Colors.white,
@@ -940,6 +966,39 @@ class AccountMenuButtonState extends State<AccountMenuButton> {
 
   @override
   Widget build(BuildContext context) {
+    if (!widget.isLoggedIn) {
+      final l10n = AppLocalizations.of(context);
+      final isCompact = MediaQuery.of(context).size.width < 1100;
+
+      if (isCompact) {
+        return InkWell(
+          onTap: () => widget.onMenuSelected('login'),
+          borderRadius: BorderRadius.circular(999),
+          child: Container(
+            width: 38,
+            height: 38,
+            decoration: BoxDecoration(
+              color: AppConfig.primaryColor,
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(Icons.login, color: Colors.white, size: 18),
+          ),
+        );
+      }
+
+      return ElevatedButton.icon(
+        onPressed: () => widget.onMenuSelected('login'),
+        icon: const Icon(Icons.login, size: 16),
+        label: Text(l10n?.loginBtn ?? 'Iniciar sesión'),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppConfig.primaryColor,
+          foregroundColor: Colors.white,
+          minimumSize: const Size(0, 38),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+        ),
+      );
+    }
+
     return TapRegion(
       groupId: 'account_menu',
       child: MouseRegion(
@@ -1010,8 +1069,11 @@ class AccountMenuButtonState extends State<AccountMenuButton> {
   }) {
     return InkWell(
       onTap: () {
-        closeMenu();
-        widget.onMenuSelected(value);
+        // Retraso para que se vea el efecto ripple y evitar el cuelgue en Web
+        Future.delayed(const Duration(milliseconds: 120), () {
+          closeMenu();
+          widget.onMenuSelected(value);
+        });
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),

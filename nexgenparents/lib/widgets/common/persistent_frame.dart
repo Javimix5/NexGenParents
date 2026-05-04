@@ -83,99 +83,94 @@ class _PersistentFrameState extends State<PersistentFrame> {
       enabled: true,
       activeSection: _activeSection,
       setActiveSection: _setActiveSection,
-      child: Overlay(
-        initialEntries: [
-          OverlayEntry(
-            builder: (overlayContext) => SafeArea(
-              child: Column(
-                children: [
-                  AppHeader(
-                    activeSection: _activeSection,
-                    avatarUrl: user?.photoUrl,
-                    proposedTermsCount: user?.termsProposed ?? 0,
-                    isModerator: authProvider.isModerator,
-                    isAdmin: authProvider.isAdmin,
-                    isLoggedIn: user != null,
-                      accountMenuKey: headerKey,
+      child: SafeArea(
+        child: Column(
+          children: [
+            AppHeader(
+              activeSection: _activeSection,
+              avatarUrl: user?.photoUrl,
+              proposedTermsCount: user?.termsProposed ?? 0,
+              isModerator: authProvider.isModerator,
+              isAdmin: authProvider.isAdmin,
+              isLoggedIn: user != null,
+              accountMenuKey: headerKey,
 
-                    // Proveemos el contexto del Navigator raíz via getter
-                    navigatorContextGetter: () =>
-                        widget.navigatorKey.currentContext,
-                    onSearchSubmitted: (_) =>
-                        _navigateWithSection(const GamesSearchScreen(), AppSection.videojuegos),
-                    onNavigate: (section) {
-                      switch (section) {
-                        case AppSection.inicio:
-                          final nav = widget.navigatorKey.currentState;
-                          if (nav != null) {
-                            nav.popUntil((route) => route.isFirst);
-                            _setActiveSection(AppSection.inicio);
-                          }
-                          break;
-                        case AppSection.diccionario:
-                          _navigateWithSection(const DictionaryListScreen(), section);
-                          break;
-                        case AppSection.videojuegos:
-                          _navigateWithSection(const GamesSearchScreen(), section);
-                          break;
-                        case AppSection.controlParental:
-                          _navigateWithSection(const ParentalGuidesListScreen(), section);
-                          break;
-                        case AppSection.comunidad:
-                          _navigateWithSection(const ForumListScreen(), section);
-                          break;
-                      }
-                    },
-                    onMenuSelected: (value) async {
-                      switch (value) {
-                        case 'profile':
-                          _navigateTo(const EditProfileScreen());
-                          break;
-                        case 'my_terms':
-                          _navigateTo(const MyProposedTermsScreen());
-                          break;
-                        case 'moderation':
-                          if (authProvider.isModerator) {
-                            _navigateTo(const ModerationScreen());
-                          }
-                          break;
-                        case 'users_management':
-                          if (authProvider.isAdmin) {
-                            _navigateTo(const UsersManagementScreen());
-                          }
-                          break;
-                        case 'login':
-                          _navigateTo(const LoginScreen());
-                          break;
-                        case 'logout':
-                          final nav = widget.navigatorKey.currentState;
-                          if (nav != null && nav.mounted) {
-                            nav.pushAndRemoveUntil(
-                              MaterialPageRoute(
-                                  builder: (_) => const LoginScreen()),
-                              (route) => false,
-                            );
-                          }
-                          authProvider.signOut();
-                          break;
-                      }
-                    },
-                  ),
-                  Expanded(child: NotificationListener<ScrollNotification>(
-    onNotification: (n) {
-      if (n is ScrollStartNotification) {
-        headerKey.currentState?.closeMenu();
-      }
-      return false;
-    },
-    child: widget.child,
-  ),
-),
-                ],
+              // Proveemos el contexto del Navigator raíz via getter
+              navigatorContextGetter: () =>
+                  widget.navigatorKey.currentContext,
+              onSearchSubmitted: (_) =>
+                  _navigateWithSection(const GamesSearchScreen(), AppSection.videojuegos),
+              onNavigate: (section) {
+                switch (section) {
+                  case AppSection.inicio:
+                    final nav = widget.navigatorKey.currentState;
+                    if (nav != null) {
+                      nav.popUntil((route) => route.isFirst);
+                      _setActiveSection(AppSection.inicio);
+                    }
+                    break;
+                  case AppSection.diccionario:
+                    _navigateWithSection(const DictionaryListScreen(), section);
+                    break;
+                  case AppSection.videojuegos:
+                    _navigateWithSection(const GamesSearchScreen(), section);
+                    break;
+                  case AppSection.controlParental:
+                    _navigateWithSection(const ParentalGuidesListScreen(), section);
+                    break;
+                  case AppSection.comunidad:
+                    _navigateWithSection(const ForumListScreen(), section);
+                    break;
+                }
+              },
+              onMenuSelected: (value) async {
+                switch (value) {
+                  case 'profile':
+                    _navigateTo(const EditProfileScreen());
+                    break;
+                  case 'my_terms':
+                    _navigateTo(const MyProposedTermsScreen());
+                    break;
+                  case 'moderation':
+                    if (authProvider.isModerator) {
+                      _navigateTo(const ModerationScreen());
+                    }
+                    break;
+                  case 'users_management':
+                    if (authProvider.isAdmin) {
+                      _navigateTo(const UsersManagementScreen());
+                    }
+                    break;
+                  case 'login':
+                    _navigateTo(const LoginScreen());
+                    break;
+                  case 'logout':
+                    final nav = widget.navigatorKey.currentState;
+                    if (nav != null && nav.mounted) {
+                      nav.pushAndRemoveUntil(
+                        MaterialPageRoute(
+                            builder: (_) => const LoginScreen()),
+                        (route) => false,
+                      );
+                    }
+                    authProvider.signOut();
+                    break;
+                }
+              },
+            ),
+            Expanded(
+              child: NotificationListener<ScrollNotification>(
+                onNotification: (n) {
+                  if (n is ScrollStartNotification) {
+                    headerKey.currentState?.closeMenu();
+                  }
+                  return false;
+                },
+                child: widget.child,
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
