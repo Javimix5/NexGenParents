@@ -121,7 +121,8 @@ class _ForumPostDetailScreenState extends State<ForumPostDetailScreen> {
                     if (!snapshot.hasData || snapshot.data!.isEmpty) {
                       return SliverToBoxAdapter(
                         child: Padding(
-                          padding: const EdgeInsets.all(AppConfig.paddingMedium),
+                          padding:
+                              const EdgeInsets.all(AppConfig.paddingMedium),
                           child:
                               Center(child: Text(l10n.forumDetailEmptyReplies)),
                         ),
@@ -134,7 +135,8 @@ class _ForumPostDetailScreenState extends State<ForumPostDetailScreen> {
                           final reply = replies[index];
                           return ListTile(
                             title: Text(reply.content),
-                            subtitle: Text(l10n.forumPostByAuthor(reply.authorName)),
+                            subtitle:
+                                Text(l10n.forumPostByAuthor(reply.authorName)),
                             trailing: isAdmin
                                 ? IconButton(
                                     tooltip: l10n.forumDeleteReplyTooltip,
@@ -160,7 +162,7 @@ class _ForumPostDetailScreenState extends State<ForumPostDetailScreen> {
       ),
       floatingActionButton: _showBackToTopButton
           ? FloatingActionButton.small(
-              heroTag: 'post_detail_back_to_top_btn',
+              heroTag: 'forum_post_back_to_top_btn',
               onPressed: () {
                 if (_scrollController.hasClients) {
                   _scrollController.animateTo(
@@ -304,7 +306,8 @@ class _ForumPostDetailScreenState extends State<ForumPostDetailScreen> {
               title: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(height: 14, width: double.infinity, color: Colors.white),
+                  Container(
+                      height: 14, width: double.infinity, color: Colors.white),
                   const SizedBox(height: 4),
                   Container(height: 14, width: 200, color: Colors.white),
                   const SizedBox(height: 8),

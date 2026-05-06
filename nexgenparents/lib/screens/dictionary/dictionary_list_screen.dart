@@ -49,7 +49,9 @@ class _DictionaryListScreenState extends State<DictionaryListScreen> {
         context: context,
         builder: (ctx) => AlertDialog(
           title: Text(l10n?.dictModAccessDeniedTitle ?? 'Acceso restringido'),
-          content: Text(customMessage ?? l10n?.dictRequireLoginDefault ?? 'Debes iniciar sesión para acceder a esta función.'),
+          content: Text(customMessage ??
+              l10n?.dictRequireLoginDefault ??
+              'Debes iniciar sesión para acceder a esta función.'),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(ctx),
@@ -58,7 +60,8 @@ class _DictionaryListScreenState extends State<DictionaryListScreen> {
             ElevatedButton(
               onPressed: () {
                 Navigator.pop(ctx);
-                Navigator.push(context, MaterialPageRoute(builder: (_) => const LoginScreen()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => const LoginScreen()));
               },
               child: Text(l10n?.loginBtn ?? 'Iniciar sesión'),
             ),
@@ -131,11 +134,19 @@ class _DictionaryListScreenState extends State<DictionaryListScreen> {
                               Text(
                                 l10n.dictGuestLockMessage(totalTerms),
                                 textAlign: TextAlign.center,
-                                style: const TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onPrimaryContainer, // Ajuste de color para modo claro
+                                ),
                               ),
                               const SizedBox(height: 16),
                               ElevatedButton(
-                                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const LoginScreen())),
+                                onPressed: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => const LoginScreen())),
                                 child: Text(l10n.loginBtn),
                               ),
                             ],
@@ -146,12 +157,18 @@ class _DictionaryListScreenState extends State<DictionaryListScreen> {
                         padding: EdgeInsets.only(top: AppConfig.paddingLarge),
                         child: AppFooter(),
                       ),
+                      const SizedBox(height: 80), // Espacio adicional para evitar superposición
                     ],
                   );
                 }
-                return Padding(
-                  padding: const EdgeInsets.only(top: AppConfig.paddingLarge),
-                  child: const AppFooter(),
+                return Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: AppConfig.paddingLarge),
+                      child: const AppFooter(),
+                    ),
+                    const SizedBox(height: 80), // Espacio adicional para evitar superposición
+                  ],
                 );
               }
               final term = terms[index];
@@ -189,6 +206,9 @@ class _DictionaryListScreenState extends State<DictionaryListScreen> {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           if (_showBackToTopButton) ...[
+            SizedBox(
+                height: AppConfig
+                    .paddingLarge), // Añadido para evitar superposición con los iconos de redes sociales
             FloatingActionButton.small(
               heroTag: 'dictionary_list_back_to_top_btn',
               onPressed: () {
@@ -209,7 +229,8 @@ class _DictionaryListScreenState extends State<DictionaryListScreen> {
           FloatingActionButton.extended(
             heroTag: 'dictionary_propose_btn',
             onPressed: () {
-              if (_requireLogin(context, customMessage: l10n.dictRequireLoginPropose)) {
+              if (_requireLogin(context,
+                  customMessage: l10n.dictRequireLoginPropose)) {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (_) => const ProposeTermScreen(),

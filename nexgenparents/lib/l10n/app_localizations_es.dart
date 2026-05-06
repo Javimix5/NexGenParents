@@ -2020,4 +2020,11 @@ class AppLocalizationsEs extends AppLocalizations {
   String loading(String appName) {
     return 'Cargando $appName...';
   }
+
+  @override
+  String get forumAccessDeniedTitle => 'Acceso restringido';
+
+  @override
+  String get forumRequireLoginMessage =>
+      'Debes iniciar sesión para acceder a la comunidad.';
 }

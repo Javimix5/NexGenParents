@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../config/app_config.dart';
+import '../../providers/auth_provider.dart';
 import '../../providers/forum_provider.dart';
 import 'create_post_screen.dart';
 import '../../widgets/common/app_footer.dart';
@@ -8,6 +9,7 @@ import 'forum_categories_grid.dart';
 import 'forum_platforms_section.dart';
 import 'forum_sidebar.dart';
 import '../../l10n/app_localizations.dart';
+import '../auth/login_screen.dart';
 
 class ForumListScreen extends StatefulWidget {
   final String? topicFilter;
@@ -45,6 +47,33 @@ class _ForumListScreenState extends State<ForumListScreen> {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final l10n = AppLocalizations.of(context);
+    final user = Provider.of<AuthProvider>(context).currentUser;
+
+    if (user == null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text(l10n?.forumAccessDeniedTitle ?? 'Acceso restringido'),
+            content: Text(l10n?.forumRequireLoginMessage ?? 'Debes iniciar sesión para acceder a la comunidad.'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(ctx),
+                child: Text(l10n?.forumCancelBtn ?? 'Cancelar'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(ctx);
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => LoginScreen()));
+                },
+                child: Text(l10n?.loginBtn ?? 'Iniciar sesión'),
+              ),
+            ],
+          ),
+        );
+      });
+      return const SizedBox.shrink();
+    }
 
     return Scaffold(
       backgroundColor:
@@ -137,7 +166,7 @@ class _ForumListScreenState extends State<ForumListScreen> {
             },
             label: Text(l10n?.forumNewPostBtn ?? 'Nuevo Hilo'),
             icon: const Icon(Icons.add),
-            backgroundColor: AppConfig.accentColor,
+            backgroundColor: AppConfig.primaryColor, // Cambiado para que coincida con el botón de 'Proponer término'
           ),
         ],
       ),

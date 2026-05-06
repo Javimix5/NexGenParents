@@ -1999,4 +1999,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String loading(String appName) {
     return 'Loading $appName...';
   }
+
+  @override
+  String get forumAccessDeniedTitle => 'Access Denied';
+
+  @override
+  String get forumRequireLoginMessage =>
+      'You must log in to access the community.';
 }

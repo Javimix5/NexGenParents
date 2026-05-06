@@ -3772,6 +3772,18 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Cargando {appName}...'**
   String loading(String appName);
+
+  /// No description provided for @forumAccessDeniedTitle.
+  ///
+  /// In es, this message translates to:
+  /// **'Acceso restringido'**
+  String get forumAccessDeniedTitle;
+
+  /// No description provided for @forumRequireLoginMessage.
+  ///
+  /// In es, this message translates to:
+  /// **'Debes iniciar sesión para acceder a la comunidad.'**
+  String get forumRequireLoginMessage;
 }
 
 class _AppLocalizationsDelegate

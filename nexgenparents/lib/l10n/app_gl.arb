@@ -847,5 +847,7 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "forumAccessDeniedTitle": "Acceso restrinxido",
+    "forumRequireLoginMessage": "Debes iniciar sesión para acceder á comunidade."
 }

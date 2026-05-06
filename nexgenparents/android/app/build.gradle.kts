@@ -7,8 +7,8 @@ plugins {
 
 android {
     namespace = "com.example.nexgen_parents"
-    compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    compileSdk = 36 // Actualizado a la versión requerida por las dependencias
+    ndkVersion = "28.2.13676358" // Actualizado a la versión requerida por las dependencias
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -20,14 +20,11 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.example.nexgen_parents"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
-        versionCode = flutter.versionCode
-        versionName = flutter.versionName
+        targetSdk = 36 // Actualizado para alinearse con compileSdk
+        versionCode = 1
+        versionName = "1.0.0"
     }
 
     buildTypes {

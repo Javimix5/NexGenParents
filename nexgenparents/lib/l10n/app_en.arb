@@ -357,6 +357,8 @@
             }
         }
     },
+    "forumAccessDeniedTitle": "Access Denied",
+    "forumRequireLoginMessage": "You must log in to access the community.",
     "forumCancelBtn": "Cancel",
     "forumDeleteBtn": "Delete",
     "forumNewPostBtn": "New Thread",

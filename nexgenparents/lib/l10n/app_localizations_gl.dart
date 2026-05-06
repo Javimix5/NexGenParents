@@ -2017,4 +2017,11 @@ class AppLocalizationsGl extends AppLocalizations {
   String loading(String appName) {
     return 'Cargando $appName...';
   }
+
+  @override
+  String get forumAccessDeniedTitle => 'Acceso restrinxido';
+
+  @override
+  String get forumRequireLoginMessage =>
+      'Debes iniciar sesión para acceder á comunidade.';
 }
